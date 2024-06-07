@@ -10,6 +10,7 @@ const Homepage = () => {
     <>
       <Navbar />
       <HomePageBanner />
+      <Section2 />
       <Footer />
     </>
   );
