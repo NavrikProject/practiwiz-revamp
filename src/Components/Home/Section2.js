@@ -1,11 +1,15 @@
-import React, { useRef } from "react";
+import React from "react";
 import Mentors1 from "../../Images/Mentors/mentors1.jpeg";
-import Carousel from "react-elastic-carousel";
 
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 import "./Home.css";
 const Section2 = () => {
-  const carouselRef = useRef(null);
-  let resetTimeout;
   return (
     <>
       <div className="section2 py-5 section-hor-gap">
@@ -25,187 +29,190 @@ const Section2 = () => {
                   overflow: "hidden",
                 }}
               >
-                <Carousel
-                  itemsToShow={3}
-                  enableAutoPlay
-                  autoPlaySpeed={2500}
-                  ref={carouselRef}
-                  pagination={true}
-                  isRTL={false}
-                  onNextEnd={({ index }) => {
-                    clearTimeout(resetTimeout);
-                    resetTimeout = setTimeout(() => {
-                      carouselRef?.current?.goTo(0);
-                    }, 2500); // same time
+                {" "}
+                <Swiper
+                  spaceBetween={50}
+                  slidesPerView={3}
+                  autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
                   }}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  navigation={true}
+                  modules={[Autoplay, Pagination, Navigation]}
+                  className="mySwiper"
                 >
-                  <div className="item">
-                    <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                      <div className="diegrher overflow-hidden">
-                        <img
-                          src={Mentors1}
-                          alt="mentors1"
-                          style={{
-                            width: "240px !important",
-                            height: "400px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-                      <div className="doiuher_content">
-                        <h4 className="mb-0">Tarun Gutam</h4>
-                        <p className="profession">Full stack developer</p>
-                        <p className="rating mb-0">
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-regular fa-star"></i>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                      <div className="diegrher overflow-hidden">
-                        <img
-                          src={Mentors1}
-                          alt="mentors1"
-                          style={{
-                            width: "240px !important",
-                            height: "400px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-
-                      <div className="doiuher_content">
-                        <h4 className="mb-0">Tarun Gutam</h4>
-
-                        <p className="profession">Full stack developer</p>
-                        <p className="rating mb-0">
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-regular fa-star"></i>
-                        </p>
+                  <SwiperSlide>
+                    <div className="item">
+                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                        <div className="diegrher overflow-hidden">
+                          <img
+                            src={Mentors1}
+                            alt="mentors1"
+                            style={{
+                              width: "240px !important",
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <div className="doiuher_content">
+                          <h4 className="mb-0">Tarun Gutam</h4>
+                          <p className="profession">Full stack developer</p>
+                          <p className="rating mb-0">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="item">
-                    <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                      <div className="diegrher overflow-hidden">
-                        <img
-                          src={Mentors1}
-                          alt="mentors1"
-                          style={{
-                            width: "240px !important",
-                            height: "400px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-
-                      <div className="doiuher_content">
-                        <h4 className="mb-0">Tarun Gutam</h4>
-
-                        <p className="profession">Full stack developer</p>
-                        <p className="rating mb-0">
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-regular fa-star"></i>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                      <div className="diegrher overflow-hidden">
-                        <img
-                          src={Mentors1}
-                          alt="mentors1"
-                          style={{
-                            width: "240px !important",
-                            height: "400px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-
-                      <div className="doiuher_content">
-                        <h4 className="mb-0">Tarun Gutam</h4>
-
-                        <p className="profession">Full stack developer</p>
-                        <p className="rating mb-0">
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-regular fa-star"></i>
-                        </p>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className="item">
+                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                        <div className="diegrher overflow-hidden">
+                          <img
+                            src={Mentors1}
+                            alt="mentors1"
+                            style={{
+                              width: "240px !important",
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <div className="doiuher_content">
+                          <h4 className="mb-0">Tarun Gutam</h4>
+                          <p className="profession">Full stack developer</p>
+                          <p className="rating mb-0">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="item">
-                    <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                      <div className="diegrher overflow-hidden">
-                        <img
-                          src={Mentors1}
-                          alt="mentors1"
-                          style={{
-                            width: "240px !important",
-                            height: "400px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-
-                      <div className="doiuher_content">
-                        <h4 className="mb-0">Tarun Gutam</h4>
-
-                        <p className="profession">Full stack developer</p>
-                        <p className="rating mb-0">
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-regular fa-star"></i>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                      <div className="diegrher overflow-hidden">
-                        <img
-                          src={Mentors1}
-                          alt="mentors1"
-                          style={{
-                            width: "240px !important",
-                            height: "400px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-
-                      <div className="doiuher_content">
-                        <h4 className="mb-0">Tarun Gutam</h4>
-
-                        <p className="profession">Full stack developer</p>
-                        <p className="rating mb-0">
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-solid fa-star"></i>
-                          <i className="fa-regular fa-star"></i>
-                        </p>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className="item">
+                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                        <div className="diegrher overflow-hidden">
+                          <img
+                            src={Mentors1}
+                            alt="mentors1"
+                            style={{
+                              width: "240px !important",
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <div className="doiuher_content">
+                          <h4 className="mb-0">Tarun Gutam</h4>
+                          <p className="profession">Full stack developer</p>
+                          <p className="rating mb-0">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Carousel>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className="item">
+                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                        <div className="diegrher overflow-hidden">
+                          <img
+                            src={Mentors1}
+                            alt="mentors1"
+                            style={{
+                              width: "240px !important",
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <div className="doiuher_content">
+                          <h4 className="mb-0">Tarun Gutam</h4>
+                          <p className="profession">Full stack developer</p>
+                          <p className="rating mb-0">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>{" "}
+                  <SwiperSlide>
+                    <div className="item">
+                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                        <div className="diegrher overflow-hidden">
+                          <img
+                            src={Mentors1}
+                            alt="mentors1"
+                            style={{
+                              width: "240px !important",
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <div className="doiuher_content">
+                          <h4 className="mb-0">Tarun Gutam</h4>
+                          <p className="profession">Full stack developer</p>
+                          <p className="rating mb-0">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>{" "}
+                  <SwiperSlide>
+                    <div className="item">
+                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                        <div className="diegrher overflow-hidden">
+                          <img
+                            src={Mentors1}
+                            alt="mentors1"
+                            style={{
+                              width: "240px !important",
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <div className="doiuher_content">
+                          <h4 className="mb-0">Tarun Gutam</h4>
+                          <p className="profession">Full stack developer</p>
+                          <p className="rating mb-0">
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-solid fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                </Swiper>
               </div>
             </div>
           </div>

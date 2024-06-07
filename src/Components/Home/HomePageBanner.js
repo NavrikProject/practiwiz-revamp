@@ -7,11 +7,16 @@ import Mentor1 from "../../Images/Home/mentors1.jpeg";
 import Rdtere5rt from "../../Images/Home/rdtere5rt.jpg";
 import Adse from "../../Images/Home/adse.png";
 import { ReactTyped } from "react-typed";
-import Carousel from "react-elastic-carousel";
 import "./Home.css";
+import { Autoplay} from "swiper/modules";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 const HomePageBanner = () => {
-  const carouselRef = useRef(null);
-  let resetTimeout;
+
   return (
     <>
       <div className="banner">
@@ -65,49 +70,61 @@ const HomePageBanner = () => {
                     </div>
                   </div>
                   <div className="owl-carousel udguafr_slider owl-theme carousel-react">
-                    <Carousel
-                      itemsToShow={1}
-                      enableAutoPlay
-                      autoPlaySpeed={2500}
-                      showArrows={false}
-                      ref={carouselRef}
-                      pagination={true}
-                      isRTL={false}
-                      onNextEnd={({ index }) => {
-                        clearTimeout(resetTimeout);
-                        resetTimeout = setTimeout(() => {
-                          carouselRef?.current?.goTo(0);
-                        }, 2500); // same time
+                    <Swiper
+                      spaceBetween={50}
+                      slidesPerView={1}
+                      autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
                       }}
+                      modules={[Autoplay]}
+                      className="mySwiper"
                     >
-                      <div className="item">
-                        <div className="uihderr_slider text-center">
-                          <img
-                            src={Mentor1}
-                            alt="mentor"
-                            style={{ width: "100%" }}
-                          />
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center">
+                            <img
+                              src={Mentor1}
+                              alt="mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className="item">
-                        <div className="uihderr_slider text-center">
-                          <img
-                            src={Rdtere5rt}
-                            alt="rdtere"
-                            style={{ width: "100%" }}
-                          />
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center">
+                            <img
+                              src={Mentor1}
+                              alt="mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className="item">
-                        <div className="uihderr_slider text-center">
-                          <img
-                            src={Adse}
-                            alt="adse"
-                            style={{ width: "100%" }}
-                          />
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center">
+                            <img
+                              src={Rdtere5rt}
+                              alt="rdtere"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </Carousel>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center">
+                            <img
+                              src={Adse}
+                              alt="adse"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    </Swiper>
                   </div>
                 </div>
               </div>
