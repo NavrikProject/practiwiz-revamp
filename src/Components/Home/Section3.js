@@ -2,7 +2,7 @@ import React from "react";
 import "./Home.css";
 import Csdfsfgdf from "../../Images/Home/csdfsfgdf.png";
 import Mkwef from "../../Images/Home/mkwef.png";
-
+import Archt from "../../Images/architecture-independence-palace-ho-chi-minh-city.jpg";
 const Section3 = () => {
   return (
     <div className="section3 section-hor-gap overflow-hidden py-5">
@@ -36,7 +36,7 @@ const Section3 = () => {
                   style={{ width: "25%" }}
                 />
                 <img
-                  src="images/architecture-independence-palace-ho-chi-minh-city-min.jpg"
+                  src={Archt}
                   className="dertgrtyf_image position-relative"
                   alt="architecture"
                   style={{ width: "100%" }}

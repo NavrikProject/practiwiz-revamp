@@ -29,7 +29,6 @@ const Section2 = () => {
                   overflow: "hidden",
                 }}
               >
-                {" "}
                 <Swiper
                   spaceBetween={50}
                   slidesPerView={3}

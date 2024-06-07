@@ -11,7 +11,9 @@
   -webkit-border-radius: 10px;
   border-radius: 10px;
 }
-
+.carousel2 {
+  height: 250px !important;
+}
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px;
   border-radius: 10px;
