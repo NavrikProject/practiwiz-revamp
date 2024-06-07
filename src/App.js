@@ -1,12 +1,15 @@
 import LoginFormPage from "./Pages/FormPages/LoginPages/LoginFormPage";
 import RegisterFormPage from "./Pages/FormPages/RegisterPages/RegisterFormPage";
-import Homepage from "./Pages/LandingPage/Homepage";
+import Homepage from "./Pages/HomePages/Homepage";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import "./Styles/custombs.css";
+import "./Styles/responsive.css";
+import "./Styles/style.css";
 function App() {
   return (
     <>
