@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 @import url(./custombs.css);
 @import url(./responsive.css);
+/* @import url(./Style2.css); */
 * {
   padding: 0;
   margin: 0;
@@ -226,7 +227,9 @@ header .fvjhdf_btn {
   border: 2px solid #fff;
   margin: 0 5px;
 }
-
+.headerInActive {
+  background-color: red !important;
+}
 .headeractive .navbar.bg-white {
   border-radius: 0;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;

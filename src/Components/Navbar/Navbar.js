@@ -6,7 +6,6 @@ const Navbar = () => {
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
-    console.log(scrolled, visible);
     if (scrolled > 70) {
       setVisible(true);
     } else if (scrolled <= 70) {
@@ -15,7 +14,6 @@ const Navbar = () => {
   };
 
   window.addEventListener("scroll", toggleVisible);
-  let user;
 
   return (
     <>
