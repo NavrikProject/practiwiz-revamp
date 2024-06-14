@@ -7,107 +7,94 @@ import MenteeNotifications from "./MenteeNotifications";
 import MenteeChangePwd from "./MenteeChangePwd";
 import MenteeSavedJobs from "./MenteeSavedJobs";
 import MenteeCourseProgress from "./MenteeCourseProgress";
+import MenteeMessages from "./MenteeMessages";
+import MenteeProfileSettings from "./MenteeProfileSettings";
 const MenteeDashboard = () => {
   const [showNotification, setShowNotification] = useState("false");
-  const [showCompletedSession, setShowCompletedSession] = useState("false");
   const [showChangePwd, setShowChangePwd] = useState("false");
   const [showMenteePsettings, setShowMenteePsettings] = useState("false");
-  const [showMenteeProfile, setShowMenteeProfile] = useState("true");
   const [showCompletedCourse, setShowCompletedCourse] = useState("false");
   const [showMenteeSavedJobs, setShowMenteeSavedJobs] = useState("false");
   const [showMenteeCourseProgress, setShowMenteeCourseProgress] =
     useState("false");
+  const [showMenteeMessage, setShowMenteeMessage] = useState("false");
   const MenteeNotificationHandler = () => {
     return (
       setShowNotification(!showNotification),
-      setShowCompletedSession("false"),
       setShowChangePwd("false"),
       setShowMenteePsettings("false"),
-      setShowMenteeProfile("false"),
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
-      setShowMenteeCourseProgress("false")
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false")
     );
   };
   const MenteeCompCourseHandler = () => {
     return (
-      setShowCompletedSession("false"),
       setShowNotification("false"),
       setShowChangePwd("false"),
       setShowMenteePsettings("false"),
-      setShowMenteeProfile("false"),
       setShowCompletedCourse(!showCompletedCourse),
       setShowMenteeSavedJobs("false"),
-      setShowMenteeCourseProgress("false")
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false")
     );
   };
   const MenteeChangePwdHandler = () => {
     return (
-      setShowCompletedSession("false"),
       setShowNotification("false"),
       setShowChangePwd(!showChangePwd),
       setShowMenteePsettings("false"),
-      setShowMenteeProfile("false"),
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
-      setShowMenteeCourseProgress("false")
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false")
     );
   };
   const MenteeSavedJobsHandler = () => {
     return (
-      setShowCompletedSession("false"),
       setShowNotification("false"),
       setShowChangePwd("false"),
       setShowMenteePsettings("false"),
-      setShowMenteeProfile("false"),
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs(!showMenteeSavedJobs),
-      setShowMenteeCourseProgress("false")
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false")
     );
   };
   const MenteeCourseProgressHandler = () => {
     return (
-      setShowCompletedSession("false"),
       setShowNotification("false"),
       setShowChangePwd("false"),
       setShowMenteePsettings("false"),
-      setShowMenteeProfile("false"),
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
-      setShowMenteeCourseProgress(!showMenteeCourseProgress)
+      setShowMenteeCourseProgress(!showMenteeCourseProgress),
+      setShowMenteeMessage("false")
     );
   };
-  const MenteeComplSessionHandler = () => {
-    return (
-      setShowCompletedSession(!showCompletedSession),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMenteePsettings("false"),
-      setShowMenteeProfile("false"),
-      setShowCompletedCourse("false")
-    );
-  };
-
   const MenteePsettingsHandler = () => {
     return (
-      setShowCompletedSession("false"),
       setShowNotification("false"),
       setShowChangePwd("false"),
       setShowMenteePsettings(!showMenteePsettings),
-      setShowMenteeProfile("false"),
-      setShowCompletedCourse("false")
+      setShowCompletedCourse("false"),
+      setShowMenteeSavedJobs("false"),
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false")
     );
   };
-  const MenteeProfileShowingHandler = () => {
+  const MenteeMessageHandler = () => {
     return (
-      setShowCompletedSession("false"),
       setShowNotification("false"),
       setShowChangePwd("false"),
       setShowMenteePsettings("false"),
-      setShowMenteeProfile(!showMenteeProfile)
+      setShowCompletedCourse("false"),
+      setShowMenteeSavedJobs("false"),
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage(!showMenteeMessage)
     );
   };
-
   return (
     <>
       <div class="md-header">
@@ -202,7 +189,10 @@ const MenteeDashboard = () => {
                   <h5>Dashboard</h5>
                 </button>
 
-                <button class="btn btn-transparent text-center py-3">
+                <button
+                  class="btn btn-transparent text-center py-3"
+                  onClick={MenteePsettingsHandler}
+                >
                   <span class="d-block bg-white position-relative m-auto mb-3">
                     <i class="fa-solid fa-bars"></i>
                   </span>
@@ -210,7 +200,10 @@ const MenteeDashboard = () => {
                   <h5>PROFILE SETTINGS</h5>
                 </button>
 
-                <button class="btn btn-transparent text-center py-3">
+                <button
+                  class="btn btn-transparent text-center py-3"
+                  onClick={MenteeMessageHandler}
+                >
                   <span class="d-block bg-white position-relative m-auto mb-3">
                     <i class="fa-brands fa-rocketchat"></i>
                   </span>
@@ -309,6 +302,8 @@ const MenteeDashboard = () => {
             {!showCompletedCourse && <MenteeCompletedCourses />}
             {!showMenteeSavedJobs && <MenteeSavedJobs />}
             {!showMenteeCourseProgress && <MenteeCourseProgress />}
+            {!showMenteeMessage && <MenteeMessages />}
+            {!showMenteePsettings && <MenteeProfileSettings />}
           </div>
         </div>
       </div>

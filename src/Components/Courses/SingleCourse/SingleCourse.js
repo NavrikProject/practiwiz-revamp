@@ -1,8 +1,8 @@
 import React from "react";
-import CourseCard from "./CourseCard";
+import CourseCard from "../CourseCard";
 import "./SingleCourse.css";
-import Video from "../../Images/Courses/video.png";
-import Check7 from "../../Images/Courses/check (7).png";
+import Video from "../../../Images/Courses/video.png";
+import Check7 from "../../../Images/Courses/check (7).png";
 const SingleCourse = () => {
   return (
     <>

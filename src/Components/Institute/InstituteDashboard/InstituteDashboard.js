@@ -1,78 +1,36 @@
 import React, { useState } from "react";
-import "./mentordashboardnotification.css";
-import "./Mentor.css";
+import "./Institutedashboardnotification.css";
+import "./Institute.css";
 import Logo from "../../../Images/logo.png";
-import MentorNotifications from "./MentorNotifications";
-import MentorSessionSetup from "./MentorSessionSetup";
-import MentorChangePwd from "./MentorChangePwd";
-import MentorProfileSettings from "./MentorProfileSettings";
-import MentorProfile from "./MentorProfile";
-import MentorMessages from "./MentorMessages";
-const MentorDashboard = () => {
+import InstituteNotifications from "./InstituteNotifications";
+import InstituteChangePwd from "./InstituteChangePwd";
+import InstituteMessages from "./InstituteMessages";
+const InstituteDashboard = () => {
   const [showNotification, setShowNotification] = useState("false");
-  const [showSessionSetup, setShowSessionSetup] = useState("false");
   const [showChangePwd, setShowChangePwd] = useState("false");
-  const [showMentorPsettings, setShowMentorPsettings] = useState("false");
-  const [showMentorProfile, setShowMentorProfile] = useState("true");
-  const [showMentorMessage, setShowMentorMessage] = useState("false");
-  const MentorNotificationHandler = () => {
+
+  const [showInstituteMessage, setShowInstituteMessage] = useState("false");
+  const InstituteNotificationHandler = () => {
     return (
       setShowNotification(!showNotification),
-      setShowSessionSetup("false"),
       setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
+      setShowInstituteMessage("false")
     );
   };
-  const MentorSessionSetupHandler = () => {
+
+  const InstituteChangePwdHandler = () => {
     return (
-      setShowSessionSetup(!showSessionSetup),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
-    );
-  };
-  const MentorChangePwdHandler = () => {
-    return (
-      setShowSessionSetup("false"),
       setShowNotification("false"),
       setShowChangePwd(!showChangePwd),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
+      setShowInstituteMessage("false")
     );
   };
-  const MentorPsettingsHandler = () => {
+
+  const InstituteMsgShowingHandler = () => {
     return (
-      setShowSessionSetup("false"),
       setShowNotification("false"),
       setShowChangePwd("false"),
-      setShowMentorPsettings(!showMentorPsettings),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
-    );
-  };
-  const MentorProfileShowingHandler = () => {
-    return (
-      setShowSessionSetup("false"),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile(!showMentorProfile),
-      setShowMentorMessage("false")
-    );
-  };
-  const MentorMsgShowingHandler = () => {
-    return (
-      setShowSessionSetup("false"),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage(!showMentorMessage)
+      setShowInstituteMessage(!showInstituteMessage)
     );
   };
   return (
@@ -167,10 +125,7 @@ const MentorDashboard = () => {
           <div className="row">
             <div className="col-lg-2 pe-0 csdegbfraedd">
               <div className="difuhtre_nav">
-                <button
-                  className="btn btn-transparent text-center py-3"
-                  onClick={MentorProfileShowingHandler}
-                >
+                <button className="btn btn-transparent text-center py-3">
                   <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-user"></i>
                   </span>
@@ -178,10 +133,7 @@ const MentorDashboard = () => {
                   <h5>Dashboard</h5>
                 </button>
 
-                <button
-                  className="btn btn-transparent text-center py-3"
-                  onClick={MentorPsettingsHandler}
-                >
+                <button className="btn btn-transparent text-center py-3">
                   <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-bars"></i>
                   </span>
@@ -191,7 +143,7 @@ const MentorDashboard = () => {
 
                 <button
                   className="btn btn-transparent text-center py-3"
-                  onClick={MentorMsgShowingHandler}
+                  onClick={InstituteMsgShowingHandler}
                 >
                   <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-brands fa-rocketchat"></i>
@@ -202,7 +154,7 @@ const MentorDashboard = () => {
 
                 <button
                   className="btn btn-transparent text-center py-3"
-                  onClick={MentorNotificationHandler}
+                  onClick={InstituteNotificationHandler}
                 >
                   <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-bell"></i>
@@ -213,24 +165,13 @@ const MentorDashboard = () => {
 
                 <button
                   className="btn btn-transparent text-center py-3"
-                  onClick={MentorChangePwdHandler}
+                  onClick={InstituteChangePwdHandler}
                 >
                   <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-arrow-right-arrow-left"></i>
                   </span>
 
                   <h5>CHANGE PASSWORD</h5>
-                </button>
-
-                <button
-                  className="btn btn-transparent text-center py-3"
-                  onClick={MentorSessionSetupHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
-                    <i className="fa-solid fa-folder"></i>
-                  </span>
-
-                  <h5>SESSION SETUP</h5>
                 </button>
 
                 <button className="btn btn-transparent text-center py-3">
@@ -242,12 +183,9 @@ const MentorDashboard = () => {
                 </button>
               </div>
             </div>
-            {!showNotification ? <MentorNotifications /> : ""}
-            {!showSessionSetup ? <MentorSessionSetup /> : ""}
-            {!showChangePwd ? <MentorChangePwd /> : ""}
-            {!showMentorPsettings ? <MentorProfileSettings /> : ""}
-            {!showMentorProfile ? <MentorProfile /> : ""}
-            {!showMentorMessage ? <MentorMessages /> : ""}
+            {!showNotification ? <InstituteNotifications /> : ""}
+            {!showChangePwd ? <InstituteChangePwd /> : ""}
+            {!showInstituteMessage ? <InstituteMessages /> : ""}
           </div>
         </div>
       </div>
@@ -323,4 +261,4 @@ const MentorDashboard = () => {
   );
 };
 
-export default MentorDashboard;
+export default InstituteDashboard;

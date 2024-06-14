@@ -20,6 +20,11 @@ import AllMentorsPage from "./Pages/MentorPages/AllMentors/AllMentorsPage";
 import BusinessMentorsPage from "./Pages/MentorPages/AllMentors/BusinessMentorsPage";
 import TechnologyMentorsPage from "./Pages/MentorPages/AllMentors/TechnologyMentorsPage";
 import SingleMentorProfilePage from "./Pages/MentorPages/AllMentors/SingleMentorProfilePages/SingleMentorProfilePage";
+import SingleJobPage from "./Pages/JobPages/SingleJobPage";
+import CoursePayment from "./Components/Courses/SingleCourse/CoursePayment";
+import MentorPayment from "./Components/Mentor/AllMentors/SingleMentorProfile/MentorPayment";
+import AllJobPage from "./Pages/JobPages/AllJobPage";
+import InstituteDashboardPage from "./Pages/InstitutePages/Dashboard/InstituteDashboardPage";
 function App() {
   return (
     <>
@@ -54,6 +59,15 @@ function App() {
             element={<SingleCoursePage />}
           />
           <Route path="/mentee/dashboard" element={<MenteeDashboardPage />} />
+          <Route path="/test" element={<MentorPayment />} />
+          <Route path="/test1" element={<CoursePayment />} />
+          {/* Jobs links start */}{" "}
+          <Route path="/jobs" element={<AllJobPage />} />
+          <Route path="/jobs/view-job/:id" element={<SingleJobPage />} />
+          {/* Jobs links ends */}
+          {/* Institute links start */} 
+          <Route path="/institute/dashboard" element={<InstituteDashboardPage />} />
+          {/* Institute links ends */}
         </Routes>
       </Router>
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const MentorProfileSettings = () => {
+const MenteeProfileSettings = () => {
   return (
     <div class="col-lg-10 ps-0">
       <div class="difuhtre_content">
@@ -148,4 +148,4 @@ const MentorProfileSettings = () => {
     </div>
   );
 };
-export default MentorProfileSettings;
+export default MenteeProfileSettings;
