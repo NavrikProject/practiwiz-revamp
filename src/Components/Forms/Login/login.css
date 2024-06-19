@@ -4,3 +4,60 @@
   color: #ed1c24 !important;
   font-size: 16px !important;
 }
+.loginBg {
+  background: url(../../../Images/mentorbclk.png) no-repeat;
+  width: 100%;
+  background-size: "cover";
+  background-position: "center";
+}
+header {
+  position: relative !important;
+  z-index: 9999999;
+}
+
+header nav {
+  border-radius: 0;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+header nav.fixed-top {
+  position: relative !important;
+}
+
+.regis_background {
+  padding: 4rem 0px 7rem 0px;
+}
+
+header .navbar.mt-3 {
+  margin-top: 0 !important;
+  transition: 0.3s ease-in-out;
+}
+header .navbar.mx-4 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  transition: 0.3s ease-in-out;
+}
+header .iugeuirrr .udgehrr .cdsfsdvnghff .form-control {
+  padding: 0.5rem 3.8rem 0.5rem 1.5rem;
+  transition: 0.3s ease-in-out;
+}
+
+.bg-light {
+  background-color: transparent !important;
+}
+
+.d-t:focus {
+  box-shadow: none !important;
+}
+
+.span222 {
+  color: var(--main-orange-color) !important;
+}
+
+.digheirer h4:before {
+  left: 38%;
+}
+
+.digheirer h4:after {
+  right: 23%;
+}

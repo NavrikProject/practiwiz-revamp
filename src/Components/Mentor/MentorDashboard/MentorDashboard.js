@@ -246,7 +246,7 @@ const MentorDashboard = () => {
             {!showSessionSetup ? <MentorSessionSetup /> : ""}
             {!showChangePwd ? <MentorChangePwd /> : ""}
             {!showMentorPsettings ? <MentorProfileSettings /> : ""}
-            {!showMentorProfile ? <MentorProfile /> : ""}
+            {showMentorProfile ? <MentorProfile /> : ""}
             {!showMentorMessage ? <MentorMessages /> : ""}
           </div>
         </div>

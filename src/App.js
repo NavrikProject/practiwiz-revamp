@@ -25,6 +25,9 @@ import CoursePayment from "./Components/Courses/SingleCourse/CoursePayment";
 import MentorPayment from "./Components/Mentor/AllMentors/SingleMentorProfile/MentorPayment";
 import AllJobPage from "./Pages/JobPages/AllJobPage";
 import InstituteDashboardPage from "./Pages/InstitutePages/Dashboard/InstituteDashboardPage";
+import InstituteProfilePage from "./Pages/InstitutePages/Profile/InstituteProfilePage";
+import MenteeProfilePage from "./Pages/MenteePages/MenteeProfilePage";
+import PaymentCancPage from "./Pages/MiscPages/PaymentCancPage";
 function App() {
   return (
     <>
@@ -52,6 +55,7 @@ function App() {
             path="/mentor-club/mentor-profile/:id"
             element={<SingleMentorProfilePage />}
           />
+          <Route path="/test" element={<MentorPayment />} />
           <Route path="/mentor/dashboard" element={<MentorDashboardPage />} />
           {/* Mentor Links ends */}
           <Route
@@ -59,15 +63,27 @@ function App() {
             element={<SingleCoursePage />}
           />
           <Route path="/mentee/dashboard" element={<MenteeDashboardPage />} />
-          <Route path="/test" element={<MentorPayment />} />
+          <Route
+            path="/mentee/view-profile/:id"
+            element={<MenteeProfilePage />}
+          />
+
           <Route path="/test1" element={<CoursePayment />} />
-          {/* Jobs links start */}{" "}
+          {/* Jobs links start */}
           <Route path="/jobs" element={<AllJobPage />} />
           <Route path="/jobs/view-job/:id" element={<SingleJobPage />} />
           {/* Jobs links ends */}
-          {/* Institute links start */} 
-          <Route path="/institute/dashboard" element={<InstituteDashboardPage />} />
+          {/* Institute links start */}
+          <Route
+            path="/institute/view-profile/:id"
+            element={<InstituteProfilePage />}
+          />
+          <Route
+            path="/institute/dashboard"
+            element={<InstituteDashboardPage />}
+          />
           {/* Institute links ends */}
+          <Route path="/payment-error" element={<PaymentCancPage />} />
         </Routes>
       </Router>
     </>

@@ -1,16 +1,16 @@
 import React from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Footer from "../../../Components/Footer/Footer";
-import RegisterForm from "../../../Components/Forms/Register/MentorStepForm";
+import InstituteProfile from "../../../Components/Institute/InstituteProfile/InstituteProfile";
 
-const RegisterFormPage = () => {
+const InstituteProfilePage = () => {
   return (
     <>
       <Navbar />
-      <RegisterForm />
+      <InstituteProfile />
       <Footer />
     </>
   );
 };
 
-export default RegisterFormPage;
+export default InstituteProfilePage;

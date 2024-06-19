@@ -54,214 +54,149 @@ const LoginForm = () => {
   };
   return (
     <main>
-      <div
-        className="regis_background"
-        style={{
-          background: "url(/images/fsdssdd.webp) no-repeat",
-          width: "100%",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 mb-4">
-              <div className="iuhieiuihaw_left sticky-top">
+      <div class="regis_background">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 mb-4">
+              <div class="iuhieiuihaw_left sticky-top">
                 <h3>
                   Grow Your Professional Career with{" "}
-                  <span className="span222">Top-Rated</span> Mentors
+                  <span class="span222">Top-Rated</span> Mentors
                 </h3>
+
                 <p>
                   Join us to upgrade your professional career with our mentor’s
-                  guidance. We provide a personalized training approach to
+                  guidance. We provide a personalised training approach to
                   improve your project management skills. Master the skill to
                   work under pressure on various projects within tight
-                  deadlines. At Practiwiz, we have courses for working
+                  deadlines. At Practiwiz we have courses for working
                   professionals, MBA students, and aspiring IT business
                   analysts. Hurry up and reserve your mentorship class today.
                 </p>
-                <h5 className="mt-4">Benefits of Our Mentorship Course:</h5>
-                <ul className="ps-0 mt-3">
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-                      <p className="mb-0">Self-paced training</p>
+
+                <h5 class="mt-4">Benefits of Our Mentorship Course:</h5>
+
+                <ul class="ps-0 mt-3">
+                  <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-circle-check"></i>
+
+                      <p class="mb-0">Self-paced training</p>
                     </div>
                   </li>
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-                      <p className="mb-0">Flexible timing and scheduling</p>
+
+                  <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-circle-check"></i>
+
+                      <p class="mb-0">Flexible timing and scheduling</p>
                     </div>
                   </li>
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-                      <p className="mb-0">
+
+                  <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-circle-check"></i>
+
+                      <p class="mb-0">
                         Career guidance from experienced mentors
                       </p>
                     </div>
                   </li>
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-                      <p className="mb-0">Expert advice and guidance</p>
+
+                  <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-circle-check"></i>
+
+                      <p class="mb-0">Expert advice and guidance</p>
                     </div>
                   </li>
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-                      <p className="mb-0">
-                        <a href="/register">Sign Up Now!</a>
+
+                  <li class="mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="fa-solid fa-circle-check"></i>
+
+                      <p class="mb-0">
+                        <a href="">Sign Up Now!</a>
                       </p>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
-            <div className="col-lg-6">
-              <div className="iuhieiuihaw_right bg-white p-5">
-                <div className="uherrr_text text-center">
+
+            <div class="col-lg-6">
+              <div class="iuhieiuihaw_right bg-white p-5">
+                <div class="uherrr_text text-center">
                   <h4>Log in</h4>
-                  <p className="mb-0">
-                    Do Not Have An Account? <a href="/register">Sign Up</a>
+
+                  <p class="mb-0">
+                    Do Not Have An Account? <a href="#">Sign Up</a>
                   </p>
                 </div>
-                <div className="csfvgdtrfs mb-3 position-relative">
-                  <br />
-                  <input
-                    type="radio"
-                    id="mentee1"
-                    name="userType"
-                    defaultChecked
-                    className={activeState.mentee === true ? "active" : " "}
-                    onClick={() => {
-                      setActiveState({ mentee: true });
-                      setType("member");
-                    }}
-                    value="mentee"
-                  />
-                  <label htmlFor="mentee1" className="radio-label">
-                    <span className="radio-border"></span> Mentee{" "}
-                  </label>
-                  <input
-                    type="radio"
-                    id="mentor1"
-                    name="userType"
-                    value="mentor"
-                    className={activeState.mentor === true ? "active" : " "}
-                    onClick={() => {
-                      setActiveState({ mentor: true });
-                      setType("mentor");
-                    }}
-                  />
-                  <label htmlFor="mentor1" className="radio-label">
-                    {" "}
-                    <span className="radio-border"></span> Mentor{" "}
-                  </label>
-                  <input
-                    type="radio"
-                    id="jobSeeker1"
-                    name="userType"
-                    className={activeState.jobSeeker === true ? "active" : " "}
-                    onClick={() => {
-                      setActiveState({ jobSeeker: true });
-                      setType("job-seeker");
-                    }}
-                    value="jobSeeker"
-                    required
-                  />
-                  <label htmlFor="jobSeeker1" className="radio-label">
-                    <span className="radio-border"></span> Job Seeker{" "}
-                  </label>
-                </div>
 
-                <div className="ihduwfr_form_wrapper mt-3">
+                <div class="ihduwfr_form_wrapper mt-3">
                   <form>
-                    <div className="csfvgdtrfs mb-3 position-relative">
-                      <label
-                        htmlFor="exampleInputEmail1"
-                        className="form-label"
-                      >
+                    <div class="csfvgdtrfs mb-3 position-relative">
+                      <label for="exampleInputEmail1" class="form-label">
                         Email
                       </label>
                       <input
                         type="email"
-                        className="form-control"
+                        class="form-control"
                         id="exampleInputEmail1"
-                        name="email"
                         placeholder="Email"
-                        required
-                        {...register("email", {
-                          required: "Enter an email to login",
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address",
-                          },
-                        })}
-                        onKeyUp={() => {
-                          trigger("email");
-                        }}
+                        aria-describedby="emailHelp"
                       />
-                      {errors.email && (
-                        <span className="errorMsg">{errors.email.message}</span>
-                      )}
-                      <i className="fa-solid fa-envelopes-bulk position-absolute"></i>
+
+                      <i class="fa-solid fa-envelopes-bulk position-absolute"></i>
                     </div>
-                    <div className="csfvgdtrfs mb-3 position-relative">
-                      <label
-                        htmlFor="exampleInputPassword1"
-                        className="form-label"
-                      >
+
+                    <div class="csfvgdtrfs mb-3 position-relative">
+                      <label for="exampleInputEmail1" class="form-label">
                         Password
                       </label>
                       <input
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        name="password"
+                        type="email"
+                        class="form-control"
+                        id="exampleInputEmail1"
                         placeholder="Password must be at least 8 characters"
-                        required
-                        type={showIcon ? "text" : "password"}
-                        {...register("password", {
-                          required: "Enter a Password to login",
-                        })}
-                        onKeyUp={() => {
-                          trigger("password");
-                        }}
+                        aria-describedby="emailHelp"
                       />
-                      <i
-                        onClick={() => setShowIcon(!showIcon)}
-                        className={
-                          showIcon
-                            ? "fa-solid fa-eye position-absolute"
-                            : "fa-solid fa-eye-slash position-absolute"
-                        }
-                      ></i>
-                      {errors.password && (
-                        <span className="errorMsg">
-                          {errors.password.message}
-                        </span>
-                      )}
+
+                      <i class="fa-solid fa-eye position-absolute"></i>
                     </div>
-                    <a href="/login" className="uidherrrr_anchor">
+
+                    <a href="#" class="uidherrrr_anchor">
                       Forget password?
                     </a>
-                    <button
-                      type="submit"
-                      className="btn btn-main py-3 mt-4"
-                      onClick={handleSubmit(loginFormSubmitHandler)}
-                    >
+
+                    <button type="submit" class="btn btn-main py-3 mt-4">
                       Log in
                     </button>
-                    {error ? <p className="res-errorlog">{error}</p> : null}
-                    <div className="dieyhr_iuhfiderr mt-4">
-                      <div className="d-flex align-items-center">
-                        <div className="btn btn-main">
-                          <img className="me-1" src="images/fb.webp" alt="" />{" "}
+
+                    <div class="digheirer text-center pt-3 pb-2">
+                      <h4 class="mb-0" style={{ fontSize: "1.2rem" }}>
+                        <b>OR</b>
+                      </h4>
+                    </div>
+
+                    <div class="dieyhr_iuhfiderr mt-2">
+                      <div class="d-flex align-items-center">
+                        <div class="btn btn-main">
+                          <img
+                            class="me-1"
+                            src="images/facebooklog.webp"
+                            alt=""
+                          />{" "}
                           Facebook
                         </div>
-                        <div className="btn btn-main">
-                          <img className="me-1" src="images/ggle.webp" alt="" />{" "}
+
+                        <div class="btn btn-main">
+                          <img
+                            class="me-1"
+                            src="images/googlelog.webp"
+                            alt=""
+                          />{" "}
                           Google
                         </div>
                       </div>

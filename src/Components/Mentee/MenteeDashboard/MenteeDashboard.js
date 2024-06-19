@@ -9,6 +9,8 @@ import MenteeSavedJobs from "./MenteeSavedJobs";
 import MenteeCourseProgress from "./MenteeCourseProgress";
 import MenteeMessages from "./MenteeMessages";
 import MenteeProfileSettings from "./MenteeProfileSettings";
+import MenteeProfileDashboard from "./MenteeProfileDashboard";
+import { Link } from "react-router-dom";
 const MenteeDashboard = () => {
   const [showNotification, setShowNotification] = useState("false");
   const [showChangePwd, setShowChangePwd] = useState("false");
@@ -18,6 +20,7 @@ const MenteeDashboard = () => {
   const [showMenteeCourseProgress, setShowMenteeCourseProgress] =
     useState("false");
   const [showMenteeMessage, setShowMenteeMessage] = useState("false");
+  const [showMenteeProfile, setShowMenteeProfile] = useState("false");
   const MenteeNotificationHandler = () => {
     return (
       setShowNotification(!showNotification),
@@ -26,7 +29,8 @@ const MenteeDashboard = () => {
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
-      setShowMenteeMessage("false")
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false")
     );
   };
   const MenteeCompCourseHandler = () => {
@@ -37,7 +41,8 @@ const MenteeDashboard = () => {
       setShowCompletedCourse(!showCompletedCourse),
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
-      setShowMenteeMessage("false")
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false")
     );
   };
   const MenteeChangePwdHandler = () => {
@@ -48,7 +53,8 @@ const MenteeDashboard = () => {
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
-      setShowMenteeMessage("false")
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false")
     );
   };
   const MenteeSavedJobsHandler = () => {
@@ -59,7 +65,8 @@ const MenteeDashboard = () => {
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs(!showMenteeSavedJobs),
       setShowMenteeCourseProgress("false"),
-      setShowMenteeMessage("false")
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false")
     );
   };
   const MenteeCourseProgressHandler = () => {
@@ -70,7 +77,8 @@ const MenteeDashboard = () => {
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress(!showMenteeCourseProgress),
-      setShowMenteeMessage("false")
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false")
     );
   };
   const MenteePsettingsHandler = () => {
@@ -81,7 +89,8 @@ const MenteeDashboard = () => {
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
-      setShowMenteeMessage("false")
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false")
     );
   };
   const MenteeMessageHandler = () => {
@@ -92,7 +101,20 @@ const MenteeDashboard = () => {
       setShowCompletedCourse("false"),
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
-      setShowMenteeMessage(!showMenteeMessage)
+      setShowMenteeMessage(!showMenteeMessage),
+      setShowMenteeProfile("false")
+    );
+  };
+  const ShowMenteeProfileHandler = () => {
+    return (
+      setShowNotification("false"),
+      setShowChangePwd("false"),
+      setShowMenteePsettings("false"),
+      setShowCompletedCourse("false"),
+      setShowMenteeSavedJobs("false"),
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile(!showMenteeProfile)
     );
   };
   return (
@@ -143,7 +165,11 @@ const MenteeDashboard = () => {
                       <ul class="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
 
-                        <li>View Public Profile</li>
+                        <li>
+                          <Link to="/mentee/view-profile/mahesh">
+                            View Public Profile
+                          </Link>
+                        </li>
 
                         <li>Log Out</li>
                       </ul>
@@ -181,7 +207,10 @@ const MenteeDashboard = () => {
           <div class="row">
             <div class="col-lg-2 pe-0 csdegbfraedd">
               <div class="difuhtre_nav">
-                <button class="btn btn-transparent text-center py-3">
+                <button
+                  class="btn btn-transparent text-center py-3"
+                  onClick={ShowMenteeProfileHandler}
+                >
                   <span class="d-block bg-white position-relative m-auto mb-3">
                     <i class="fa-solid fa-user"></i>
                   </span>
@@ -297,13 +326,14 @@ const MenteeDashboard = () => {
                 </button>
               </div>
             </div>
-            {!showNotification && <MenteeNotifications />}
-            {!showChangePwd && <MenteeChangePwd />}
-            {!showCompletedCourse && <MenteeCompletedCourses />}
-            {!showMenteeSavedJobs && <MenteeSavedJobs />}
-            {!showMenteeCourseProgress && <MenteeCourseProgress />}
-            {!showMenteeMessage && <MenteeMessages />}
-            {!showMenteePsettings && <MenteeProfileSettings />}
+            {!showMenteeProfile ? <MenteeProfileDashboard /> : ""}
+            {!showNotification ? <MenteeNotifications /> : ""}
+            {!showChangePwd ? <MenteeChangePwd /> : ""}
+            {!showCompletedCourse ? <MenteeCompletedCourses /> : ""}
+            {!showMenteeSavedJobs ? <MenteeSavedJobs /> : ""}
+            {!showMenteeCourseProgress ? <MenteeCourseProgress /> : ""}
+            {!showMenteeMessage ? <MenteeMessages /> : ""}
+            {!showMenteePsettings ? <MenteeProfileSettings /> : ""}
           </div>
         </div>
       </div>
