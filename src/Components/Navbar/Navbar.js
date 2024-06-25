@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../../Images/practiwizNew Logo.png";
-import Logo2 from "../../Images/logo.png";
+// import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
 
@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className={visible && "headeractive"}>
+      <header className={visible ? "headeractive" : ""}>
         <div className="header-wrapper">
           <div className="container-fluid">
             <nav className="navbar fixed-top mx-4 px-3 mt-2 navbar-expand-sm navbar-light bg-white">
@@ -69,37 +69,37 @@ const Navbar = () => {
                   </li> */}
 
                     <li className="nav-item">
-                      <a className="nav-link" href="javascript:void(0)">
+                      <a className="nav-link" href="ad">
                         Business Training
                       </a>
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="javascript:void(0)">
+                      <a className="nav-link" href="asd">
                         Methodology
                       </a>
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="javascript:void(0)">
+                      <a className="nav-link" href="/mentor-club">
                         MentorClub
                       </a>
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="javascript:void(0)">
+                      <a className="nav-link" href="/all-jobs">
                         Jobs
                       </a>
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="javascript:void(0)">
+                      <a className="nav-link" href="/aboutus">
                         About Us
                       </a>
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="javascript:void(0)">
+                      <a className="nav-link" href="/contact">
                         Contact Us
                       </a>
                     </li>

@@ -4,13 +4,13 @@ import MenteeCompCourseCard from "./MenteeCompCourseCard";
 const MenteeCompletedCourses = () => {
   return (
     <>
-      <div class="col-lg-10 ps-0">
-        <div class="difuhtre_content">
-          <div class="flkhgjfgf">
-            <div class="fgfdg">
+      <div className="col-lg-10 ps-0">
+        <div className="difuhtre_content">
+          <div className="flkhgjfgf">
+            <div className="fgfdg">
               <h2>Your Completed Courses</h2>
             </div>
-            <div class="row">
+            <div className="row">
               <MenteeCompCourseCard />
               <MenteeCompCourseCard /> <MenteeCompCourseCard />{" "}
               <MenteeCompCourseCard />

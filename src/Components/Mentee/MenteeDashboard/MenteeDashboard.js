@@ -11,6 +11,8 @@ import MenteeMessages from "./MenteeMessages";
 import MenteeProfileSettings from "./MenteeProfileSettings";
 import MenteeProfileDashboard from "./MenteeProfileDashboard";
 import { Link } from "react-router-dom";
+import MenteeUpcomingSessions from "./MenteeUpcomingSessions";
+import MenteeCompletedSessions from "./MenteeCompletedSessions";
 const MenteeDashboard = () => {
   const [showNotification, setShowNotification] = useState("false");
   const [showChangePwd, setShowChangePwd] = useState("false");
@@ -21,6 +23,10 @@ const MenteeDashboard = () => {
     useState("false");
   const [showMenteeMessage, setShowMenteeMessage] = useState("false");
   const [showMenteeProfile, setShowMenteeProfile] = useState("false");
+  const [showMenteeUpcomingSessions, setShowMenteeUpcomingSessions] =
+    useState("false");
+  const [showMenteeCompletedSessions, setShowMenteeCompletedSessions] =
+    useState("false");
   const MenteeNotificationHandler = () => {
     return (
       setShowNotification(!showNotification),
@@ -30,7 +36,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const MenteeCompCourseHandler = () => {
@@ -42,7 +50,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const MenteeChangePwdHandler = () => {
@@ -54,7 +64,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const MenteeSavedJobsHandler = () => {
@@ -66,7 +78,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs(!showMenteeSavedJobs),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const MenteeCourseProgressHandler = () => {
@@ -78,7 +92,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress(!showMenteeCourseProgress),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const MenteePsettingsHandler = () => {
@@ -90,7 +106,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const MenteeMessageHandler = () => {
@@ -102,7 +120,9 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage(!showMenteeMessage),
-      setShowMenteeProfile("false")
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
     );
   };
   const ShowMenteeProfileHandler = () => {
@@ -114,55 +134,88 @@ const MenteeDashboard = () => {
       setShowMenteeSavedJobs("false"),
       setShowMenteeCourseProgress("false"),
       setShowMenteeMessage("false"),
-      setShowMenteeProfile(!showMenteeProfile)
+      setShowMenteeProfile(!showMenteeProfile),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions("false")
+    );
+  };
+  const ShowMenteeUpcomingHandler = () => {
+    return (
+      setShowNotification("false"),
+      setShowChangePwd("false"),
+      setShowMenteePsettings("false"),
+      setShowCompletedCourse("false"),
+      setShowMenteeSavedJobs("false"),
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions(!showMenteeUpcomingSessions),
+      setShowMenteeCompletedSessions("false")
+    );
+  };
+  const ShowMenteeCompletedHandler = () => {
+    return (
+      setShowNotification("false"),
+      setShowChangePwd("false"),
+      setShowMenteePsettings("false"),
+      setShowCompletedCourse("false"),
+      setShowMenteeSavedJobs("false"),
+      setShowMenteeCourseProgress("false"),
+      setShowMenteeMessage("false"),
+      setShowMenteeProfile("false"),
+      setShowMenteeUpcomingSessions("false"),
+      setShowMenteeCompletedSessions(!showMenteeCompletedSessions)
     );
   };
   return (
     <>
-      <div class="md-header">
+      <div className="md-header">
         <header>
-          <div class="header-wrapper">
-            <nav class="navbar mx-4 px-3 mt-3 navbar-expand-sm navbar-light bg-white">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="/">
+          <div className="header-wrapper">
+            <nav className="navbar mx-4 px-3 mt-3 navbar-expand-sm navbar-light bg-white">
+              <div className="container-fluid">
+                <a className="navbar-brand" href="/">
                   <img src={Logo} alt="" />
                 </a>
 
                 <button
-                  class="navbar-toggler"
+                  className="navbar-toggler"
                   type="button"
                   id="nav-toggler"
                   data-bs-toggle="collapse"
                   data-bs-target="#navbarSupportedContent"
                 >
-                  <span id="bar-icon" class="navbar-toggler-icon"></span>
+                  <span id="bar-icon" className="navbar-toggler-icon"></span>
 
-                  <i id="close-mark-icon" class="fa-solid fa-xmark d-none"></i>
+                  <i
+                    id="close-mark-icon"
+                    className="fa-solid fa-xmark d-none"
+                  ></i>
                 </button>
 
                 <div
-                  class="navbarmenucollapse navbar-collapse"
+                  className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
                 >
-                  <form class="d-flex iugeuirrr align-items-center">
-                    <div class="udgehrr pe-3">
-                      <div class="cdsfsdvnghff position-relative">
+                  <form className="d-flex iugeuirrr align-items-center">
+                    <div className="udgehrr pe-3">
+                      <div className="cdsfsdvnghff position-relative">
                         <input
-                          class="form-control"
+                          className="form-control"
                           type="text"
                           placeholder="Discover Your Mentor..."
                         />
 
-                        <i class="fa-solid fa-magnifying-glass position-absolute"></i>
+                        <i className="fa-solid fa-magnifying-glass position-absolute"></i>
                       </div>
                     </div>
 
-                    <div class="udgehrr position-relative ps-3">
-                      <button class="btn btn-main mt-0" type="button">
-                        <i class="fa-solid ps-0 fa-user"></i>
+                    <div className="udgehrr position-relative ps-3">
+                      <button className="btn btn-main mt-0" type="button">
+                        <i className="fa-solid ps-0 fa-user"></i>
                       </button>
 
-                      <ul class="djioerr_dpdwn bg-white position-absolute d-none p-3">
+                      <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
 
                         <li>
@@ -177,14 +230,14 @@ const MenteeDashboard = () => {
                   </form>
                 </div>
 
-                <div class="odejr_res d-none">
-                  <div class="d-flex align-items-center">
-                    <div class="udgehrr position-relative me-3 ps-3">
-                      <button class="btn btn-main mt-0" type="button">
-                        <i class="fa-solid ps-0 fa-user"></i>
+                <div className="odejr_res d-none">
+                  <div className="d-flex align-items-center">
+                    <div className="udgehrr position-relative me-3 ps-3">
+                      <button className="btn btn-main mt-0" type="button">
+                        <i className="fa-solid ps-0 fa-user"></i>
                       </button>
 
-                      <ul class="djioerr_dpdwn bg-white position-absolute d-none p-3">
+                      <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
 
                         <li>View Public Profile</li>
@@ -193,8 +246,11 @@ const MenteeDashboard = () => {
                       </ul>
                     </div>
 
-                    <div class="dashboard-side-bar" id="responsive-side-bar">
-                      <i class="fa-solid fa-2x fa-bars-staggered"></i>
+                    <div
+                      className="dashboard-side-bar"
+                      id="responsive-side-bar"
+                    >
+                      <i className="fa-solid fa-2x fa-bars-staggered"></i>
                     </div>
                   </div>
                 </div>
@@ -203,129 +259,135 @@ const MenteeDashboard = () => {
           </div>
         </header>
 
-        <div class="mentor_dashboard">
-          <div class="row">
-            <div class="col-lg-2 pe-0 csdegbfraedd">
-              <div class="difuhtre_nav">
+        <div className="mentor_dashboard">
+          <div className="row">
+            <div className="col-lg-2 pe-0 csdegbfraedd">
+              <div className="difuhtre_nav">
                 <button
-                  class="btn btn-transparent text-center py-3"
+                  className="btn btn-transparent text-center py-3"
                   onClick={ShowMenteeProfileHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-user"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-user"></i>
                   </span>
 
                   <h5>Dashboard</h5>
                 </button>
-
                 <button
-                  class="btn btn-transparent text-center py-3"
+                  className="btn btn-transparent text-center py-3"
                   onClick={MenteePsettingsHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-bars"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-bars"></i>
                   </span>
 
                   <h5>PROFILE SETTINGS</h5>
                 </button>
-
                 <button
-                  class="btn btn-transparent text-center py-3"
+                  className="btn btn-transparent text-center py-3"
                   onClick={MenteeMessageHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-brands fa-rocketchat"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-brands fa-rocketchat"></i>
                   </span>
 
                   <h5>MESSAGES</h5>
                 </button>
-
                 <button
-                  class="btn btn-transparent text-center py-3"
+                  className="btn btn-transparent text-center py-3"
                   onClick={MenteeNotificationHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-bell"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-bell"></i>
                   </span>
 
                   <h5>NOTIFICATIONS</h5>
-                </button>
-
+                </button>{" "}
                 <button
-                  class="btn btn-transparent text-center py-3"
-                  onClick={MenteeChangePwdHandler}
+                  className="btn btn-transparent text-center py-3"
+                  onClick={ShowMenteeUpcomingHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-bars-progress"></i>
                   </span>
 
-                  <h5>CHANGE PASSWORD</h5>
+                  <h5>UPCOMING SESSIONS</h5>
                 </button>
-
                 <button
-                  class="btn btn-transparent text-center py-3"
-                  onClick={MenteeCourseProgressHandler}
+                  className="btn btn-transparent text-center py-3"
+                  onClick={ShowMenteeCompletedHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-bars-progress"></i>
-                  </span>
-
-                  <h5>COURSE PROGRESS</h5>
-                </button>
-
-                <button class="btn btn-transparent text-center py-3">
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-hourglass-half"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-hourglass-half"></i>
                   </span>
 
                   <h5>COMPLETED SESSIONS</h5>
                 </button>
-
                 <button
-                  class="btn btn-transparent text-center py-3"
+                  className="btn btn-transparent text-center py-3"
+                  onClick={MenteeCourseProgressHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-bars-progress"></i>
+                  </span>
+
+                  <h5>COURSE PROGRESS</h5>
+                </button>
+                <button
+                  className="btn btn-transparent text-center py-3"
                   onClick={MenteeCompCourseHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-hourglass-half"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-hourglass-half"></i>
                   </span>
 
                   <h5>COMPLETED COURSES</h5>
                 </button>
-                <button class="btn btn-transparent text-center py-3">
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
+                <button className="btn btn-transparent text-center py-3">
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-clock-rotate-left"></i>
                   </span>
 
                   <h5>PAYMENT HISTORY</h5>
                 </button>
-                <button class="btn btn-transparent text-center py-3">
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-regular fa-building"></i>
+                <button className="btn btn-transparent text-center py-3">
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-regular fa-building"></i>
                   </span>
 
                   <h5>SAVED INSTITUTE</h5>
                 </button>
-
                 <button
-                  class="btn btn-transparent text-center py-3"
+                  className="btn btn-transparent text-center py-3"
                   onClick={MenteeSavedJobsHandler}
                 >
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-bookmark"></i>
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-bookmark"></i>
                   </span>
 
                   <h5>SAVED JOBS</h5>
                 </button>
+                <button
+                  className="btn btn-transparent text-center py-3"
+                  onClick={MenteeChangePwdHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-arrow-right-arrow-left"></i>
+                  </span>
 
-                <button class="btn btn-transparent text-center py-3">
-                  <span class="d-block bg-white position-relative m-auto mb-3">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                  <h5>CHANGE PASSWORD</h5>
+                </button>
+                <button className="btn btn-transparent text-center py-3">
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-right-from-bracket"></i>
                   </span>
 
                   <h5>LOG OUT</h5>
                 </button>
               </div>
             </div>
+            {!showMenteeCompletedSessions ? <MenteeCompletedSessions /> : ""}
+            {!showMenteeUpcomingSessions ? <MenteeUpcomingSessions /> : ""}
             {!showMenteeProfile ? <MenteeProfileDashboard /> : ""}
             {!showNotification ? <MenteeNotifications /> : ""}
             {!showChangePwd ? <MenteeChangePwd /> : ""}

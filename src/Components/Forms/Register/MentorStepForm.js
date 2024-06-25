@@ -7,7 +7,6 @@ import MentorForm3 from "./MentorForm3";
 
 const MentorStepForm = () => {
   const [page, setPage] = useState(0);
-  const [buttonEnable, setButtonEnable] = useState(false);
 
   const FormTitles = ["ABOUT YOURSELF", "YOUR SUPER POWER", "PREFERENCES"];
   const PageDisplay = () => {
@@ -40,24 +39,15 @@ const MentorStepForm = () => {
             <button
               className="btn btn-primary tablinks active"
               data-tab="form1"
-              onclick="openTab('form1')"
             >
               <i className="fa-solid me-1 fa-user"></i> ABOUT YOURSELF
             </button>
 
-            <button
-              className="btn btn-primary tablinks"
-              data-tab="form2"
-              onclick="openTab('form2')"
-            >
+            <button className="btn btn-primary tablinks" data-tab="form2">
               <i className="fa-solid me-1 fa-bolt"></i> YOUR SUPER POWER
             </button>
 
-            <button
-              className="btn btn-primary tablinks"
-              data-tab="form3"
-              onclick="openTab('form3')"
-            >
+            <button className="btn btn-primary tablinks" data-tab="form3">
               <i className="fa-solid me-1 fa-asterisk"></i> PREFERENCES
             </button>
           </div>
@@ -83,7 +73,6 @@ const MentorStepForm = () => {
                 <button
                   type="button"
                   className="btn juybeubrer_btn btn-primary"
-                  onclick="submitForm()"
                 >
                   Submit
                 </button>
@@ -197,12 +186,7 @@ const MentorStepForm = () => {
                         draggable="true"
                       >
                         Technology
-                        <span
-                          className="close-btn"
-                          onclick="removeFromContainer('draggable1')"
-                        >
-                          &times;
-                        </span>
+                        <span className="close-btn">&times;</span>
                       </div>
 
                       <div
@@ -211,12 +195,7 @@ const MentorStepForm = () => {
                         draggable="true"
                       >
                         Management
-                        <span
-                          className="close-btn"
-                          onclick="removeFromContainer('draggable2')"
-                        >
-                          &times;
-                        </span>
+                        <span className="close-btn">&times;</span>
                       </div>
 
                       <div
@@ -225,12 +204,7 @@ const MentorStepForm = () => {
                         draggable="true"
                       >
                         Leadership
-                        <span
-                          className="close-btn"
-                          onclick="removeFromContainer('draggable3')"
-                        >
-                          &times;
-                        </span>
+                        <span className="close-btn">&times;</span>
                       </div>
 
                       <div
@@ -239,12 +213,7 @@ const MentorStepForm = () => {
                         draggable="true"
                       >
                         Career Guidance
-                        <span
-                          className="close-btn"
-                          onclick="removeFromContainer('draggable4')"
-                        >
-                          &times;
-                        </span>
+                        <span className="close-btn">&times;</span>
                       </div>
 
                       <div
@@ -253,12 +222,7 @@ const MentorStepForm = () => {
                         draggable="true"
                       >
                         Public Speaking
-                        <span
-                          className="close-btn"
-                          onclick="removeFromContainer('draggable5')"
-                        >
-                          &times;
-                        </span>
+                        <span className="close-btn">&times;</span>
                       </div>
                     </div>
                   </div>
@@ -449,16 +413,11 @@ const MentorStepForm = () => {
               <button
                 type="button"
                 className="btn iudhehrnbeer_btn btn-primary"
-                onclick="prevTab()"
               >
                 <i className="fa-solid me-2 fa-left-long"></i> Previous
               </button>
 
-              <button
-                type="button"
-                className="btn juybeubrer_btn btn-primary"
-                onclick="nextTab()"
-              >
+              <button type="button" className="btn juybeubrer_btn btn-primary">
                 Next Step <i className="fa-solid ms-2 fa-right-long"></i>
               </button>
             </div>
@@ -627,7 +586,6 @@ const MentorStepForm = () => {
               <button
                 type="button"
                 className="btn iudhehrnbeer_btn btn-primary"
-                onclick="prevTab()"
               >
                 <i className="fa-solid me-2 fa-left-long"></i> Previous
               </button>
