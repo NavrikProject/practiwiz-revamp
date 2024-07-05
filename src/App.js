@@ -28,6 +28,7 @@ import InstituteDashboardPage from "./Pages/InstitutePages/Dashboard/InstituteDa
 import InstituteProfilePage from "./Pages/InstitutePages/Profile/InstituteProfilePage";
 import MenteeProfilePage from "./Pages/MenteePages/MenteeProfilePage";
 import PaymentCancPage from "./Pages/MiscPages/PaymentCancPage";
+import MenteeRegistrationPage from "./Pages/FormPages/RegisterPages/MenteeRegistrationPage";
 function App() {
   return (
     <>
@@ -66,6 +67,10 @@ function App() {
           <Route
             path="/mentee/view-profile/:id"
             element={<MenteeProfilePage />}
+          />
+          <Route
+            path="/mentee-registration"
+            element={<MenteeRegistrationPage />}
           />
 
           <Route path="/test1" element={<CoursePayment />} />

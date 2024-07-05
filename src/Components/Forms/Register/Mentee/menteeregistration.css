@@ -1,81 +1,3 @@
-.regis_background {
-  padding: 4rem 0px 3rem 0px;
-}
-
-header .navbar.mt-3 {
-  margin-top: 0 !important;
-  transition: 0.3s ease-in-out;
-}
-header .navbar.mx-4 {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  transition: 0.3s ease-in-out;
-}
-header .iugeuirrr .udgehrr .cdsfsdvnghff .form-control {
-  padding: 0.5rem 3.8rem 0.5rem 1.5rem;
-  transition: 0.3s ease-in-out;
-}
-
-.bg-light {
-  background-color: transparent !important;
-}
-
-.d-t:focus {
-  box-shadow: none !important;
-}
-
-.csfvgdtrfs .radio-input {
-  visibility: hidden;
-}
-.csfvgdtrfs .radio-label {
-  position: relative;
-  padding-left: 25px;
-}
-.csfvgdtrfs .radio-label:after {
-  content: "";
-  display: block;
-  width: 11px;
-  height: 11px;
-  margin-top: 8px;
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  border-radius: 50%;
-}
-.csfvgdtrfs .radio-border {
-  width: 15px;
-  height: 15px;
-  margin-top: 8px;
-  display: inline-block;
-  outline: solid 2px var(--main-orange-color);
-  border-radius: 50%;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-}
-.csfvgdtrfs .radio-input:checked + .radio-label:after {
-  transition: all 0.5s;
-  background-color: var(--main-orange-color);
-}
-
-.span222 {
-  color: var(--main-orange-color) !important;
-}
-
-.ihduwfr_form_wrapper {
-  height: 25rem;
-  overflow-y: initial;
-  overflow-x: initial;
-  padding: 0.8rem;
-}
-
-#mentorRegisterBg {
-  background: url(../../../Images/Mentors/iuihnierr.png) no-repeat;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-}
-
 /*register start*/
 .regis_background {
   padding: 9rem 0px 3rem 0px;
@@ -215,10 +137,10 @@ header .iugeuirrr .udgehrr .cdsfsdvnghff .form-control {
 .iudhehrnbeer_btn {
   background: #fff !important;
   border: 2px solid #000 !important;
-  color: #000 !important;
-  font-size: 1.2rem !important;
-  padding: 0.7rem 4rem !important;
-  font-family: var(--font-family-lato) !important;
+  color: #000;
+  font-size: 1.2rem;
+  padding: 0.7rem 4rem;
+  font-family: var(--font-family-lato);
 }
 
 .iudhehrnbeer_btn:hover {
@@ -357,9 +279,12 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
 }
 
 .cihseriniewr #rdo1,
-#rdo4,
 #rdo7 {
   position: absolute;
+}
+
+.span222 {
+  color: var(--main-orange-color) !important;
 }
 
 /**/
@@ -429,7 +354,13 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
 .jdoieoir_wrapper .iti--allow-dropdown #phone {
   border: 1px solid #acaeaf !important;
 }
-
+.ihduwfr_form_wrapper {
+  height: 25rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.8rem;
+  border-bottom: 1px solid #cdcdcd;
+}
 /**/
 
 /*register end*/
