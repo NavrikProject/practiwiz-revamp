@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import "./login.css";
 const LoginForm = () => {
   const {
     register,
@@ -54,7 +54,7 @@ const LoginForm = () => {
   };
   return (
     <main>
-      <div class="regis_background">
+      <div class="regis_background " id="loginBg">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 mb-4">
@@ -116,7 +116,7 @@ const LoginForm = () => {
                       <i class="fa-solid fa-circle-check"></i>
 
                       <p class="mb-0">
-                        <a href="">Sign Up Now!</a>
+                        <a href="/register">Sign Up Now!</a>
                       </p>
                     </div>
                   </li>
