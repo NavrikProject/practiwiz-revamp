@@ -1,69 +1,85 @@
 import React from "react";
+import { useFormContext } from 'react-hook-form';
+
 
 const MentorForm3 = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   return (
-    <div class="doiherner_wrapper">
-      <div class="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+    <div className="doiherner_wrapper">
+      <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
+        <div className="row">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Preffered Contact Timings</b>
               </label>
               <input
                 type="time"
-                class="form-control"
+                className="form-control"
                 id="exampleInputEmail1"
                 placeholder="Type Your Job Title"
                 aria-describedby="emailHelp"
+                {...register("preferred_contact_timings", {
+                  // required: "First Name is required",
+                })} //1
               />
             </div>
 
-            <div class="mb-4">
-              <label for="exampleInputPassword1" class="form-label">
+            <div className="mb-4">
+              <label htmlFor="exampleInputPassword1" className="form-label">
                 <b>Preffered Contact Dates</b>
               </label>
               <input
                 type="date"
-                class="form-control"
+                className="form-control"
                 id="exampleInputPassword1"
                 placeholder="Your Experience"
+                {...register("preferred_contact_dates", {
+                  // required: "First Name is required",
+                })} //1
               />
             </div>
           </div>
 
-          <div class="col-lg-6">
-            <div class="ikhwnjrr_right">
-              <label for="exampleInputEmail1" class="form-label mb-3">
+          <div className="col-lg-6">
+            <div className="ikhwnjrr_right">
+              <label htmlFor="exampleInputEmail1" className="form-label mb-3">
                 <b>Percentage Completion</b>
               </label>
 
-              <div class="d-flex align-items-center">
-                <div class="hinrer_circle position-relative me-3">
+              <div className="d-flex align-items-center">
+                <div className="hinrer_circle position-relative me-3">
                   <h2>SK</h2>
                 </div>
 
-                <div class="idhnerier_right">
-                  <h4 class="mb-1">Sawan Kumar</h4>
+                <div className="idhnerier_right">
+                  <h4 className="mb-1">Sawan Kumar</h4>
 
-                  <p class="mb-1">
+                  <p className="mb-1">
                     <b>40% Complete</b>
                   </p>
 
-                  <h6 class="mb-0">Signed up - 4 minutes ago</h6>
+                  <h6 className="mb-0">Signed up - 4 minutes ago</h6>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Would You Be Interested in Delivering Guest Lectures?</b>
               </label>
 
-              <select class="form-select">
-                <option selected>Choose An Option</option>
+              <select className="form-select"
+                {...register("guest_lectures_interest", {
+                  // required: "First Name is required",
+                })} //1
+              >
+                <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
 
@@ -72,14 +88,18 @@ const MentorForm3 = () => {
             </div>
           </div>
 
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Would You Be Interested in Curating Case Studies?</b>
               </label>
 
-              <select class="form-select">
-                <option selected>Choose An Option</option>
+              <select className="form-select"
+                {...register("curating_case_studies_interest", {
+                  // required: "First Name is required",
+                })} //1
+              >
+                <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
 
@@ -89,17 +109,21 @@ const MentorForm3 = () => {
           </div>
         </div>
 
-        <div class="row align-items-end">
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+        <div className="row align-items-end">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>
                   For Your Alums Would You Be Fine to Do Sessions Free of Charge
                 </b>
               </label>
 
-              <select class="form-select">
-                <option selected>Choose An Option</option>
+              <select className="form-select"
+                {...register("sessions_free_of_charge", {
+                  // required: "First Name is required",
+                })} //1
+                >
+                <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
 
@@ -108,40 +132,52 @@ const MentorForm3 = () => {
             </div>
           </div>
 
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Your Timezone</b>
               </label>
 
-              <select class="form-select">
-                <option selected>Choose An Option</option>
+              <select className="form-select"
+                {...register("mentor_timezone", {
+                  // required: "First Name is required",
+                })} //1
+              >
+                <option defaultValue>Choose An Option</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+        <div className="row">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Language</b>
               </label>
 
-              <select class="form-select">
-                <option selected>Choose Language</option>
+              <select className="form-select"
+                {...register("mentor_language", {
+                  // required: "First Name is required",
+                })} //1
+              >
+                <option defaultValue>Choose Language</option>
               </select>
             </div>
           </div>
 
-          <div class="col-lg-6">
-            <div class="mb-4">
-              <label for="exampleInputEmail1" class="form-label">
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Which Country You Live in?</b>
               </label>
 
-              <select class="form-select">
-                <option selected>Your Country Name</option>
+              <select className="form-select"
+                {...register("mentor_country", {
+                  // required: "First Name is required",
+                })} //1
+              >
+                <option defaultValue>Your Country Name</option>
               </select>
             </div>
           </div>
