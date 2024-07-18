@@ -10,6 +10,11 @@ import {
 import "./Styles/custombs.css";
 import "./Styles/responsive.css";
 import "./Styles/style.css";
+import "./index.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ScrollButton from "./Utils/ScrollToTop";
+import PublicRoute from "./Utils/PublicRoute";
 import AboutusPage from "./Pages/MiscPages/AboutusPage";
 import ContactusPage from "./Pages/MiscPages/ContactusPage";
 import AllCoursePage from "./Pages/CoursePages/AllCoursePage";
@@ -29,16 +34,32 @@ import InstituteProfilePage from "./Pages/InstitutePages/Profile/InstituteProfil
 import MenteeProfilePage from "./Pages/MenteePages/MenteeProfilePage";
 import PaymentCancPage from "./Pages/MiscPages/PaymentCancPage";
 import MenteeRegistrationPage from "./Pages/FormPages/RegisterPages/MenteeRegistrationPage";
+import ProtectedRoute from "./Utils/ProtectedRoutes";
+import { useSelector } from "react-redux";
+import Spinner from "./Utils/Spinner"; // Your spinner component
+
 function App() {
+  const user = useSelector((state) => state.user?.currentUser);
+  const isLoading = useSelector((state) => state.loading.isLoading);
   return (
     <>
+      {isLoading && <Spinner />}
+      <ToastContainer position="top-center" />
       <Router>
         <Routes>
           <Route path="/" exact element={<Homepage />} />
           <Route path="/aboutus" exact element={<AboutusPage />} />
           <Route path="/contact" exact element={<ContactusPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/login" exact element={<LoginFormPage />} />
+          <Route
+            path="/login"
+            exact
+            element={
+              <PublicRoute>
+                <LoginFormPage />
+              </PublicRoute>
+            }
+          />
           <Route path="/register" exact element={<RegisterFormPage />} />
           <Route path="/courses" exact element={<AllCoursePage />} />
           {/* Mentor Links starts */}
@@ -57,16 +78,40 @@ function App() {
             element={<SingleMentorProfilePage />}
           />
           <Route path="/test" element={<MentorPayment />} />
-          <Route path="/mentor/dashboard" element={<MentorDashboardPage />} />
+          {user?.user_type === "mentor" && (
+            <Route
+              path="/mentor/dashboard"
+              element={
+                <ProtectedRoute>
+                  <MentorDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+          )}
+
           {/* Mentor Links ends */}
           <Route
             path="/courses/single-course/:id"
             element={<SingleCoursePage />}
           />
-          <Route path="/mentee/dashboard" element={<MenteeDashboardPage />} />
+          {user?.user_type === "mentee" && (
+            <Route
+              path="/mentee/dashboard"
+              element={
+                <ProtectedRoute>
+                  <MenteeDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+          )}
+
           <Route
             path="/mentee/view-profile/:id"
-            element={<MenteeProfilePage />}
+            element={
+              <ProtectedRoute>
+                <MenteeProfilePage />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/mentee-registration"
@@ -83,14 +128,22 @@ function App() {
             path="/institute/view-profile/:id"
             element={<InstituteProfilePage />}
           />
-          <Route
-            path="/institute/dashboard"
-            element={<InstituteDashboardPage />}
-          />
+          {user?.user_type === "institute" && (
+            <Route
+              path="/institute/dashboard"
+              element={
+                <ProtectedRoute>
+                  <InstituteDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+          )}
+
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
         </Routes>
       </Router>
+      <ScrollButton />
     </>
   );
 }

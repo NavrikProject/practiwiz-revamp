@@ -8,6 +8,10 @@ import MentorChangePwd from "./MentorChangePwd";
 import MentorProfileSettings from "./MentorProfileSettings";
 import MentorProfile from "./MentorProfile";
 import MentorMessages from "./MentorMessages";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../Redux/userRedux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const MentorDashboard = () => {
   const [showNotification, setShowNotification] = useState("false");
   const [showSessionSetup, setShowSessionSetup] = useState("false");
@@ -75,6 +79,11 @@ const MentorDashboard = () => {
       setShowMentorMessage(!showMentorMessage)
     );
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
   return (
     <>
       <div className="md-header">
@@ -128,7 +137,7 @@ const MentorDashboard = () => {
 
                         <li>View Public Profile</li>
 
-                        <li>Log Out</li>
+                        <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
                   </form>

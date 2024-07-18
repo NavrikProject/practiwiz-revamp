@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Logo from "../../Images/practiwizNew Logo.png";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 // import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
-  const [visible, setVisible] = useState(false);
+  const user = useSelector((state) => state.user?.currentUser);
 
+  const [visible, setVisible] = useState(false);
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 70) {
@@ -56,15 +59,15 @@ const Navbar = () => {
                     {/* <li className="nav-item defdweregee">
                     <a className="nav-link" href="javascript:void(0)"
                       >IT Training
-                      <!--<i className="fa-solid fa-angle-down"></i>-->
+                      <i className="fa-solid fa-angle-down"></i>
 
-                      <!--<div className="duiehrr_dropdwn">-->
-                      <!--    <ul className="edfrerteee_list bg-white p-3 d-none">-->
-                      <!--        <li>IT TRAINING</li>-->
+                      <div className="duiehrr_dropdwn">
+                          <ul className="edfrerteee_list bg-white p-3 d-none">
+                              <li>IT TRAINING</li>
 
-                      <!--        <li>BUSINESS TRAINING</li>-->
-                      <!--    </ul>-->
-                      <!--</div>-->
+                              <li>BUSINESS TRAINING</li>
+                          </ul>
+                      </div>
                     </a>
                   </li> */}
 
@@ -104,26 +107,37 @@ const Navbar = () => {
                       </a>
                     </li>
                   </ul>
+                  {user ? (
+                    <div className="udgehrr">
+                      <button className="btn fvjhdf_btn btn-main mt-0">
+                        <Link to={`${user.user_type}/dashboard`}>
+                          {user.user_firstname.charAt(0).toUpperCase() +
+                            user.user_lastname.charAt(0).toUpperCase()}
+                        </Link>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="udgehrr">
+                      <button className="btn fvjhdf_btn btn-main mt-0">
+                        <Link to="/login">LogIn</Link>
+                      </button>
+                    </div>
+                  )}
 
-                  {/* <!--<form className="d-flex iugeuirrr align-items-center">-->
-                <!--  <div className="udgehrr pe-3">-->
-                <!--    <div className="cdsfsdvnghff ijaihnifrtt position-relative">-->
-                <!--        <input id="myInput" className="form-control" name="myCountry" type="text" placeholder="Discover Your Mentor...">-->
+                  {/* <form className="d-flex iugeuirrr align-items-center">
+                  <div className="udgehrr pe-3">
+                    <div className="cdsfsdvnghff ijaihnifrtt position-relative">
+                        <input id="myInput" className="form-control" name="myCountry" type="text" placeholder="Discover Your Mentor...">
 
-                <!--        <i className="fas fa-search position-absolute" id="searchIcon"></i>-->
+                        <i className="fas fa-search position-absolute" id="searchIcon"></i>
 
-                <!--        <div id="autosuggestions"></div>-->
-                <!--    </div>-->
-                <!--  </div>                      -->
-
-                <!--  <div className="udgehrr">-->
-                <!--    <button className="btn fvjhdf_btn btn-main mt-0">LogIn</button>-->
-                <!--  </div>-->
-
-                <!--  <div className="udgehrr ps-3">-->
-                <!--    <button className="btn btn-main mt-0" type="button">Register</button>-->
-                <!--  </div>                     -->
-                <!--</form>--> */}
+                        <div id="autosuggestions"></div>
+                    </div>
+                  </div>                      
+                  <div className="udgehrr ps-3">
+                    <button className="btn btn-main mt-0" type="button">Register</button>
+                  </div>                     
+                </form> */}
                 </div>
               </div>
             </nav>
