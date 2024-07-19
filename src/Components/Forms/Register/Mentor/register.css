@@ -437,3 +437,8 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
 /**/
 
 /*register end*/
+
+
+.error-msg{
+  color: red;
+}
