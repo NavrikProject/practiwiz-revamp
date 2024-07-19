@@ -200,8 +200,13 @@ const LoginForm = () => {
                         })}
                       />
                       <i
+                        i="true"
                         onClick={showPwdHandler}
-                        className="fa-solid fa-eye position-absolute"
+                        className={
+                          showIcon
+                            ? "fa-solid fa-eye position-absolute"
+                            : "fa-solid fa-eye-slash position-absolute"
+                        }
                       ></i>
                     </div>
                     {formErrors.password && (

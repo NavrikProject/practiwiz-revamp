@@ -1,27 +1,20 @@
-import React, { useState,useEffect } from "react";
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useState, useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 
 import MentorForm3 from "./MentorForm3";
-const LOCAL_STORAGE_KEY = 'form-data';
-
+// const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
-
-   const methods = useForm({  
-    // defaultValues: {
-    //   // firstName: '',
-    //   // lastName: '',
-    //   // email: '',
-    //   // password: ''
-    // }
-  });
+  const methods = useForm({});
   const [page, setPage] = useState(0);
-  const { watch, setValue } = methods;
+  const { watch, setValue, trigger, getValues } = methods;
 
   const FormTitles = ["ABOUT YOURSELF", "YOUR SUPER POWER", "PREFERENCES"];
+  const [step, setStep] = useState(1);
+
   const PageDisplay = () => {
     if (page === 0) {
       return <MentorForm1 />;
@@ -31,8 +24,8 @@ const MentorStepForm = () => {
       return <MentorForm3 />;
     }
   };
-  const setPageCount = (event) => {
-    // event.preventDefault();
+
+  const setPageCount = () => {
     if (page === 0) {
       setPage((currPage) => currPage + 1);
     } else if (page === 1) {
@@ -41,7 +34,7 @@ const MentorStepForm = () => {
       setPage((currPage) => currPage + 1);
     }
   };
-  
+
   const tab1 = () => {
     setPage(0);
   };
@@ -51,66 +44,37 @@ const MentorStepForm = () => {
   const tab3 = () => {
     setPage(2);
   };
-  const [step, setStep] = useState(1);
 
-  const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = () => setStep(prev => prev - 1);
+  const nextStep = async () => { 
+    setStep((prev) => prev + 1);
+    
+    const result = await trigger();
+    if (result) {
+      setPageCount();
+     
+    }
+  };
+  const prevStep = () => setStep((prev) => prev - 1);
 
-  const onSubmit = data => {
-    if (step < 2) {
-      nextStep();
+  const onSubmit = async (data) => {
+    if (step < 3) {
+      const isValid = await trigger(); // Validate current step
+      if (isValid) {
+        console.log("error");
+      }
     } else {
       console.log(data);
-      localStorage.removeItem(LOCAL_STORAGE_KEY); // Clear local storage on final submission
-      downloadFormData(data);//for download
+      // downloadFormData(data);
     }
   };
-
-
-
-  // Load data from local storage on initial render
-  useEffect(() => {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      Object.keys(parsedData).forEach(key => {
-        setValue(key, parsedData[key]);
-      });
-    }
-  }, [setValue]);
-
-
-
-  // Save form data to local storage on change
-  useEffect(() => {
-    const subscription = watch(value => {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(value));
-    });
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
-
-
-  const downloadFormData = (formData) => {
-    const blob = new Blob([JSON.stringify(formData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'form-data.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  const nextbtn = () => {
+    nextStep();
   };
-
-
   return (
     <main>
-      <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
       <div className="regis_background" id="mentorRegisterBg">
         <div className="jdoieoir_wrapper">
-        <div
+          <div
             id="tabs"
             className="d-flex justify-content-between align-items-center mb-4"
           >
@@ -163,51 +127,52 @@ const MentorStepForm = () => {
               </button>
             )}
           </div>
-
-
-          <div id="form1" className="tab active">
-            {PageDisplay()}
-            <div className="bjuerirr_btn diuher d-flex justify-content-between mt-4">
-              {page === 0 ? (
-                ""
-              ) : (
-                <button
-                  type="button"
-                  className="btn iudhehrnbeer_btn btn-primary"
-                  disabled={page === 0}
-                  onClick={() => {
-                    setPage((currPage) => currPage - 1);
-                  }}
-                >
-                  <i className="fa-solid me-2 fa-left-long"></i> Previous
-                </button>
-              )}
-              {page === FormTitles.length - 1 ? (
-                <button
-                  type="sumbit"
-                  className="btn juybeubrer_btn btn-primary"
-                  onSubmit={methods.handleSubmit(onSubmit)}
-                >
-                  Submit
-                </button>
-              ) : (
-                <div className="bjuerirr_btn diuher d-flex mt-4">
-                  <button
-                    type="button"
-                    className="btn juybeubrer_btn btn-primary"
-                    onClick={setPageCount}
-                  >
-                    Next Step <i className="fa-solid ms-2 fa-right-long"></i>
-                  </button>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <div id="form1" className="tab active">
+                {PageDisplay()}
+                <div className="bjuerirr_btn diuher d-flex justify-content-between mt-4">
+                  {page === 0 ? (
+                    ""
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn iudhehrnbeer_btn btn-primary"
+                      disabled={page === 0}
+                      onClick={() => {
+                        setPage((currPage) => currPage - 1);
+                      }}
+                    >
+                      <i className="fa-solid me-2 fa-left-long"></i> Previous
+                    </button>
+                  )}
+                  {page === FormTitles.length - 1 ? (
+                    <button
+                      type="submit"
+                      className="btn juybeubrer_btn btn-primary"
+                      onSubmit={methods.handleSubmit(onSubmit)}
+                    >
+                      Submit
+                    </button>
+                  ) : (
+                    <div className="bjuerirr_btn diuher d-flex mt-4">
+                      <button
+                        type="submit"
+                        className="btn juybeubrer_btn btn-primary"
+                        onClick={nextbtn}
+                      >
+                        Next Step{" "}
+                        <i className="fa-solid ms-2 fa-right-long"></i>
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            {/*Next button  */}
-          </div>
+                {/*Next button  */}
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </div>
-      </form>
-      </FormProvider>
     </main>
   );
 };
