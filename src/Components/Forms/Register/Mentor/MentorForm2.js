@@ -1,11 +1,66 @@
 import React from "react";
-import { useFormContext } from 'react-hook-form';
+import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 const MentorForm2 = () => {
   const {
     register,
     formState: { errors },
+    setValue
   } = useFormContext();
+
+  const [items, setItems] = useState([
+    { id: "draggable1", text: " Technology", inside: false },
+    { id: "draggable2", text: " Management ", inside: false },
+    { id: "draggable3", text: "Leadership", inside: false },
+    { id: "draggable4", text: "Career Guidance", inside: false },
+    { id: "draggable5", text: "Public Speaking", inside: false },
+  ]);
+
+  const handleDragStart = (e, id) => {
+    e.dataTransfer.setData("text/plain", id);
+    setTimeout(() => {
+      e.target.classList.add("hide");
+    }, 0);
+  };
+
+  const handleDragEnd = (e) => {
+    e.target.classList.remove("hide");
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDropInContainer = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: true } : item))
+    );
+    updateFormData();
+    
+  };
+
+  const handleDropOutside = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+    );
+    updateFormData();
+  };
+
+  const handleDelete = (id) => {
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+    );
+    updateFormData();
+  };
+  const updateFormData = () => {
+    setValue('passionate_about', items);
+  };
+
   return (
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
@@ -22,23 +77,28 @@ const MentorForm2 = () => {
                 placeholder="Type Your Job Title"
                 aria-describedby="emailHelp"
                 {...register("mentor_job_title", {
-                  // required: "First Name is required",
+                  required: "Job title  is required",
                 })} //1
               />
+              {errors.mentor_job_title && (
+                  <p className="Error-meg-login-register">{errors.mentor_job_title.message}</p>
+                )}
             </div>
             <div className="mb-4">
               <label htmlFor="exampleInputPassword1" className="form-label">
                 <b>Years of Experience</b>
               </label>
               <input
-                type="password"
+                type="number"
                 className="form-control"
                 // id="exampleInputPassword1"
                 placeholder="Your Experience"
                 {...register("years_of_experience", {
-                  // required: "First Name is required",
+                  required: "Years of Experience is required",
                 })} //1
-              />
+              />{errors.years_of_experience && (
+                <p className="Error-meg-login-register">{errors.years_of_experience.message}</p>
+              )}
             </div>
 
             <div className="mb-4">
@@ -52,9 +112,11 @@ const MentorForm2 = () => {
                 placeholder="Type Your Company Name"
                 aria-describedby="emailHelp"
                 {...register("mentor_company_name", {
-                  // required: "First Name is required",
+                  required: "Company name is required",
                 })} //1
-              />
+              />{errors.mentor_company_name && (
+                <p className="Error-meg-login-register">{errors.mentor_company_name.message}</p>
+              )}
             </div>
           </div>
 
@@ -88,7 +150,40 @@ const MentorForm2 = () => {
             <label htmlFor="exampleInputEmail1" className="form-label">
               <b>Passionate About!</b> (Select max of 4 options)
             </label>
-            <div type="" id="container" className="bg-white"></div>
+            <div
+              type=""
+              id="container"
+              className="bg-white"
+              onDragOver={handleDragOver}
+              onDrop={handleDropInContainer}
+            >
+              {items
+                .filter((item) => item.inside)
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    id={item.id}
+                    className="draggable inside"
+                    // className="draggable"
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, item.id)}
+                    onDragEnd={handleDragEnd}
+                   
+                  >
+
+                    {item.inside && (
+                      <span
+                      className="close-btn"
+                      onClick={() => handleDelete(item.id)}
+                      // onclick="removeFromContainer('draggable1')"
+                    >
+                      &times;
+                    </span>
+                    )}
+                    {item.text}
+                  </div>
+                ))}
+            </div>
 
             <p className="iduehnbriee_text mb-0">
               (*Drag and drop the most suitable option in the box*)
@@ -96,56 +191,26 @@ const MentorForm2 = () => {
           </div>
 
           <div className="col-lg-5 mb-4">
-            <div id="outside-container">
-              <div className="draggable" id="draggable1" draggable="true">
-                Technology
-                <span
-                  className="close-btn"
-                  // onclick="removeFromContainer('draggable1')"
-                >
-                  &times;
-                </span>
-              </div>
-
-              <div className="draggable" id="draggable2" draggable="true">
-                Management
-                <span
-                  className="close-btn"
-                  // onclick="removeFromContainer('draggable2')"
-                >
-                  &times;
-                </span>
-              </div>
-
-              <div className="draggable" id="draggable3" draggable="true">
-                Leadership
-                <span
-                  className="close-btn"
-                  // onClick="removeFromContainer('draggable3')"
-                >
-                  &times;
-                </span>
-              </div>
-
-              <div className="draggable" id="draggable4" draggable="true">
-                Career Guidance
-                <span
-                  className="close-btn"
-                  // onClick="removeFromContainer('draggable4')"
-                >
-                  &times;
-                </span>
-              </div>
-
-              <div className="draggable" id="draggable5" draggable="true">
-                Public Speaking
-                <span
-                  className="close-btn"
-                  // onClick="removeFromContainer('draggable5')"
-                >
-                  &times;
-                </span>
-              </div>
+            <div
+              id="outside-container"
+              onDragOver={handleDragOver}
+              onDrop={handleDropOutside}
+            >
+              {items
+                .filter((item) => !item.inside)
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    id={item.id}
+                    className="draggable"
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, item.id)}
+                    onDragEnd={handleDragEnd}
+                    
+                  >
+                    {item.text}
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -310,6 +375,7 @@ const MentorForm2 = () => {
                       // required: "First Name is required",
                     })} //1
                   />
+                  
                   <label htmlFor="check_11">Post Graduate</label>
                 </li>
 
@@ -323,6 +389,7 @@ const MentorForm2 = () => {
                       // required: "First Name is required",
                     })} //1
                   />
+                  
                   <label htmlFor="check_20">Graduate</label>
                 </li>
 
@@ -336,6 +403,7 @@ const MentorForm2 = () => {
                       // required: "First Name is required",
                     })} //1
                   />
+                 
                   <label htmlFor="check_30">Doctorate</label>
                 </li>
               </ul>
@@ -354,13 +422,14 @@ const MentorForm2 = () => {
               })} //1
             ></textarea>
           </div>
+          
 
           <div className="col-lg-12 mb-4">
             <label htmlFor="exampleInputEmail1" className="form-label">
               <b>Headline</b>
             </label>
             <input
-              type="email"
+              type="text"
               className="form-control"
               id="exampleInputEmail1"
               placeholder="Type A Headline Here"

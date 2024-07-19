@@ -23,9 +23,12 @@ const MentorForm3 = () => {
                 placeholder="Type Your Job Title"
                 aria-describedby="emailHelp"
                 {...register("preferred_contact_timings", {
-                  // required: "First Name is required",
+                  required: "First Name is required",
                 })} //1
               />
+              {errors.preferred_contact_timings && (
+                  <p className="Error-meg-login-register">{errors.preferred_contact_timings.message}</p>
+                )}
             </div>
 
             <div className="mb-4">
@@ -38,9 +41,12 @@ const MentorForm3 = () => {
                 id="exampleInputPassword1"
                 placeholder="Your Experience"
                 {...register("preferred_contact_dates", {
-                  // required: "First Name is required",
+                  required: "Preffered Contact Dates is required",
                 })} //1
               />
+              {errors.preferred_contact_dates && (
+                  <p className="Error-meg-login-register">{errors.preferred_contact_dates.message}</p>
+                )}
             </div>
           </div>
 
@@ -76,16 +82,20 @@ const MentorForm3 = () => {
 
               <select className="form-select"
                 {...register("guest_lectures_interest", {
-                  // required: "First Name is required",
+                  required: " required",
                 })} //1
+                
               >
-                <option defaultValue>Choose An Option</option>
+                {/* <option defaultValue>Choose An Option</option> */}
 
                 <option>Yes</option>
 
                 <option>No</option>
               </select>
             </div>
+            {errors.guest_lectures_interest && (
+                  <p className="Error-meg-login-register">{errors.guest_lectures_interest.message}</p>
+                )}
           </div>
 
           <div className="col-lg-6">
@@ -96,9 +106,10 @@ const MentorForm3 = () => {
 
               <select className="form-select"
                 {...register("curating_case_studies_interest", {
-                  // required: "First Name is required",
+                  required: "required",
                 })} //1
               >
+                
                 <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
@@ -106,6 +117,9 @@ const MentorForm3 = () => {
                 <option>No</option>
               </select>
             </div>
+            {errors.curating_case_studies_interest && (
+                  <p className="Error-meg-login-register">{errors.curating_case_studies_interest.message}</p>
+                )}
           </div>
         </div>
 
@@ -120,7 +134,7 @@ const MentorForm3 = () => {
 
               <select className="form-select"
                 {...register("sessions_free_of_charge", {
-                  // required: "First Name is required",
+                  required: "required",
                 })} //1
                 >
                 <option defaultValue>Choose An Option</option>
@@ -130,6 +144,9 @@ const MentorForm3 = () => {
                 <option>No</option>
               </select>
             </div>
+            {errors.sessions_free_of_charge && (
+                  <p className="Error-meg-login-register">{errors.sessions_free_of_charge.message}</p>
+                )}
           </div>
 
           <div className="col-lg-6">
@@ -140,12 +157,15 @@ const MentorForm3 = () => {
 
               <select className="form-select"
                 {...register("mentor_timezone", {
-                  // required: "First Name is required",
+                  required: "required",
                 })} //1
               >
                 <option defaultValue>Choose An Option</option>
               </select>
             </div>
+            {errors.mentor_timezone && (
+                  <p className="Error-meg-login-register">{errors.mentor_timezone.message}</p>
+                )}
           </div>
         </div>
 
@@ -158,12 +178,15 @@ const MentorForm3 = () => {
 
               <select className="form-select"
                 {...register("mentor_language", {
-                  // required: "First Name is required",
+                  required: "required",
                 })} //1
               >
                 <option defaultValue>Choose Language</option>
               </select>
             </div>
+            {errors.mentor_language && (
+                  <p className="Error-meg-login-register">{errors.mentor_language.message}</p>
+                )}
           </div>
 
           <div className="col-lg-6">
@@ -174,12 +197,15 @@ const MentorForm3 = () => {
 
               <select className="form-select"
                 {...register("mentor_country", {
-                  // required: "First Name is required",
+                  required: "required",
                 })} //1
               >
                 <option defaultValue>Your Country Name</option>
               </select>
             </div>
+            {errors.mentor_country && (
+                  <p className="Error-meg-login-register">{errors.mentor_country.message}</p>
+                )}
           </div>
         </div>
       </div>
