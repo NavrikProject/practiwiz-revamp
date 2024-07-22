@@ -1,14 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LnIcon from "./deeteewe.png";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { useState } from "react";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 const MentorForm1 = () => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
+  const [phonenumbervalidate, setphonenumbervalidate] = useState("");
+
   const {
     register,
     watch,
+    control,
+
     formState: { errors },
   } = useFormContext();
   const password = watch("mentor_password");
@@ -91,9 +97,10 @@ const MentorForm1 = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="mb-4">
-                <label 
-                // htmlFor="exampleInputEmail1"
-                 className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>First Name</b>
                 </label>
                 <input
@@ -101,13 +108,15 @@ const MentorForm1 = () => {
                   className="form-control"
                   // id="exampleInputEmail1"
                   placeholder="First Name"
-                  // aria-describedby="emailHelp" 
+                  // aria-describedby="emailHelp"
                   {...register("mentor_firstname", {
-                    required: "First Name is required"
-                  })} 
+                    required: "First Name is required",
+                  })}
                 />
                 {errors.mentor_firstname && (
-                  <p className="Error-meg-login-register">{errors.mentor_firstname.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_firstname.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -127,20 +136,23 @@ const MentorForm1 = () => {
                   })} //1
                 />
                 {errors.mentor_lastname && (
-                  <p className="Error-meg-login-register">{errors.mentor_lastname.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_lastname.message}
+                  </p>
                 )}
               </div>
             </div>
 
             <div className="col-lg-6">
               <div className="mb-4">
-                <label 
-                // htmlFor="exampleInputEmail1"
-                 className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>Mobile Number</b>
                 </label>
 
-                <input
+                {/* <input
                   id="phone"
                   className="form-control"
                   type="tel"
@@ -152,33 +164,69 @@ const MentorForm1 = () => {
                 />
                 {errors.mentor_phone_number && (
                   <p className="Error-meg-login-register">{errors.mentor_phone_number.message}</p>
-                )}
+                )} */}
+                <Controller
+                  name="mentor_phone_number"
+                  control={control}
+                  rules={{
+                    required: "This field is required",
+                    maxLength: {
+                      value: 13,
+                      message: "Enter valid Phone Number"
+                    },
+                    minLength: {
+                      value: 11,
+                      message: "Enter valid Phone Number"
+                    }
+                  }}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <PhoneInput
+                  
+                      {...field}
+                      country={"in"}
+                      value={field.value}
+                      // className="form-control"
+
+                      onChange={(phone) => field.onChange(phone)}
+                    />
+                  )}
+                />
               </div>
+              {errors.mentor_phone_number && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_phone_number.message}
+                </p>
+              )}
             </div>
 
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
-                <label 
-                // htmlFor="exampleInputEmail1"
-                 className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>Email</b>
                 </label>
                 <input
                   type="email"
                   className="form-control"
-                  id="exampleInputEmail1"
+                  // id="exampleInputEmail1"
                   placeholder="Email"
                   aria-describedby="emailHelp"
-                  {...register("mentor_email", { 
-                    required: 'Email is required', 
+                  {...register("mentor_email", {
+                    required: "Email is required",
                     pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: 'Invalid email address'
-                    }
-                  } )} //1
+                      value:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      message: "Invalid email address",
+                    },
+                  })} //1
                 />
                 {errors.mentor_email && (
-                  <p className="Error-meg-login-register">{errors.mentor_email.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_email.message}
+                  </p>
                 )}
 
                 <i className="fa-solid fa-envelopes-bulk position-absolute"></i>
@@ -187,15 +235,15 @@ const MentorForm1 = () => {
 
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
-                <label 
-                // htmlFor="exampleInputEmail1"
-                 className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>Choose A Password</b>
                 </label>
                 <input
-               
                   className="form-control"
-                  id="exampleInputEmail1"
+                  // id="exampleInputEmail1"
                   placeholder="Password must be at least 8 characters"
                   aria-describedby="emailHelp"
                   type={showIcon ? "text" : "password"}
@@ -212,7 +260,6 @@ const MentorForm1 = () => {
                       message: "Must be less than 16 characters.",
                     },
                   })}
-                  
                 />
 
                 <i
@@ -224,9 +271,11 @@ const MentorForm1 = () => {
                       : "fa-solid fa-eye-slash position-absolute"
                   }
                 ></i>
-              
+
                 {errors.mentor_password && (
-                  <p className="Error-meg-login-register">{errors.mentor_password.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_password.message}
+                  </p>
                 )}
 
                 {/* <i className="fa-solid fa-eye position-absolute"></i> */}
@@ -235,39 +284,41 @@ const MentorForm1 = () => {
 
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
-                <label 
-                // htmlFor="exampleInputEmail1" 
-                className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>Confirm Password</b>
                 </label>
                 <input
                   // type="text"
                   className="form-control"
-                  id="exampleInputEmail1"
+                  // id="exampleInputEmail1"
                   placeholder="Type your password again"
                   aria-describedby="emailHelp"
                   type={showIcons ? "text" : "password"}
-                        //onChange={(e) => setConfirmPassword(e.target.value)}
-                        {...register("mentor_confirm_password", {
-                          required: "Password is Required",
-                          validate: (value) =>
-                            value === password || "Password must be matched",
-                        })}
-                       
-                      />
+                  //onChange={(e) => setConfirmPassword(e.target.value)}
+                  {...register("mentor_confirm_password", {
+                    required: "Password is Required",
+                    validate: (value) =>
+                      value === password || "Password must be matched",
+                  })}
+                />
 
-                      <i
-                        i="true"
-                        onClick={() => setShowIcons(!showIcons)}
-                        className={
-                          showIcons
-                            ? "fa-solid fa-eye position-absolute"
-                            : "fa-solid fa-eye-slash position-absolute"
-                        }
-                      />
-                
+                <i
+                  i="true"
+                  onClick={() => setShowIcons(!showIcons)}
+                  className={
+                    showIcons
+                      ? "fa-solid fa-eye position-absolute"
+                      : "fa-solid fa-eye-slash position-absolute"
+                  }
+                />
+
                 {errors.mentor_confirm_password && (
-                  <p className="Error-meg-login-register">{errors.mentor_confirm_password.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_confirm_password.message}
+                  </p>
                 )}
 
                 {/* <i className="fa-solid fa-eye position-absolute"></i> */}
@@ -276,23 +327,24 @@ const MentorForm1 = () => {
 
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
-                <label 
-                // htmlFor="exampleInputEmail1"
-                 className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>Can we use your LinkedIn Photo for the Profile Pic</b>
                 </label>
                 <input
-                  
                   type="file"
-                   accept=".jpg"
-                
+                  accept=".jpg"
                   className="form-control"
                   {...register("linkedin_photo", {
                     required: "Upload Photo",
                   })} //1
                 />
                 {errors.linkedin_photo && (
-                  <p className="Error-meg-login-register">{errors.linkedin_photo.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.linkedin_photo.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -313,9 +365,10 @@ const MentorForm1 = () => {
 
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
-                <label 
-                // htmlFor="exampleInputEmail1"
-                 className="form-label">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
                   <b>Social Media Profile</b>
                 </label>
                 <input
@@ -329,7 +382,9 @@ const MentorForm1 = () => {
                   className="form-control"
                 />
                 {errors.social_media_profile && (
-                  <p className="Error-meg-login-register">{errors.social_media_profile.message}</p>
+                  <p className="Error-meg-login-register">
+                    {errors.social_media_profile.message}
+                  </p>
                 )}
               </div>
             </div>

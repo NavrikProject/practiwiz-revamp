@@ -8,7 +8,9 @@ import MentorForm3 from "./MentorForm3";
 // const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
-  const methods = useForm({});
+  const methods = useForm({
+    
+  });
   const [page, setPage] = useState(0);
   const { watch, setValue, trigger, getValues } = methods;
 
@@ -57,15 +59,16 @@ const MentorStepForm = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSubmit = async (data) => {
-    if (step < 3) {
-      const isValid = await trigger(); // Validate current step
-      if (isValid) {
-        console.log("error");
-      }
-    } else {
-      console.log(data);
-      // downloadFormData(data);
-    }
+    console.log(data);
+    // if (step < 3) {
+    //   const isValid = await trigger(); // Validate current step
+    //   if (isValid) {
+    //     console.log("error");
+    //   }
+    // } else {
+    //   console.log(data);
+    //   // downloadFormData(data);
+    // }
   };
   const nextbtn = () => {
     nextStep();

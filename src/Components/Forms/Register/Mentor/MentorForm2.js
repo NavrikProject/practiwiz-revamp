@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
+import "./input-radio.css"
 
 const MentorForm2 = () => {
   const {
@@ -14,7 +15,7 @@ const MentorForm2 = () => {
     { id: "draggable2", text: " Management ", inside: false },
     { id: "draggable3", text: "Leadership", inside: false },
     { id: "draggable4", text: "Career Guidance", inside: false },
-    { id: "draggable5", text: "Public Speaking", inside: false },
+    { id: "draggable5", text: "Public Speaking", inside: false }
   ]);
 
   const handleDragStart = (e, id) => {
@@ -216,12 +217,12 @@ const MentorForm2 = () => {
         </div>
 
         <div className="row">
-          <div className="col-lg-12 mb-4">
+          <div className="col-lg-12 mb-4 ">
             <label htmlFor="exampleInputEmail1" className="form-label mb-0">
               <b>Areas of Expertise</b>
             </label>
 
-            <div className="moideuirer_list">
+            <div className="moideuirer_list ">
               <ul className="ps-0 mb-0">
                 <li>
                   <input
@@ -363,14 +364,15 @@ const MentorForm2 = () => {
               <b>Academic Qualification</b>
             </label>
 
-            <div className="dkjiherer moideuirer_list">
+            <div className="dkjiherer moideuirer_list hello">
               <ul className="ps-0 mb-0">
                 <li>
                   <input
-                    type="checkbox"
+                
+                    type="radio"
                     id="check_11"
                     name="check_11"
-                    value="check_11"
+                    value="Post Graduate"
                     {...register("academic_qualification", {
                       // required: "First Name is required",
                     })} //1
@@ -381,10 +383,10 @@ const MentorForm2 = () => {
 
                 <li>
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="check_20"
                     name="check_20"
-                    value="check_20"
+                    value="Graduate"
                     {...register("academic_qualification", {
                       // required: "First Name is required",
                     })} //1
@@ -395,10 +397,10 @@ const MentorForm2 = () => {
 
                 <li>
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="check_30"
                     name="check_30"
-                    value="check_30"
+                    value="Doctorate"
                     {...register("academic_qualification", {
                       // required: "First Name is required",
                     })} //1
@@ -431,7 +433,7 @@ const MentorForm2 = () => {
             <input
               type="text"
               className="form-control"
-              id="exampleInputEmail1"
+              // id="exampleInputEmail1"
               placeholder="Type A Headline Here"
               aria-describedby="emailHelp"
               {...register("mentor_Headline", {
