@@ -5,18 +5,22 @@ import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 
 import MentorForm3 from "./MentorForm3";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
 // const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
-  const methods = useForm({
-    
-  });
+
+  
+
+  const url = ApiURL();
+  const methods = useForm({});
+
   const [page, setPage] = useState(0);
   const { watch, setValue, trigger, getValues } = methods;
 
   const FormTitles = ["ABOUT YOURSELF", "YOUR SUPER POWER", "PREFERENCES"];
   const [step, setStep] = useState(1);
-
   const PageDisplay = () => {
     if (page === 0) {
       return <MentorForm1 />;
@@ -36,7 +40,6 @@ const MentorStepForm = () => {
       setPage((currPage) => currPage + 1);
     }
   };
-
   const tab1 = () => {
     setPage(0);
   };
@@ -47,18 +50,18 @@ const MentorStepForm = () => {
     setPage(2);
   };
 
-  const nextStep = async () => { 
+  const nextStep = async () => {
     setStep((prev) => prev + 1);
-    
+
     const result = await trigger();
     if (result) {
       setPageCount();
-     
     }
   };
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSubmit = async (data) => {
+
     console.log(data);
     // if (step < 3) {
     //   const isValid = await trigger(); // Validate current step
@@ -69,6 +72,34 @@ const MentorStepForm = () => {
     //   console.log(data);
     //   // downloadFormData(data);
     // }
+
+    if (step < 3) {
+      const isValid = await trigger(); // Validate current step
+      if (isValid) {
+        console.log("error");
+      }
+    } else {
+      try {
+        const formData = new FormData();
+        Object.keys(data).forEach((key) => {
+          formData.append(key, data[key]);
+        });
+
+        const res = await axios.post(
+          `${url}api/v1/mentor/registration`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
   };
   const nextbtn = () => {
     nextStep();
@@ -81,7 +112,7 @@ const MentorStepForm = () => {
             id="tabs"
             className="d-flex justify-content-between align-items-center mb-4"
           >
-            {page == 0 ? (
+            {page === 0 ? (
               <button
                 className="btn btn-primary tablinks active"
                 data-tab="form1"
@@ -97,7 +128,7 @@ const MentorStepForm = () => {
                 <i className="fa-solid me-1 fa-user"></i> ABOUT YOURSELF
               </button>
             )}
-            {page == 1 ? (
+            {page === 1 ? (
               <button
                 className="btn btn-primary tablinks active"
                 data-tab="form2"
@@ -113,7 +144,7 @@ const MentorStepForm = () => {
                 <i className="fa-solid me-1 fa-bolt"></i> YOUR SUPER POWER
               </button>
             )}
-            {page == 2 ? (
+            {page === 2 ? (
               <button
                 className="btn btn-primary tablinks active"
                 data-tab="form3"

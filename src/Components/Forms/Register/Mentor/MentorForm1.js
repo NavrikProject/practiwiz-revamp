@@ -26,23 +26,26 @@ const MentorForm1 = () => {
           And Total 8 For Complete Profile
         </h5>
       </div>
-
       <div className="doiherner_wrapper ">
         <div className="row">
           <div className="col-lg-12 ">
-            {/* <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
-              <label htmlFor="exampleInputEmail1" className="form-label mb-2 mt-3">
+            <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
+              <label
+                htmlFor="exampleInputEmail1"
+                className="form-label mb-2 mt-3"
+              >
                 <b>I Want To Register As</b>
               </label>
               <br />
-
               <input
                 type="radio"
                 id="rdo1"
                 className="radio-input"
-               name="apple"
-                value="green"
-                {...register(`Menter`)} //1
+                name="apple"
+                value="mentor"
+                {...register("mentor", {
+                  required: "select this button",
+                })}
               />
               <label htmlFor="rdo1" className="radio-label me-2">
                 <span className="radio-border"></span>
@@ -52,32 +55,46 @@ const MentorForm1 = () => {
                 ></i>
                 Mentor
               </label>
-
-              <input
-                type="radio"
-                id="rdo2"
-                className="radio-input"
-                name="apple"
-                value="red"
-                {...register("Mentee", {
-                  // required: "First Name is required",
-                })} //1
-              />
+              <label
+                htmlFor="rdo2"
+                className="radio-label"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "10px" }}
+              >
+                <i
+                  className="fa-solid fa-graduation-cap me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                <Link to="/mentee-registration">Mentee</Link>
+              </label>
               <label
                 htmlFor="rdo2"
                 className="radio-label"
                 id="menteeRegistrationlink"
               >
-                <span className="radio-border"></span>
                 <i
-                  className="fa-solid fa-graduation-cap me-1"
+                  className="fa-solid fa-briefcase me-1"
                   style={{ color: "#1B759A" }}
                 ></i>
-                <Link to="/mentee-registration">Mentee </Link>
+                <Link to="/mentee-registration">Job Seeker</Link>
               </label>
-
-             
-            </div> */}
+              <label
+                htmlFor="rdo2"
+                className="radio-label"
+                id="menteeRegistrationlink"
+              >
+                <i
+                  className="fa-solid fa-building-columns me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                <Link to="/mentee-registration">Institute</Link>
+              </label>
+              {errors.mentor && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor.message}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
@@ -163,6 +180,7 @@ const MentorForm1 = () => {
                   })} //1
                 />
                 {errors.mentor_phone_number && (
+<<<<<<< HEAD
                   <p className="Error-meg-login-register">{errors.mentor_phone_number.message}</p>
                 )} */}
                 <Controller
@@ -192,12 +210,14 @@ const MentorForm1 = () => {
                     />
                   )}
                 />
-              </div>
               {errors.mentor_phone_number && (
                 <p className="Error-meg-login-register">
                   {errors.mentor_phone_number.message}
                 </p>
               )}
+
+              </div>
+              
             </div>
 
             <div className="col-lg-6">

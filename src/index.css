@@ -44,6 +44,9 @@
 .text-danger {
   color: red;
 }
-.Error-meg-login-register{
+.Error-meg-login-register {
   color: red;
+  margin-left: 10px;
+  font-size: 14px;
+  text-transform: lowercase;
 }

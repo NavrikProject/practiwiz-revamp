@@ -1,7 +1,9 @@
 import React from "react";
-import { useFormContext, Controller } from "react-hook-form";
+
 import ReactFlagsSelect from "react-flags-select";
 import { useState } from "react";
+
+import { useFormContext } from "react-hook-form";
 
 const MentorForm3 = () => {
   const handleSelect = (code) => {
@@ -11,9 +13,12 @@ const MentorForm3 = () => {
   const {
     register,
     setValue,
+    watch,
     control,
     formState: { errors },
   } = useFormContext();
+  const F_Name = watch("mentor_firstname");
+  const L_Name = watch("mentor_lastname");
   const [selected, setSelected] = useState("");
   const [timezome, settimezone] = useState("");
   // const handleExpertiseChange = (e) => {
@@ -115,6 +120,82 @@ const MentorForm3 = () => {
     "Finnish",
   ];
 
+  const [items, setItems] = useState([
+    { id: "8:00-8:30AM", text: "8:00-8:30AM", inside: false },
+    { id: "8:30-9:00AM", text: "8:30-9:00AM", inside: false },
+    { id: "9:00-9:30AM", text: "9:00-9:30AM", inside: false },
+    { id: "9:30-10:00AM", text: "9:30-10:00AM", inside: false },
+    { id: "10:00-10:30AM", text: "10:00-10:30AM", inside: false },
+    { id: "10:30-11:00AM", text: "10:30-11:00AM", inside: false },
+    { id: "11:00-11:30AM", text: "11:00-11:30AM", inside: false },
+    { id: "11:30-12:00PM", text: "11:30-12:00PM", inside: false },
+    { id: "12:00-12:30PM", text: "12:00-12:30PM", inside: false },
+    { id: "12:30-1:00PM", text: "12:30-1:00PM", inside: false },
+    { id: "1:00-1:30PM", text: "1:00-1:30PM", inside: false },
+    { id: "1:30-2:00PM", text: "1:30-2:00PM", inside: false },
+    { id: "2:00-2:30PM", text: "2:00-2:30PM", inside: false },
+    { id: "2:30-3:00PM", text: "2:30-3:00PM", inside: false },
+    { id: "3:00-3:30PM", text: "3:00-3:30PM", inside: false },
+    { id: "3:30-4:00PM", text: "3:30-4:00PM", inside: false },
+    { id: "4:00-4:30PM", text: "4:00-4:30PM", inside: false },
+    { id: "4:30-5:00PM", text: "4:30-5:00PM", inside: false },
+    { id: "5:00-5:30PM", text: "5:00-5:30PM", inside: false },
+    { id: "5:30-6:00PM", text: "5:30-6:00PM", inside: false },
+    { id: "6:00-6:30PM", text: "6:00-6:30PM", inside: false },
+    { id: "6:30-7:00PM", text: "6:30-7:00PM", inside: false },
+    { id: "7:00-7:30PM", text: "7:00-7:30PM", inside: false },
+    { id: "7:30-8:00PM", text: "7:30-8:00PM", inside: false },
+    { id: "8:00-8:30PM", text: "8:00-8:30PM", inside: false },
+    { id: "8:30-9:00PM", text: "8:30-9:00PM", inside: false },
+    { id: "9:00-9:30PM", text: "9:00-9:30PM", inside: false },
+    { id: "9:30-10:00PM", text: "9:30-10:00PM", inside: false },
+    { id: "10:00-10:30PM", text: "10:00-10:30PM", inside: false },
+    { id: "10:30-11:00PM", text: "10:30-11:00PM", inside: false },
+  ]);
+
+  const handleDragStartTimeSlot = (e, id) => {
+    e.dataTransfer.setData("text/plain", id);
+    setTimeout(() => {
+      e.target.classList.add("hide");
+    }, 0);
+  };
+
+  const handleDragEndTimeSlot = (e) => {
+    e.target.classList.remove("hide");
+  };
+
+  const handleDragOverTimeSlot = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDropInContainerTimeSlot = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: true } : item))
+    );
+    updateFormData();
+  };
+
+  const handleDropOutsideTimeSlot = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+    );
+    updateFormData();
+  };
+
+  const handleDeleteTimeSlot = (id) => {
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+    );
+    updateFormData();
+  };
+  const updateFormData = () => {
+    setValue("time_slot", items);
+  };
+
   return (
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
@@ -149,7 +230,7 @@ const MentorForm3 = () => {
                 type="date"
                 className="form-control"
                 id="exampleInputPassword1"
-                placeholder="Your Experience"
+                // placeholder="Your Experience"
                 {...register("preferred_contact_dates", {
                   required: "Preffered Contact Dates is required",
                 })} //1
@@ -170,11 +251,17 @@ const MentorForm3 = () => {
 
               <div className="d-flex align-items-center">
                 <div className="hinrer_circle position-relative me-3">
-                  <h2>SK</h2>
+                  <h2>
+                    {F_Name.charAt(0)}
+                    {L_Name.charAt(0)}
+                  </h2>
                 </div>
 
                 <div className="idhnerier_right">
-                  <h4 className="mb-1">Sawan Kumar</h4>
+                  <h4 className="mb-1">
+                    {F_Name}&nbsp;
+                    {L_Name}
+                  </h4>
 
                   <p className="mb-1">
                     <b>40% Complete</b>
@@ -185,7 +272,85 @@ const MentorForm3 = () => {
               </div>
             </div>
           </div>
+          <div className="row align-items-center">
+            <div className="col-lg-7 mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Choose Your time slots!</b>
+              </label>
+              <div
+                type=""
+                id="container"
+                className="bg-white"
+                onDragOver={handleDragOverTimeSlot}
+                onDrop={handleDropInContainerTimeSlot}
+                style={{
+                  overflowY: "scroll",
+                  overflowX: "hidden",
+                  height: "200px",
+                }}
+              >
+                {items
+                  .filter((item) => item.inside)
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      id={item.id}
+                      className="draggable inside"
+                      // className="draggable"
+                      draggable
+                      onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
+                      onDragEnd={handleDragEndTimeSlot}
+                    >
+                      {item.inside && (
+                        <span
+                          className="close-btn"
+                          onClick={() => handleDeleteTimeSlot(item.id)}
+                        >
+                          &times;
+                        </span>
+                      )}
+                      {item.text}
+                    </div>
+                  ))}
+              </div>
 
+              <p className="iduehnbriee_text mb-0">
+                (*Drag and drop the most suitable slot time option in the box.
+                This slots will be displayed for booking the mentor session with
+                you*)
+              </p>
+            </div>
+
+            <div
+              className="col-lg-5 mb-4"
+              style={{
+                overflowY: "scroll",
+                overflowX: "hidden",
+                height: "200px",
+              }}
+            >
+              <div
+                id="outside-container"
+                onDragOver={handleDragOverTimeSlot}
+                onDrop={handleDropOutsideTimeSlot}
+              >
+                {items
+                  .filter((item) => !item.inside)
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      id={item.id}
+                      className="draggable"
+                      draggable
+                      onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
+                      onDragEnd={handleDragEndTimeSlot}
+                    >
+                      {item.text}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -226,6 +391,8 @@ const MentorForm3 = () => {
               >
                 <option value="">Choose An Option</option>
 
+                <option defaultValue>Choose An Option</option>
+
                 <option>Yes</option>
 
                 <option>No</option>
@@ -255,6 +422,8 @@ const MentorForm3 = () => {
                 })} //1
               >
                 <option value="">Choose An Option</option>
+
+                <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
 
@@ -331,29 +500,27 @@ const MentorForm3 = () => {
                 <b>Which Country You Live in?</b>
               </label>
 
-              <Controller
-                name="mentor_country"
-                control={control}
-                rules={{ required: "This field is required" }}
-                render={({ field }) => (
-                  <ReactFlagsSelect
-                    className="country-flag"
-                    searchPlaceholder="Search countries"
-                    searchable
-                    selected={field.value}
-                    onSelect={field.onChange}
-                  />
-                )}
+              {/* <select
+                className="form-select"
+                {...register("mentor_country", {
+                  required: "required",
+                })} //1
+              >
+                <option defaultValue>Your Country Name</option>
+              </select> */}
+              <ReactFlagsSelect
+                selected={selected}
+                className="country-flag"
+                onSelect={(code) => setSelected(code)}
+                // onClick={handle9}
+                
               />
             </div>
             {errors.mentor_country && (
-              <p className="Error-meg-login-register mt-5 ">
+              <p className="Error-meg-login-register">
                 {errors.mentor_country.message}
               </p>
             )}
-            {/* { !selected &&
-            <div className="mt-5">helo</div>
-           } */}
           </div>
         </div>
       </div>

@@ -7,9 +7,11 @@ const MentorForm2 = () => {
   const {
     register,
     formState: { errors },
-    setValue
+    watch,
+    setValue,
   } = useFormContext();
-
+  const F_Name = watch("mentor_firstname");
+  const L_Name = watch("mentor_lastname");
   const [items, setItems] = useState([
     { id: "draggable1", text: " Technology", inside: false },
     { id: "draggable2", text: " Management ", inside: false },
@@ -40,7 +42,6 @@ const MentorForm2 = () => {
       items.map((item) => (item.id === id ? { ...item, inside: true } : item))
     );
     updateFormData();
-    
   };
 
   const handleDropOutside = (e) => {
@@ -59,7 +60,7 @@ const MentorForm2 = () => {
     updateFormData();
   };
   const updateFormData = () => {
-    setValue('passionate_about', items);
+    setValue("passionate_about", items);
   };
 
   return (
@@ -82,8 +83,10 @@ const MentorForm2 = () => {
                 })} //1
               />
               {errors.mentor_job_title && (
-                  <p className="Error-meg-login-register">{errors.mentor_job_title.message}</p>
-                )}
+                <p className="Error-meg-login-register">
+                  {errors.mentor_job_title.message}
+                </p>
+              )}
             </div>
             <div className="mb-4">
               <label htmlFor="exampleInputPassword1" className="form-label">
@@ -97,8 +100,11 @@ const MentorForm2 = () => {
                 {...register("years_of_experience", {
                   required: "Years of Experience is required",
                 })} //1
-              />{errors.years_of_experience && (
-                <p className="Error-meg-login-register">{errors.years_of_experience.message}</p>
+              />
+              {errors.years_of_experience && (
+                <p className="Error-meg-login-register">
+                  {errors.years_of_experience.message}
+                </p>
               )}
             </div>
 
@@ -115,8 +121,11 @@ const MentorForm2 = () => {
                 {...register("mentor_company_name", {
                   required: "Company name is required",
                 })} //1
-              />{errors.mentor_company_name && (
-                <p className="Error-meg-login-register">{errors.mentor_company_name.message}</p>
+              />
+              {errors.mentor_company_name && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_company_name.message}
+                </p>
               )}
             </div>
           </div>
@@ -129,11 +138,11 @@ const MentorForm2 = () => {
 
               <div className="d-flex align-items-center">
                 <div className="hinrer_circle position-relative me-3">
-                  <h2>SK</h2>
+                  <h2>{F_Name.charAt(0)}{L_Name.charAt(0)}</h2>
                 </div>
 
                 <div className="idhnerier_right">
-                  <h4 className="mb-1">Sawan Kumar</h4>
+                  <h4 className="mb-1">{F_Name}&nbsp;{ L_Name}</h4>
 
                   <p className="mb-1">
                     <b>40% Complete</b>
@@ -157,6 +166,11 @@ const MentorForm2 = () => {
               className="bg-white"
               onDragOver={handleDragOver}
               onDrop={handleDropInContainer}
+              style={{
+                overflowY: "scroll",
+                overflowX: "hidden",
+                height: "200px",
+              }}
             >
               {items
                 .filter((item) => item.inside)
@@ -169,17 +183,14 @@ const MentorForm2 = () => {
                     draggable
                     onDragStart={(e) => handleDragStart(e, item.id)}
                     onDragEnd={handleDragEnd}
-                   
                   >
-
                     {item.inside && (
                       <span
-                      className="close-btn"
-                      onClick={() => handleDelete(item.id)}
-                      // onclick="removeFromContainer('draggable1')"
-                    >
-                      &times;
-                    </span>
+                        className="close-btn"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        &times;
+                      </span>
                     )}
                     {item.text}
                   </div>
@@ -191,7 +202,14 @@ const MentorForm2 = () => {
             </p>
           </div>
 
-          <div className="col-lg-5 mb-4">
+          <div
+            className="col-lg-5 mb-4"
+            style={{
+              overflowY: "scroll",
+              overflowX: "hidden",
+              height: "200px",
+            }}
+          >
             <div
               id="outside-container"
               onDragOver={handleDragOver}
@@ -207,7 +225,6 @@ const MentorForm2 = () => {
                     draggable
                     onDragStart={(e) => handleDragStart(e, item.id)}
                     onDragEnd={handleDragEnd}
-                    
                   >
                     {item.text}
                   </div>
@@ -377,7 +394,7 @@ const MentorForm2 = () => {
                       // required: "First Name is required",
                     })} //1
                   />
-                  
+
                   <label htmlFor="check_11">Post Graduate</label>
                 </li>
 
@@ -391,7 +408,7 @@ const MentorForm2 = () => {
                       // required: "First Name is required",
                     })} //1
                   />
-                  
+
                   <label htmlFor="check_20">Graduate</label>
                 </li>
 
@@ -405,7 +422,7 @@ const MentorForm2 = () => {
                       // required: "First Name is required",
                     })} //1
                   />
-                 
+
                   <label htmlFor="check_30">Doctorate</label>
                 </li>
               </ul>
@@ -424,7 +441,6 @@ const MentorForm2 = () => {
               })} //1
             ></textarea>
           </div>
-          
 
           <div className="col-lg-12 mb-4">
             <label htmlFor="exampleInputEmail1" className="form-label">
