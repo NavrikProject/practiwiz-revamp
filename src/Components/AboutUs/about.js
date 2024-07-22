@@ -33,7 +33,7 @@ function About() {
                     anything embarrassing hidden in the middle of text.
                   </p>
                   <button className="btn-main">
-                    BOOK A FREE DEMO{" "}
+                    BOOK A FREE DEMO
                     <i className="fa-solid fa-circle-right"></i>
                   </button>
                 </div>

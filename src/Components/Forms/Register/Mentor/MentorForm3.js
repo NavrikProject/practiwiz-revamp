@@ -1,12 +1,87 @@
-import React from "react";
-import { useFormContext } from 'react-hook-form';
-
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 const MentorForm3 = () => {
   const {
     register,
+    setValue,
     formState: { errors },
   } = useFormContext();
+  const [items, setItems] = useState([
+    { id: "8:00-8:30AM", text: "8:00-8:30AM", inside: false },
+    { id: "8:30-9:00AM", text: "8:30-9:00AM", inside: false },
+    { id: "9:00-9:30AM", text: "9:00-9:30AM", inside: false },
+    { id: "9:30-10:00AM", text: "9:30-10:00AM", inside: false },
+    { id: "10:00-10:30AM", text: "10:00-10:30AM", inside: false },
+    { id: "10:30-11:00AM", text: "10:30-11:00AM", inside: false },
+    { id: "11:00-11:30AM", text: "11:00-11:30AM", inside: false },
+    { id: "11:30-12:00PM", text: "11:30-12:00PM", inside: false },
+    { id: "12:00-12:30PM", text: "12:00-12:30PM", inside: false },
+    { id: "12:30-1:00PM", text: "12:30-1:00PM", inside: false },
+    { id: "1:00-1:30PM", text: "1:00-1:30PM", inside: false },
+    { id: "1:30-2:00PM", text: "1:30-2:00PM", inside: false },
+    { id: "2:00-2:30PM", text: "2:00-2:30PM", inside: false },
+    { id: "2:30-3:00PM", text: "2:30-3:00PM", inside: false },
+    { id: "3:00-3:30PM", text: "3:00-3:30PM", inside: false },
+    { id: "3:30-4:00PM", text: "3:30-4:00PM", inside: false },
+    { id: "4:00-4:30PM", text: "4:00-4:30PM", inside: false },
+    { id: "4:30-5:00PM", text: "4:30-5:00PM", inside: false },
+    { id: "5:00-5:30PM", text: "5:00-5:30PM", inside: false },
+    { id: "5:30-6:00PM", text: "5:30-6:00PM", inside: false },
+    { id: "6:00-6:30PM", text: "6:00-6:30PM", inside: false },
+    { id: "6:30-7:00PM", text: "6:30-7:00PM", inside: false },
+    { id: "7:00-7:30PM", text: "7:00-7:30PM", inside: false },
+    { id: "7:30-8:00PM", text: "7:30-8:00PM", inside: false },
+    { id: "8:00-8:30PM", text: "8:00-8:30PM", inside: false },
+    { id: "8:30-9:00PM", text: "8:30-9:00PM", inside: false },
+    { id: "9:00-9:30PM", text: "9:00-9:30PM", inside: false },
+    { id: "9:30-10:00PM", text: "9:30-10:00PM", inside: false },
+    { id: "10:00-10:30PM", text: "10:00-10:30PM", inside: false },
+    { id: "10:30-11:00PM", text: "10:30-11:00PM", inside: false },
+  ]);
+
+  const handleDragStartTimeSlot = (e, id) => {
+    e.dataTransfer.setData("text/plain", id);
+    setTimeout(() => {
+      e.target.classList.add("hide");
+    }, 0);
+  };
+
+  const handleDragEndTimeSlot = (e) => {
+    e.target.classList.remove("hide");
+  };
+
+  const handleDragOverTimeSlot = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDropInContainerTimeSlot = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: true } : item))
+    );
+    updateFormData();
+  };
+
+  const handleDropOutsideTimeSlot = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+    );
+    updateFormData();
+  };
+
+  const handleDeleteTimeSlot = (id) => {
+    setItems(
+      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+    );
+    updateFormData();
+  };
+  const updateFormData = () => {
+    setValue("passionate_about", items);
+  };
   return (
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
@@ -27,8 +102,10 @@ const MentorForm3 = () => {
                 })} //1
               />
               {errors.preferred_contact_timings && (
-                  <p className="Error-meg-login-register">{errors.preferred_contact_timings.message}</p>
-                )}
+                <p className="Error-meg-login-register">
+                  {errors.preferred_contact_timings.message}
+                </p>
+              )}
             </div>
 
             <div className="mb-4">
@@ -45,8 +122,10 @@ const MentorForm3 = () => {
                 })} //1
               />
               {errors.preferred_contact_dates && (
-                  <p className="Error-meg-login-register">{errors.preferred_contact_dates.message}</p>
-                )}
+                <p className="Error-meg-login-register">
+                  {errors.preferred_contact_dates.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -73,18 +152,96 @@ const MentorForm3 = () => {
               </div>
             </div>
           </div>
+          <div className="row align-items-center">
+            <div className="col-lg-7 mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Choose Your time slots!</b>
+              </label>
+              <div
+                type=""
+                id="container"
+                className="bg-white"
+                onDragOver={handleDragOverTimeSlot}
+                onDrop={handleDropInContainerTimeSlot}
+                style={{
+                  overflowY: "scroll",
+                  overflowX: "hidden",
+                  height: "200px",
+                }}
+              >
+                {items
+                  .filter((item) => item.inside)
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      id={item.id}
+                      className="draggable inside"
+                      // className="draggable"
+                      draggable
+                      onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
+                      onDragEnd={handleDragEndTimeSlot}
+                    >
+                      {item.inside && (
+                        <span
+                          className="close-btn"
+                          onClick={() => handleDeleteTimeSlot(item.id)}
+                        >
+                          &times;
+                        </span>
+                      )}
+                      {item.text}
+                    </div>
+                  ))}
+              </div>
 
+              <p className="iduehnbriee_text mb-0">
+                (*Drag and drop the most suitable slot time option in the box.
+                This slots will be displayed for booking the mentor session with
+                you*)
+              </p>
+            </div>
+
+            <div
+              className="col-lg-5 mb-4"
+              style={{
+                overflowY: "scroll",
+                overflowX: "hidden",
+                height: "200px",
+              }}
+            >
+              <div
+                id="outside-container"
+                onDragOver={handleDragOverTimeSlot}
+                onDrop={handleDropOutsideTimeSlot}
+              >
+                {items
+                  .filter((item) => !item.inside)
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      id={item.id}
+                      className="draggable"
+                      draggable
+                      onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
+                      onDragEnd={handleDragEndTimeSlot}
+                    >
+                      {item.text}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Would You Be Interested in Delivering Guest Lectures?</b>
               </label>
 
-              <select className="form-select"
+              <select
+                className="form-select"
                 {...register("guest_lectures_interest", {
                   required: " required",
                 })} //1
-                
               >
                 {/* <option defaultValue>Choose An Option</option> */}
 
@@ -94,8 +251,10 @@ const MentorForm3 = () => {
               </select>
             </div>
             {errors.guest_lectures_interest && (
-                  <p className="Error-meg-login-register">{errors.guest_lectures_interest.message}</p>
-                )}
+              <p className="Error-meg-login-register">
+                {errors.guest_lectures_interest.message}
+              </p>
+            )}
           </div>
 
           <div className="col-lg-6">
@@ -104,12 +263,12 @@ const MentorForm3 = () => {
                 <b>Would You Be Interested in Curating Case Studies?</b>
               </label>
 
-              <select className="form-select"
+              <select
+                className="form-select"
                 {...register("curating_case_studies_interest", {
                   required: "required",
                 })} //1
               >
-                
                 <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
@@ -118,8 +277,10 @@ const MentorForm3 = () => {
               </select>
             </div>
             {errors.curating_case_studies_interest && (
-                  <p className="Error-meg-login-register">{errors.curating_case_studies_interest.message}</p>
-                )}
+              <p className="Error-meg-login-register">
+                {errors.curating_case_studies_interest.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -132,11 +293,12 @@ const MentorForm3 = () => {
                 </b>
               </label>
 
-              <select className="form-select"
+              <select
+                className="form-select"
                 {...register("sessions_free_of_charge", {
                   required: "required",
                 })} //1
-                >
+              >
                 <option defaultValue>Choose An Option</option>
 
                 <option>Yes</option>
@@ -145,8 +307,10 @@ const MentorForm3 = () => {
               </select>
             </div>
             {errors.sessions_free_of_charge && (
-                  <p className="Error-meg-login-register">{errors.sessions_free_of_charge.message}</p>
-                )}
+              <p className="Error-meg-login-register">
+                {errors.sessions_free_of_charge.message}
+              </p>
+            )}
           </div>
 
           <div className="col-lg-6">
@@ -155,7 +319,8 @@ const MentorForm3 = () => {
                 <b>Your Timezone</b>
               </label>
 
-              <select className="form-select"
+              <select
+                className="form-select"
                 {...register("mentor_timezone", {
                   required: "required",
                 })} //1
@@ -164,8 +329,10 @@ const MentorForm3 = () => {
               </select>
             </div>
             {errors.mentor_timezone && (
-                  <p className="Error-meg-login-register">{errors.mentor_timezone.message}</p>
-                )}
+              <p className="Error-meg-login-register">
+                {errors.mentor_timezone.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -176,7 +343,8 @@ const MentorForm3 = () => {
                 <b>Language</b>
               </label>
 
-              <select className="form-select"
+              <select
+                className="form-select"
                 {...register("mentor_language", {
                   required: "required",
                 })} //1
@@ -185,8 +353,10 @@ const MentorForm3 = () => {
               </select>
             </div>
             {errors.mentor_language && (
-                  <p className="Error-meg-login-register">{errors.mentor_language.message}</p>
-                )}
+              <p className="Error-meg-login-register">
+                {errors.mentor_language.message}
+              </p>
+            )}
           </div>
 
           <div className="col-lg-6">
@@ -195,7 +365,8 @@ const MentorForm3 = () => {
                 <b>Which Country You Live in?</b>
               </label>
 
-              <select className="form-select"
+              <select
+                className="form-select"
                 {...register("mentor_country", {
                   required: "required",
                 })} //1
@@ -204,8 +375,10 @@ const MentorForm3 = () => {
               </select>
             </div>
             {errors.mentor_country && (
-                  <p className="Error-meg-login-register">{errors.mentor_country.message}</p>
-                )}
+              <p className="Error-meg-login-register">
+                {errors.mentor_country.message}
+              </p>
+            )}
           </div>
         </div>
       </div>
