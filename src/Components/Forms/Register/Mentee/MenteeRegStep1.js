@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
-// import "react-phone-input-2/lib/style.css";
-// import "./Phone-input-style.css";
+import "react-phone-input-2/lib/style.css";
+import "./Phone-input-style.css";
 import "./MenteeReg.css";
 const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const [showIcon, setShowIcon] = useState(false);
@@ -135,7 +135,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
           </label>
           <div className="h-25">
             <Controller
-              className="form-control h-25"
+              // className="form-control h-25"
               name="mentee_phone_number"
               control={control}
               rules={{
@@ -153,7 +153,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               render={({ field }) => (
                 <PhoneInput
                   {...field}
-                  className="form-control"
+                  inputClass="form-control"
                   country={"in"}
                   value={field.value}
                   onChange={(phone) => field.onChange(phone)}

@@ -4,7 +4,9 @@ import LnIcon from "./deeteewe.png";
 import { useFormContext, Controller } from "react-hook-form";
 import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
+// import '../Mentee/Phone-input-style.css'
 import "react-phone-input-2/lib/style.css";
+import "./register.css"
 const MentorForm1 = () => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
@@ -200,7 +202,7 @@ const MentorForm1 = () => {
                   defaultValue=""
                   render={({ field }) => (
                     <PhoneInput
-                  
+                 
                       {...field}
                       country={"in"}
                       value={field.value}
