@@ -92,9 +92,9 @@ const MentorForm3 = () => {
     <>
       <div>
         {/* <div className="jdoieoir_wrapper"> */}
-          <div className="line-1">Set your availability</div>
-          <div className="topfield">
-            {/* <div className="mb-4">
+        <div className="line-1">Set your availability</div>
+        <div className="topfield">
+          {/* <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>RECURRING</b>
               </label>
@@ -107,7 +107,7 @@ const MentorForm3 = () => {
                 
               </select>
             </div> */}
-            {/* <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>RECURRING</b>
               </label>
@@ -129,9 +129,9 @@ const MentorForm3 = () => {
                 />
                 </div> */}
 
-            {/* { showAdditionalOptions && ( <> */}
+          {/* { showAdditionalOptions && ( <> */}
 
-            {/* <div className="mb-4">
+          {/* <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>AVAILABILITY CHECK </b>
               </label>
@@ -155,7 +155,7 @@ const MentorForm3 = () => {
                 </p>
               )}
             </div> */}
-            {/* <div className="mb-4">
+          {/* <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>From Date </b>
               </label>
@@ -176,7 +176,7 @@ const MentorForm3 = () => {
                     </p>
                   )}
             </div> */}
-            {/* <div className="mb-4">
+          {/* <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>To Date</b>
               </label>
@@ -199,89 +199,87 @@ const MentorForm3 = () => {
             
             </div> */}
 
-            {/* </>  )} */}
-          </div>
-          <div className="whole">
-            <div
-              onSubmit={handleSubmit(onSubmit)}
-              // style={styles.form}
-              className="doiherner_wrapper"
-            >
-              <div className="linesepration">
-                <div className="line-2">Select Days</div>
+          {/* </>  )} */}
+        </div>
+        <div className="whole">
+          <div
+            onSubmit={handleSubmit(onSubmit)}
+            // style={styles.form}
+            className="doiherner_wrapper"
+          >
+            <div className="linesepration">
+              <div className="line-2">Select Days</div>
 
-                <span className="line-3">
-                  Choose your preferred time slots for the selected day
-                </span>
+              <span className="line-3">
+                Choose your preferred time slots for the selected day
+              </span>
+            </div>
+
+            <div style={styles.container} className="main">
+              <div className="dayColumn">
+                {daysOfWeek.map((day) => (
+                  <div className="daycolumns" key={day} style={styles.dayRow}>
+                    <h6 style={styles.dayLabel}>{day}</h6>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={selectedDays[day]}
+                        onChange={(e) => handleDaySwitch(day, e.target.checked)}
+                        onClick={defaultshow}
+                      />
+                      <span className="slider round"></span>
+                    </label>
+                  </div>
+                ))}
               </div>
+              <div style={styles.slotsColumn} className="timeSlotRow">
+                {!condition ? (
+                  daysOfWeek.map(
+                    (day) =>
+                      selectedDays[day] && (
+                        <div
+                          className="innertimeslot"
+                          key={day}
+                          style={styles.daySlots}
+                        >
+                          <h6>{day}</h6>
+                          <TimeSlots control={control} day={day} />
+                        </div>
+                      )
+                  )
+                ) : (
+                  <div className="Timecolumn">
+                    <div style={styles.timeSlotRow} className="timeslots">
+                      <span style={styles.toLabel} className="tolabel">
+                        FROM :
+                      </span>
+                      <input type="time" />
 
-              <div style={styles.container} className="main">
-                <div className="dayColumn">
-                  {daysOfWeek.map((day) => (
-                    <div className="daycolumns" key={day} style={styles.dayRow}>
-                      <h6 style={styles.dayLabel}>{day}</h6>
-                      <label className="switch">
-                        <input
-                          type="checkbox"
-                          checked={selectedDays[day]}
-                          onChange={(e) =>
-                            handleDaySwitch(day, e.target.checked)
-                          }
-                          onClick={defaultshow}
-                        />
-                        <span className="slider round"></span>
-                      </label>
+                      <span style={styles.toLabel} className="tolable">
+                        TO:
+                      </span>
+
+                      <input type="time" />
+                      <button type="button" style={styles.addButton}>
+                        Add Time Slot
+                      </button>
                     </div>
-                  ))}
-                </div>
-                <div style={styles.slotsColumn} className="timeSlotRow">
-                  {!condition ? (
-                    daysOfWeek.map(
-                      (day) =>
-                        selectedDays[day] && (
-                          <div
-                            className="innertimeslot"
-                            key={day}
-                            style={styles.daySlots}
-                          >
-                            <h6>{day}</h6>
-                            <TimeSlots control={control} day={day} />
-                          </div>
-                        )
-                    )
-                  ) : (
-                    <div className="Timecolumn">
-                      <div style={styles.timeSlotRow} className="timeslots">
-                        <span style={styles.toLabel} className="tolabel">
-                          FROM :
-                        </span>
-                        <input type="time" />
-
-                        <span style={styles.toLabel} className="tolable">
-                          TO:
-                        </span>
-
-                        <input type="time" />
-                        <button type="button" style={styles.addButton}>
-                          Add Time Slot
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
-              {/* <button type="submit" className="btn juybeubrer_btn btn-primary">
+            </div>
+            {/* <button type="submit" className="btn juybeubrer_btn btn-primary">
                 Next Step<i className="fa-solid ms-2 fa-right-long"></i>
               </button> */}
-            </div>
-          </div>{" "}
-        </div>
+          </div>
+        </div>{" "}
+      </div>
       {/* </div> */}
     </>
   );
 };
 
-const TimeSlots = ({ control, day }) => {
+const TimeSlots = ({ control, day,onDropdownChange }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: day,
@@ -331,6 +329,57 @@ const TimeSlots = ({ control, day }) => {
                 />
               )}
             />
+            {/* <Controller
+              name={`${day}[${index}].mentor_timeslot_rec_indicator`}
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                // <input {...field} placeholder="Option 1" style={styles.input} />
+              //   <select
+              //   className="form-select"
+              //   {...register("mentor_timeslot_rec_indicator", {
+              //     required: "Please select the option",
+              //   })} //1
+              // >
+              //   <option value={""}>Please select</option>
+              //   {availabilityperiod.map((option) => (
+              //     <option key={option} value={option}>
+              //       {option}
+              //     </option>
+              //   ))}
+              // </select>
+
+              <select {...field} onChange={(e) => {
+                field.onChange(e);
+                onDropdownChange(day, index, e.target.value);
+            }} style={styles.select}>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+              )}
+            /> */}
+             <Controller
+                                name={`${day}[${index}].mentor_timeslot_rec_indicator`}
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <select {...field} style={styles.select}>
+                                        <option value="Daily">Daily</option>
+                                        <option value="Weekly">Weekly</option>
+                                        <option value="Monthly">Monthly</option>
+                                    </select>
+                                )}
+                            />
+            <Controller
+              name={`${day}[${index}].Mentor_timeslot_rec_end_date`}
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <input  type="date"
+                {...field} style={styles.input} />
+              )}
+            />
 
             <button
               type="button"
@@ -344,7 +393,7 @@ const TimeSlots = ({ control, day }) => {
           </div>
         ))}
       </div>
-       <div className="mb-4">
+      {/* <div className="mb-4">
         <label htmlFor="exampleInputEmail1" className="form-label">
           <b>AVAILABILITY CHECK </b>
         </label>
@@ -388,7 +437,7 @@ const TimeSlots = ({ control, day }) => {
             {errors.Mentor_timeslot_rec_end_date.message}
           </p>
         )}
-      </div>
+      </div> */}
 
       <button
         type="button"
@@ -402,8 +451,6 @@ const TimeSlots = ({ control, day }) => {
   );
 };
 const CustomTimePicker = ({ value, onChange }) => {
-  
-
   const handleHoursChange = (e) => {
     onChange({ ...value, hours: e.target.value });
   };
@@ -449,7 +496,6 @@ const CustomTimePicker = ({ value, onChange }) => {
         <option value="AM">AM</option>
         <option value="PM">PM</option>
       </select>
-     
     </div>
   );
 };
