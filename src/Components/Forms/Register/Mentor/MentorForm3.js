@@ -1,389 +1,521 @@
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useState } from "react";
+
+import { Navigate, useNavigate } from "react-router-dom";
+// import "./reg4Style.css";
+import "./MentorForm3.css";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import { current } from "@reduxjs/toolkit";
+// import { useFormContext } from "react-hook-form";
+
+const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const availabilityperiod = [
+  "Daily",
+  "Weekly",
+  "Monthly",
+  // "Quarterly",
+  // "Half yearly",
+  // "yearly",
+];
+
+const initialTime = {
+  hours: "00",
+  minutes: "00",
+  ampm: "AM",
+};
 
 const MentorForm3 = () => {
+  const [condition, setcondition] = useState(true);
+  const [showAdditionalOptions, setShowAdditionalOptions] = useState(false);
+
+  const defaultshow = () => {
+    if (condition) {
+      setcondition(false);
+    } else if (condition) {
+      setcondition(true);
+    }
+  };
+  const handleDropdownChange = (value) => {
+    setShowAdditionalOptions(value === "Yes");
+    if (value === "No") {
+      resetField("mentor_timeslot_rec_indicator");
+      resetField("Mentor_timeslot_rec_cr_date");
+      resetField("Mentor_timeslot_rec_end_date");
+    }
+  };
+
   const {
     register,
+    control,
+    resetField,
+    handleSubmit,
+    watch,
     setValue,
     formState: { errors },
-  } = useFormContext();
-  const [items, setItems] = useState([
-    { id: "8:00-8:30AM", text: "8:00-8:30AM", inside: false },
-    { id: "8:30-9:00AM", text: "8:30-9:00AM", inside: false },
-    { id: "9:00-9:30AM", text: "9:00-9:30AM", inside: false },
-    { id: "9:30-10:00AM", text: "9:30-10:00AM", inside: false },
-    { id: "10:00-10:30AM", text: "10:00-10:30AM", inside: false },
-    { id: "10:30-11:00AM", text: "10:30-11:00AM", inside: false },
-    { id: "11:00-11:30AM", text: "11:00-11:30AM", inside: false },
-    { id: "11:30-12:00PM", text: "11:30-12:00PM", inside: false },
-    { id: "12:00-12:30PM", text: "12:00-12:30PM", inside: false },
-    { id: "12:30-1:00PM", text: "12:30-1:00PM", inside: false },
-    { id: "1:00-1:30PM", text: "1:00-1:30PM", inside: false },
-    { id: "1:30-2:00PM", text: "1:30-2:00PM", inside: false },
-    { id: "2:00-2:30PM", text: "2:00-2:30PM", inside: false },
-    { id: "2:30-3:00PM", text: "2:30-3:00PM", inside: false },
-    { id: "3:00-3:30PM", text: "3:00-3:30PM", inside: false },
-    { id: "3:30-4:00PM", text: "3:30-4:00PM", inside: false },
-    { id: "4:00-4:30PM", text: "4:00-4:30PM", inside: false },
-    { id: "4:30-5:00PM", text: "4:30-5:00PM", inside: false },
-    { id: "5:00-5:30PM", text: "5:00-5:30PM", inside: false },
-    { id: "5:30-6:00PM", text: "5:30-6:00PM", inside: false },
-    { id: "6:00-6:30PM", text: "6:00-6:30PM", inside: false },
-    { id: "6:30-7:00PM", text: "6:30-7:00PM", inside: false },
-    { id: "7:00-7:30PM", text: "7:00-7:30PM", inside: false },
-    { id: "7:30-8:00PM", text: "7:30-8:00PM", inside: false },
-    { id: "8:00-8:30PM", text: "8:00-8:30PM", inside: false },
-    { id: "8:30-9:00PM", text: "8:30-9:00PM", inside: false },
-    { id: "9:00-9:30PM", text: "9:00-9:30PM", inside: false },
-    { id: "9:30-10:00PM", text: "9:30-10:00PM", inside: false },
-    { id: "10:00-10:30PM", text: "10:00-10:30PM", inside: false },
-    { id: "10:30-11:00PM", text: "10:30-11:00PM", inside: false },
-  ]);
+  } = useFormContext({
+    defaultValues: daysOfWeek.reduce(
+      (acc, day) => ({
+        ...acc,
+        [day]: [
+          {
+            from: initialTime,
+            to: initialTime,
+          },
+        ],
+      }),
+      {}
+    ),
+  });
 
-  const handleDragStartTimeSlot = (e, id) => {
-    e.dataTransfer.setData("text/plain", id);
-    setTimeout(() => {
-      e.target.classList.add("hide");
-    }, 0);
+  const [selectedDays, setSelectedDays] = useState(
+    daysOfWeek.reduce((acc, day) => ({ ...acc, [day]: false }), {})
+  );
+
+  const onSubmit = (data) => {
+    console.log("Form Data: ", data);
   };
 
-  const handleDragEndTimeSlot = (e) => {
-    e.target.classList.remove("hide");
+  const handleDaySwitch = (day, checked) => {
+    setSelectedDays((prev) => ({ ...prev, [day]: checked }));
+    if (checked) {
+      setValue(day, [
+        {
+          from: initialTime,
+          to: initialTime,
+        },
+      ]);
+    }
   };
 
-  const handleDragOverTimeSlot = (e) => {
-    e.preventDefault();
-  };
+  // const ed =watch("Mentor_")
 
-  const handleDropInContainerTimeSlot = (e) => {
-    e.preventDefault();
-    const id = e.dataTransfer.getData("text");
-    setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: true } : item))
-    );
-    updateFormData();
-  };
-
-  const handleDropOutsideTimeSlot = (e) => {
-    e.preventDefault();
-    const id = e.dataTransfer.getData("text");
-    setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
-    );
-    updateFormData();
-  };
-
-  const handleDeleteTimeSlot = (id) => {
-    setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
-    );
-    updateFormData();
-  };
-  const updateFormData = () => {
-    setValue("passionate_about", items);
-  };
   return (
-    <div className="doiherner_wrapper">
-      <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
-        <div className="row">
-          <div className="col-lg-6">
-            <div className="mb-4">
+    <>
+      <div>
+        {/* <div className="jdoieoir_wrapper"> */}
+          <div className="line-1">Set your availability</div>
+          <div className="topfield">
+            {/* <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Preffered Contact Timings</b>
-              </label>
-              <input
-                type="time"
-                className="form-control"
-                id="exampleInputEmail1"
-                placeholder="Type Your Job Title"
-                aria-describedby="emailHelp"
-                {...register("preferred_contact_timings", {
-                  required: "First Name is required",
-                })} //1
-              />
-              {errors.preferred_contact_timings && (
-                <p className="Error-meg-login-register">
-                  {errors.preferred_contact_timings.message}
-                </p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="exampleInputPassword1" className="form-label">
-                <b>Preffered Contact Dates</b>
-              </label>
-              <input
-                type="date"
-                className="form-control"
-                id="exampleInputPassword1"
-                placeholder="Your Experience"
-                {...register("preferred_contact_dates", {
-                  required: "Preffered Contact Dates is required",
-                })} //1
-              />
-              {errors.preferred_contact_dates && (
-                <p className="Error-meg-login-register">
-                  {errors.preferred_contact_dates.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="col-lg-6">
-            <div className="ikhwnjrr_right">
-              <label htmlFor="exampleInputEmail1" className="form-label mb-3">
-                <b>Percentage Completion</b>
+                <b>RECURRING</b>
               </label>
 
-              <div className="d-flex align-items-center">
-                <div className="hinrer_circle position-relative me-3">
-                  <h2>SK</h2>
-                </div>
-
-                <div className="idhnerier_right">
-                  <h4 className="mb-1">Sawan Kumar</h4>
-
-                  <p className="mb-1">
-                    <b>40% Complete</b>
-                  </p>
-
-                  <h6 className="mb-0">Signed up - 4 minutes ago</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row align-items-center">
-            <div className="col-lg-7 mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Choose Your time slots!</b>
-              </label>
-              <div
-                type=""
-                id="container"
-                className="bg-white"
-                onDragOver={handleDragOverTimeSlot}
-                onDrop={handleDropInContainerTimeSlot}
-                style={{
-                  overflowY: "scroll",
-                  overflowX: "hidden",
-                  height: "200px",
-                }}
+              <select className="form-select"  
+              {...register("Mentor_")}
               >
-                {items
-                  .filter((item) => item.inside)
-                  .map((item) => (
-                    <div
-                      key={item.id}
-                      id={item.id}
-                      className="draggable inside"
-                      // className="draggable"
-                      draggable
-                      onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
-                      onDragEnd={handleDragEndTimeSlot}
-                    >
-                      {item.inside && (
-                        <span
-                          className="close-btn"
-                          onClick={() => handleDeleteTimeSlot(item.id)}
-                        >
-                          &times;
-                        </span>
-                      )}
-                      {item.text}
-                    </div>
-                  ))}
-              </div>
+                <option>No</option>
+                <option > Yes</option>
+                
+              </select>
+            </div> */}
+            {/* <div className="mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>RECURRING</b>
+              </label>
+            <Controller
+                    name="Mentor_"
+                    control={control}
+                    
+                    defaultValue=""
+                    render={({ field }) => (
+                        <select {...field} onChange={(e) => {
+                            field.onChange(e);
+                            handleDropdownChange(e.target.value);
+                        }} className="form-select">
+                            <option value="">Select...</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    )}
+                />
+                </div> */}
 
-              <p className="iduehnbriee_text mb-0">
-                (*Drag and drop the most suitable slot time option in the box.
-                This slots will be displayed for booking the mentor session with
-                you*)
-              </p>
-            </div>
+            {/* { showAdditionalOptions && ( <> */}
 
+            {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>AVAILABILITY CHECK </b>
+              </label>
+
+              <select
+                className="form-select"
+                {...register("mentor_timeslot_rec_indicator", {
+                  required: "Please select the option",
+                })} //1
+              >
+                <option  value={""}>Please select</option>
+                {availabilityperiod.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              {errors.mentor_timeslot_rec_indicator && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_timeslot_rec_indicator.message}
+                </p>
+              )}
+            </div> */}
+            {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>From Date </b>
+              </label>
+
+              <input
+                    type="date"
+                    className="form-control"
+                    // id="exampleInputEmail1"
+                    placeholder="current Date"
+                    aria-describedby="emailHelp"
+                    {...register("Mentor_timeslot_rec_cr_date", {
+                      required: "current date",
+                    })} //1
+                  />
+                  {errors.Mentor_timeslot_rec_cr_date && (
+                    <p className="Error-meg-login-register">
+                      {errors.Mentor_timeslot_rec_cr_date.message}
+                    </p>
+                  )}
+            </div> */}
+            {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>To Date</b>
+              </label>
+              <input
+                    type="date"
+                    defaultValue={current}
+                    className="form-control"
+                    // id="exampleInputEmail1"
+                    placeholder="current Date"
+                    aria-describedby="emailHelp"
+                    {...register("Mentor_timeslot_rec_end_date", {
+                      required: "current date",
+                    })} //1
+                  />
+                  {errors.Mentor_timeslot_rec_end_date && (
+                    <p className="Error-meg-login-register">
+                      {errors.Mentor_timeslot_rec_end_date.message}
+                    </p>
+                  )}
+            
+            </div> */}
+
+            {/* </>  )} */}
+          </div>
+          <div className="whole">
             <div
-              className="col-lg-5 mb-4"
-              style={{
-                overflowY: "scroll",
-                overflowX: "hidden",
-                height: "200px",
-              }}
+              onSubmit={handleSubmit(onSubmit)}
+              // style={styles.form}
+              className="doiherner_wrapper"
             >
-              <div
-                id="outside-container"
-                onDragOver={handleDragOverTimeSlot}
-                onDrop={handleDropOutsideTimeSlot}
-              >
-                {items
-                  .filter((item) => !item.inside)
-                  .map((item) => (
-                    <div
-                      key={item.id}
-                      id={item.id}
-                      className="draggable"
-                      draggable
-                      onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
-                      onDragEnd={handleDragEndTimeSlot}
-                    >
-                      {item.text}
+              <div className="linesepration">
+                <div className="line-2">Select Days</div>
+
+                <span className="line-3">
+                  Choose your preferred time slots for the selected day
+                </span>
+              </div>
+
+              <div style={styles.container} className="main">
+                <div className="dayColumn">
+                  {daysOfWeek.map((day) => (
+                    <div className="daycolumns" key={day} style={styles.dayRow}>
+                      <h6 style={styles.dayLabel}>{day}</h6>
+                      <label className="switch">
+                        <input
+                          type="checkbox"
+                          checked={selectedDays[day]}
+                          onChange={(e) =>
+                            handleDaySwitch(day, e.target.checked)
+                          }
+                          onClick={defaultshow}
+                        />
+                        <span className="slider round"></span>
+                      </label>
                     </div>
                   ))}
+                </div>
+                <div style={styles.slotsColumn} className="timeSlotRow">
+                  {!condition ? (
+                    daysOfWeek.map(
+                      (day) =>
+                        selectedDays[day] && (
+                          <div
+                            className="innertimeslot"
+                            key={day}
+                            style={styles.daySlots}
+                          >
+                            <h6>{day}</h6>
+                            <TimeSlots control={control} day={day} />
+                          </div>
+                        )
+                    )
+                  ) : (
+                    <div className="Timecolumn">
+                      <div style={styles.timeSlotRow} className="timeslots">
+                        <span style={styles.toLabel} className="tolabel">
+                          FROM :
+                        </span>
+                        <input type="time" />
+
+                        <span style={styles.toLabel} className="tolable">
+                          TO:
+                        </span>
+
+                        <input type="time" />
+                        <button type="button" style={styles.addButton}>
+                          Add Time Slot
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
+              {/* <button type="submit" className="btn juybeubrer_btn btn-primary">
+                Next Step<i className="fa-solid ms-2 fa-right-long"></i>
+              </button> */}
             </div>
-          </div>
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Would You Be Interested in Delivering Guest Lectures?</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("guest_lectures_interest", {
-                  required: " required",
-                })} //1
-              >
-                {/* <option defaultValue>Choose An Option</option> */}
-
-                <option>Yes</option>
-
-                <option>No</option>
-              </select>
-            </div>
-            {errors.guest_lectures_interest && (
-              <p className="Error-meg-login-register">
-                {errors.guest_lectures_interest.message}
-              </p>
-            )}
-          </div>
-
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Would You Be Interested in Curating Case Studies?</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("curating_case_studies_interest", {
-                  required: "required",
-                })} //1
-              >
-                <option defaultValue>Choose An Option</option>
-
-                <option>Yes</option>
-
-                <option>No</option>
-              </select>
-            </div>
-            {errors.curating_case_studies_interest && (
-              <p className="Error-meg-login-register">
-                {errors.curating_case_studies_interest.message}
-              </p>
-            )}
-          </div>
+          </div>{" "}
         </div>
+      {/* </div> */}
+    </>
+  );
+};
 
-        <div className="row align-items-end">
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  For Your Alums Would You Be Fine to Do Sessions Free of Charge
-                </b>
-              </label>
+const TimeSlots = ({ control, day }) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: day,
+  });
 
-              <select
-                className="form-select"
-                {...register("sessions_free_of_charge", {
-                  required: "required",
-                })} //1
-              >
-                <option defaultValue>Choose An Option</option>
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext({
+    defaultValues: daysOfWeek.reduce(
+      (acc, day) => ({
+        ...acc,
+        [day]: [
+          {
+            from: initialTime,
+            to: initialTime,
+          },
+        ],
+      }),
+      {}
+    ),
+  });
 
-                <option>Yes</option>
+  return (
+    <div className="Timecolumn">
+      <div>
+        {fields.map((item, index) => (
+          <div key={item.id} style={styles.timeSlotRow} className="timeslots">
+            <Controller
+              name={`${day}[${index}].from`}
+              control={control}
+              render={({ field }) => (
+                <CustomTimePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            <span style={styles.toLabel}>to</span>
+            <Controller
+              name={`${day}[${index}].to`}
+              control={control}
+              render={({ field }) => (
+                <CustomTimePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
 
-                <option>No</option>
-              </select>
-            </div>
-            {errors.sessions_free_of_charge && (
-              <p className="Error-meg-login-register">
-                {errors.sessions_free_of_charge.message}
-              </p>
-            )}
+            <button
+              type="button"
+              onClick={() => remove(index)}
+              style={styles.removeButton}
+              className="btn btn-secondary float-left text-uppercase shadow-sm"
+            >
+              {/* Remove */}
+              <i className="fa fa-minus fa-fw"></i>
+            </button>
           </div>
-
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Your Timezone</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("mentor_timezone", {
-                  required: "required",
-                })} //1
-              >
-                <option defaultValue>Choose An Option</option>
-              </select>
-            </div>
-            {errors.mentor_timezone && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_timezone.message}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Language</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("mentor_language", {
-                  required: "required",
-                })} //1
-              >
-                <option defaultValue>Choose Language</option>
-              </select>
-            </div>
-            {errors.mentor_language && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_language.message}
-              </p>
-            )}
-          </div>
-
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Which Country You Live in?</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("mentor_country", {
-                  required: "required",
-                })} //1
-              >
-                <option defaultValue>Your Country Name</option>
-              </select>
-            </div>
-            {errors.mentor_country && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_country.message}
-              </p>
-            )}
-          </div>
-        </div>
+        ))}
       </div>
+       <div className="mb-4">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+          <b>AVAILABILITY CHECK </b>
+        </label>
+
+        <select
+          className="form-select"
+          {...register("mentor_timeslot_rec_indicator", {
+            required: "Please select the option",
+          })} //1
+        >
+          <option value={""}>Please select</option>
+          {availabilityperiod.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        {errors.mentor_timeslot_rec_indicator && (
+          <p className="Error-meg-login-register">
+            {errors.mentor_timeslot_rec_indicator.message}
+          </p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+          <b>To Date</b>
+        </label>
+        <input
+          type="date"
+          defaultValue={current}
+          className="form-control"
+          // id="exampleInputEmail1"
+          placeholder="current Date"
+          aria-describedby="emailHelp"
+          {...register("Mentor_timeslot_rec_end_date", {
+            required: "current date",
+          })} //1
+        />
+        {errors.Mentor_timeslot_rec_end_date && (
+          <p className="Error-meg-login-register">
+            {errors.Mentor_timeslot_rec_end_date.message}
+          </p>
+        )}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => append({ from: "", to: "" })}
+        className="btn btn-secondary float-left text-uppercase shadow-sm"
+      >
+        {/* Add Time Slot */}
+        <i className="fa fa-plus fa-fw"></i>
+      </button>
     </div>
   );
+};
+const CustomTimePicker = ({ value, onChange }) => {
+  
+
+  const handleHoursChange = (e) => {
+    onChange({ ...value, hours: e.target.value });
+  };
+
+  const handleMinutesChange = (e) => {
+    onChange({ ...value, minutes: e.target.value });
+  };
+
+  const handleAmPmChange = (e) => {
+    onChange({ ...value, ampm: e.target.value });
+  };
+
+  return (
+    <div style={styles.customTimePicker}>
+      <select
+        value={value.hours}
+        onChange={handleHoursChange}
+        style={styles.timeSelect}
+      >
+        {Array.from({ length: 12 }, (_, i) => i + 1).map((hour) => (
+          <option key={hour} value={hour < 10 ? "0" + hour : hour}>
+            {hour < 10 ? "0" + hour : hour}
+          </option>
+        ))}
+      </select>
+      <span>:</span>
+      <select
+        value={value.minutes}
+        onChange={handleMinutesChange}
+        style={styles.timeSelect}
+      >
+        {[0, 15, 30, 45].map((minute) => (
+          <option key={minute} value={minute < 10 ? "0" + minute : minute}>
+            {minute < 10 ? "0" + minute : minute}
+          </option>
+        ))}
+      </select>
+      <select
+        value={value.ampm}
+        onChange={handleAmPmChange}
+        style={styles.timeSelect}
+      >
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+     
+    </div>
+  );
+};
+
+const styles = {
+  form: {
+    padding: "20px",
+    maxWidth: "800px",
+    margin: "0 auto",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+    backgroundColor: "#f9f9f9",
+  },
+  container: {
+    display: "flex",
+    // height: '100vh'
+  },
+  daysColumn: {
+    flex: "1",
+    marginRight: "20px",
+    display: "flex",
+    gap: "6px",
+    marginRight: "24px",
+    flex: "column",
+  },
+  slotsColumn: {
+    flex: "4",
+  },
+  dayRow: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "10px",
+  },
+  dayLabel: {
+    width: "50px",
+  },
+  daySlots: {
+    marginBottom: "5px",
+  },
+  timeSlotRow: {
+    // display: "flex",
+    // alignItems: "center",
+    // marginBottom: "10px",
+  },
+  toLabel: {
+    // margin: '0 10px',
+  },
+  removeButton: {
+    marginLeft: "10px",
+  },
+  addButton: {
+    display: "block",
+    marginTop: "10px",
+  },
+  submitButton: {
+    display: "block",
+    width: "100%",
+    padding: "10px",
+    border: "none",
+    borderRadius: "4px",
+    backgroundColor: "#007BFF",
+    color: "#fff",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
 };
 
 export default MentorForm3;

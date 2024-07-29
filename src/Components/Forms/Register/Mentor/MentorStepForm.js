@@ -5,6 +5,7 @@ import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 
 import MentorForm3 from "./MentorForm3";
+import MentorForm4 from "./MentorForm4";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 // const LOCAL_STORAGE_KEY = "form-data";
@@ -12,18 +13,26 @@ import { ApiURL } from "../../../../Utils/ApiURL";
 const MentorStepForm = () => {
   const url = ApiURL();
   const methods = useForm({});
+
   const [page, setPage] = useState(0);
   const { watch, setValue, trigger, getValues } = methods;
 
-  const FormTitles = ["ABOUT YOURSELF", "YOUR SUPER POWER", "PREFERENCES"];
+  const FormTitles = [
+    "ABOUT YOURSELF",
+    "YOUR SUPER POWER",
+    "AVAILABILITY",
+    "PREFERENCES",
+  ];
   const [step, setStep] = useState(1);
   const PageDisplay = () => {
     if (page === 0) {
       return <MentorForm1 />;
     } else if (page === 1) {
       return <MentorForm2 />;
-    } else {
+    } else if (page == 2) {
       return <MentorForm3 />;
+    } else {
+      return <MentorForm4 />;
     }
   };
 
@@ -33,6 +42,8 @@ const MentorStepForm = () => {
     } else if (page === 1) {
       setPage((currPage) => currPage + 1);
     } else if (page === 2) {
+      setPage((currPage) => currPage + 1);
+    } else if (page === 3) {
       setPage((currPage) => currPage + 1);
     }
   };
@@ -44,6 +55,9 @@ const MentorStepForm = () => {
   };
   const tab3 = () => {
     setPage(2);
+  };
+  const tab4 = () => {
+    setPage(3);
   };
 
   const nextStep = async () => {
@@ -57,12 +71,26 @@ const MentorStepForm = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSubmit = async (data) => {
-    if (step < 3) {
+    console.log(data);
+   
+    // if (step < 3) {
+    //   const isValid = await trigger(); // Validate current step
+    //   if (isValid) {
+    //     console.log("error");
+    //   }
+    // } else {
+    //   console.log(data);
+    //   // downloadFormData(data);
+    // }
+
+    if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
         console.log("error");
+      
       }
     } else {
+      
       try {
         const formData = new FormData();
         Object.keys(data).forEach((key) => {
@@ -132,13 +160,29 @@ const MentorStepForm = () => {
                 className="btn btn-primary tablinks active"
                 data-tab="form3"
               >
-                <i className="fa-solid me-1 fa-asterisk"></i> PREFERENCES
+                <i className="fa-solid me-1 fa-asterisk"></i> AVAILABILITY
               </button>
             ) : (
               <button
                 className="btn btn-primary tablinks "
                 data-tab="form3"
                 onClick={tab3}
+              >
+                <i className="fa-solid me-1 fa-asterisk"></i> AVAILABILITY
+              </button>
+            )}
+            {page === 3 ? (
+              <button
+                className="btn btn-primary tablinks active"
+                data-tab="form3"
+              >
+                <i className="fa-solid me-1 fa-asterisk"></i> PREFERENCES
+              </button>
+            ) : (
+              <button
+                className="btn btn-primary tablinks "
+                data-tab="form3"
+                onClick={tab4}
               >
                 <i className="fa-solid me-1 fa-asterisk"></i> PREFERENCES
               </button>

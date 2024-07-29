@@ -1,13 +1,16 @@
 import React from "react";
-
+import { useFormContext, Controller } from "react-hook-form";
 const MenteeRegStep3 = ({
-  page,
-  setPage,
-  FormTitles,
-  selectedOption,
-  handleChange,
-  setPageCount,
+ 
 }) => {
+  const {
+    register,
+    watch,
+    control,
+
+    formState: { errors },
+  } = useFormContext();
+ 
   return (
     <div className="step" id="step3">
       <h4 className="text-center">
@@ -25,14 +28,22 @@ const MenteeRegStep3 = ({
             type="checkbox"
             className="form-check-input"
             id="exampleCheck1"
+            {...register("mentee_check", {
+              required: "Accept the Terms & Conditions",
+            })}
           />
-          <label className="form-check-label" for="exampleCheck1">
+          <label className="form-check-label" htmlFor="exampleCheck1">
             Creating your account and you accepting
             <a href="/terms-condition">Terms & Conditions</a>
           </label>
+          {errors.mentee_check && (
+                <p className="Error-meg-login-register">
+                  {errors.mentee_check.message}
+                </p>
+              )}
         </div>
 
-        {/* <!--<button type="submit" className="btn btn-main py-3 mt-3">Create Account</button>--> */}
+       
 
         <div className="digheirer text-center py-3">
           <h4 className="mb-0">
@@ -54,21 +65,12 @@ const MenteeRegStep3 = ({
           </div>
         </div>
       </div>
+     
 
       <div className="d-flex justify-content-between pt-3">
-        <button
-          type="button"
-          className="btn dgheuih_btn_prev btn-main"
-          onClick={() => {
-            setPage((currPage) => currPage - 1);
-          }}
-        >
-          Previous
-        </button>
 
-        <button type="submit" className="btn dgheuih_btn_next btn-main">
-          Create Account
-        </button>
+    
+     
       </div>
     </div>
   );

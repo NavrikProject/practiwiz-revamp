@@ -5,12 +5,11 @@ import InstituteForm from "./InstituteForm";
 import MenteeRegStep1 from "./MenteeRegStep1";
 import MenteeRegStep2 from "./MenteeRegStep2";
 import MenteeRegStep3 from "./MenteeRegStep3";
-const MenteeStepForm = () => {
-  const [page, setPage] = useState(0);
+import { useForm, FormProvider } from "react-hook-form";
 
+const MenteeStepForm = () => {
   const [instituteStatus, setInstituteStatus] = useState(false);
   const [selectedOption, setSelectedOption] = useState("mentee");
-
   const handleChange = (event) => {
     event.preventDefault();
     if (event.target.value === "institute") {
@@ -22,57 +21,42 @@ const MenteeStepForm = () => {
       return setSelectedOption(event.target.value), setInstituteStatus(false);
     }
   };
+
   const InstitutePreviousHandler = (event, option) => {
     if (option === "institute") {
       return setInstituteStatus(false), setSelectedOption("mentee");
     }
   };
-  const FormTitles = ["STEP1", "STEP2", "STEP3"];
-  const setPageCount = (event) => {
-    event.preventDefault();
-    console.log(page);
-    if (page === 0) {
-      setPage((currPage) => currPage + 1);
-    } else if (page === 1) {
-      setPage((currPage) => currPage + 1);
-    } else if (page === 2) {
-      setPage((currPage) => currPage + 1);
+
+  const methods = useForm({});
+  const [step, setStep] = React.useState(1);
+  const { watch, setValue, trigger, getValues } = methods;
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          <MenteeRegStep1
+            selectedOption={selectedOption}
+            handleChange={handleChange}
+          />
+        );
+      case 2:
+        return <MenteeRegStep2 />;
+      case 3:
+        return <MenteeRegStep3 />;
+      default:
+        return <MenteeRegStep1 />;
     }
   };
-  const PageDisplay = () => {
-    if (page === 0) {
-      return (
-        <MenteeRegStep1
-          page={page}
-          setPage={setPage}
-          FormTitles={FormTitles}
-          selectedOption={selectedOption}
-          handleChange={handleChange}
-          setPageCount={setPageCount}
-        />
-      );
-    } else if (page === 1) {
-      return (
-        <MenteeRegStep2
-          page={page}
-          setPage={setPage}
-          FormTitles={FormTitles}
-          selectedOption={selectedOption}
-          handleChange={handleChange}
-          setPageCount={setPageCount}
-        />
-      );
-    } else {
-      return (
-        <MenteeRegStep3
-          page={page}
-          setPage={setPage}
-          FormTitles={FormTitles}
-          selectedOption={selectedOption}
-          handleChange={handleChange}
-          setPageCount={setPageCount}
-        />
-      );
+
+  const nextStep = async () => {
+    const result = await trigger();
+    if (result) {
+      setStep(step + 1);
     }
   };
 
@@ -155,14 +139,60 @@ const MenteeStepForm = () => {
                   <div className="uherrr_text text-center">
                     <h4>Sign up</h4>
                   </div>
+                 
+                      {instituteStatus ? (
+                        <InstituteForm
+                          InstitutePreviousHandler={InstitutePreviousHandler}
+                        />
+                      ) : (
+                        <> <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                          {renderStep()}
+                          <div className="d-flex justify-content-between">
+                            {step === 1 ? (
+                              ""
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => setStep(step - 1)}
+                                disabled={step === 1}
+                                className="btn dgheuih_btn_prev btn-main"
+                              >
+                                Previous
+                              </button>
+                            )}
 
-                  {instituteStatus ? (
-                    <InstituteForm
-                      InstitutePreviousHandler={InstitutePreviousHandler}
-                    />
-                  ) : (
-                    <form id="multi-step-form">{PageDisplay()}</form>
-                  )}
+                            {step === 3 ? (
+                              ""
+                            ) : (
+                              <button
+                                type="submit"
+                                onClick={nextStep}
+                                disabled={step === 3}
+                                className="btn dgheuih_btn_next btn-main"
+                              >
+                                Next
+                              </button>
+                            )}
+                            {step === 3 && (
+                              // <form
+                              //   id="multi-step-form"
+                              //   onSubmit={methods.handleSubmit(onSubmit)}
+                              // >
+                                <button
+                                  type="submit"
+                                  className="btn dgheuih_btn_next btn-main"
+                                >
+                                  Submit
+                                </button>
+                              // </form>
+                            )}
+                          </div>
+                          </form>
+                  </FormProvider>
+                        </>
+                      )}
+                    
                 </div>
               </div>
             </div>

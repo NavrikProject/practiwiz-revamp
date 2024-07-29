@@ -1,0 +1,260 @@
+.daycolumns {
+    /* border: 1px solid black; */
+    /* Rectangle 203 */
+    justify-content: space-between;
+    /* width: 473px; */
+    height: 50px;
+    padding: 2px 30px;
+    background: rgba(217, 217, 217, 0.05);
+    border-radius: 7px;
+  
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    z-index: 0;
+    border: 1px solid #afafaf;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  .timeslots {
+    height: 40px;
+    left: 0px;
+    top: 0px;
+  
+    border-radius: 10px;
+  }
+  
+  .timeslots {
+    /* margin-bottom: 20px; */
+    display: flex;
+    flex-wrap: nowrap;
+  
+    gap: 5px;
+    align-items: baseline;
+  }
+  
+  .innertimeslot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+    border: 0.5px solid #afafaf;
+    left: 0px;
+    top: 0px;
+    background: rgba(217, 217, 217, 0.05);
+    /* background: rgba(217, 217, 217, 0.2); */
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    gap: 15px;
+  }
+  .Timecolumn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+  }
+  
+  h6 {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.12em;
+  
+    color: #000000;
+    margin: 5px;
+  }
+  .timeSlotRow {
+    overflow: auto;
+    /* border: 1px solid #afafaf; */
+    border-radius: 10px;
+    padding: 2px;
+    background: rgba(217, 217, 217, 0.05);
+  }
+  
+  .main {
+    width: 110%;
+    height: 500px;
+    left: calc(50% - 1251px / 2 + 29.5px);
+    top: 329px;
+  }
+  .dayColumn {
+    flex: 1;
+    display: flex;
+    gap: 6x;
+    margin-right: 24px;
+    flex-direction: column;
+  }
+  .whole {
+    position: relative;
+    width: auto;
+    /* top: 80px; */
+    margin: auto;
+    padding: 2px;
+  }
+  
+  .line-1 {
+    /* position: absolute; */
+    width: 470px;
+    height: 49px;
+    /* left: 1px; */
+    /* top: 13px; */
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 41px;
+    line-height: 49px;
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    letter-spacing: 0.12em;
+    color: #444444;
+    margin-bottom: 25px;
+  }
+  
+  .line-2 {
+    /* Pick the days and the times when you are typically available for video calls. */
+  
+    /* position: absolute; */
+    width: 13rem;
+    /* width: 454px; */
+    height: 38px;
+    /* left: 7px;
+  top: 92px; */
+  
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 23.1857px;
+    /* line-height: 19px; */
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+    color: #444444;
+  }
+  .linesepration {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+    width: max-content;
+
+  }
+  .line-3 {
+    /* Choose your preferred time slots for the selected day */
+  
+    /* position: absolute; */
+    width: 540px;
+    height: 30px;
+    /* left: 568px; */
+    /* top: 127px; */
+  
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 23.1857px;
+    line-height: 30px;
+    /* identical to box height, or 128% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+  
+    color: #444444;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 55px;
+    /* height: 27px; */
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .daycolumns .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    height: 27px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    top: 4px;
+    left: 4px;
+    /* bottom: 4px; */
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+  .label {
+    /* FROM : */
+  
+    position: absolute;
+    width: 122px;
+    height: 32px;
+    left: 17px;
+    top: 11px;
+  
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.12em;
+  
+    color: #000000;
+  }
+  
+  
+  .topfield{
+    
+    width: fit-content;
+      display: flex;
+      gap: 20px;
+  
+  }
