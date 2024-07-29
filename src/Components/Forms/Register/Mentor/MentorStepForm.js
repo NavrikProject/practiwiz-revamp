@@ -72,39 +72,21 @@ const MentorStepForm = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-   
-    // if (step < 3) {
-    //   const isValid = await trigger(); // Validate current step
-    //   if (isValid) {
-    //     console.log("error");
-    //   }
-    // } else {
-    //   console.log(data);
-    //   // downloadFormData(data);
-    // }
-
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
         console.log("error");
-      
       }
     } else {
-      
       try {
-        const formData = new FormData();
-        Object.keys(data).forEach((key) => {
-          formData.append(key, data[key]);
-        });
-
+        const newData = new FormData();
+        newData.append("firstName", data.mentor_firstname);
+        newData.append("lastName", data.mentor_lastname);
+        newData.append("email", data.mentor_email);
+        newData.append("image", data.linkedin_photo[0]);
         const res = await axios.post(
-          `${url}api/v1/mentor/registration`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          `http://localhost:1337/api/v1/mentor/registration/test`,
+          newData
         );
         console.log(res.data);
       } catch (error) {
@@ -189,7 +171,10 @@ const MentorStepForm = () => {
             )}
           </div>
           <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <form
+              onSubmit={methods.handleSubmit(onSubmit)}
+              encType="multipart/form-data"
+            >
               <div id="form1" className="tab active">
                 {PageDisplay()}
                 <div className="bjuerirr_btn diuher d-flex justify-content-between mt-4">
