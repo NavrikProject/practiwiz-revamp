@@ -1,14 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LnIcon from "./deeteewe.png";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { useState } from "react";
+import PhoneInput from "react-phone-input-2";
+// import '../Mentee/Phone-input-style.css'
+import "react-phone-input-2/lib/style.css";
+import "./register.css"
 const MentorForm1 = () => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
+  const [phonenumbervalidate, setphonenumbervalidate] = useState("");
+
   const {
     register,
     watch,
+    control,
+
     formState: { errors },
   } = useFormContext();
   const password = watch("mentor_password");
@@ -163,7 +171,7 @@ const MentorForm1 = () => {
                   <b>Mobile Number</b>
                 </label>
 
-                <input
+                {/* <input
                   id="phone"
                   className="form-control"
                   type="tel"
@@ -174,11 +182,44 @@ const MentorForm1 = () => {
                   })} //1
                 />
                 {errors.mentor_phone_number && (
-                  <p className="Error-meg-login-register">
-                    {errors.mentor_phone_number.message}
-                  </p>
-                )}
+<<<<<<< HEAD
+                  <p className="Error-meg-login-register">{errors.mentor_phone_number.message}</p>
+                )} */}
+                <Controller
+                  name="mentor_phone_number"
+                  control={control}
+                  rules={{
+                    required: "This field is required",
+                    maxLength: {
+                      value: 13,
+                      message: "Enter valid Phone Number"
+                    },
+                    minLength: {
+                      value: 11,
+                      message: "Enter valid Phone Number"
+                    }
+                  }}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <PhoneInput
+                 
+                      {...field}
+                      country={"in"}
+                      value={field.value}
+                      // className="form-control"
+
+                      onChange={(phone) => field.onChange(phone)}
+                    />
+                  )}
+                />
+              {errors.mentor_phone_number && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_phone_number.message}
+                </p>
+              )}
+
               </div>
+              
             </div>
 
             <div className="col-lg-6">
@@ -192,7 +233,7 @@ const MentorForm1 = () => {
                 <input
                   type="email"
                   className="form-control"
-                  id="exampleInputEmail1"
+                  // id="exampleInputEmail1"
                   placeholder="Email"
                   aria-describedby="emailHelp"
                   {...register("mentor_email", {
@@ -224,7 +265,7 @@ const MentorForm1 = () => {
                 </label>
                 <input
                   className="form-control"
-                  id="exampleInputEmail1"
+                  // id="exampleInputEmail1"
                   placeholder="Password must be at least 8 characters"
                   aria-describedby="emailHelp"
                   type={showIcon ? "text" : "password"}
@@ -274,7 +315,7 @@ const MentorForm1 = () => {
                 <input
                   // type="text"
                   className="form-control"
-                  id="exampleInputEmail1"
+                  // id="exampleInputEmail1"
                   placeholder="Type your password again"
                   aria-describedby="emailHelp"
                   type={showIcons ? "text" : "password"}

@@ -442,3 +442,40 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
 .error-msg{
   color: red;
 }
+
+/* 
+input[type="radio"] {
+  display: none;
+}
+
+.moideuirer_list input[type="radio"] + label {
+  display: inline-block;
+  padding: 5px 25px;
+  cursor: pointer;
+  border: 2px solid #afafaf;
+  color: #696969;
+  font-weight: 600;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+input[type="radio"]:checked + label {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+label:hover {
+  background-color: #e9ecef;
+} */
+
+.country-flag{
+  width: 15rem;
+  position: absolute;
+  vertical-align: inherit;
+  padding-bottom: 5px;
+  text-align: left;
+  z-index: 2; 
+}
+
+

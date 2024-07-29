@@ -1,14 +1,17 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
+import "./input-radio.css"
 
 const MentorForm2 = () => {
   const {
     register,
     formState: { errors },
+    watch,
     setValue,
   } = useFormContext();
-
+  const F_Name = watch("mentor_firstname");
+  const L_Name = watch("mentor_lastname");
   const [items, setItems] = useState([
     { id: "draggable1", text: " Technology", inside: false },
     { id: "draggable2", text: " Management ", inside: false },
@@ -64,7 +67,7 @@ const MentorForm2 = () => {
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
         <div className="row">
-          <div className="col-lg-6">
+          {/* <div className="col-lg-6"> */}
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Job Title</b>
@@ -125,9 +128,9 @@ const MentorForm2 = () => {
                 </p>
               )}
             </div>
-          </div>
+          {/* </div> */}
 
-          <div className="col-lg-6">
+          {/* <div className="col-lg-6">
             <div className="ikhwnjrr_right">
               <label htmlFor="exampleInputEmail1" className="form-label mb-3">
                 <b>Percentage Completion</b>
@@ -135,11 +138,11 @@ const MentorForm2 = () => {
 
               <div className="d-flex align-items-center">
                 <div className="hinrer_circle position-relative me-3">
-                  <h2>SK</h2>
+                  <h2>{F_Name.charAt(0)}{L_Name.charAt(0)}</h2>
                 </div>
 
                 <div className="idhnerier_right">
-                  <h4 className="mb-1">Sawan Kumar</h4>
+                  <h4 className="mb-1">{F_Name}&nbsp;{ L_Name}</h4>
 
                   <p className="mb-1">
                     <b>40% Complete</b>
@@ -149,7 +152,7 @@ const MentorForm2 = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="row align-items-center">
@@ -169,9 +172,7 @@ const MentorForm2 = () => {
                 height: "200px",
               }}
             >
-              {items
-                .filter((item) => item.inside)
-                .map((item) => (
+              {items.filter((item) => item.inside).map((item) => (
                   <div
                     key={item.id}
                     id={item.id}
@@ -212,9 +213,7 @@ const MentorForm2 = () => {
               onDragOver={handleDragOver}
               onDrop={handleDropOutside}
             >
-              {items
-                .filter((item) => !item.inside)
-                .map((item) => (
+              {items.filter((item) => !item.inside).map((item) => (
                   <div
                     key={item.id}
                     id={item.id}
@@ -231,19 +230,19 @@ const MentorForm2 = () => {
         </div>
 
         <div className="row">
-          <div className="col-lg-12 mb-4">
+          <div className="col-lg-12 mb-4 ">
             <label htmlFor="exampleInputEmail1" className="form-label mb-0">
               <b>Areas of Expertise</b>
             </label>
 
-            <div className="moideuirer_list">
+            <div className="moideuirer_list ">
               <ul className="ps-0 mb-0">
                 <li>
                   <input
                     type="checkbox"
                     id="check_1"
                     name="check_1"
-                    value="check_1"
+                    value="Agile"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -256,7 +255,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_2"
                     name="check_2"
-                    value="check_2"
+                    value="AI"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -269,7 +268,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_3"
                     name="check_3"
-                    value="check_3"
+                    value="Cloud"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -282,7 +281,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_4"
                     name="check_4"
-                    value="check_4"
+                    value="Python"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -295,7 +294,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_5"
                     name="check_5"
-                    value="check_5"
+                    value="DBA"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -308,7 +307,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_6"
                     name="check_6"
-                    value="check_6"
+                    value="JAVA"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -321,7 +320,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_7"
                     name="check_7"
-                    value="check_7"
+                    value="Selenium"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -334,7 +333,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_8"
                     name="check_8"
-                    value="check_8"
+                    value="Conflict Resolution"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -347,7 +346,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_9"
                     name="check_9"
-                    value="check_9"
+                    value="Communication"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -360,7 +359,7 @@ const MentorForm2 = () => {
                     type="checkbox"
                     id="check_10"
                     name="check_10"
-                    value="check_10"
+                    value="Resume Writing"
                     {...register("areas_of_expertise", {
                       // required: "First Name is required",
                     })} //1
@@ -378,14 +377,15 @@ const MentorForm2 = () => {
               <b>Academic Qualification</b>
             </label>
 
-            <div className="dkjiherer moideuirer_list">
+            <div className="dkjiherer moideuirer_list hello">
               <ul className="ps-0 mb-0">
                 <li>
                   <input
-                    type="checkbox"
+                
+                    type="radio"
                     id="check_11"
                     name="check_11"
-                    value="check_11"
+                    value="Post Graduate"
                     {...register("academic_qualification", {
                       // required: "First Name is required",
                     })} //1
@@ -396,10 +396,10 @@ const MentorForm2 = () => {
 
                 <li>
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="check_20"
                     name="check_20"
-                    value="check_20"
+                    value="Graduate"
                     {...register("academic_qualification", {
                       // required: "First Name is required",
                     })} //1
@@ -410,10 +410,10 @@ const MentorForm2 = () => {
 
                 <li>
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="check_30"
                     name="check_30"
-                    value="check_30"
+                    value="Doctorate"
                     {...register("academic_qualification", {
                       // required: "First Name is required",
                     })} //1
@@ -445,7 +445,7 @@ const MentorForm2 = () => {
             <input
               type="text"
               className="form-control"
-              id="exampleInputEmail1"
+              // id="exampleInputEmail1"
               placeholder="Type A Headline Here"
               aria-describedby="emailHelp"
               {...register("mentor_Headline", {
