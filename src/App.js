@@ -37,6 +37,7 @@ import MenteeRegistrationPage from "./Pages/FormPages/RegisterPages/MenteeRegist
 import ProtectedRoute from "./Utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
+import Test from "./Pages/Test";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -47,6 +48,7 @@ function App() {
       <ToastContainer position="top-center" />
       <Router>
         <Routes>
+          <Route path="/image/test" element={<Test />} />
           <Route path="/" exact element={<Homepage />} />
           <Route path="/aboutus" exact element={<AboutusPage />} />
           <Route path="/contact" exact element={<ContactusPage />} />
