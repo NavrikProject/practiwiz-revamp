@@ -72,39 +72,49 @@ const MentorStepForm = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-   
-    // if (step < 3) {
-    //   const isValid = await trigger(); // Validate current step
-    //   if (isValid) {
-    //     console.log("error");
-    //   }
-    // } else {
-    //   console.log(data);
-    //   // downloadFormData(data);
-    // }
-
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
         console.log("error");
-      
       }
     } else {
-      
       try {
-        const formData = new FormData();
-        Object.keys(data).forEach((key) => {
-          formData.append(key, data[key]);
-        });
-
+        const newData = new FormData();
+        newData.append("firstName", data.mentor_firstname);
+        newData.append("lastName", data.mentor_lastname);
+        newData.append("email", data.mentor_email);
+        newData.append("image", data.linkedin_photo[0]);
+        newData.append("UserType", data.user_type);
+        newData.append("phoneNumber", data.mentor_phone_number);
+        newData.append("password", data.mentor_password);
+        newData.append("Cpassword", data.mentor_confirm_password);
+        newData.append("sociallink", data.social_media_profile);
+        newData.append("jobtitle", data.mentor_job_title);
+        newData.append("experience", data.lyears_of_experience);
+        newData.append("companyName", data.mentor_company_name);
+        newData.append("passionateAbout", data.passionate_about);
+        newData.append("AreaOfexpertise", data.areas_of_expertise);
+        newData.append("academicQualification", data.academic_qualification);
+        newData.append("areaofmentorship", data.recommended_area_of_mentorship);
+        newData.append("headline", data.mentor_Headline);
+        newData.append("lecturesInterest", data.guest_lectures_interest);
+        newData.append("caseInterest", data.curating_case_studies_interest);
+        newData.append("freeCharge", data.sessions_free_of_charge);
+        newData.append("Timezone", data.mentor_timezone);
+        newData.append("Language", data.mentor_language);
+        newData.append("Country", data.mentor_country);
+        newData.append("Mon", data.Mon);
+        newData.append("Tue", data.Tue);
+        newData.append("Wed", data.Wed);
+        newData.append("Thu", data.Thu);
+        newData.append("Fri", data.Fri);
+        newData.append("Sat", data.Sat);
+        newData.append("Sun", data.Sun);
+        newData.append("timeslotIndicator", data.mentor_timeslot_rec_indicator);
+        newData.append("timeslotEndDate", data.Mentor_timeslot_rec_end_date);
         const res = await axios.post(
-          `${url}api/v1/mentor/registration`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          `http://localhost:1337/api/v1/mentor/registration/test`,
+          newData
         );
         console.log(res.data);
       } catch (error) {
@@ -189,7 +199,10 @@ const MentorStepForm = () => {
             )}
           </div>
           <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <form
+              onSubmit={methods.handleSubmit(onSubmit)}
+              encType="multipart/form-data"
+            >
               <div id="form1" className="tab active">
                 {PageDisplay()}
                 <div className="bjuerirr_btn diuher d-flex justify-content-between mt-4">

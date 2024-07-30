@@ -13,70 +13,90 @@ import { logOut } from "../../../Redux/userRedux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const MentorDashboard = () => {
-  const [showNotification, setShowNotification] = useState("false");
-  const [showSessionSetup, setShowSessionSetup] = useState("false");
-  const [showChangePwd, setShowChangePwd] = useState("false");
-  const [showMentorPsettings, setShowMentorPsettings] = useState("false");
-  const [showMentorProfile, setShowMentorProfile] = useState("true");
-  const [showMentorMessage, setShowMentorMessage] = useState("false");
+  const [showNotification, setShowNotification] = useState(false);
+  const [showSessionSetup, setShowSessionSetup] = useState(false);
+  const [showChangePwd, setShowChangePwd] = useState(false);
+  const [showMentorPsettings, setShowMentorPsettings] = useState(false);
+  const [showMentorProfile, setShowMentorProfile] = useState(true);
+  const [showMentorMessage, setShowMentorMessage] = useState(false);
   const MentorNotificationHandler = () => {
+
+    if (!showNotification) {
+      setShowNotification(true);
+    }
     return (
-      setShowNotification(!showNotification),
-      setShowSessionSetup("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
+      // setShowNotification(!showNotification),
+      setShowSessionSetup(false),
+      setShowChangePwd(false),
+      setShowMentorPsettings(false),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false)
     );
   };
   const MentorSessionSetupHandler = () => {
+    if (!showSessionSetup) {
+      setShowSessionSetup(true);
+    }
     return (
-      setShowSessionSetup(!showSessionSetup),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
+      // setShowSessionSetup(!showSessionSetup),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMentorPsettings(false),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false)
     );
   };
   const MentorChangePwdHandler = () => {
+    if (!showChangePwd) {
+      setShowChangePwd(true);
+    }
     return (
-      setShowSessionSetup("false"),
-      setShowNotification("false"),
-      setShowChangePwd(!showChangePwd),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      // setShowChangePwd(!showChangePwd),
+      setShowMentorPsettings(false),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false)
     );
   };
   const MentorPsettingsHandler = () => {
+    if (!showMentorPsettings) {
+      setShowMentorPsettings(true);
+    }
     return (
-      setShowSessionSetup("false"),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings(!showMentorPsettings),
-      setShowMentorProfile("false"),
-      setShowMentorMessage("false")
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      // setShowMentorPsettings(!showMentorPsettings),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false)
     );
   };
   const MentorProfileShowingHandler = () => {
+    if (!showMentorProfile) {
+      setShowMentorProfile(true);
+    }
     return (
-      setShowSessionSetup("false"),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile(!showMentorProfile),
-      setShowMentorMessage("false")
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMentorPsettings(false),
+      // setShowMentorProfile(!showMentorProfile),
+      setShowMentorMessage(false)
     );
   };
+
   const MentorMsgShowingHandler = () => {
+    if (!showMentorMessage) {
+      setShowMentorMessage(true);
+    }
     return (
-      setShowSessionSetup("false"),
-      setShowNotification("false"),
-      setShowChangePwd("false"),
-      setShowMentorPsettings("false"),
-      setShowMentorProfile("false"),
-      setShowMentorMessage(!showMentorMessage)
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMentorPsettings(false),
+      setShowMentorProfile(false)
+      // setShowMentorMessage(!showMentorMessage)
     );
   };
   const dispatch = useDispatch();
@@ -251,12 +271,12 @@ const MentorDashboard = () => {
                 </button>
               </div>
             </div>
-            {!showNotification ? <MentorNotifications /> : ""}
-            {!showSessionSetup ? <MentorSessionSetup /> : ""}
-            {!showChangePwd ? <MentorChangePwd /> : ""}
-            {!showMentorPsettings ? <MentorProfileSettings /> : ""}
+            {showNotification ? <MentorNotifications /> : ""}
+            {showSessionSetup ? <MentorSessionSetup /> : ""}
+            {showChangePwd ? <MentorChangePwd /> : ""}
+            {showMentorPsettings ? <MentorProfileSettings /> : ""}
             {showMentorProfile ? <MentorProfile /> : ""}
-            {!showMentorMessage ? <MentorMessages /> : ""}
+            {showMentorMessage ? <MentorMessages /> : ""}
           </div>
         </div>
       </div>
