@@ -45,7 +45,7 @@ const MentorForm1 = () => {
                 className="radio-input"
                 name="apple"
                 value="mentor"
-                {...register("mentor", {
+                {...register("user_type", {
                   required: "select this button",
                 })}
               />
@@ -91,9 +91,9 @@ const MentorForm1 = () => {
                 ></i>
                 <Link to="/mentee-registration">Institute</Link>
               </label>
-              {errors.mentor && (
+              {errors.user_type && (
                 <p className="Error-meg-login-register">
-                  {errors.mentor.message}
+                  {errors.user_type.message}
                 </p>
               )}
             </div>
