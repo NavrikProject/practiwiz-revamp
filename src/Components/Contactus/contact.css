@@ -4,7 +4,7 @@
   height: 5px;
 }
 #contactUsBg {
-  background: url(../../Images/bb2.webp) no-repeat;
+  background: url("../../Images/bb2.webp") no-repeat;
   width: 100%;
   background-position: "center";
   background-size: "cover";

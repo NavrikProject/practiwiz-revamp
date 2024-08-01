@@ -74,7 +74,7 @@ header .iugeuirrr .udgehrr .cdsfsdvnghff .form-control {
 }
 
 #mentorRegisterBg {
-  background: url(../../../../Images/Mentors/iuihnierr.png) no-repeat;
+  background: url("../../../../Images/Mentors/iuihnierr.png") no-repeat;
   width: 100%;
   background-size: cover;
   background-position: center;
@@ -438,8 +438,7 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
 
 /*register end*/
 
-
-.error-msg{
+.error-msg {
   color: red;
 }
 
@@ -469,13 +468,11 @@ label:hover {
   background-color: #e9ecef;
 } */
 
-.country-flag{
+.country-flag {
   width: 15rem;
   position: absolute;
   vertical-align: inherit;
   padding-bottom: 5px;
   text-align: left;
-  z-index: 2; 
+  z-index: 2;
 }
-
-

@@ -1,7 +1,7 @@
 /*start mentee page css*/
 /*start mentee page css*/
 #menteeBackgroundCover {
-  background: url(../../../Images/Mentee/ddd.png) no-repeat;
+  background: url("../../../Images/Mentee/ddd.png") no-repeat;
   background-size: cover;
 }
 .mt70 {
