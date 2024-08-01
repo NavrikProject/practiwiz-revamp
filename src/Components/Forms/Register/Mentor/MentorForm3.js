@@ -21,6 +21,7 @@ const initialTime = {
   hours: "00",
   minutes: "00",
   ampm: "AM",
+  
 };
 
 const MentorForm3 = () => {
@@ -93,7 +94,114 @@ const MentorForm3 = () => {
       <div>
         {/* <div className="jdoieoir_wrapper"> */}
         <div className="line-1">Set your availability</div>
-        <div className="topfield"></div>
+        <div className="topfield">
+          {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>RECURRING</b>
+              </label>
+
+              <select className="form-select"  
+              {...register("Mentor_")}
+              >
+                <option>No</option>
+                <option > Yes</option>
+                
+              </select>
+            </div> */}
+          {/* <div className="mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>RECURRING</b>
+              </label>
+            <Controller
+                    name="Mentor_"
+                    control={control}
+                    
+                    defaultValue=""
+                    render={({ field }) => (
+                        <select {...field} onChange={(e) => {
+                            field.onChange(e);
+                            handleDropdownChange(e.target.value);
+                        }} className="form-select">
+                            <option value="">Select...</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    )}
+                />
+                </div> */}
+
+          {/* { showAdditionalOptions && ( <> */}
+
+          {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>AVAILABILITY CHECK </b>
+              </label>
+
+              <select
+                className="form-select"
+                {...register("mentor_timeslot_rec_indicator", {
+                  required: "Please select the option",
+                })} //1
+              >
+                <option  value={""}>Please select</option>
+                {availabilityperiod.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              {errors.mentor_timeslot_rec_indicator && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_timeslot_rec_indicator.message}
+                </p>
+              )}
+            </div> */}
+          {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>From Date </b>
+              </label>
+
+              <input
+                    type="date"
+                    className="form-control"
+                    // id="exampleInputEmail1"
+                    placeholder="current Date"
+                    aria-describedby="emailHelp"
+                    {...register("Mentor_timeslot_rec_cr_date", {
+                      required: "current date",
+                    })} //1
+                  />
+                  {errors.Mentor_timeslot_rec_cr_date && (
+                    <p className="Error-meg-login-register">
+                      {errors.Mentor_timeslot_rec_cr_date.message}
+                    </p>
+                  )}
+            </div> */}
+          {/* <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>To Date</b>
+              </label>
+              <input
+                    type="date"
+                    defaultValue={current}
+                    className="form-control"
+                    // id="exampleInputEmail1"
+                    placeholder="current Date"
+                    aria-describedby="emailHelp"
+                    {...register("Mentor_timeslot_rec_end_date", {
+                      required: "current date",
+                    })} //1
+                  />
+                  {errors.Mentor_timeslot_rec_end_date && (
+                    <p className="Error-meg-login-register">
+                      {errors.Mentor_timeslot_rec_end_date.message}
+                    </p>
+                  )}
+            
+            </div> */}
+
+          {/* </>  )} */}
+        </div>
         <div className="whole">
           <div
             onSubmit={handleSubmit(onSubmit)}
@@ -172,14 +280,22 @@ const MentorForm3 = () => {
   );
 };
 
-const TimeSlots = ({ control, day, onDropdownChange }) => {
+const TimeSlots = ({ control, day,onDropdownChange }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: day,
   });
 
+  // const handlebox=()=>{
+  //   const data = watch({day});
+  //   const hello = data.filter(data=> data.Mon)
+  //   console.log({hello})
+  // }
+
   const {
     register,
+    getValues,
+    watch,
     formState: { errors },
   } = useFormContext({
     defaultValues: daysOfWeek.reduce(
@@ -222,24 +338,55 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
                 />
               )}
             />
-            <Controller
+            {/* <Controller
               name={`${day}[${index}].mentor_timeslot_rec_indicator`}
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <select {...field} style={styles.select}>
-                  <option value="Daily">Daily</option>
-                  <option value="Weekly">Weekly</option>
-                  <option value="Monthly">Monthly</option>
-                </select>
+                // <input {...field} placeholder="Option 1" style={styles.input} />
+              //   <select
+              //   className="form-select"
+              //   {...register("mentor_timeslot_rec_indicator", {
+              //     required: "Please select the option",
+              //   })} //1
+              // >
+              //   <option value={""}>Please select</option>
+              //   {availabilityperiod.map((option) => (
+              //     <option key={option} value={option}>
+              //       {option}
+              //     </option>
+              //   ))}
+              // </select>
+
+              <select {...field} onChange={(e) => {
+                field.onChange(e);
+                onDropdownChange(day, index, e.target.value);
+            }} style={styles.select}>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
               )}
-            />
+            /> */}
+             <Controller
+                                name={`${day}[${index}].mentor_timeslot_rec_indicator`}
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <select {...field} style={styles.select}>
+                                        <option value="Daily">Daily</option>
+                                        <option value="Weekly">Weekly</option>
+                                        <option value="Monthly">Monthly</option>
+                                    </select>
+                                )}
+                            />
             <Controller
-              name={`${day}[${index}].Mentor_timeslot_rec_end_date`}
+              name={`${day}[${index}].recurring`}
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <input type="date" {...field} style={styles.input} />
+                <input  type="date"
+                {...field} style={styles.input} />
               )}
             />
 
@@ -255,10 +402,57 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
           </div>
         ))}
       </div>
+      {/* <div className="mb-4">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+          <b>AVAILABILITY CHECK </b>
+        </label>
+
+        <select
+          className="form-select"
+          {...register("mentor_timeslot_rec_indicator", {
+            required: "Please select the option",
+          })} //1
+        >
+          <option value={""}>Please select</option>
+          {availabilityperiod.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        {errors.mentor_timeslot_rec_indicator && (
+          <p className="Error-meg-login-register">
+            {errors.mentor_timeslot_rec_indicator.message}
+          </p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+          <b>To Date</b>
+        </label>
+        <input
+          type="date"
+          defaultValue={current}
+          className="form-control"
+          // id="exampleInputEmail1"
+          placeholder="current Date"
+          aria-describedby="emailHelp"
+          {...register("Mentor_timeslot_rec_end_date", {
+            required: "current date",
+          })} //1
+        />
+        {errors.Mentor_timeslot_rec_end_date && (
+          <p className="Error-meg-login-register">
+            {errors.Mentor_timeslot_rec_end_date.message}
+          </p>
+        )}
+      </div> */}
 
       <button
         type="button"
         onClick={() => append({ from: "", to: "" })}
+        // onClick={handlebox}
+
         className="btn btn-secondary float-left text-uppercase shadow-sm"
       >
         {/* Add Time Slot */}
@@ -267,6 +461,78 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
     </div>
   );
 };
+
+const EndDate = ({ value, onChange }) => {
+  const handledatePmChange = (e) => {
+    onChange({ ...value,Mentor_timeslot_rec_end_date : e.target.value });
+  };
+  // const handlerecChange = (e) => {
+  //   onChange({ ...value, mentor_timeslot_rec_indicator: e.target.value });
+  // };
+
+  return (
+    <>
+      {/* <select
+        // {...field}
+        onChange={handlerecChange}
+        style={styles.select}
+      >
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+      </select> */}
+
+      <input
+        type="date"
+        // {...field}
+        onChange={handledatePmChange}
+        style={styles.input}
+      />
+    </>
+  );
+};
+const Reccuring = ({ value, onChange }) => {
+  // const handledatePmChange = (e) => {
+  //   onChange({ ...value, Date: e.target.value });
+  // };
+  const handlerecChange = (e) => {
+    onChange({ ...value, mentor_timeslot_rec_indicator: e.target.value });
+  };
+
+  return (
+    <>
+      <select
+        // {...field}
+        onChange={handlerecChange}
+        style={styles.select}
+      >
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+      </select>
+
+      {/* <input
+        type="date"
+        // {...field}
+        onChange={handledatePmChange}
+        style={styles.input}
+      /> */}
+    </>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 const CustomTimePicker = ({ value, onChange }) => {
   const handleHoursChange = (e) => {
     onChange({ ...value, hours: e.target.value });
@@ -353,11 +619,11 @@ const styles = {
   daySlots: {
     marginBottom: "5px",
   },
-  timeSlotRow: {
-    // display: "flex",
-    // alignItems: "center",
-    // marginBottom: "10px",
-  },
+  // timeSlotRow: {
+  //   // display: "flex",
+  //   // alignItems: "center",
+  //   // marginBottom: "10px",
+  // },
   toLabel: {
     // margin: '0 10px',
   },
