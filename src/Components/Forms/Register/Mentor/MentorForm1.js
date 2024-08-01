@@ -6,7 +6,7 @@ import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 // import '../Mentee/Phone-input-style.css'
 import "react-phone-input-2/lib/style.css";
-import "./register.css"
+import "./register.css";
 const MentorForm1 = () => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
@@ -192,17 +192,16 @@ const MentorForm1 = () => {
                     required: "This field is required",
                     maxLength: {
                       value: 13,
-                      message: "Enter valid Phone Number"
+                      message: "Enter valid Phone Number",
                     },
                     minLength: {
                       value: 11,
-                      message: "Enter valid Phone Number"
-                    }
+                      message: "Enter valid Phone Number",
+                    },
                   }}
                   defaultValue=""
                   render={({ field }) => (
                     <PhoneInput
-                 
                       {...field}
                       country={"in"}
                       value={field.value}
@@ -212,14 +211,12 @@ const MentorForm1 = () => {
                     />
                   )}
                 />
-              {errors.mentor_phone_number && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_phone_number.message}
-                </p>
-              )}
-
+                {errors.mentor_phone_number && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_phone_number.message}
+                  </p>
+                )}
               </div>
-              
             </div>
 
             <div className="col-lg-6">
@@ -370,36 +367,22 @@ const MentorForm1 = () => {
                 )}
               </div>
             </div>
-
-            {/* <div className="col-lg-6">
-              <div className="csfvgdtrfs mb-4 position-relative">
-                <label for="exampleInputEmail1" className="form-label">
-                  <b>Click Photo</b>
-                </label>
-                <input
-                  id="phone"
-                  type="text"
-                  name="phone"
-                  className="form-control"
-                />
-              </div>
-            </div> */}
-
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Social Media Profile</b>
+                  <b>Linkedin URL Profile</b>
                 </label>
                 <input
                   id="phone"
                   type="text"
                   name="phone"
+                  pattern="http(s)?:\/\/([\w]+\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?"
                   placeholder="Social media profile link"
                   {...register("social_media_profile", {
-                    required: "Social media profile link is required",
+                    required: "Linkedin profile URL is required",
                   })} //1
                   className="form-control"
                 />
