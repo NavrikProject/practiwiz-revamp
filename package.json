@@ -11,7 +11,7 @@
     "ajv": "^8.16.0",
     "axios": "^1.7.2",
     "jwt-decode": "^4.0.0",
-    "react": ">=15.0.0",
+    "react": ">=18.0.0",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",
     "react-flags-select": "^2.2.3",
@@ -30,7 +30,7 @@
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
-    "react": ">=15.0.0"
+    "react": ">=18.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
