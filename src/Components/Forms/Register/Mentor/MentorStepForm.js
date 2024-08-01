@@ -107,20 +107,22 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
-        newData.append("Mon", data.Mon);
-        newData.append("Tue", data.Tue);
-        newData.append("Wed", data.Wed);
-        newData.append("Thu", data.Thu);
-        newData.append("Fri", data.Fri);
-        newData.append("Sat", data.Sat);
-        newData.append("Sun", data.Sun);
-        newData.append("timeslotIndicator", data.mentor_timeslot_rec_indicator);
-        newData.append("timeslotEndDate", data.Mentor_timeslot_rec_end_date);
-        const res = await axios.post(
-          `http://localhost:1337/api/v1/mentor/registration/test`,
-          newData
-        );
-        console.log(res.data);
+        newData.append("Mon", JSON.stringify(data.Mon));
+        newData.append("Tue", JSON.stringify(data.Tue));
+        newData.append("Wed", JSON.stringify(data.Wed));
+        newData.append("Thu", JSON.stringify(data.Thu));
+        newData.append("Fri", JSON.stringify(data.Fri));
+        newData.append("Sat", JSON.stringify(data.Sat));
+        newData.append("Sun", JSON.stringify(data.Sun));
+        const res = await axios.post(`${url}api/v1/mentor/register`, newData);
+        if (res.data.success) {
+          toast.success("Thank you for applying the mentor application.");
+        }
+        if (res.data.error) {
+          toast.error(
+            "There is some error while applying the mentor application. We will get back you over the email."
+          );
+        }
       } catch (error) {
         console.error(error);
       }

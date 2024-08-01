@@ -10,13 +10,10 @@ import "./register.css";
 const MentorForm1 = () => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
-  const [phonenumbervalidate, setphonenumbervalidate] = useState("");
-
   const {
     register,
     watch,
     control,
-
     formState: { errors },
   } = useFormContext();
   const password = watch("mentor_password");
@@ -103,7 +100,14 @@ const MentorForm1 = () => {
             <div className="col-lg-12 mt-2">
               <p className="mb-0 d-flex align-items-center">
                 <b>Register Using :</b>
-                <button className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary">
+                <button
+                  onClick={() => {
+                    window.alert(
+                      "We were working on this register using Linkedin. Please fil the mentor application"
+                    );
+                  }}
+                  className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary"
+                >
                   <img src={LnIcon} className="me-2" alt="deeteewe" />
                   LinkedIn
                 </button>
@@ -111,7 +115,6 @@ const MentorForm1 = () => {
             </div>
           </div>
         </div>
-
         <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
           <div className="row">
             <div className="col-lg-6">
