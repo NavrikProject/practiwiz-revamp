@@ -90,7 +90,7 @@ const MentorStepForm = () => {
         newData.append("Cpassword", data.mentor_confirm_password);
         newData.append("sociallink", data.social_media_profile);
         newData.append("jobtitle", data.mentor_job_title);
-        newData.append("experience", data.lyears_of_experience);
+        newData.append("experience", data.years_of_experience);
         newData.append("companyName", data.mentor_company_name);
         newData.append("passionateAbout", data.passionate_about);
         newData.append("AreaOfexpertise", data.areas_of_expertise);
@@ -110,8 +110,7 @@ const MentorStepForm = () => {
         newData.append("Fri", data.Fri);
         newData.append("Sat", data.Sat);
         newData.append("Sun", data.Sun);
-        newData.append("timeslotIndicator", data.mentor_timeslot_rec_indicator);
-        newData.append("timeslotEndDate", data.Mentor_timeslot_rec_end_date);
+       
         const res = await axios.post(
           `http://localhost:1337/api/v1/mentor/registration/test`,
           newData
