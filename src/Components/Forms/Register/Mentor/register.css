@@ -80,7 +80,6 @@ header .iugeuirrr .udgehrr .cdsfsdvnghff .form-control {
   background-position: center;
 }
 
-/*register start*/
 .regis_background {
   padding: 9rem 0px 3rem 0px;
 }
@@ -366,8 +365,6 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
   position: absolute;
 }
 
-/**/
-
 .jdoieoir_wrapper {
   width: 60%;
   margin: auto;
@@ -434,17 +431,8 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
   border: 1px solid #acaeaf !important;
 }
 
-/**/
-
-/*register end*/
-
 .error-msg {
   color: red;
-}
-
-/* 
-input[type="radio"] {
-  display: none;
 }
 
 .moideuirer_list input[type="radio"] + label {
@@ -466,8 +454,7 @@ input[type="radio"]:checked + label {
 
 label:hover {
   background-color: #e9ecef;
-} */
-
+}
 .country-flag {
   width: 15rem;
   position: absolute;

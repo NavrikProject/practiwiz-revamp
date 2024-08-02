@@ -1,14 +1,9 @@
 .daycolumns {
-  /* border: 1px solid black; */
-  /* Rectangle 203 */
   justify-content: space-between;
-  /* width: 473px; */
   height: 50px;
   padding: 2px 30px;
   background: rgba(217, 217, 217, 0.05);
   border-radius: 7px;
-
-  /* Inside auto layout */
   flex: none;
   order: 0;
   flex-grow: 0;
@@ -21,15 +16,12 @@
   height: 40px;
   left: 0px;
   top: 0px;
-
   border-radius: 10px;
 }
 
 .timeslots {
-  /* margin-bottom: 20px; */
   display: flex;
   flex-wrap: nowrap;
-
   gap: 5px;
   align-items: baseline;
 }
@@ -43,7 +35,6 @@
   left: 0px;
   top: 0px;
   background: rgba(217, 217, 217, 0.05);
-  /* background: rgba(217, 217, 217, 0.2); */
   border-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   gap: 15px;
@@ -65,24 +56,18 @@ h6 {
   display: flex;
   align-items: center;
   letter-spacing: 0.12em;
-
   color: #000000;
   margin: 5px;
 }
 .timeSlotRow {
   overflow: auto;
-  /* border: 1px solid #afafaf; */
   border-radius: 10px;
   padding: 2px;
   background: rgba(217, 217, 217, 0.05);
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 .main {
   width: 110%;
-  /* height: 500px; */
   height: auto;
   left: calc(50% - 1251px / 2 + 29.5px);
   top: 329px;
@@ -97,17 +82,13 @@ h6 {
 .whole {
   position: relative;
   width: auto;
-  /* top: 80px; */
   margin: auto;
   padding: 2px;
 }
 
 .line-1 {
-  /* position: absolute; */
   width: 470px;
   height: 49px;
-  /* left: 1px; */
-  /* top: 13px; */
   font-family: "Lato";
   font-style: normal;
   font-weight: 700;
@@ -122,20 +103,12 @@ h6 {
 }
 
 .line-2 {
-  /* Pick the days and the times when you are typically available for video calls. */
-
-  /* position: absolute; */
   width: 13rem;
-  /* width: 454px; */
   height: 38px;
-  /* left: 7px;
-  top: 92px; */
-
   font-family: "Lato";
   font-style: normal;
   font-weight: 700;
   font-size: 23.1857px;
-  /* line-height: 19px; */
   display: flex;
   align-items: flex-end;
   text-align: center;
@@ -146,25 +119,16 @@ h6 {
 .linesepration {
   display: flex;
   align-items: center;
-  /* gap: 23px; */
-  /* //width: max-content; */
   justify-content: space-between;
 }
 .line-3 {
-  /* Choose your preferred time slots for the selected day */
-
-  /* position: absolute; */
   width: 540px;
   height: 30px;
-  /* left: 568px; */
-  /* top: 127px; */
-
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
   font-size: 23.1857px;
   line-height: 30px;
-  /* identical to box height, or 128% */
   display: flex;
   align-items: center;
   text-align: center;
@@ -176,7 +140,6 @@ h6 {
   position: relative;
   display: inline-block;
   width: 55px;
-  /* height: 27px; */
 }
 
 .switch input {
@@ -205,7 +168,6 @@ h6 {
   width: 20px;
   top: 4px;
   left: 4px;
-  /* bottom: 4px; */
   background-color: white;
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -225,7 +187,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
@@ -235,8 +196,6 @@ input:checked + .slider:before {
 }
 
 .label {
-  /* FROM : */
-
   position: absolute;
   width: 122px;
   height: 32px;

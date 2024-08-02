@@ -1,6 +1,4 @@
-/* start find a job page css*/
-/* start find a job page css*/
-/* start find a job page css*/
+
 .aslkhghj {
   padding: 10rem 0 5rem 0;
   background: linear-gradient(
@@ -305,61 +303,6 @@
   margin: 1.2rem 0;
 }
 
-/*  End Toggle Switch  */
-
-/*.mkdfhgjgh [type=radio]:checked,*/
-/*[type=radio]:not(:checked) {*/
-/*  position: absolute;*/
-/*  left: -9999px;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label,*/
-/*[type=radio]:not(:checked) + label {*/
-/*  position: relative;*/
-/*  padding-left: 28px;*/
-/*  cursor: pointer;*/
-/*  font-size: 16px;*/
-/*  line-height: 20px;*/
-/*  display: inline-block;*/
-/*  color: #666;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label:before,*/
-/*[type=radio]:not(:checked) + label:before {*/
-/*  content: "";*/
-/*  position: absolute;*/
-/*  left: 0;*/
-/*  top: 0;*/
-/*  width: 18px;*/
-/*  height: 18px;*/
-/*  border: 1px solid var(--main-orange-color);*/
-/*  border-radius: 100%;*/
-/*  background: #fff;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label:after,*/
-/*[type=radio]:not(:checked) + label:after {*/
-/*  content: "";*/
-/*  width: 12px;*/
-/*  height: 12px;*/
-/*  background: var(--main-orange-color);*/
-/*  position: absolute;*/
-/*  top: 4px;*/
-/*  left: 4px;*/
-/*  border-radius: 100%;*/
-/*  transition: all 0.2s ease;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:not(:checked) + label:after {*/
-/*  opacity: 0;*/
-/*  transform: scale(0);*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label:after {*/
-/*  opacity: 1;*/
-/*  transform: scale(1);*/
-/*}*/
-
 .csdfygtyy {
   justify-content: end;
 }
@@ -385,12 +328,6 @@
   color: #636363;
 }
 
-/* end find a job page css*/
-/* end find a job page css*/
-/* end find a job page css*/
-
-/* start jobdes page css*/
-/* start jobdes page css*/
 .kjhfhffd {
   display: flex;
   margin-top: 45px;
@@ -405,7 +342,6 @@
   color: gray;
   border: 2px solid var(--main-orange-color);
   border-radius: 50px;
-  /*margin-top: 5px;*/
   margin-left: 15px;
 }
 
@@ -537,5 +473,3 @@
   margin-top: 10px;
 }
 
-/* end jobdes page css*/
-/* end jobdes page css*/

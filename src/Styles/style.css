@@ -129,9 +129,7 @@ a {
   padding: 0 2rem;
 }
 
-/*scroll bar start*/
 
-/* scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -154,12 +152,8 @@ a {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/*scroll bar end*/
-
-/*header start*/
 header nav {
   border-radius: 5px;
-  /*box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);*/
   transition: 0.3s ease-in-out;
 }
 header #navbarSupportedContent {
@@ -251,7 +245,6 @@ header .navbar.bg-white {
   background: #0255ca !important;
 }
 
-/*auto suggestion start*/
 
 header #autosuggestions {
   display: none;
@@ -278,10 +271,6 @@ header .suggestion:hover {
   background-color: #f0f0f0;
 }
 
-/*auto suggestion end*/
-
-/*header end*/
-/*banner start*/
 .banner {
   background: var(--main-orange-color);
 }
@@ -349,8 +338,6 @@ header .suggestion:hover {
   transform: rotate(338deg);
 }
 
-/*banner end*/
-/*middle start*/
 .section2 {
   width: 100%;
   background: var(--light-main-background-color);
@@ -506,8 +493,6 @@ header .suggestion:hover {
   right: 0;
 }
 
-/*start owl 1*/
-/*start owl 1*/ /*start owl 1*/
 .mfkjghhdfgd {
   width: 100%;
 }
@@ -549,7 +534,6 @@ header .suggestion:hover {
   background: var(--main-orange-color) !important;
 }
 
-/*end owl 1*/ /*end owl 1*/
 .khjfdgdf {
   width: 100%;
   padding: 40px 0;
@@ -597,7 +581,6 @@ header .suggestion:hover {
   border-bottom: 1px solid #e1e1e1;
 }
 
-/*tab content*/
 
 .mfkjhgjfhf .tabs {
   margin: 0px;
@@ -680,7 +663,6 @@ header .suggestion:hover {
   text-align: center;
 }
 
-/*slider start*/
 
 .udguafr_slider .uihderr img {
   width: 1rem !important;
@@ -744,8 +726,6 @@ header .suggestion:hover {
 .uihderr_slider img {
   border-radius: 25%;
 }
-
-/*slider end*/
 
 .section3 {
   width: 100%;
@@ -847,7 +827,6 @@ header .suggestion:hover {
 }
 
 .tabs__tab-btn--not-selected {
-  /* border-bottom-color: #eeeeee; */
   background-color: #ffffff;
   border: 2px solid var(--main-orange-color);
   color: rgb(0, 0, 0);
@@ -1392,11 +1371,6 @@ header .suggestion:hover {
   right: 0.5rem;
 }
 
-/*middle end*/
-
-/*start about us css */
-/*start about us css */
-/*start about us css */
 .nfhjhdfgdfgfgfg {
   width: 100%;
   margin-top: 100px;
@@ -1596,14 +1570,6 @@ header .suggestion:hover {
   margin-top: -15px;
 }
 
-/*end about us css */
-/*end about us css */
-/*end about us css */
-/*end about us css */
-
-/* start contact us*/
-/* start contact us*/
-/* start contact us*/
 .contactuss {
   width: 100%;
   background: url("../Images/map-pattern-2.png") no-repeat;
@@ -1671,9 +1637,6 @@ header .suggestion:hover {
   height: 80vh;
 }
 
-/* start find a job page css*/
-/* start find a job page css*/
-/* start find a job page css*/
 .aslkhghj {
   padding: 10rem 0 5rem 0;
   background: linear-gradient(
@@ -1977,62 +1940,6 @@ header .suggestion:hover {
   font-size: 1.2rem;
   margin: 1.2rem 0;
 }
-
-/*  End Toggle Switch  */
-
-/*.mkdfhgjgh [type=radio]:checked,*/
-/*[type=radio]:not(:checked) {*/
-/*  position: absolute;*/
-/*  left: -9999px;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label,*/
-/*[type=radio]:not(:checked) + label {*/
-/*  position: relative;*/
-/*  padding-left: 28px;*/
-/*  cursor: pointer;*/
-/*  font-size: 16px;*/
-/*  line-height: 20px;*/
-/*  display: inline-block;*/
-/*  color: #666;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label:before,*/
-/*[type=radio]:not(:checked) + label:before {*/
-/*  content: "";*/
-/*  position: absolute;*/
-/*  left: 0;*/
-/*  top: 0;*/
-/*  width: 18px;*/
-/*  height: 18px;*/
-/*  border: 1px solid var(--main-orange-color);*/
-/*  border-radius: 100%;*/
-/*  background: #fff;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label:after,*/
-/*[type=radio]:not(:checked) + label:after {*/
-/*  content: "";*/
-/*  width: 12px;*/
-/*  height: 12px;*/
-/*  background: var(--main-orange-color);*/
-/*  position: absolute;*/
-/*  top: 4px;*/
-/*  left: 4px;*/
-/*  border-radius: 100%;*/
-/*  transition: all 0.2s ease;*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:not(:checked) + label:after {*/
-/*  opacity: 0;*/
-/*  transform: scale(0);*/
-/*}*/
-
-/*.mkdfhgjgh  [type=radio]:checked + label:after {*/
-/*  opacity: 1;*/
-/*  transform: scale(1);*/
-/*}*/
-
 .csdfygtyy {
   justify-content: end;
 }
@@ -2058,12 +1965,6 @@ header .suggestion:hover {
   color: #636363;
 }
 
-/* end find a job page css*/
-/* end find a job page css*/
-/* end find a job page css*/
-
-/* start jobdes page css*/
-/* start jobdes page css*/
 .kjhfhffd {
   display: flex;
   margin-top: 45px;
@@ -2078,7 +1979,6 @@ header .suggestion:hover {
   color: gray;
   border: 2px solid var(--main-orange-color);
   border-radius: 50px;
-  /*margin-top: 5px;*/
   margin-left: 15px;
 }
 
@@ -2210,10 +2110,6 @@ header .suggestion:hover {
   margin-top: 10px;
 }
 
-/* end jobdes page css*/
-/* end jobdes page css*/
-
-/*mentee dashboard start*/
 
 .md-header header {
   position: relative;
@@ -2317,16 +2213,14 @@ header .suggestion:hover {
   display: block !important;
 }
 
-/* The container must be positioned relative: */
 .custom-select {
   position: relative;
 }
 
 .custom-select select {
-  display: none; /*hide original SELECT element: */
+  display: none;
 }
 
-/* Style the arrow inside the select element: */
 .select-selected:after {
   position: absolute;
   content: "";
@@ -2338,13 +2232,11 @@ header .suggestion:hover {
   border-color: #fff transparent transparent transparent;
 }
 
-/* Point the arrow upwards when the select box is open (active): */
 .select-selected.select-arrow-active:after {
   border-color: transparent transparent #fff transparent;
   top: 7px;
 }
 
-/* style the items (options), including the selected item: */
 .select-items div,
 .select-selected {
   color: #ffffff;
@@ -2355,7 +2247,6 @@ header .suggestion:hover {
   text-align: left;
 }
 
-/* Style items (options): */
 .select-items {
   position: absolute;
   background-color: #fff;
@@ -2367,7 +2258,6 @@ header .suggestion:hover {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-/* Hide the items when the select box is closed: */
 .select-hide {
   display: none;
 }
@@ -2387,13 +2277,6 @@ header .suggestion:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/*mentee dashboard end*/
-
-/* end contact us*/
-/* end contact us*/
-/* end contact us*/
-
-/*mentor profile settings start*/
 
 .difuhtre_content .mentor-prf-settings h5,
 .hiniertvrer_change_password h5 {
@@ -2491,10 +2374,6 @@ header .suggestion:hover {
   font-family: var(--font-family-lato);
   font-style: italic;
 }
-
-/*mentor profile settings end*/
-
-/*mentor dashboard chat start*/
 
 #frame {
   width: 100%;
@@ -3014,7 +2893,6 @@ header .suggestion:hover {
 @media screen and (max-width: 735px) {
   #frame .content {
     width: calc(100% - 58px);
-    /*min-width: 300px !important;*/
   }
 }
 #frame .content .contact-profile {
@@ -3172,11 +3050,6 @@ header .suggestion:hover {
   outline: none;
 }
 
-/*mentor dashboard chat end*/
-
-/*start MENTOR page css*/
-/*start MENTOR page css*/
-/*start MENTOR page css*/
 .fkjhgdfbghh ul.tabs {
   margin: 0px;
   padding: 0px;
@@ -3466,13 +3339,6 @@ caption {
   padding-left: 10px !important;
 }
 
-/*end MENTOR page css*/
-/*end MENTOR page css*/
-/*end MENTOR page css*/
-
-/*start payment page css*/
-/*start payment page css*/
-/*start payment page css*/
 
 .mcgghghfhfghyg {
   width: 100%;
@@ -3555,10 +3421,6 @@ caption {
 
 .gkjffgg98 button {
   padding: 10px 20px !important;
-  /*border:none;*/
-  /*background-color:var(--main-orange-color);*/
-  /*color:white;*/
-  /*font-weight:600;*/
 }
 
 .jnhjkhjgh button {
@@ -3613,12 +3475,6 @@ caption {
   margin-right: 0;
 }
 
-/*end payment page css*/
-/*end payment page css*/
-
-/*start Mentor choice page css*/
-/*start Mentor choice page css*/
-/*start Mentor choice page css*/
 .aslkhghj2 {
   padding: 100px 0;
   background: url("../Images/plpl1.png");
@@ -3681,12 +3537,6 @@ caption {
   margin-bottom: 20px;
 }
 
-/*end Mentor choice page css*/
-/*end Mentor choice page css*/
-
-/*start season end page css*/
-/*start season end page css*/
-/*start season end page css*/
 .gjhtrhgjghjh {
   width: 100%;
   padding: 40px 0;
@@ -3809,13 +3659,6 @@ caption {
   margin-top: 40px;
 }
 
-/*end season end page css*/
-/*end season end page css*/
-/*end season end page css*/
-
-/*Start season end page css*/
-/*Start season end page css*/
-/*Start season end page css*/
 .hjgbghghf {
   width: 100%;
   height: 400px;
@@ -3846,12 +3689,6 @@ caption {
   margin-top: 30px !important;
 }
 
-/*End season end page css*/
-/*End season end page css*/
-
-/*start single course by css*/
-/*start single course by css*/
-/*start single course by css*/
 
 .aslkhghj2 {
   padding: 100px 0;
@@ -3967,16 +3804,6 @@ caption {
   padding: 10px;
 }
 
-/*end single course by css*/
-/*end single course by css*/
-/*end single course by css*/
-
-/*start business mentor css*/
-/*start business mentor css*/
-/*start business mentor css*/
-
-/* Start Business Mentor page css*/
-/* Start Business Mentor page css*/
 .dfghgghfg {
   padding: 1rem;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
@@ -4145,7 +3972,6 @@ caption {
   line-height: 22px;
 }
 
-/*business mentor responsive start*/
 
 .mbpm .csdffh_modal {
   position: fixed;
@@ -4245,7 +4071,6 @@ caption {
   cursor: pointer;
 }
 
-/*business mentor responsive end*/
 
 .djbhfdf button {
   border-radius: 50px;
@@ -4554,7 +4379,6 @@ caption {
   top: 17%;
 }
 
-/*filter start*/
 
 .ighefirr .sfgrwwe_btn .select-selected {
   font-size: 0.9rem;
@@ -4680,15 +4504,6 @@ caption {
   display: block;
 }
 
-/*filter end*/
-
-/*end business mentor css*/
-/*end business mentor css*/
-/*end business mentor css*/
-
-/* stars payment1 css*/
-/* stars payment1 css*/
-/* stars payment1 css*/
 .nfhjvdfvgdf {
   display: flex;
   align-items: baseline;
@@ -4772,7 +4587,6 @@ caption {
   line-height: 22px;
 }
 
-/* start callender payment css*/
 .calendar {
   height: 30rem;
   width: -moz-max-content;
@@ -4784,7 +4598,6 @@ caption {
 }
 
 .calendar {
-  /*box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;*/
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
@@ -5076,14 +4889,6 @@ caption {
   margin-top: 120px;
 }
 
-/* end callender payment css*/
-/* end payment1 css*/
-/* end payment1 css*/
-/* end payment1 css*/
-
-/* start payment2 css*/
-/* start payment2 css*/
-/* start payment2 css*/
 .jghfffdf {
   padding: 25px;
   margin: 10px;
@@ -5208,13 +5013,6 @@ caption {
   font-weight: 600;
 }
 
-/* end payment2 css*/
-/* end payment2 css*/
-/* end payment2 css*/
-
-/* start institute profile css*/
-/* start institute profile css*/
-/* start institute profile css*/
 .gkbfgbg {
   width: 100%;
   height: 400px;
@@ -5235,7 +5033,6 @@ caption {
 .dfknhguyfdgf {
   width: 100%;
   padding: 4rem 0 4rem;
-  /*background-color: rgb(248, 251, 251);*/
 }
 
 .owl58 .kmg {
@@ -5602,12 +5399,6 @@ caption {
   background-color: var(--main-orange-color) !important;
 }
 
-/* end institute profile css*/
-/* end institute profile css*/
-/* end institute profile css*/
-
-/* start institute profile css*/
-
 .udbeir_banner_image {
   width: 30%;
   border-radius: 10px;
@@ -5626,7 +5417,6 @@ caption {
   color: #c50707;
 }
 
-/*Map Styling*/
 #map-canvas {
   height: auto;
   width: 100%;
@@ -5635,19 +5425,10 @@ caption {
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
-/* end institute profile css*/
-
-/*institute filter start*/
-
 .duigehrr_wrapper .lkrhhdfgfdfgfhf {
   margin: 2rem 0;
 }
 
-/*institute filter end*/
-
-/* start payemnt10 page css*/
-/* start payemnt10 page css*/
-/* start payemnt10 page css*/
 .khgdfyhjgdfgfhftg854 {
   width: 100%;
   padding: 40px 0;
@@ -5670,7 +5451,7 @@ caption {
 .nghjfbgfgf {
   margin-bottom: 20px;
   margin-top: 30px;
-  /*Author*/
+
 }
 .nghjfbgfgf .img-btn img {
   width: 100px;
@@ -5901,13 +5682,7 @@ caption {
   margin-bottom: 0;
 }
 
-/* end payemnt10 page css*/
-/* end payemnt10 page css*/
-/* end payemnt10 page css*/
 
-/* Start payemnt20 page css*/
-/* Start payemnt20 page css*/
-/* Start payemnt20 page css*/
 .gnhvgfdfgfdgfd {
   width: 100%;
   padding: 40px 0;
@@ -6003,28 +5778,12 @@ caption {
   font-size: 24px;
 }
 
-/* end payemnt20 page css*/
-/* end payemnt20 page css*/
-
-/* Start session setup page css*/
-/* Start session setup page css*/
-/* Start session setup page css*/
 
 .bgthfghfgh {
   margin-top: 15px;
 }
 
-/* end session setup page css*/
-/* end session setup page css*/
-/* end session setup page css*/
 
-/* start notification  css*/
-/* start notification  css*/
-/* start notification  css*/
-
-/* start notification  css*/
-/* start notification  css*/
-/* start notification  css*/
 .huygggfhfg {
   width: 100%;
   padding: 40px 0;
@@ -6138,10 +5897,6 @@ caption {
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-/* end  notification  css*/
-/* end  notification  css*/
-
-/*footer start*/
 
 footer {
   background: #001237;
@@ -6232,5 +5987,3 @@ footer .bghjdfgfdg button:hover i {
   transform: translate(-50%, -45%) scale(1.2);
 }
 
-/*footer end*/ /*# sourceMappingURL=style.css.map */
-/*# sourceMappingURL=style.css.map */

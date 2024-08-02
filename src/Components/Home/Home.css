@@ -1,4 +1,3 @@
-/* scrollar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -25,8 +24,6 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* scrollar */
-/*banner start*/
 .banner {
   background: var(--main-orange-color);
 }
@@ -50,7 +47,6 @@
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
-  /* border-right: 2px solid #3fb9d1; */
   display: inline-block;
   padding-right: 10px;
 }
@@ -94,8 +90,6 @@
   transform: rotate(338deg);
 }
 
-/*banner end*/
-/*middle start*/
 .section2 {
   width: 100%;
   background: var(--light-main-background-color);
@@ -251,8 +245,6 @@
   right: 0;
 }
 
-/*start owl 1*/
-/*start owl 1*/ /*start owl 1*/
 .mfkjghhdfgd {
   width: 100%;
 }
@@ -294,7 +286,6 @@
   background: var(--main-orange-color) !important;
 }
 
-/*end owl 1*/ /*end owl 1*/
 .khjfdgdf {
   width: 100%;
   padding: 40px 0;
@@ -341,8 +332,6 @@
   font-weight: 600;
   border-bottom: 1px solid #e1e1e1;
 }
-
-/*tab content*/
 
 .mfkjhgjfhf .tabs {
   margin: 0px;
@@ -425,8 +414,6 @@
   text-align: center;
 }
 
-/*slider start*/
-
 .udguafr_slider .uihderr img {
   width: 1rem !important;
 }
@@ -489,8 +476,6 @@
 .uihderr_slider img {
   border-radius: 25%;
 }
-
-/*slider end*/
 
 .section3 {
   width: 100%;
@@ -592,7 +577,6 @@
 }
 
 .tabs__tab-btn--not-selected {
-  /* border-bottom-color: #eeeeee; */
   background-color: #ffffff;
   border: 2px solid var(--main-orange-color);
   color: rgb(0, 0, 0);
@@ -872,7 +856,7 @@
 }
 
 .section5a {
-  background: url("../../Images//mentorbclk.png") no-repeat;
+  background: url("../../Images/mentorbclk.png") no-repeat;
   width: 100%;
   position: relative;
   background-position: center;
@@ -1139,5 +1123,3 @@
   transform: translateY(-50%);
   right: 0.5rem;
 }
-
-/*middle end*/
