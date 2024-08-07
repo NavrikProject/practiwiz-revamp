@@ -35,7 +35,7 @@
 
 .aslkhghj2 {
   padding: 100px 0;
-  background: url(../../../Images/Courses/vbvb2.png);
+  background: url("../../../Images/Courses/vbvb2.png");
   background-color: white;
 }
 
@@ -164,6 +164,3 @@
   color: var(--main-orange-color);
 }
 
-/*end single course by css*/
-/*end single course by css*/
-/*end single course by css*/

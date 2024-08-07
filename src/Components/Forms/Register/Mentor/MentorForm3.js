@@ -21,7 +21,6 @@ const initialTime = {
   hours: "00",
   minutes: "00",
   ampm: "AM",
-  
 };
 
 const MentorForm3 = () => {
@@ -94,9 +93,7 @@ const MentorForm3 = () => {
       <div>
         {/* <div className="jdoieoir_wrapper"> */}
         <div className="line-1">Set your availability</div>
-        <div className="topfield">
-        
-        </div>
+        <div className="topfield"></div>
         <div className="whole">
           <div
             onSubmit={handleSubmit(onSubmit)}
@@ -105,12 +102,11 @@ const MentorForm3 = () => {
           >
             <div className="linesepration">
               <div className="line-2">Select Days</div>
-
               <span className="line-3">
                 Choose your preferred time slots for the selected day
               </span>
             </div>
-
+            <hr style={{ marginTop: "0px" }} />
             <div style={styles.container} className="main">
               <div className="dayColumn">
                 {daysOfWeek.map((day) => (
@@ -144,23 +140,28 @@ const MentorForm3 = () => {
                       )
                   )
                 ) : (
-                  <div className="Timecolumn">
-                    <div style={styles.timeSlotRow} className="timeslots">
-                      <span style={styles.toLabel} className="tolabel">
-                        FROM :
-                      </span>
-                      <input type="time" />
+                  <>
+                    <p className="line-3">
+                      Selected slots will be displayed here{" "}
+                    </p>
+                    {/* <div className="Timecolumn">
+                      <div style={styles.timeSlotRow} className="timeslots">
+                        <span style={styles.toLabel} className="tolabel">
+                          FROM :
+                        </span>
+                        <input type="time" />
 
-                      <span style={styles.toLabel} className="tolable">
-                        TO:
-                      </span>
+                        <span style={styles.toLabel} className="tolable">
+                          TO:
+                        </span>
 
-                      <input type="time" />
-                      <button type="button" style={styles.addButton}>
-                        Add Time Slot
-                      </button>
-                    </div>
-                  </div>
+                        <input type="time" />
+                        <button type="button" style={styles.addButton}>
+                          Add Time Slot
+                        </button>
+                      </div>
+                    </div>{" "} */}
+                  </>
                 )}
               </div>
             </div>
@@ -176,8 +177,6 @@ const MentorForm3 = () => {
 };
 
 const TimeSlots = ({ control, day, onDropdownChange }) => {
-
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: day,
@@ -235,21 +234,46 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
                 />
               )}
             />
-
-            <Controller
-              name={`${day}[${index}].date`}
+            {/* <Controller
+              name={`${day}[${index}].mentor_timeslot_rec_indicator`}
               control={control}
               defaultValue=""
               render={({ field }) => (
-                < EndDate
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-                // <select {...field} style={styles.select}>
-                //   <option value="Daily">Daily</option>
-                //   <option value="Weekly">Weekly</option>
-                //   <option value="Monthly">Monthly</option>
-                // </select>
+                // <input {...field} placeholder="Option 1" style={styles.input} />
+              //   <select
+              //   className="form-select"
+              //   {...register("mentor_timeslot_rec_indicator", {
+              //     required: "Please select the option",
+              //   })} //1
+              // >
+              //   <option value={""}>Please select</option>
+              //   {availabilityperiod.map((option) => (
+              //     <option key={option} value={option}>
+              //       {option}
+              //     </option>
+              //   ))}
+              // </select>
+
+              <select {...field} onChange={(e) => {
+                field.onChange(e);
+                onDropdownChange(day, index, e.target.value);
+            }} style={styles.select}>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+              )}
+            /> */}
+            <Controller
+              name={`${day}[${index}].mentor_timeslot_rec_indicator`}
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <select {...field} style={styles.select}>
+                  <option value="Daily">Daily</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                </select>
               )}
             />
             <Controller
@@ -257,11 +281,7 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <Reccuring
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-                // <input type="date" {...field} style={styles.input} />
+                <input type="date" {...field} style={styles.input} />
               )}
             />
 
@@ -277,7 +297,52 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
           </div>
         ))}
       </div>
-     
+      {/* <div className="mb-4">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+          <b>AVAILABILITY CHECK </b>
+        </label>
+
+        <select
+          className="form-select"
+          {...register("mentor_timeslot_rec_indicator", {
+            required: "Please select the option",
+          })} //1
+        >
+          <option value={""}>Please select</option>
+          {availabilityperiod.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        {errors.mentor_timeslot_rec_indicator && (
+          <p className="Error-meg-login-register">
+            {errors.mentor_timeslot_rec_indicator.message}
+          </p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+          <b>To Date</b>
+        </label>
+        <input
+          type="date"
+          defaultValue={current}
+          className="form-control"
+          // id="exampleInputEmail1"
+          placeholder="current Date"
+          aria-describedby="emailHelp"
+          {...register("Mentor_timeslot_rec_end_date", {
+            required: "current date",
+          })} //1
+        />
+        {errors.Mentor_timeslot_rec_end_date && (
+          <p className="Error-meg-login-register">
+            {errors.Mentor_timeslot_rec_end_date.message}
+          </p>
+        )}
+      </div> */}
+
       <button
         type="button"
         onClick={() => append({ from: "", to: "" })}
@@ -294,7 +359,7 @@ const TimeSlots = ({ control, day, onDropdownChange }) => {
 
 const EndDate = ({ value, onChange }) => {
   const handledatePmChange = (e) => {
-    onChange({ ...value,Mentor_timeslot_rec_end_date : e.target.value });
+    onChange({ ...value, Mentor_timeslot_rec_end_date: e.target.value });
   };
   // const handlerecChange = (e) => {
   //   onChange({ ...value, mentor_timeslot_rec_indicator: e.target.value });
@@ -350,18 +415,6 @@ const Reccuring = ({ value, onChange }) => {
     </>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 const CustomTimePicker = ({ value, onChange }) => {
   const handleHoursChange = (e) => {
@@ -447,7 +500,7 @@ const styles = {
     width: "50px",
   },
   daySlots: {
-    marginBottom: "5px",
+    marginBottom: "8px",
   },
   // timeSlotRow: {
   //   // display: "flex",

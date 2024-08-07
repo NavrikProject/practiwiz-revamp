@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
-import "./input-radio.css"
+import "./input-radio.css";
 
 const MentorForm2 = () => {
   const {
@@ -68,66 +68,66 @@ const MentorForm2 = () => {
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
         <div className="row">
           {/* <div className="col-lg-6"> */}
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Job Title</b>
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                // id="exampleInputEmail1"
-                placeholder="Type Your Job Title"
-                aria-describedby="emailHelp"
-                {...register("mentor_job_title", {
-                  required: "Job title  is required",
-                })} //1
-              />
-              {errors.mentor_job_title && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_job_title.message}
-                </p>
-              )}
-            </div>
-            <div className="mb-4">
-              <label htmlFor="exampleInputPassword1" className="form-label">
-                <b>Years of Experience</b>
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                // id="exampleInputPassword1"
-                placeholder="Your Experience"
-                {...register("years_of_experience", {
-                  required: "Years of Experience is required",
-                })} //1
-              />
-              {errors.years_of_experience && (
-                <p className="Error-meg-login-register">
-                  {errors.years_of_experience.message}
-                </p>
-              )}
-            </div>
+          <div className="mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              <b>Job Title</b>
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              // id="exampleInputEmail1"
+              placeholder="Type Your Job Title"
+              aria-describedby="emailHelp"
+              {...register("mentor_job_title", {
+                required: "Job title  is required",
+              })} //1
+            />
+            {errors.mentor_job_title && (
+              <p className="Error-meg-login-register">
+                {errors.mentor_job_title.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="exampleInputPassword1" className="form-label">
+              <b>Years of Experience</b>
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              // id="exampleInputPassword1"
+              placeholder="Your Experience"
+              {...register("years_of_experience", {
+                required: "Years of Experience is required",
+              })} //1
+            />
+            {errors.years_of_experience && (
+              <p className="Error-meg-login-register">
+                {errors.years_of_experience.message}
+              </p>
+            )}
+          </div>
 
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Company</b>
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                // id="exampleInputEmail1"
-                placeholder="Type Your Company Name"
-                aria-describedby="emailHelp"
-                {...register("mentor_company_name", {
-                  required: "Company name is required",
-                })} //1
-              />
-              {errors.mentor_company_name && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_company_name.message}
-                </p>
-              )}
-            </div>
+          <div className="mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              <b>Company</b>
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              // id="exampleInputEmail1"
+              placeholder="Type Your Company Name"
+              aria-describedby="emailHelp"
+              {...register("mentor_company_name", {
+                required: "Company name is required",
+              })} //1
+            />
+            {errors.mentor_company_name && (
+              <p className="Error-meg-login-register">
+                {errors.mentor_company_name.message}
+              </p>
+            )}
+          </div>
           {/* </div> */}
 
           {/* <div className="col-lg-6">
@@ -172,7 +172,9 @@ const MentorForm2 = () => {
                 height: "200px",
               }}
             >
-              {items.filter((item) => item.inside).map((item) => (
+              {items
+                .filter((item) => item.inside)
+                .map((item) => (
                   <div
                     key={item.id}
                     id={item.id}
@@ -213,7 +215,9 @@ const MentorForm2 = () => {
               onDragOver={handleDragOver}
               onDrop={handleDropOutside}
             >
-              {items.filter((item) => !item.inside).map((item) => (
+              {items
+                .filter((item) => !item.inside)
+                .map((item) => (
                   <div
                     key={item.id}
                     id={item.id}
@@ -381,7 +385,6 @@ const MentorForm2 = () => {
               <ul className="ps-0 mb-0">
                 <li>
                   <input
-                
                     type="radio"
                     id="check_11"
                     name="check_11"
@@ -428,30 +431,33 @@ const MentorForm2 = () => {
           <div className="col-lg-12 mb-4">
             <label htmlFor="exampleInputEmail1" className="form-label">
               <b>Your Recommended Area of Mentorship</b>
-            </label>
-            <textarea
-              className="form-control"
-              style={{ height: "150px" }}
-              {...register("recommended_area_of_mentorship", {
-                // required: "First Name is required",
-              })} //1
-            ></textarea>
-          </div>
-
-          <div className="col-lg-12 mb-4">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              <b>Headline</b>
-            </label>
+            </label>{" "}
             <input
               type="text"
               className="form-control"
               // id="exampleInputEmail1"
               placeholder="Type A Headline Here"
               aria-describedby="emailHelp"
+              {...register("recommended_area_of_mentorship", {
+                // required: "First Name is required",
+              })}
+            />
+          </div>
+          <div className="col-lg-12 mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              <b>Headline</b>
+            </label>
+            <textarea
+              className="form-control"
+              style={{ height: "150px" }}
               {...register("mentor_Headline", {
                 // required: "First Name is required",
               })} //1
-            />
+            ></textarea>
+            <p className="iduehnbriee_text mb-0">
+              (*Give a good headline, This help us to understand the mentor
+              overview*)
+            </p>
           </div>
         </div>
       </div>

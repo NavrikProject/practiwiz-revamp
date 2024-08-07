@@ -8,6 +8,7 @@ import MentorForm3 from "./MentorForm3";
 import MentorForm4 from "./MentorForm4";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import { toast } from "react-toastify";
 // const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
@@ -92,7 +93,10 @@ const MentorStepForm = () => {
         newData.append("jobtitle", data.mentor_job_title);
         newData.append("experience", data.years_of_experience);
         newData.append("companyName", data.mentor_company_name);
-        newData.append("passionateAbout", data.passionate_about);
+        newData.append(
+          "passionateAbout",
+          JSON.stringify(data.passionate_about)
+        );
         newData.append("AreaOfexpertise", data.areas_of_expertise);
         newData.append("academicQualification", data.academic_qualification);
         newData.append("areaofmentorship", data.recommended_area_of_mentorship);
@@ -103,19 +107,22 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
-        newData.append("Mon", data.Mon);
-        newData.append("Tue", data.Tue);
-        newData.append("Wed", data.Wed);
-        newData.append("Thu", data.Thu);
-        newData.append("Fri", data.Fri);
-        newData.append("Sat", data.Sat);
-        newData.append("Sun", data.Sun);
-       
-        const res = await axios.post(
-          `http://localhost:1337/api/v1/mentor/registration/test`,
-          newData
-        );
-        console.log(res.data);
+        newData.append("Mon", JSON.stringify(data.Mon));
+        newData.append("Tue", JSON.stringify(data.Tue));
+        newData.append("Wed", JSON.stringify(data.Wed));
+        newData.append("Thu", JSON.stringify(data.Thu));
+        newData.append("Fri", JSON.stringify(data.Fri));
+        newData.append("Sat", JSON.stringify(data.Sat));
+        newData.append("Sun", JSON.stringify(data.Sun));
+        const res = await axios.post(`${url}api/v1/mentor/register`, newData);
+        if (res.data.success) {
+          toast.success("Thank you for applying the mentor application.");
+        }
+        if (res.data.error) {
+          toast.error(
+            "There is some error while applying the mentor application. We will get back you over the email."
+          );
+        }
       } catch (error) {
         console.error(error);
       }

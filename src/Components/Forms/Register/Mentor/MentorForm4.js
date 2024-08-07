@@ -19,10 +19,8 @@ const MentorForm4 = () => {
     control,
     formState: { errors },
   } = useFormContext({});
-  const F_Name = watch("mentor_firstname");
-  const L_Name = watch("mentor_lastname");
+
   const [selected, setSelected] = useState("");
-  const [timezome, settimezone] = useState("");
   // const handleExpertiseChange = (e) => {
   //   settimezone(e.target.value);
   // };
@@ -210,157 +208,6 @@ const MentorForm4 = () => {
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
         <div className="row">
-          {/* <div className="col-lg-6">
-                <div className="mb-4">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    <b>Preffered Contact Timings</b>
-                  </label>
-                  <input
-                    type="time"
-                    className="form-control"
-                    // id="exampleInputEmail1"
-                    placeholder="Type Your Job Title"
-                    aria-describedby="emailHelp"
-                    {...register("preferred_contact_timings", {
-                      required: "First Name is required",
-                    })} //1
-                  />
-                  {errors.preferred_contact_timings && (
-                    <p className="Error-meg-login-register">
-                      {errors.preferred_contact_timings.message}
-                    </p>
-                  )}
-                </div>
-    
-                <div className="mb-4">
-                  <label htmlFor="exampleInputPassword1" className="form-label">
-                    <b>Preffered Contact Dates</b>
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    // placeholder="Your Experience"
-                    {...register("preferred_contact_dates", {
-                      required: "Preffered Contact Dates is required",
-                    })} //1
-                  />
-                  {errors.preferred_contact_dates && (
-                    <p className="Error-meg-login-register">
-                      {errors.preferred_contact_dates.message}
-                    </p>
-                  )}
-                </div>
-              </div> */}
-
-          {/* <div className="col-lg-6">
-                <div className="ikhwnjrr_right">
-                  <label htmlFor="exampleInputEmail1" className="form-label mb-3">
-                    <b>Percentage Completion</b>
-                  </label>
-    
-                  <div className="d-flex align-items-center">
-                    <div className="hinrer_circle position-relative me-3">
-                      <h2>
-                        {F_Name.charAt(0)}
-                        {L_Name.charAt(0)}
-                      </h2>
-                    </div>
-    
-                    <div className="idhnerier_right">
-                      <h4 className="mb-1">
-                        {F_Name}&nbsp;
-                        {L_Name}
-                      </h4>
-    
-                      <p className="mb-1">
-                        <b>40% Complete</b>
-                      </p>
-    
-                      <h6 className="mb-0">Signed up - 4 minutes ago</h6>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-          {/* <div className="row align-items-center">
-                <div className="col-lg-7 mb-4">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    <b>Choose Your time slots!</b>
-                  </label>
-                  <div
-                    type=""
-                    id="container"
-                    className="bg-white"
-                    onDragOver={handleDragOverTimeSlot}
-                    onDrop={handleDropInContainerTimeSlot}
-                    style={{
-                      overflowY: "scroll",
-                      overflowX: "hidden",
-                      height: "200px",
-                    }}
-                  >
-                    {items
-                      .filter((item) => item.inside)
-                      .map((item) => (
-                        <div
-                          key={item.id}
-                          id={item.id}
-                          className="draggable inside"
-                          // className="draggable"
-                          draggable
-                          onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
-                          onDragEnd={handleDragEndTimeSlot}
-                        >
-                          {item.inside && (
-                            <span
-                              className="close-btn"
-                              onClick={() => handleDeleteTimeSlot(item.id)}
-                            >
-                              &times;
-                            </span>
-                          )}
-                          {item.text}
-                        </div>
-                      ))}
-                  </div>
-    
-                  <p className="iduehnbriee_text mb-0">
-                    (*Drag and drop the most suitable slot time option in the box.
-                    This slots will be displayed for booking the mentor session with
-                    you*)
-                  </p>
-                </div>
-    
-                <div
-                  className="col-lg-5 mb-4"
-                  style={{
-                    overflowY: "scroll",
-                    overflowX: "hidden",
-                    height: "200px",
-                  }}
-                >
-                  <div
-                    id="outside-container"
-                    onDragOver={handleDragOverTimeSlot}
-                    onDrop={handleDropOutsideTimeSlot}
-                  >
-                    {items
-                      .filter((item) => !item.inside)
-                      .map((item) => (
-                        <div
-                          key={item.id}
-                          id={item.id}
-                          className="draggable"
-                          draggable
-                          onDragStart={(e) => handleDragStartTimeSlot(e, item.id)}
-                          onDragEnd={handleDragEndTimeSlot}
-                        >
-                          {item.text}
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              </div> */}
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -370,13 +217,11 @@ const MentorForm4 = () => {
               <select
                 className="form-select"
                 {...register("guest_lectures_interest", {
-                  required: " required",
+                  required: "Please select the guest lecture option",
                 })} //1
               >
                 <option value="">Choose An Option</option>
-
                 <option>Yes</option>
-
                 <option>No</option>
               </select>
             </div>
@@ -396,15 +241,11 @@ const MentorForm4 = () => {
               <select
                 className="form-select"
                 {...register("curating_case_studies_interest", {
-                  required: "required",
+                  required: "Please select the case study interest",
                 })} //1
               >
                 <option value="">Choose An Option</option>
-
-                <option defaultValue>Choose An Option</option>
-
                 <option>Yes</option>
-
                 <option>No</option>
               </select>
             </div>
@@ -428,15 +269,11 @@ const MentorForm4 = () => {
               <select
                 className="form-select"
                 {...register("sessions_free_of_charge", {
-                  required: "required",
+                  required: "Please select the number of sessions to free",
                 })} //1
               >
                 <option value="">Choose An Option</option>
-
-                <option defaultValue>Choose An Option</option>
-
                 <option>Yes</option>
-
                 <option>No</option>
               </select>
             </div>
@@ -452,7 +289,6 @@ const MentorForm4 = () => {
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Your Timezone</b>
               </label>
-
               <select
                 className="form-select"
                 // onChange={option_fro_timezone}
@@ -489,7 +325,6 @@ const MentorForm4 = () => {
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Language</b>
               </label>
-
               <select
                 className="form-select"
                 {...register("mentor_language", {
@@ -516,29 +351,19 @@ const MentorForm4 = () => {
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Which Country You Live in?</b>
               </label>
-
               <select
                 className="form-select"
                 {...register("mentor_country", {
                   required: "required",
                 })} //1
               >
+                <option value="">Please select a country</option>
                 {options.map((option) => (
                   <option key={option.country_id} value={option.country_name}>
                     {option.country_name}
                   </option>
                 ))}
               </select>
-              {/* <ReactFlagsSelect
-                    selected={selected}
-                    className="country-flag"
-                    onSelect={(code) => setSelected(code)}
-                    // onClick={handleSelect}
-                    {...register("mentor_country", {
-                      required: "required",
-                    })} //1
-                    
-                  /> */}
             </div>
             {errors.mentor_country && (
               <p className="Error-meg-login-register">

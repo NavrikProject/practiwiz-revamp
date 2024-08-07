@@ -86,8 +86,6 @@ a {
   }
 }
 
-/*header start*/
-
 .header {
   width: 98%;
   margin: auto;
@@ -254,11 +252,7 @@ a.search-button {
   border-radius: 25px;
 }
 
-/*header end*/
 
-/*middle start*/
-
-// start section1
 
 .section1 {
   width: 100%;
@@ -284,24 +278,17 @@ a.search-button {
   }
 }
 
-// typing js
 
 #typing {
   white-space: nowrap;
   overflow: hidden;
-  /* this appears like a cursor */
   border-right: 2px solid #000;
   display: inline-block;
   padding-right: 10px;
 }
 
-// end  section1
-
-// start  section2
-
 .section2 {
   width: 100%;
-  // height: 20vh;
 }
 
 .hjfgdfgfg {
@@ -531,7 +518,6 @@ a.search-button {
 }
 
 .tabs__tab-btn--not-selected {
-  /* border-bottom-color: #eeeeee; */
   background-color: #ffffff;
   border: 2px solid #ee6c29;
 
@@ -1094,11 +1080,6 @@ ul.tabs li.current {
   margin-bottom: 15px;
 }
 
-// end foooter
-
-/*middle end*/
-
-/*register start*/
 
 .regis_background {
   padding: 9rem 0px 7rem 0px;
@@ -1230,115 +1211,3 @@ ul.tabs li.current {
   }
 }
 
-/*register end*/
-
-/*footer start*/
-
-// footer{
-//   background: var(--footer-dark-background-color);
-
-//   p{
-//     color: #fff;
-//     letter-spacing: 1.19px;
-//     font-weight: 400;
-//     font-size: 1rem;
-//   }
-
-//   h4{
-//     color: #fff;
-//     letter-spacing: 1.54px;
-//   }
-
-//   .dieuhrrr{
-
-//     .btn{
-//       border-radius: 10px;
-//       box-shadow: 0 0 8px 4px rgba(241, 92, 29, 0.25);
-//       border: solid 2px #f15c1d;
-//       background-color: #fff;
-
-//       img{
-//         max-width: 100%;
-//       }
-
-//       h6{
-//         font-weight: 600;
-//         font-family: var(--font-family-montserrat);
-//         font-size: 14px;
-//       }
-
-//       h5{
-//         font-weight: 600;
-//       }
-//     }
-//   }
-
-//   .diuehrr_right{
-//     color: #fff;
-
-//     h5{
-//       font-weight: 400 !important;
-//     }
-
-//     .fsfewtf__cnjgfd{
-
-//       .huierrr_inner{
-
-//         h5{
-//           font-weight: 600 !important;
-//           font-size: 1.6rem;
-//         }
-
-//         ul{
-
-//           li{
-//             color: #fff;
-//             font-weight: 400;
-//             font-size: 1rem;
-//             list-style: none;
-//             letter-spacing: 0.6px;
-//           }
-//         }
-
-//         .ihihierrnog_text{
-//           line-height: 1.5;
-//         }
-//       }
-//     }
-//   }
-
-//   .duiherr_bottm{
-
-//     h5{
-//       color: #fff;
-//       font-weight: 600;
-//       font-size: 1.6rem;
-//     }
-
-//     .ibhierr_inner{
-
-//       .ihedrr_circle{
-//         width: 2.5rem;
-//         height: 2.5rem;
-//         border-radius: 50%;
-//         border: solid 1px #f15c1d;
-//         position: relative;
-
-//         i{
-//           color: var(--main-orange-color);
-//           font-size: 1.8rem;
-//           position: absolute;
-//           left: 50%;
-//           top: 50%;
-//           transform: translate(-50%, -50%);
-//         }
-//       }
-
-//       p{
-//         font-weight: 600;
-//       }
-//     }
-//   }
-// }
-
-/*footer end*/

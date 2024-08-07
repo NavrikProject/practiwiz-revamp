@@ -1,5 +1,5 @@
 #singleMentorCoverPicture {
-  background-image: url(../../../Images/Mentors/ddd.png);
+  background-image: url("../../../Images/Mentors/ddd.png");
   background-repeat: "no-repeat";
   background-size: "cover";
 }
