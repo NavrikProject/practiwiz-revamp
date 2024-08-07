@@ -1,4 +1,3 @@
-/*boorstrap css start*/
 
 :root {
   --bs-blue: #0d6efd;
@@ -3602,5 +3601,3 @@ fieldset:disabled .btn {
 .bg-transparent {
   background-color: transparent !important;
 }
-
-/*bootstrap css end*/

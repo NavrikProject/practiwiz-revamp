@@ -1,13 +1,11 @@
-/*start mentee page css*/
-/*start mentee page css*/
+
 #menteeBackgroundCover {
-  background: url(../../../Images/Mentee/ddd.png) no-repeat;
+  background: url("../../../Images/Mentee/ddd.png") no-repeat;
   background-size: cover;
 }
 .mt70 {
   margin-top: 70px;
 }
-/*start mentee page css*/
 
 .ljrfhf {
   text-align: right;
@@ -197,7 +195,6 @@
   letter-spacing: 0.5px;
 }
 
-/*complete profile start*/
 
 .info-code {
   cursor: pointer;
@@ -228,7 +225,6 @@
   box-shadow: inset 0 0 25px 10px #f50057;
 }
 
-/*complete profile end*/
 
 .duiegrrrr_wrapper h5 {
   color: #000;
@@ -282,5 +278,3 @@
   border-bottom: 1px solid var(--light-grey-border);
 }
 
-/*end mentee page css*/
-/*end mentee page css*/

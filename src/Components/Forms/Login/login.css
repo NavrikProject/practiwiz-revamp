@@ -5,14 +5,13 @@
   font-size: 16px !important;
 }
 #loginBg {
-  background: url(../../../Images/mentorbclk.png) no-repeat;
+  background: url("../../../Images/mentorbclk.png") no-repeat;
   width: 100%;
   background-size: "cover";
   background-position: "center";
 }
 
 .regis_background {
-  /* padding: 4rem 0px 7rem 0px; */
 }
 
 .d-t:focus {

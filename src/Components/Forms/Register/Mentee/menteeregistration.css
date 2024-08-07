@@ -1,4 +1,3 @@
-register start*/
 .regis_background {
   padding: 9rem 0px 3rem 0px;
 }
@@ -127,7 +126,6 @@ register start*/
 .moideuirer_list input[type="checkbox"]:checked + label {
   border: 2px solid #4064ac;
   color: #ffffff;
-  /* background-color: #fff; */
   background-color: #007bff;
 }
 
@@ -288,7 +286,6 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
   color: var(--main-orange-color) !important;
 }
 
-/**/
 
 .jdoieoir_wrapper {
   width: 75%;
@@ -362,14 +359,6 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
   padding: 0.8rem;
   border-bottom: 1px solid #cdcdcd;
 }
-/**/
-
-/*register end*/
-
-/* 
-input[type="radio"] {
-  display: none;
-}
 
 .moideuirer_list input[type="radio"] + label {
   display: inline-block;
@@ -390,23 +379,12 @@ input[type="radio"]:checked + label {
 
 label:hover {
   background-color: #e9ecef;
-} */
-
-.country-flag{
+}
+.country-flag {
   width: 15rem;
   position: absolute;
   vertical-align: inherit;
   padding-bottom: 5px;
   text-align: left;
   z-index: 2;
-  
-
-
-
-  
-  
- 
- 
-
- 
 }
