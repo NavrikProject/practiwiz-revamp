@@ -2,14 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LnIcon from "./deeteewe.png";
 import { useFormContext, Controller } from "react-hook-form";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
+import CountryData from "../../../data/CountryData.json";
 // import '../Mentee/Phone-input-style.css'
 import "react-phone-input-2/lib/style.css";
 import "./register.css";
 const MentorForm1 = () => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    setOptions(CountryData); // Directly setting options if importing the JSON file
+  }, []);
   const {
     register,
     watch,
@@ -174,20 +179,7 @@ const MentorForm1 = () => {
                   <b>Mobile Number</b>
                 </label>
 
-                {/* <input
-                  id="phone"
-                  className="form-control"
-                  type="tel"
-                  name="phone"
-                  placeholder="Mobile Number"
-                  {...register("mentor_phone_number", {
-                    required: "Mobile Number is required",
-                  })} //1
-                />
-                {errors.mentor_phone_number && (
-<<<<<<< HEAD
-                  <p className="Error-meg-login-register">{errors.mentor_phone_number.message}</p>
-                )} */}
+
                 <Controller
                   name="mentor_phone_number"
                   control={control}
@@ -396,6 +388,31 @@ const MentorForm1 = () => {
                 )}
               </div>
             </div>
+            <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Which Country You Live in?</b>
+              </label>
+              <select
+                className="form-select"
+                {...register("mentor_country", {
+                  required: "required",
+                })} //1
+              >
+                <option value="">Please select a country</option>
+                {options.map((option) => (
+                  <option key={option.country_id} value={option.country_name}>
+                    {option.country_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {errors.mentor_country && (
+              <p className="Error-meg-login-register">
+                {errors.mentor_country.message}
+              </p>
+            )}
+          </div>
           </div>
         </div>
       </div>
