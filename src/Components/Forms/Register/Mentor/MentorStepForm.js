@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
 import MentorForm1 from "./MentorForm1";
@@ -9,9 +10,14 @@ import MentorForm4 from "./MentorForm4";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
 // const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
+  const dispatch = useDispatch();
   const url = ApiURL();
   const methods = useForm({});
 
@@ -107,6 +113,7 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
+        newData.append("pricing", data.pricing);
         newData.append("Mon", JSON.stringify(data.Mon));
         newData.append("Tue", JSON.stringify(data.Tue));
         newData.append("Wed", JSON.stringify(data.Wed));
@@ -114,17 +121,24 @@ const MentorStepForm = () => {
         newData.append("Fri", JSON.stringify(data.Fri));
         newData.append("Sat", JSON.stringify(data.Sat));
         newData.append("Sun", JSON.stringify(data.Sun));
+        dispatch(showLoadingHandler());
         const res = await axios.post(`${url}api/v1/mentor/register`, newData);
+        dispatch(hideLoadingHandler());
         if (res.data.success) {
+          dispatch(hideLoadingHandler());
           toast.success("Thank you for applying the mentor application.");
         }
         if (res.data.error) {
+          dispatch(hideLoadingHandler());
           toast.error(
             "There is some error while applying the mentor application. We will get back you over the email."
           );
         }
       } catch (error) {
-        console.error(error);
+        dispatch(hideLoadingHandler());
+        toast.error(
+          "There is some error while applying the mentor application. We will get back you over the email."
+        );
       }
     }
   };
