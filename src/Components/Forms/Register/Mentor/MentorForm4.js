@@ -1,35 +1,13 @@
 import React from "react";
 
-import ReactFlagsSelect from "react-flags-select";
-import { useState, useEffect } from "react";
-
 import { useFormContext } from "react-hook-form";
-import CountryData from "../../../data/CountryData.json";
 
 const MentorForm4 = () => {
-  const [options, setOptions] = useState([]);
-  useEffect(() => {
-    setOptions(CountryData); // Directly setting options if importing the JSON file
-  }, []);
-
   const {
     register,
-    setValue,
-    watch,
-    control,
+
     formState: { errors },
   } = useFormContext({});
-
-  const [selected, setSelected] = useState("");
-  // const handleExpertiseChange = (e) => {
-  //   settimezone(e.target.value);
-  // };
-  // const r1 = { selected };
-
-  const handleSelect = (code) => {
-    // setSelected(code);
-    setValue("mentor_country", selected); // Update React Hook Form value
-  };
 
   const option_fro_timezone = [
     "UTC-12:00: Baker Island Time (BIT)",
@@ -65,8 +43,7 @@ const MentorForm4 = () => {
     " UTC+14:00: Line Islands Time (LINT)",
     "UTC+03:30: Iran Standard Time (IRST)",
     "UTC+04:30: Afghanistan Time (AFT)",
-    // "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)",
-    // "UTC+05:45: Nepal Time (NPT)",
+
     "UTC+06:30: Cocos Islands Time (CCT)",
     "UTC+03:45: Nepal Time (NPT)",
     "UTC+05:45: Nepal Time (NPT)",
@@ -126,88 +103,40 @@ const MentorForm4 = () => {
     "Finnish",
   ];
 
-  const countryname = [];
-
-  // const [items, setItems] = useState([
-  //   { id: "8:00-8:30AM", text: "8:00-8:30AM", inside: false },
-  //   { id: "8:30-9:00AM", text: "8:30-9:00AM", inside: false },
-  //   { id: "9:00-9:30AM", text: "9:00-9:30AM", inside: false },
-  //   { id: "9:30-10:00AM", text: "9:30-10:00AM", inside: false },
-  //   { id: "10:00-10:30AM", text: "10:00-10:30AM", inside: false },
-  //   { id: "10:30-11:00AM", text: "10:30-11:00AM", inside: false },
-  //   { id: "11:00-11:30AM", text: "11:00-11:30AM", inside: false },
-  //   { id: "11:30-12:00PM", text: "11:30-12:00PM", inside: false },
-  //   { id: "12:00-12:30PM", text: "12:00-12:30PM", inside: false },
-  //   { id: "12:30-1:00PM", text: "12:30-1:00PM", inside: false },
-  //   { id: "1:00-1:30PM", text: "1:00-1:30PM", inside: false },
-  //   { id: "1:30-2:00PM", text: "1:30-2:00PM", inside: false },
-  //   { id: "2:00-2:30PM", text: "2:00-2:30PM", inside: false },
-  //   { id: "2:30-3:00PM", text: "2:30-3:00PM", inside: false },
-  //   { id: "3:00-3:30PM", text: "3:00-3:30PM", inside: false },
-  //   { id: "3:30-4:00PM", text: "3:30-4:00PM", inside: false },
-  //   { id: "4:00-4:30PM", text: "4:00-4:30PM", inside: false },
-  //   { id: "4:30-5:00PM", text: "4:30-5:00PM", inside: false },
-  //   { id: "5:00-5:30PM", text: "5:00-5:30PM", inside: false },
-  //   { id: "5:30-6:00PM", text: "5:30-6:00PM", inside: false },
-  //   { id: "6:00-6:30PM", text: "6:00-6:30PM", inside: false },
-  //   { id: "6:30-7:00PM", text: "6:30-7:00PM", inside: false },
-  //   { id: "7:00-7:30PM", text: "7:00-7:30PM", inside: false },
-  //   { id: "7:30-8:00PM", text: "7:30-8:00PM", inside: false },
-  //   { id: "8:00-8:30PM", text: "8:00-8:30PM", inside: false },
-  //   { id: "8:30-9:00PM", text: "8:30-9:00PM", inside: false },
-  //   { id: "9:00-9:30PM", text: "9:00-9:30PM", inside: false },
-  //   { id: "9:30-10:00PM", text: "9:30-10:00PM", inside: false },
-  //   { id: "10:00-10:30PM", text: "10:00-10:30PM", inside: false },
-  //   { id: "10:30-11:00PM", text: "10:30-11:00PM", inside: false },
-  // ]);
-
-  // const handleDragStartTimeSlot = (e, id) => {
-  //   e.dataTransfer.setData("text/plain", id);
-  //   setTimeout(() => {
-  //     e.target.classList.add("hide");
-  //   }, 0);
-  // };
-
-  // const handleDragEndTimeSlot = (e) => {
-  //   e.target.classList.remove("hide");
-  // };
-
-  // const handleDragOverTimeSlot = (e) => {
-  //   e.preventDefault();
-  // };
-
-  // const handleDropInContainerTimeSlot = (e) => {
-  //   e.preventDefault();
-  //   const id = e.dataTransfer.getData("text");
-  //   setItems(
-  //     items.map((item) => (item.id === id ? { ...item, inside: true } : item))
-  //   );
-  //   updateFormData();
-  // };
-
-  // const handleDropOutsideTimeSlot = (e) => {
-  //   e.preventDefault();
-  //   const id = e.dataTransfer.getData("text");
-  //   setItems(
-  //     items.map((item) => (item.id === id ? { ...item, inside: false } : item))
-  //   );
-  //   updateFormData();
-  // };
-
-  // const handleDeleteTimeSlot = (id) => {
-  //   setItems(
-  //     items.map((item) => (item.id === id ? { ...item, inside: false } : item))
-  //   );
-  //   updateFormData();
-  // };
-  // const updateFormData = () => {
-  //   setValue("time_slot", items);
-  // };
-
   return (
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
         <div className="row">
+        <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Pricing</b>
+              </label>
+
+              <select
+                className="form-select"
+                {...register("pricing", {
+                  // required: " required",
+                })} 
+              >
+                <option value="">Set your hourly rate</option>
+
+                <option> $20/hr</option>
+                <option> $30/hr</option>
+                <option> $40/hr</option>
+                <option> $50/hr</option>
+                <option> $60/hr</option>
+                <option> $70/hr</option>
+
+                {/* <option>No</option> */}
+              </select>
+            </div>
+            {/* {errors.guest_lectures_interest && (
+              <p className="Error-meg-login-register">
+                {errors.guest_lectures_interest.message}
+              </p>
+            )} */}
+          </div>
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -255,9 +184,6 @@ const MentorForm4 = () => {
               </p>
             )}
           </div>
-        </div>
-
-        <div className="row align-items-end">
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -283,6 +209,10 @@ const MentorForm4 = () => {
               </p>
             )}
           </div>
+        </div>
+
+        <div className="row align-items-end">
+          
 
           <div className="col-lg-6">
             <div className="mb-4">
@@ -317,9 +247,6 @@ const MentorForm4 = () => {
               </p>
             )}
           </div>
-        </div>
-
-        <div className="row">
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -345,33 +272,35 @@ const MentorForm4 = () => {
               </p>
             )}
           </div>
+        </div>
 
+        {/* <div className="row">
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Which Country You Live in?</b>
+                <b>Language</b>
               </label>
               <select
                 className="form-select"
-                {...register("mentor_country", {
-                  required: "required",
+                {...register("mentor_language", {
+                  required: "Please select language",
                 })} //1
               >
-                <option value="">Please select a country</option>
-                {options.map((option) => (
-                  <option key={option.country_id} value={option.country_name}>
-                    {option.country_name}
+                <option defaultValue={"English"}>English</option>
+                {Language.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
                 ))}
               </select>
             </div>
-            {errors.mentor_country && (
+            {errors.mentor_language && (
               <p className="Error-meg-login-register">
-                {errors.mentor_country.message}
+                {errors.mentor_language.message}
               </p>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
