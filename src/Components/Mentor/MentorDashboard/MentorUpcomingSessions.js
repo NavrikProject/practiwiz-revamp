@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import "./menteeupcomingsession.css";
-import MenteeUpcomingSessionCard from "./MenteeUpcomingSessionCard";
+import "./mentorupcomingsession.css";
+import MentorUpcomingSessionCard from "./MentorUpcomingSessionCard";
 import { ApiURL } from "../../../Utils/ApiURL";
 import axios from "axios";
 import { useSelector } from "react-redux";
-const MenteeUpcomingSessions = () => {
+const MentorUpcomingSessions = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [allBookingSessions, setAllBookingSessions] = useState([]);
   const url = ApiURL();
   useEffect(() => {
     const fetchMentors = async () => {
       const response = await axios.post(
-        `${url}api/v1/mentee/appointments/upcoming`,
+        `${url}api/v1/mentor/booking/appointment/upcoming`,
         { userDtlsId: user?.user_id }
       );
       if (response.data.success) {
@@ -30,9 +30,8 @@ const MenteeUpcomingSessions = () => {
           <div className="fgfdg">
             <h2>Your Upcoming Mentor Sessions</h2>
           </div>
-
           <div className="row">
-            <MenteeUpcomingSessionCard
+            <MentorUpcomingSessionCard
               allBookingSessions={allBookingSessions}
             />
           </div>
@@ -42,4 +41,4 @@ const MenteeUpcomingSessions = () => {
   );
 };
 
-export default MenteeUpcomingSessions;
+export default MentorUpcomingSessions;

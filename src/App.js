@@ -38,9 +38,9 @@ import ProtectedRoute from "./Utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
 import Test from "./Pages/Test";
+// import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
-  
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
   return (
@@ -77,10 +77,12 @@ function App() {
           />
           <Route path="/mentor-club" element={<AllMentorsPage />} />
           <Route
-            path="/mentor-club/mentor-profile/:id"
+            path="/mentor-club/mentor-profile/:name/:id"
             element={<SingleMentorProfilePage />}
           />
           <Route path="/test" element={<MentorPayment />} />
+          {/* s<Route path="/date" element={<ReactDate />} /> */}
+
           {user?.user_type === "mentor" && (
             <Route
               path="/mentor/dashboard"

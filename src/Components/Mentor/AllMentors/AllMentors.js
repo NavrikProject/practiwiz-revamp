@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AllMentorCard from "./AllMentorCard";
+import axios from "axios";
+import { ApiURL } from "../../../Utils/ApiURL";
 
 const AllMentors = () => {
+  const [allMentors, setAllMentors] = useState([]);
+  const url = ApiURL();
   const [showDropdown1, setShowDropdown1] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
   const [showDropdown3, setShowDropdown3] = useState(false);
@@ -21,6 +25,19 @@ const AllMentors = () => {
   const toggleDropdown4 = () => {
     setShowDropdown4(!showDropdown4);
   };
+
+  useEffect(() => {
+    const fetchMentors = async () => {
+      const response = await axios.get(`${url}api/v1/mentor/fetch-details`);
+      if (response.data.success) {
+        setAllMentors(response.data.success);
+      }
+      if (response.data.error) {
+        setAllMentors([]);
+      }
+    };
+    fetchMentors();
+  }, []);
   return (
     <>
       <div className="aslkhghj2">
@@ -298,12 +315,9 @@ const AllMentors = () => {
       <div className="kjgbhdfdfgfghfghfg">
         <div className="container-fluid px-5">
           <div className="nfhjgbgf">
-            <AllMentorCard /> <AllMentorCard /> <AllMentorCard />
-            <AllMentorCard /> <AllMentorCard /> <AllMentorCard />
-            <AllMentorCard />
-            <AllMentorCard />
-            <AllMentorCard />
-            <AllMentorCard /> <AllMentorCard /> <AllMentorCard />
+            {allMentors.map((mentor) => {
+              return <AllMentorCard mentor={mentor} />;
+            })}
           </div>
         </div>
       </div>

@@ -50,3 +50,27 @@
   font-size: 14px;
   text-transform: lowercase;
 }
+.error-box {
+  background-color: #ffcccc; /* Light red background */
+  color: #ff6600; /* Light warning color for the text */
+  border: 1px solid #ff0000; /* Red border */
+  padding: 8px 20px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  max-width: 300px;
+  margin: 0 auto; /* Center the box */
+  margin-bottom: 10px;
+}
+.error-box-green {
+  background-color: #ccffcc; /* Light green background */
+  color: #ff6600; /* Light warning color for the text */
+  border: 1px solid #00cc00; /* Green border */
+  padding: 8px 20px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  max-width: 300px;
+  margin: 0 auto; /* Center the box */
+  margin-bottom: 10px;
+}
