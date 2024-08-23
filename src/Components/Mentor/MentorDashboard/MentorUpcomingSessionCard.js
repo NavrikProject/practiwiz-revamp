@@ -1,6 +1,31 @@
+import axios from "axios";
 import React from "react";
-import Qqq1 from "../../../Images/Mentors/qqq1.webp";
-const MenteeUpcomingSessionCard = ({ allBookingSessions }) => {
+import { toast } from "react-toastify";
+import { ApiURL } from "../../../Utils/ApiURL";
+const MentorUpcomingSessionCard = ({ allBookingSessions }) => {
+  const url = ApiURL();
+  const ApproveMentorSessionHandler = async (BookingId) => {
+    if (BookingId) {
+      try {
+        const response = await axios.post(
+          `${url}api/v1/mentor/booking/appointment/update`,
+          { bookingId: BookingId }
+        );
+        if (response.data.success) {
+          toast.success("Successfully updated mentor booking session.");
+        }
+        if (response.data.error) {
+          toast.error("There was an error while updating the mentor session.");
+        }
+      } catch (error) {
+        toast.error("There was an error while updating the mentor session.");
+      }
+    } else {
+      toast.error(
+        "There was an error while updating the booking. Please try again after sometime!"
+      );
+    }
+  };
   return (
     <>
       {allBookingSessions?.map((session) => {
@@ -67,24 +92,33 @@ const MenteeUpcomingSessionCard = ({ allBookingSessions }) => {
                         <hr />
                         <div className="kbfhgfgfg d-flex justify-content-center mt-3">
                           {session.mentor_booking_confirmed === "No" && (
-                            <div className="error-box">
-                              Mentor has not confirmed session! Please wait for
-                              to approve your booking
-                            </div>
+                            <>
+                              <div className="error-box">
+                                Please approve this Mentor session to connect
+                                with Mentee for the session.
+                              </div>
+                              <button
+                                className="btn-main me-1"
+                                onClick={() =>
+                                  ApproveMentorSessionHandler(
+                                    session.mentor_booking_appt_id
+                                  )
+                                }
+                              >
+                                Approve Now!
+                              </button>
+                            </>
                           )}
                           {session.mentor_booking_confirmed === "Yes" && (
                             <>
                               <div className="error-box-green ">
-                                Mentor has confirmed session! Please join using
-                                the following link on same day and time.!
+                                You have all ready approved this mentor session.
+                                Please host the session on booking time and
+                                date!
                               </div>
-                              <button className="btn-main me-1">
-                                Join Now
+                              <button className="btn-main">
+                                Host Meeting!
                               </button>
-                              <button className="btn-main">Cancel</button>
-                              {/* <button className="btn-main mt-2">
-                                Request Reschedule
-                              </button> */}
                             </>
                           )}
                         </div>
@@ -101,4 +135,4 @@ const MenteeUpcomingSessionCard = ({ allBookingSessions }) => {
   );
 };
 
-export default MenteeUpcomingSessionCard;
+export default MentorUpcomingSessionCard;

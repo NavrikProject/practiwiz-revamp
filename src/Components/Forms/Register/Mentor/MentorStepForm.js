@@ -78,7 +78,6 @@ const MentorStepForm = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
