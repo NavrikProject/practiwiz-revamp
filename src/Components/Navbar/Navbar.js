@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../../Images/practiwizNew Logo.png";
+import Logo from "../../Images/logo.png";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 // import Logo2 from "../../Images/logo.png";

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
 import MentorForm1 from "./MentorForm1";
@@ -10,6 +9,7 @@ import MentorForm4 from "./MentorForm4";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -17,10 +17,12 @@ import {
 // const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
-  const dispatch = useDispatch();
   const url = ApiURL();
   const methods = useForm({});
-
+  const [userData, setUserData] = useState({
+    firstname: "",
+    lastname: "",
+  });
   const [page, setPage] = useState(0);
   const { watch, setValue, trigger, getValues } = methods;
 
@@ -30,13 +32,35 @@ const MentorStepForm = () => {
     "AVAILABILITY",
     "PREFERENCES",
   ];
+  const saveStepDataToServer = async (data) => {
+    console.log(data.mentor_firstname, data.mentor_lastname);
+    setUserData((prevData) => ({
+      ...prevData, // Spread the previous data
+      firstname: data.mentor_firstname,
+      lastname: data.mentor_lastname,
+    }));
+    console.log(userData);
+    // try {
+    //   await axios.post('/saveStepData', data);
+    //   console.log('Step data saved:', data);
+    // } catch (error) {
+    //   console.error('Error saving step data:', error);
+    // }
+  };
+
   const [step, setStep] = useState(1);
   const PageDisplay = () => {
     if (page === 0) {
-      return <MentorForm1 />;
+      return (
+        <MentorForm1
+          saveStepData={saveStepDataToServer}
+          userData={userData}
+          setUserData={setUserData}
+        />
+      );
     } else if (page === 1) {
       return <MentorForm2 />;
-    } else if (page == 2) {
+    } else if (page === 2) {
       return <MentorForm3 />;
     } else {
       return <MentorForm4 />;
@@ -66,16 +90,47 @@ const MentorStepForm = () => {
   const tab4 = () => {
     setPage(3);
   };
+  const validateAvailabilityStep = () => {
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; // Adjust according to your days of the week setup
+    const values = getValues();
+
+    // Check if any day has time slots
+    for (let day of days) {
+      const slots = values[day];
+      if (slots && slots.length > 0) {
+        return true; // Valid if at least one time slot exists
+      }
+    }
+
+    return false; // Invalid if no time slots exist
+  };
 
   const nextStep = async () => {
-    setStep((prev) => prev + 1);
-
-    const result = await trigger();
+    const result = await trigger(); // Validate form data
+    if (page === 2) {
+      const isValid = await validateAvailabilityStep();
+      if (!isValid) {
+        toast.error("Please add at least one time slot before proceeding.");
+        return;
+      }
+    }
     if (result) {
       setPageCount();
+      setStep((prev) => prev + 1);
+    }
+    if (page === 0) {
+      console.log("personal details");
+      const Data = getValues();
+      const Fname = Data.mentor_firstname;
+      const Lname = Data.mentor_lastname;
+      const gmail = Data.mentor_email;
+      const phone = Data.mentor_phone_number;
+
+      console.log(Fname, Lname, gmail, phone);
     }
   };
   const prevStep = () => setStep((prev) => prev - 1);
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     if (step < 4) {
@@ -112,7 +167,6 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
-        newData.append("pricing", data.pricing);
         newData.append("Mon", JSON.stringify(data.Mon));
         newData.append("Tue", JSON.stringify(data.Tue));
         newData.append("Wed", JSON.stringify(data.Wed));
@@ -124,19 +178,25 @@ const MentorStepForm = () => {
         const res = await axios.post(`${url}api/v1/mentor/register`, newData);
         dispatch(hideLoadingHandler());
         if (res.data.success) {
-          dispatch(hideLoadingHandler());
-          toast.success("Thank you for applying the mentor application.");
+          return (
+            toast.success("Thank you for applying the mentor application."),
+            dispatch(hideLoadingHandler())
+          );
         }
         if (res.data.error) {
-          dispatch(hideLoadingHandler());
-          toast.error(
-            "There is some error while applying the mentor application. We will get back you over the email."
+          return (
+            toast.error(
+              "There is some error while applying the mentor application. We will get back you over the email."
+            ),
+            dispatch(hideLoadingHandler())
           );
         }
       } catch (error) {
-        dispatch(hideLoadingHandler());
-        toast.error(
-          "There is some error while applying the mentor application. We will get back you over the email."
+        return (
+          toast.error(
+            "There is some error while applying the mentor application. We will get back you over the email."
+          ),
+          dispatch(hideLoadingHandler())
         );
       }
     }
@@ -250,11 +310,11 @@ const MentorStepForm = () => {
                   ) : (
                     <div className="bjuerirr_btn diuher d-flex mt-4">
                       <button
-                        type="submit"
+                        type="button"
                         className="btn juybeubrer_btn btn-primary"
                         onClick={nextbtn}
                       >
-                        Next Step{" "}
+                        Next Step
                         <i className="fa-solid ms-2 fa-right-long"></i>
                       </button>
                     </div>

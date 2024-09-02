@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 import { ApiURL } from "../../../Utils/ApiURL";
+import { Link } from "react-router-dom";
 const MentorUpcomingSessionCard = ({ allBookingSessions }) => {
   const url = ApiURL();
   const ApproveMentorSessionHandler = async (BookingId) => {
@@ -91,36 +92,54 @@ const MentorUpcomingSessionCard = ({ allBookingSessions }) => {
                         </div>
                         <hr />
                         <div className="kbfhgfgfg d-flex justify-content-center mt-3">
-                          {session.mentor_booking_confirmed === "No" && (
-                            <>
+                          {session.mentor_booking_confirmed === "No" &&
+                            new Date(session.mentor_session_booking_date) >
+                              new Date() && (
+                              <>
+                                <div className="error-box">
+                                  Please approve this Mentor session to connect
+                                  with Mentee for the session.
+                                </div>
+                                <button
+                                  className="btn-main me-1"
+                                  onClick={() =>
+                                    ApproveMentorSessionHandler(
+                                      session.mentor_booking_appt_id
+                                    )
+                                  }
+                                >
+                                  Approve Now!
+                                </button>
+                              </>
+                            )}
+                          {session.mentor_booking_confirmed === "No" &&
+                            new Date(session.mentor_session_booking_date) <
+                              new Date() && (
                               <div className="error-box">
-                                Please approve this Mentor session to connect
-                                with Mentee for the session.
+                                You cannot accept this appointment. The date has
+                                already passed.
                               </div>
-                              <button
-                                className="btn-main me-1"
-                                onClick={() =>
-                                  ApproveMentorSessionHandler(
-                                    session.mentor_booking_appt_id
-                                  )
-                                }
-                              >
-                                Approve Now!
-                              </button>
-                            </>
-                          )}
-                          {session.mentor_booking_confirmed === "Yes" && (
-                            <>
-                              <div className="error-box-green ">
-                                You have all ready approved this mentor session.
-                                Please host the session on booking time and
-                                date!
-                              </div>
-                              <button className="btn-main">
-                                Host Meeting!
-                              </button>
-                            </>
-                          )}
+                            )}
+
+                          {session.mentor_booking_confirmed === "Yes" &&
+                            new Date(session.mentor_session_booking_date) >
+                              new Date() && (
+                              <>
+                                <div className="error-box-green">
+                                  You have already approved this mentor session.
+                                  Please host the session on the booking time
+                                  and date!
+                                </div>
+                                <button className="btn-main">
+                                  <Link
+                                    to={`${session.mentor_host_url}`}
+                                    target="_blank"
+                                  >
+                                    Host Meeting!
+                                  </Link>
+                                </button>
+                              </>
+                            )}
                         </div>
                       </div>
                     </div>
