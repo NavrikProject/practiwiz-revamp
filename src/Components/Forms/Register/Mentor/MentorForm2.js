@@ -10,8 +10,7 @@ const MentorForm2 = () => {
     watch,
     setValue,
   } = useFormContext();
-  const F_Name = watch("mentor_firstname");
-  const L_Name = watch("mentor_lastname");
+
   const [items, setItems] = useState([
     { id: "draggable1", text: " Technology", inside: false },
     { id: "draggable2", text: " Management ", inside: false },

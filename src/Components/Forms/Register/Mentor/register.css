@@ -445,12 +445,12 @@ form .dieyhr_iuhfiderr .btn-main:first-child {
   background-color: #fff;
   border-radius: 10px;
 }
-
+/* 
 input[type="radio"]:checked + label {
-  /* background-color: #007bff; */
-  /* color: white; */
-  /* border-color: #007bff; */
-}
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+} */
 
 label:hover {
   background-color: #e9ecef;

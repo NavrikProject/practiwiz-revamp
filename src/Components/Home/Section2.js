@@ -60,63 +60,119 @@ const Section2 = () => {
                   className="mySwiper"
                 >
                   {allMentors?.map((mentor) => {
-                    <SwiperSlide>
-                      <div className="item">
-                        <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                          <div className="diegrher overflow-hidden">
-                            <img
-                              src={mentor.mentor_profile_photo}
-                              alt="mentors1"
-                              style={{
-                                width: "240px !important",
-                                height: "400px",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                          <div className="doiuher_content">
-                            <h4 className="mb-0">Tarun Gutam</h4>
-                            <p className="profession">Full stack developer</p>
-                            <p className="rating mb-0">
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-solid fa-star"></i>
-                              <i className="fa-regular fa-star"></i>
-                            </p>
+                    return (
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                            <div className="diegrher overflow-hidden">
+                              <img
+                                src={mentor.mentor_profile_photo}
+                                alt="mentors1"
+                                style={{
+                                  width: "240px !important",
+                                  height: "400px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </div>
+                            <div className="doiuher_content">
+                              <h4 className="mb-0">
+                                {mentor.mentor_firstname +
+                                  " " +
+                                  mentor.mentor_lastname}
+                              </h4>
+                              <p className="profession">
+                                {mentor.mentor_job_title}
+                              </p>
+
+                              {mentor.mentor_feedback_session_overall_rating !==
+                              null ? (
+                                <p className="rating mb-0">
+                                  {mentor.mentor_feedback_session_overall_rating ===
+                                    "5" && (
+                                    <>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                    </>
+                                  )}
+                                  {mentor.mentor_feedback_session_overall_rating ===
+                                    "4" && (
+                                    <>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                    </>
+                                  )}
+                                  {mentor.mentor_feedback_session_overall_rating ===
+                                    "3" && (
+                                    <>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                    </>
+                                  )}
+                                  {mentor.mentor_feedback_session_overall_rating ===
+                                    "2" && (
+                                    <>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                    </>
+                                  )}
+                                  {mentor.mentor_feedback_session_overall_rating ===
+                                    "1" && (
+                                    <>
+                                      <i className="fa-solid fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                      <i className="fa-regular fa-star"></i>
+                                    </>
+                                  )}
+                                </p>
+                              ) : (
+                                <>
+                                  <i className="fa-solid fa-star"></i>
+                                  <i className="fa-solid fa-star"></i>
+                                  <i className="fa-solid fa-star"></i>
+                                  <i className="fa-solid fa-star"></i>
+                                  <i className="fa-solid fa-star"></i>
+                                </>
+                              )}
+                              <div
+                                className="dhhfff text-center"
+                                style={{ marginTop: "16px" }}
+                              >
+                                <button className="btn small-btn-main">
+                                  <Link
+                                    target="_blanks"
+                                    to={`/mentor-club/mentor-profile/${
+                                      mentor.mentor_firstname +
+                                      "-" +
+                                      mentor.mentor_lastname
+                                        .replace(" ", "-")
+                                        .toLowerCase()
+                                    }/${mentor.user_dtls_id}`}
+                                  >
+                                    BOOK NOW
+                                  </Link>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </SwiperSlide>;
+                      </SwiperSlide>
+                    );
                   })}
-                  {/* <SwiperSlide>
-                    <div className="item">
-                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                        <div className="diegrher overflow-hidden">
-                          <img
-                            src={Mentors1}
-                            alt="mentors1"
-                            style={{
-                              width: "240px !important",
-                              height: "400px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                        <div className="doiuher_content">
-                          <h4 className="mb-0">Tarun Gutam</h4>
-                          <p className="profession">Full stack developer</p>
-                          <p className="rating mb-0">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star"></i>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
                   <SwiperSlide>
                     <div className="item">
                       <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
@@ -173,62 +229,6 @@ const Section2 = () => {
                       </div>
                     </div>
                   </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="item">
-                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                        <div className="diegrher overflow-hidden">
-                          <img
-                            src={Mentors1}
-                            alt="mentors1"
-                            style={{
-                              width: "240px !important",
-                              height: "400px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                        <div className="doiuher_content">
-                          <h4 className="mb-0">Tarun Gutam</h4>
-                          <p className="profession">Full stack developer</p>
-                          <p className="rating mb-0">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star"></i>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="item">
-                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                        <div className="diegrher overflow-hidden">
-                          <img
-                            src={Mentors1}
-                            alt="mentors1"
-                            style={{
-                              width: "240px !important",
-                              height: "400px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                        <div className="doiuher_content">
-                          <h4 className="mb-0">Tarun Gutam</h4>
-                          <p className="profession">Full stack developer</p>
-                          <p className="rating mb-0">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star"></i>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide> */}
                 </Swiper>
               </div>
             </div>
@@ -236,7 +236,7 @@ const Section2 = () => {
 
           <div className="dhhfff text-center">
             <button className="btn btn-main">
-              <Link to="/mentor-club">
+              <Link to="/mentor-club" target="_blanks">
                 VIEW ALL MENTORS <i className="fa-solid fa-circle-right"></i>
               </Link>
             </button>

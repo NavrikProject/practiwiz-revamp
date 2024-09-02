@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import AllMentorCard from "./AllMentorCard";
 import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
+import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
 
 const AllMentors = () => {
   const [allMentors, setAllMentors] = useState([]);
   const url = ApiURL();
+  const [loading, setLoading] = useState(false);
   const [showDropdown1, setShowDropdown1] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
   const [showDropdown3, setShowDropdown3] = useState(false);
@@ -28,16 +30,20 @@ const AllMentors = () => {
 
   useEffect(() => {
     const fetchMentors = async () => {
+      setLoading(true);
       const response = await axios.get(`${url}api/v1/mentor/fetch-details`);
+      setLoading(false);
       if (response.data.success) {
+        setLoading(false);
         setAllMentors(response.data.success);
       }
       if (response.data.error) {
+        setLoading(false);
         setAllMentors([]);
       }
     };
     fetchMentors();
-  }, []);
+  }, [url]);
   return (
     <>
       <div className="aslkhghj2">
@@ -315,9 +321,26 @@ const AllMentors = () => {
       <div className="kjgbhdfdfgfghfghfg">
         <div className="container-fluid px-5">
           <div className="nfhjgbgf">
-            {allMentors.map((mentor) => {
-              return <AllMentorCard mentor={mentor} />;
-            })}
+            {loading ? (
+              <>
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+                <MentorCardSkelton />
+              </>
+            ) : (
+              <>
+                {allMentors?.map((mentor) => {
+                  return <AllMentorCard mentor={mentor} />;
+                })}
+              </>
+            )}
           </div>
         </div>
       </div>

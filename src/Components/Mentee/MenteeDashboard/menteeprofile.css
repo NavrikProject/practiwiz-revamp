@@ -1,4 +1,3 @@
-
 #menteeBackgroundCover {
   background: url("../../../Images/Mentee/ddd.png") no-repeat;
   background-size: cover;
@@ -6,13 +5,13 @@
 .mt70 {
   margin-top: 70px;
 }
-
+/* 
 .ljrfhf {
   text-align: right;
   position: absolute;
   right: 0;
   top: 0;
-}
+} */
 .ljrfhf i {
   color: var(--main-orange-color);
   padding: 10px;
@@ -48,6 +47,7 @@
   height: 2.3rem;
   text-align: center;
   font-size: 1.2rem;
+  margin: 5px;
 }
 
 .gjfhg {
@@ -66,8 +66,8 @@
 }
 
 .iijieirr_left {
-  width: 10rem;
-  height: 10rem;
+  width: 15rem;
+  height: 15rem;
   border-radius: 50%;
   border: 8px solid #fff;
   transform: translateY(1rem);
@@ -75,10 +75,12 @@
 }
 
 .iijieirr_left img {
-  transform: scale(2);
+  object-fit: contain;
+  transform: scale(1.3);
+  margin-top: 20px;
 }
 
-.ihuerorktrt::after {
+/* .ihuerorktrt::after {
   content: "\f044";
   font-family: "Font Awesome 6 Free";
   position: absolute;
@@ -93,12 +95,12 @@
   line-height: 2rem;
   text-align: center;
   color: var(--main-orange-color);
-}
+} */
 
 .csdpeijf {
   align-items: end;
   padding-top: 4rem;
-  transform: translateY(1rem);
+  transform: translateY(1.5rem);
 }
 
 .ihurtf_btn .btn i {
@@ -195,7 +197,6 @@
   letter-spacing: 0.5px;
 }
 
-
 .info-code {
   cursor: pointer;
 }
@@ -224,7 +225,6 @@
   border-radius: 50%;
   box-shadow: inset 0 0 25px 10px #f50057;
 }
-
 
 .duiegrrrr_wrapper h5 {
   color: #000;
@@ -277,4 +277,3 @@
   align-items: center;
   border-bottom: 1px solid var(--light-grey-border);
 }
-

@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./mentorcompletesession.css";
 import MentorCompletedSessionCard from "./MentorCompletedSessionCard";
+import { useSelector } from "react-redux";
+import { ApiURL } from "../../../Utils/ApiURL";
+import axios from "axios";
+import SessionCardSkeleton from "./SkeltonLoaders/SessionCardSkeleton";
 
-const MenteeCompletedSessions = () => {
+const MentorCompletedSessions = () => {
+  const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.user?.currentUser);
+  const [
+    allMentorCompletedBookingSessions,
+    setAllMentorCompletedBookingSessions,
+  ] = useState([]);
+  const url = ApiURL();
+  useEffect(() => {
+    const fetchMentors = async () => {
+      setLoading(true);
+      const response = await axios.post(
+        `${url}api/v1/mentor/booking/appointment/completed`,
+        { userDtlsId: user?.user_id }
+      );
+      setLoading(false);
+      if (response.data.success) {
+        setAllMentorCompletedBookingSessions(response.data.success);
+        setLoading(false);
+      }
+      if (response.data.error) {
+        setAllMentorCompletedBookingSessions([]);
+        setLoading(false);
+      }
+    };
+    fetchMentors();
+  }, [url, user?.user_id]);
   return (
     <div className="col-lg-10 ps-0">
       <div className="difuhtre_content bkjihinewrewr">
@@ -63,7 +93,24 @@ const MenteeCompletedSessions = () => {
             </div>
           </div>
           <div className="row mt-4">
-            <MentorCompletedSessionCard />
+            {loading ? (
+              <>
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+              </>
+            ) : (
+              <MentorCompletedSessionCard
+                allMentorCompletedBookingSessions={
+                  allMentorCompletedBookingSessions
+                }
+              />
+            )}
           </div>
         </div>
       </div>
@@ -71,4 +118,4 @@ const MenteeCompletedSessions = () => {
   );
 };
 
-export default MenteeCompletedSessions;
+export default MentorCompletedSessions;

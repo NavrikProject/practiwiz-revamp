@@ -1,7 +1,7 @@
 #singleMentorCoverPicture {
   background-image: url("../../../Images/Mentors/ddd.png");
-  background-repeat: "no-repeat";
-  background-size: "cover";
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #disabledButton {

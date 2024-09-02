@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./menteecompletesession.css";
 import MenteeCompletedSessionCard from "./MenteeCompletedSessionCard";
+import { useSelector } from "react-redux";
+import { ApiURL } from "../../../Utils/ApiURL";
+import axios from "axios";
+import SessionCardSkeleton from "../../Mentor/MentorDashboard/SkeltonLoaders/SessionCardSkeleton";
 
 const MenteeCompletedSessions = () => {
+  const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.user?.currentUser);
+  const [allCompletedBookingSessions, setAllCompletedBookingSessions] =
+    useState([]);
+  const url = ApiURL();
+  useEffect(() => {
+    const fetchMentors = async () => {
+      setLoading(true);
+      const response = await axios.post(
+        `${url}api/v1/mentee/appointments/completed`,
+        { userDtlsId: user?.user_id }
+      );
+      setLoading(false);
+      if (response.data.success) {
+        setAllCompletedBookingSessions(response.data.success);
+        setLoading(false);
+      }
+      if (response.data.error) {
+        setAllCompletedBookingSessions([]);
+        setLoading(false);
+      }
+    };
+    fetchMentors();
+  }, [url, user?.user_id]);
   return (
     <div className="col-lg-10 ps-0">
       <div className="difuhtre_content bkjihinewrewr">
@@ -10,7 +38,6 @@ const MenteeCompletedSessions = () => {
           <div className="fgfdg">
             <h2>Your Completed Sessions</h2>
           </div>
-
           <div className="oidieoiejrer_filter">
             <div className="row justify-content-between">
               <div className="col-lg-3 mb-2">
@@ -70,10 +97,28 @@ const MenteeCompletedSessions = () => {
           </div>
 
           <div className="row mt-4">
-            <MenteeCompletedSessionCard />
-            <MenteeCompletedSessionCard /> <MenteeCompletedSessionCard />{" "}
-            <MenteeCompletedSessionCard /> <MenteeCompletedSessionCard />{" "}
-            <MenteeCompletedSessionCard />
+            {loading && (
+              <>
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+                <SessionCardSkeleton />
+              </>
+            )}
+            {allCompletedBookingSessions.length > 0 ? (
+              <MenteeCompletedSessionCard
+                user={user}
+                allCompletedBookingSessions={allCompletedBookingSessions}
+              />
+            ) : (
+              <div className="error-box-green">
+                There are no completed session found
+              </div>
+            )}
           </div>
         </div>
       </div>

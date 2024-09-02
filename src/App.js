@@ -11,8 +11,10 @@ import "./Styles/custombs.css";
 import "./Styles/responsive.css";
 import "./Styles/style.css";
 import "./index.css";
+import "./Styles/DashBoard.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import ScrollButton from "./Utils/ScrollToTop";
 import PublicRoute from "./Utils/PublicRoute";
 import AboutusPage from "./Pages/MiscPages/AboutusPage";
@@ -38,6 +40,10 @@ import ProtectedRoute from "./Utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
 import Test from "./Pages/Test";
+import MentorCardSkelton from "./Components/Mentor/SkeltonLoaders/MentorCardSkelton";
+import Skelton from "./Components/Mentor/SkeltonLoaders/Skelton";
+import MenteeFeedbackForm from "./Components/Mentee/MenteeFeedback/MenteeFeedbackForm";
+import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -81,8 +87,7 @@ function App() {
             element={<SingleMentorProfilePage />}
           />
           <Route path="/test" element={<MentorPayment />} />
-          {/* s<Route path="/date" element={<ReactDate />} /> */}
-
+          <Route path="/date" element={<MenteeFeedbackForm />} />
           {user?.user_type === "mentor" && (
             <Route
               path="/mentor/dashboard"
@@ -93,23 +98,29 @@ function App() {
               }
             />
           )}
-
           {/* Mentor Links ends */}
           <Route
             path="/courses/single-course/:id"
             element={<SingleCoursePage />}
           />
-          {user?.user_type === "mentee" && (
-            <Route
-              path="/mentee/dashboard"
-              element={
-                <ProtectedRoute>
-                  <MenteeDashboardPage />
-                </ProtectedRoute>
-              }
-            />
-          )}
-
+          {/* {user?.user_type === "mentee" && ( */}
+          <Route
+            path="/mentee/dashboard"
+            element={
+              // <ProtectedRoute>
+              <MenteeDashboardPage />
+              // </ProtectedRoute>
+            }
+          />
+          {/* {user?.user_type === "mentee" && ( */}
+          <Route
+            path="/user/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/mentee/view-profile/:id"
             element={
@@ -122,7 +133,6 @@ function App() {
             path="/mentee-registration"
             element={<MenteeRegistrationPage />}
           />
-
           <Route path="/test1" element={<CoursePayment />} />
           {/* Jobs links start */}
           <Route path="/jobs" element={<AllJobPage />} />
@@ -133,17 +143,16 @@ function App() {
             path="/institute/view-profile/:id"
             element={<InstituteProfilePage />}
           />
-          {user?.user_type === "institute" && (
-            <Route
-              path="/institute/dashboard"
-              element={
-                <ProtectedRoute>
-                  <InstituteDashboardPage />
-                </ProtectedRoute>
-              }
-            />
-          )}
-
+          {/* {user?.user_type === "institute" && ( */}
+          <Route
+            path="/institute/dashboard"
+            element={
+              // <ProtectedRoute>
+              <InstituteDashboardPage />
+              // </ProtectedRoute>
+            }
+          />
+          {/* )} */}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
         </Routes>

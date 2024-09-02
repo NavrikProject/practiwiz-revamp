@@ -39,7 +39,7 @@ const CustomDatePicker = ({
 
     if (date < today) return false;
 
-    const daySlots = timeslotList.filter((slot) => {
+    const daySlots = timeslotList?.filter((slot) => {
       const slotDay = getDayIndex(slot.mentor_timeslot_day);
       const endDate = new Date(slot.mentor_timeslot_rec_end_timeframe);
       endDate.setHours(0, 0, 0, 0);
@@ -57,7 +57,7 @@ const CustomDatePicker = ({
 
   const getSlotsForDate = (date) => {
     const selectedDay = date.toLocaleDateString("en-US", { weekday: "short" });
-    return timeslotList.filter(
+    return timeslotList?.filter(
       (slot) =>
         slot.mentor_timeslot_day === selectedDay &&
         new Date(slot.mentor_timeslot_rec_end_timeframe) >= date
@@ -65,7 +65,7 @@ const CustomDatePicker = ({
   };
 
   const isSlotBooked = (date, slot) => {
-    return bookingDetails.some((booking) => {
+    return bookingDetails?.some((booking) => {
       const bookingDate = new Date(booking.mentor_session_booking_date);
       bookingDate.setHours(0, 0, 0, 0);
       return (
