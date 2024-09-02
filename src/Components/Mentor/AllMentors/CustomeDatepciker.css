@@ -1,0 +1,57 @@
+/* Style for fully booked days */
+.fully-booked {
+  background-color: rgb(255, 72, 72);
+  color: white;
+  border-radius: 5px;
+}
+
+/* Style for booked slots in the list */
+.booked-slot {
+  background-color: rgb(255, 72, 72);
+  color: white;
+  border-radius: 5px;
+}
+
+/* Style for the slot item */
+.slot-item {
+  margin: 5px 0;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center;
+  list-style-type: none;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.grayed-out {
+  color: #ccc;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+.slot-item:hover {
+  background-color: #f0f0f0;
+}
+
+.selected-slot {
+  border-color: #007bff;
+  background-color: #e6f0ff;
+}
+
+.unorderlist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  margin: 0px;
+}
+.selected-timeslot {
+  border-color: #007bff;
+  background-color: #f2f2f2;
+  border: 1.5px solid #111;
+  border-radius: 5px;
+}
+.selected-timeslotP {
+  margin-bottom: 0px !important;
+}
+

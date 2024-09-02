@@ -1,6 +1,6 @@
-input[type="radio"] {
+/* input[type="radio"] {
   display: none;
-}
+} */
 
 .moideuirer_list input[type="radio"] + label {
   display: inline-block;

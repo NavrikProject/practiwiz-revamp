@@ -89,6 +89,7 @@ a {
 }
 
 .btn-main {
+  cursor: pointer;
   border: none;
   background-color: var(--light-blue-border-color);
   color: #fff;
@@ -102,10 +103,28 @@ a {
   transition: 0.3s ease-in-out;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+
+.small-btn-main {
+  cursor: pointer;
+  border: none;
+  background-color: var(--light-blue-border-color);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 12px !important;
+  font-weight: 600;
+  border: 2px solid #fff;
+  font-family: var(--font-family-lato) !important;
+  text-transform: uppercase;
+  transition: 0.3s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
 .btn-main i {
   padding-left: 5px;
   transition: 0.3s ease-in-out;
 }
+.small-btn-main:hover,
 .btn-main:hover {
   color: #fff;
   background: var(--main-orange-color);
@@ -128,7 +147,6 @@ a {
 .section-hor-gap {
   padding: 0 2rem;
 }
-
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -244,7 +262,6 @@ header .fvjhdf_btn {
 header .navbar.bg-white {
   background: #0255ca !important;
 }
-
 
 header #autosuggestions {
   display: none;
@@ -581,7 +598,6 @@ header .suggestion:hover {
   border-bottom: 1px solid #e1e1e1;
 }
 
-
 .mfkjhgjfhf .tabs {
   margin: 0px;
   padding: 0px;
@@ -662,7 +678,6 @@ header .suggestion:hover {
 .ghudiahoidead {
   text-align: center;
 }
-
 
 .udguafr_slider .uihderr img {
   width: 1rem !important;
@@ -2110,7 +2125,6 @@ header .suggestion:hover {
   margin-top: 10px;
 }
 
-
 .md-header header {
   position: relative;
   z-index: 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
@@ -2276,7 +2290,6 @@ header .suggestion:hover {
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
-
 
 .difuhtre_content .mentor-prf-settings h5,
 .hiniertvrer_change_password h5 {
@@ -3339,7 +3352,6 @@ caption {
   padding-left: 10px !important;
 }
 
-
 .mcgghghfhfghyg {
   width: 100%;
   padding: 40px 0;
@@ -3689,7 +3701,6 @@ caption {
   margin-top: 30px !important;
 }
 
-
 .aslkhghj2 {
   padding: 100px 0;
   background: url("../Images/vbvb2.png");
@@ -3972,7 +3983,6 @@ caption {
   line-height: 22px;
 }
 
-
 .mbpm .csdffh_modal {
   position: fixed;
   width: 100%;
@@ -4070,7 +4080,6 @@ caption {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
 }
-
 
 .djbhfdf button {
   border-radius: 50px;
@@ -4378,7 +4387,6 @@ caption {
   overflow-x: scroll;
   top: 17%;
 }
-
 
 .ighefirr .sfgrwwe_btn .select-selected {
   font-size: 0.9rem;
@@ -5451,7 +5459,6 @@ caption {
 .nghjfbgfgf {
   margin-bottom: 20px;
   margin-top: 30px;
-
 }
 .nghjfbgfgf .img-btn img {
   width: 100px;
@@ -5682,7 +5689,6 @@ caption {
   margin-bottom: 0;
 }
 
-
 .gnhvgfdfgfdgfd {
   width: 100%;
   padding: 40px 0;
@@ -5778,11 +5784,9 @@ caption {
   font-size: 24px;
 }
 
-
 .bgthfghfgh {
   margin-top: 15px;
 }
-
 
 .huygggfhfg {
   width: 100%;
@@ -5897,7 +5901,6 @@ caption {
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-
 footer {
   background: #001237;
 }
@@ -5986,4 +5989,3 @@ footer .bghjdfgfdg button:hover i {
   transition: 0.3s ease-in-out;
   transform: translate(-50%, -45%) scale(1.2);
 }
-

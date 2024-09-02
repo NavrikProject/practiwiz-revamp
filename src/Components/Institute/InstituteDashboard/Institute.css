@@ -1414,3 +1414,78 @@ caption {
   overflow-x: scroll;
 }
 
+
+
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.main-button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.submenu {
+  position: absolute;
+  top: -37%;
+  left: 54px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+
+}
+
+.submenu-item {
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: white;
+}
+
+.submenu-item:hover {
+  background-color: #f1f1f1;
+}
+
+.submenu1 {
+  position: absolute;
+  top: 250px;
+  left: 54px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+
+}
+
+.submenu-item1 {
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: white;
+}
+
+.submenu-item1:hover1 {
+  background-color: #f1f1f1;
+}
+
+.box-container{
+  width: 20rem;
+  height: 10rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+.displayArea{
+  height: 20rem;
+  overflow: scroll;
+}
+.gtgtgt{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

@@ -18,6 +18,7 @@ import "swiper/css/navigation";
 const InstituteProfile = () => {
   return (
     <>
+     
       <div class="dfknhguyfdgf">
         <div class="container-fluid px-5">
           <div class="row">
@@ -638,6 +639,7 @@ const InstituteProfile = () => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

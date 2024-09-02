@@ -1,20 +1,28 @@
 import React from "react";
-import Qqqq1 from "../../../Images/Mentors/qqq2.webp";
 import { Link } from "react-router-dom";
-const AllMentorCard = () => {
-  let mentorName = "Gourav Bhati";
+const AllMentorCard = ({ mentor }) => {
+  let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
   return (
     <div className="ghfghgfhg">
       <div className="jghdfrg">
         <div className="kmg">
-          <img src={Qqqq1} alt="" />
+          <img
+            src={mentor.mentor_profile_photo}
+            alt={mentor.user_firstname + " " + mentor.user_lastname}
+          />
         </div>
-
         <div className="dfhjbghfjgfgh22">
-          <h4>Gourav Bhati</h4>
-
-          <h6>Product Owner</h6>
-
+          <h4
+            style={{
+              textTransform: "capitalize",
+              marginBottom: "5px !IMPORTANT",
+            }}
+          >
+            {mentor.user_firstname + " " + mentor.user_lastname}
+          </h4>
+          <h5 style={{ textTransform: "capitalize" }}>
+            {mentor.mentor_job_title}
+          </h5>
           <span>
             <i className="fa-solid fa-star"></i>
             <i className="fa-solid fa-star"></i>
@@ -30,7 +38,7 @@ const AllMentorCard = () => {
               <Link
                 to={`/mentor-club/mentor-profile/${mentorName
                   .replace(" ", "-")
-                  .toLowerCase()}`}
+                  .toLowerCase()}/${mentor.user_dtls_id}`}
               >
                 BOOK NOW
               </Link>

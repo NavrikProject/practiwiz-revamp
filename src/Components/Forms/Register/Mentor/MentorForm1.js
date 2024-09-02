@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LnIcon from "./deeteewe.png";
 import { useFormContext, Controller } from "react-hook-form";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import CountryData from "../../../data/CountryData.json";
 // import '../Mentee/Phone-input-style.css'
 import "react-phone-input-2/lib/style.css";
 import "./register.css";
-const MentorForm1 = () => {
+const MentorForm1 = (props) => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
   const [options, setOptions] = useState([]);
@@ -19,9 +19,14 @@ const MentorForm1 = () => {
     register,
     watch,
     control,
+    getValues,
     formState: { errors },
   } = useFormContext();
   const password = watch("mentor_password");
+  const handleBlur = async (fieldName) => {
+    const data = { [fieldName]: getValues(fieldName) };
+    props.saveStepData(data);
+  };
   return (
     <>
       <div className="idneihrrr p-3">
@@ -59,40 +64,84 @@ const MentorForm1 = () => {
                 ></i>
                 Mentor
               </label>
-              <label
-                htmlFor="rdo2"
-                className="radio-label"
-                id="menteeRegistrationlink"
-                style={{ paddingLeft: "10px" }}
-              >
-                <i
-                  className="fa-solid fa-graduation-cap me-1"
-                  style={{ color: "#1B759A" }}
-                ></i>
-                <Link to="/mentee-registration">Mentee</Link>
-              </label>
-              <label
-                htmlFor="rdo2"
-                className="radio-label"
-                id="menteeRegistrationlink"
-              >
-                <i
-                  className="fa-solid fa-briefcase me-1"
-                  style={{ color: "#1B759A" }}
-                ></i>
-                <Link to="/mentee-registration">Job Seeker</Link>
-              </label>
-              <label
-                htmlFor="rdo2"
-                className="radio-label"
-                id="menteeRegistrationlink"
-              >
-                <i
-                  className="fa-solid fa-building-columns me-1"
-                  style={{ color: "#1B759A" }}
-                ></i>
-                <Link to="/mentee-registration">Institute</Link>
-              </label>
+              <input
+                type="radio"
+                id="rdo1"
+                className="radio-input radio-label "
+                name="apple"
+                value="mentor"
+                {...register("user_type", {
+                  required: "select this button",
+                })}
+              />
+              <Link to="/mentee-registration">
+                {" "}
+                <label
+                  htmlFor="rdo2"
+                  className="radio-label me-2"
+                  id="menteeRegistrationlink"
+                  style={{ paddingLeft: "30px" }}
+                >
+                  <span className="radio-border"></span>
+                  <i
+                    className="fa-solid fa-graduation-cap me-1"
+                    style={{ color: "#1B759A" }}
+                  ></i>
+                  Mentee
+                </label>
+              </Link>
+              <input
+                type="radio"
+                id="rdo1"
+                className="radio-input radio-label "
+                name="apple"
+                value="mentor"
+                {...register("user_type", {
+                  required: "select this button",
+                })}
+              />
+              <Link to="/mentee-registration">
+                {" "}
+                <label
+                  htmlFor="rdo2"
+                  className="radio-label me-2"
+                  id="menteeRegistrationlink"
+                  style={{ paddingLeft: "30px" }}
+                >
+                  <span className="radio-border"></span>
+                  <i
+                    className="fa-solid fa-briefcase me-1"
+                    style={{ color: "#1B759A" }}
+                  ></i>
+                  Job Seeker
+                </label>
+              </Link>
+              <input
+                type="radio"
+                id="rdo1"
+                className="radio-input radio-label "
+                name="apple"
+                value="mentor"
+                {...register("user_type", {
+                  required: "select this button",
+                })}
+              />
+              <Link to="/mentee-registration">
+                {" "}
+                <label
+                  htmlFor="rdo2"
+                  className="radio-label me-2"
+                  id="menteeRegistrationlink"
+                  style={{ paddingLeft: "30px" }}
+                >
+                  <span className="radio-border"></span>
+                  <i
+                    className="fa-solid fa-building-columns me-1"
+                    style={{ color: "#1B759A" }}
+                  ></i>
+                  Institute
+                </label>
+              </Link>
               {errors.user_type && (
                 <p className="Error-meg-login-register">
                   {errors.user_type.message}
@@ -139,6 +188,7 @@ const MentorForm1 = () => {
                   {...register("mentor_firstname", {
                     required: "First Name is required",
                   })}
+                  onBlur={() => handleBlur("mentor_firstname")}
                 />
                 {errors.mentor_firstname && (
                   <p className="Error-meg-login-register">
@@ -161,6 +211,7 @@ const MentorForm1 = () => {
                   {...register("mentor_lastname", {
                     required: "Last Name is required",
                   })} //1
+                  onBlur={() => handleBlur("mentor_lastname")}
                 />
                 {errors.mentor_lastname && (
                   <p className="Error-meg-login-register">
@@ -178,7 +229,6 @@ const MentorForm1 = () => {
                 >
                   <b>Mobile Number</b>
                 </label>
-
 
                 <Controller
                   name="mentor_phone_number"
@@ -201,7 +251,7 @@ const MentorForm1 = () => {
                       country={"in"}
                       value={field.value}
                       // className="form-control"
-
+                      onBlur={() => handleBlur("mentor_phone_number")}
                       onChange={(phone) => field.onChange(phone)}
                     />
                   )}
@@ -236,6 +286,7 @@ const MentorForm1 = () => {
                       message: "Invalid email address",
                     },
                   })} //1
+                  onBlur={() => handleBlur("mentor_email")}
                 />
                 {errors.mentor_email && (
                   <p className="Error-meg-login-register">
@@ -389,11 +440,24 @@ const MentorForm1 = () => {
               </div>
             </div>
             <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Which Country You Live in?</b>
-              </label>
-              <select
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Which Country You Live in?</b>
+                </label>
+                <select
+                  className="form-select"
+                  {...register("mentor_country", {
+                    required: "required",
+                  })} //1
+                >
+                  <option value="">Please select a country</option>
+                  {options.map((option) => (
+                    <option key={option.country_id} value={option.country_name}>
+                      {option.country_name}
+                    </option>
+                  ))}
+                </select>
+                {/* <select
                 className="form-select"
                 {...register("mentor_country", {
                   required: "required",
@@ -405,14 +469,14 @@ const MentorForm1 = () => {
                     {option.country_name}
                   </option>
                 ))}
-              </select>
+              </select> */}
+              </div>
+              {errors.mentor_country && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_country.message}
+                </p>
+              )}
             </div>
-            {errors.mentor_country && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_country.message}
-              </p>
-            )}
-          </div>
           </div>
         </div>
       </div>

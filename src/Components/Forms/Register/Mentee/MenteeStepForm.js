@@ -6,8 +6,18 @@ import MenteeRegStep1 from "./MenteeRegStep1";
 import MenteeRegStep2 from "./MenteeRegStep2";
 import MenteeRegStep3 from "./MenteeRegStep3";
 import { useForm, FormProvider } from "react-hook-form";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { ApiURL } from "../../../../Utils/ApiURL";
 
 const MenteeStepForm = () => {
+  const dispatch = useDispatch();
+  const url = ApiURL();
   const [instituteStatus, setInstituteStatus] = useState(false);
   const [selectedOption, setSelectedOption] = useState("mentee");
   const handleChange = (event) => {
@@ -21,7 +31,6 @@ const MenteeStepForm = () => {
       return setSelectedOption(event.target.value), setInstituteStatus(false);
     }
   };
-
   const InstitutePreviousHandler = (event, option) => {
     if (option === "institute") {
       return setInstituteStatus(false), setSelectedOption("mentee");
@@ -29,10 +38,30 @@ const MenteeStepForm = () => {
   };
 
   const methods = useForm({});
+  const { reset } = useForm();
   const [step, setStep] = React.useState(1);
-  const { watch, setValue, trigger, getValues } = methods;
+  const { trigger } = methods;
   const onSubmit = async (data) => {
-    console.log(data);
+    dispatch(showLoadingHandler());
+    const res = await axios.post(`${url}api/v1/mentee/register`, {
+      data: data,
+      userType: selectedOption,
+    });
+    dispatch(hideLoadingHandler());
+    if (res.data.success) {
+      dispatch(hideLoadingHandler());
+      toast.success("You have been successfully register. Please login again.");
+      reset();
+    }
+    if (res.data.error) {
+      dispatch(hideLoadingHandler());
+      toast.error("There is some error while register.");
+    }
+    try {
+    } catch (error) {
+      dispatch(hideLoadingHandler());
+      toast.error("There is some error while register.");
+    }
   };
 
   const renderStep = () => {
@@ -139,14 +168,16 @@ const MenteeStepForm = () => {
                   <div className="uherrr_text text-center">
                     <h4>Sign up</h4>
                   </div>
-                 
-                      {instituteStatus ? (
-                        <InstituteForm
-                          InstitutePreviousHandler={InstitutePreviousHandler}
-                        />
-                      ) : (
-                        <> <FormProvider {...methods}>
-                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+
+                  {instituteStatus ? (
+                    <InstituteForm
+                      InstitutePreviousHandler={InstitutePreviousHandler}
+                    />
+                  ) : (
+                    <>
+                      {" "}
+                      <FormProvider {...methods}>
+                        <form onSubmit={methods.handleSubmit(onSubmit)}>
                           {renderStep()}
                           <div className="d-flex justify-content-between">
                             {step === 1 ? (
@@ -161,7 +192,6 @@ const MenteeStepForm = () => {
                                 Previous
                               </button>
                             )}
-
                             {step === 3 ? (
                               ""
                             ) : (
@@ -179,20 +209,16 @@ const MenteeStepForm = () => {
                               //   id="multi-step-form"
                               //   onSubmit={methods.handleSubmit(onSubmit)}
                               // >
-                                <button
-                                  type="submit"
-                                  className="btn dgheuih_btn_next btn-main"
-                                >
-                                  Submit
-                                </button>
+                              <button className="btn dgheuih_btn_next btn-main">
+                                Submit
+                              </button>
                               // </form>
                             )}
                           </div>
-                          </form>
-                  </FormProvider>
-                        </>
-                      )}
-                    
+                        </form>
+                      </FormProvider>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
