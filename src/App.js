@@ -113,7 +113,7 @@ function App() {
               }
             />
           )}
-          {user?.user_is_superadmin === "1" && (
+          {user?.user_role === 1 && (
             <Route
               path="/user/admin/dashboard"
               element={
