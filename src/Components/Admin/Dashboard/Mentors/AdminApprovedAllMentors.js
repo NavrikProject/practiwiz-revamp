@@ -4,8 +4,15 @@ import { Link } from "react-router-dom";
 import ListStatusSkeleton from "../SkeltonLoaders/ListStatusSkeleton";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
-
+import { toast } from "react-toastify";
+import "./MentorList.css";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import { useDispatch } from "react-redux";
 const AdminApprovedAllMentors = () => {
+  const token = localStorage.getItem("accessToken");
   const [filters, setFilters] = useState({
     location: "",
     skill: "",
@@ -14,7 +21,6 @@ const AdminApprovedAllMentors = () => {
     areaOfMentorship: "",
     experience: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters({
@@ -30,18 +36,23 @@ const AdminApprovedAllMentors = () => {
     const fetchMentors = async () => {
       setLoading(true);
       const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/approved/all-list`
+        `${url}api/v1/admin/dashboard/mentors/approved/all-list`,
+        {
+          headers: { authorization: "Bearer " + token },
+        }
       );
       setLoading(false);
       if (response.data.success) {
         return setAllMentors(response.data.success), setLoading(false);
       }
       if (response.data.error) {
-        return setAllMentors([]), setLoading(false);
+        return (
+          setAllMentors([]), setLoading(false), toast.error(response.data.error)
+        );
       }
     };
     fetchMentors();
-  }, [url]);
+  }, [url, token]);
 
   useEffect(() => {
     const filterMentors = () => {
@@ -84,10 +95,43 @@ const AdminApprovedAllMentors = () => {
 
     filterMentors();
   }, [filters, allMentors]);
-  const [appliedFilters, setAppliedFilters] = useState(filters);
+  const [setAppliedFilters] = useState(filters);
 
   const handleApplyFilter = () => {
     setAppliedFilters(filters);
+  };
+  const dispatch = useDispatch();
+
+  const MentorDisApproveHandler = async (id, email, mentorName, userId) => {
+    dispatch(showLoadingHandler());
+    const response = await axios.post(
+      `${url}api/v1/admin/dashboard/mentors/update/not-approve`,
+      {
+        mentorDtlsId: id,
+        mentorEmail: email,
+        mentorName: mentorName,
+        userId: userId,
+      },
+      {
+        headers: { authorization: "Bearer " + token },
+      }
+    );
+    setLoading(false);
+    dispatch(hideLoadingHandler());
+    if (response.data.success) {
+      return (
+        toast.success("Mentor disapproved successfully"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
+    if (response.data.error) {
+      return (
+        toast.error("There is some error while approving the mentor"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
   };
   return (
     <div className="col-lg-10 ps-0">
@@ -178,7 +222,8 @@ const AdminApprovedAllMentors = () => {
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Profile</th>
-                      <th>Send Invite</th>
+                      <th>Button</th>
+                      <th>Approval Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -220,20 +265,38 @@ const AdminApprovedAllMentors = () => {
                               <Link
                                 to={`/mentor-club/mentor-profile/${
                                   mentor.user_firstname +
-                                  " " +
+                                  "-" +
                                   mentor.user_lastname
                                     .replace(" ", "-")
                                     .toLowerCase()
                                 }/${mentor.user_dtls_id}`}
                               >
-                                Profile
+                                Profiles
                               </Link>
                             </button>
                           </td>
                           <td>
-                            <button className="action-button invite-button">
-                              Send Invite
+                            <button
+                              className="disapprove-button"
+                              onClick={() => {
+                                MentorDisApproveHandler(
+                                  mentor.mentor_dtls_id,
+                                  mentor.mentor_email,
+                                  mentor.user_firstname +
+                                    " " +
+                                    mentor.user_lastname,
+                                  mentor.user_dtls_id
+                                );
+                              }}
+                            >
+                              Disapprove
                             </button>
+                          </td>
+                          <td>
+                            <i
+                              class="fa-solid fa-circle-check fa-lg"
+                              style={{ color: "#4cee49" }}
+                            ></i>
                           </td>
                         </tr>
                       ))

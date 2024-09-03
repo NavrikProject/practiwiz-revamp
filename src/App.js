@@ -103,24 +103,26 @@ function App() {
             path="/courses/single-course/:id"
             element={<SingleCoursePage />}
           />
-          {/* {user?.user_type === "mentee" && ( */}
-          <Route
-            path="/mentee/dashboard"
-            element={
-              // <ProtectedRoute>
-              <MenteeDashboardPage />
-              // </ProtectedRoute>
-            }
-          />
-          {/* {user?.user_type === "mentee" && ( */}
-          <Route
-            path="/user/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <AdminDashboardPage />
-              </ProtectedRoute>
-            }
-          />
+          {user?.user_type === "mentee" && (
+            <Route
+              path="/mentee/dashboard"
+              element={
+                <ProtectedRoute>
+                  <MenteeDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+          )}
+          {user?.user_is_superadmin === "1" && (
+            <Route
+              path="/user/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+          )}
           <Route
             path="/mentee/view-profile/:id"
             element={
@@ -143,16 +145,16 @@ function App() {
             path="/institute/view-profile/:id"
             element={<InstituteProfilePage />}
           />
-          {/* {user?.user_type === "institute" && ( */}
-          <Route
-            path="/institute/dashboard"
-            element={
-              // <ProtectedRoute>
-              <InstituteDashboardPage />
-              // </ProtectedRoute>
-            }
-          />
-          {/* )} */}
+          {user?.user_type === "institute" && (
+            <Route
+              path="/institute/dashboard"
+              element={
+                <ProtectedRoute>
+                  <InstituteDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+          )}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
         </Routes>

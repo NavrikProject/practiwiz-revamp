@@ -25,6 +25,9 @@ function ListStatusSkeleton() {
         <td>
           <Skeleton width={"100%"} height={25} />
         </td>
+        <td>
+          <Skeleton width={"100%"} height={25} />
+        </td>
       </tr>
     </>
   );

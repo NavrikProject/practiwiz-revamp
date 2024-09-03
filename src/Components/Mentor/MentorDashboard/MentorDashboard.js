@@ -182,6 +182,7 @@ const MentorDashboard = (props) => {
   const userLogoutHandler = () => {
     return dispatch(logOut()), navigate("/login");
   };
+
   return (
     <>
       <div className="md-header">
@@ -282,135 +283,150 @@ const MentorDashboard = (props) => {
         <div className="mentor_dashboard">
           {/* <div className="row"> */}
           <div className="  ">
-            <div className="  display-raw">
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onClick={MentorProfileShowingHandler}
-              >
-                <span className="d-block bg-white position-relative m-auto mb-3">
-                  {/* <i className="fa-solid fa-user"> */}
-                  <i class="fa-solid fa-house-circle-check"></i>
-                </span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                margin: "0 40px 0",
+              }}
+            >
+              <div className="  display-raw">
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onClick={MentorProfileShowingHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    {/* <i className="fa-solid fa-user"> */}
+                    <i class="fa-solid fa-house-circle-check"></i>
+                  </span>
 
-                <h5>Dashboard</h5>
-              </button>
+                  <h5>Dashboard</h5>
+                </button>
 
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onMouseOver={toggleNoProfile}
-                onMouseLeave={toggleOffProfile}
-              >
-                <span className="d-block bg-white position-relative m-auto mb-3">
-                  <i className="fa-solid fa-bars"></i>
-                </span>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onMouseOver={toggleNoProfile}
+                  onMouseLeave={toggleOffProfile}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    <i className="fa-solid fa-bars"></i>
+                  </span>
 
-                <h5>
-                  Profile Settings{" "}
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                </h5>
-                {profilemenu && (
-                  <div className="submenu1">
-                    <button
-                      className="submenu-item1"
-                      onClick={MentorPsettingsHandler}
-                    >
-                      <h5>Profile Change</h5>
-                    </button>
-                    <button
-                      className="submenu-item1"
-                      onClick={MentorChangePwdHandler}
-                    >
-                      <h5>Change Password</h5>
-                    </button>
-                  </div>
-                )}
-              </button>
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onMouseOver={toggleNosession}
-                onMouseLeave={toggleOffSession}
-              >
-                <span className="d-block bg-white position-relative m-auto mb-3">
-                  {/* <i className="fa-solid fa-bars-progress"></i> */}
-                  <i class="fa-solid fa-tv"></i>
-                </span>
+                  <h5>
+                    Profile Settings{" "}
+                    <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>
+                  {profilemenu && (
+                    <div className="submenu1">
+                      <button
+                        className="submenu-item1"
+                        onClick={MentorPsettingsHandler}
+                      >
+                        <h5>Profile Change</h5>
+                      </button>
+                      <button
+                        className="submenu-item1"
+                        onClick={MentorChangePwdHandler}
+                      >
+                        <h5>Change Password</h5>
+                      </button>
+                    </div>
+                  )}
+                </button>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onMouseOver={toggleNosession}
+                  onMouseLeave={toggleOffSession}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    {/* <i className="fa-solid fa-bars-progress"></i> */}
+                    <i class="fa-solid fa-tv"></i>
+                  </span>
 
-                <h5>
-                  Session Info{" "}
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                </h5>
-                {Sessionmenu && (
-                  <div className="submenu1">
-                    <button
-                      className="submenu-item1"
-                      onClick={ShowMentorUpcomingHandler}
-                    >
-                      <h5>Upcomig Session</h5>
-                    </button>
-                    <button
-                      className="submenu-item1"
-                      onClick={ShowMentorCompletedHandler}
-                    >
-                      <h5>Completed Session</h5>
-                    </button>
-                  </div>
-                )}
-              </button>
+                  <h5>
+                    Session Info{" "}
+                    <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>
+                  {Sessionmenu && (
+                    <div className="submenu1">
+                      <button
+                        className="submenu-item1"
+                        onClick={ShowMentorUpcomingHandler}
+                      >
+                        <h5>Upcomig Session</h5>
+                      </button>
+                      <button
+                        className="submenu-item1"
+                        onClick={ShowMentorCompletedHandler}
+                      >
+                        <h5>Completed Session</h5>
+                      </button>
+                    </div>
+                  )}
+                </button>
 
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onClick={MentorMsgShowingHandler}
-              >
-                <span className="d-block bg-white position-relative m-auto mb-3">
-                  {/* <i className="fa-brands fa-rocketchat"></i> */}
-                  <i class="fa-solid fa-building-columns"></i>
-                </span>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onClick={MentorMsgShowingHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    {/* <i className="fa-brands fa-rocketchat"></i> */}
+                    <i class="fa-solid fa-building-columns"></i>
+                  </span>
 
-                <h5>Bank Details</h5>
-              </button>
+                  <h5>Bank Details</h5>
+                </button>
 
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onClick={MentorNotificationHandler}
-              >
-                <span className="d-block bg-white position-relative m-auto mb-3">
-                  <i className="fa-solid fa-bell"></i>
-                </span>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onClick={MentorNotificationHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    <i className="fa-solid fa-bell"></i>
+                  </span>
 
-                <h5>Notifications</h5>
-              </button>
+                  <h5>Notifications</h5>
+                </button>
 
-              {/* <button
+                {/* <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MentorChangePwdHandler}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-arrow-right-arrow-left"></i>
                 </span>
 
                 <h5>Change Password</h5>
               </button> */}
 
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onClick={MentorSessionSetupHandler}
-              >
-                <span className="d-block bg-white position-relative m-auto mb-3">
-                  <i className="fa-solid fa-folder"></i>
-                </span>
-
-                <h5>Session Sestup</h5>
-              </button>
-
-              {/* <button className="btn btn-transparent text-center py-3">
-                  <span className="d-block bg-white position-relative m-auto mb-3">
-                    <i className="fa-solid fa-right-from-bracket"></i>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onClick={MentorSessionSetupHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    <i className="fa-solid fa-folder"></i>
                   </span>
-
-                  <h5>LOG OUT</h5>
-                </button> */}
+                  <h5>Session Setup</h5>
+                </button>
+              </div>
+              <div>
+                <h5 className="h5stmt" style={{ margin: "0px" }}>
+                  Status :
+                  {singleMentor[0]?.mentor_approved_status === "Yes" ? (
+                    <>
+                      <i class="fa-solid fa-circle-check fa-lg approveStatus"></i>
+                      Approved
+                    </>
+                  ) : (
+                    <>
+                      <i class="fa-solid fa-circle-exclamation fa-lg disapproveStatus"></i>
+                      Not Approved
+                    </>
+                  )}
+                </h5>
+              </div>
             </div>
-            {/* </div> */}
             <div className="maincontent">
               {showNotification ? (
                 <MentorNotifications data={singleMentor} />
@@ -459,7 +475,7 @@ const MentorDashboard = (props) => {
             </div>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-user"></i>
               </span>
 
@@ -467,7 +483,7 @@ const MentorDashboard = (props) => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bars"></i>
               </span>
 
@@ -475,7 +491,7 @@ const MentorDashboard = (props) => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-brands fa-rocketchat"></i>
               </span>
 
@@ -483,7 +499,7 @@ const MentorDashboard = (props) => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bell"></i>
               </span>
 
@@ -491,7 +507,7 @@ const MentorDashboard = (props) => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-arrow-right-arrow-left"></i>
               </span>
 
@@ -499,7 +515,7 @@ const MentorDashboard = (props) => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-folder"></i>
               </span>
 
@@ -507,7 +523,7 @@ const MentorDashboard = (props) => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-right-from-bracket"></i>
               </span>
 
