@@ -20,15 +20,6 @@ const MentorProfile = ({ data }) => {
         return (
           <>
             <div className="col-lg-10 ps-0">
-              {sMentor.mentor_approved_status === "Yes" && (
-                <div
-                  className="error-box"
-                  style={{ fontSize: "24px", maxWidth: "900px" }}
-                >
-                  Thanks you for your mentor application. We are currently
-                  reviewing the application. We shortly get back over the email
-                </div>
-              )}
               <div className="difuhtre_content">
                 <div
                   className="duiegrer_bck position-relative mb-3"

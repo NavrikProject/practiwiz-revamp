@@ -308,7 +308,7 @@ const MenteeDashboard = () => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={ShowMenteeProfileHandler}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-user"></i>
                 </span>
 
@@ -319,7 +319,7 @@ const MenteeDashboard = () => {
                 onMouseOver={toggleNoProfile}
                 onMouseLeave={toggleOffProfile}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-bars"></i>
                 </span>
 
@@ -349,7 +349,7 @@ const MenteeDashboard = () => {
                 onMouseOver={toggleNosession}
                 onMouseLeave={toggleOffSession}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   {/* <i className="fa-solid fa-bars-progress"></i> */}
                   <i class="fa-solid fa-tv"></i>
                 </span>
@@ -379,7 +379,7 @@ const MenteeDashboard = () => {
                   className="btn btn-transparent text-center py-3 seeeett" 
                   onClick={ShowMenteeCompletedHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
+                  <span className="d-block bg-white position-relative m-auto ">
                     <i className="fa-solid fa-hourglass-half"></i>
                   </span>
 
@@ -390,7 +390,7 @@ const MenteeDashboard = () => {
                 onMouseOver={toggleNoCourse}
                 onMouseLeave={toggleOffCourse}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   {/* <i className="fa-solid fa-bars-progress"></i> */}
                   <i class="fa-solid fa-book-open-reader"></i>
                 </span>
@@ -420,7 +420,7 @@ const MenteeDashboard = () => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MenteeCompCourseHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
+                  <span className="d-block bg-white position-relative m-auto ">
                     <i className="fa-solid fa-hourglass-half"></i>
                   </span>
 
@@ -428,14 +428,14 @@ const MenteeDashboard = () => {
                   
                 </button> */}
               <button className="btn btn-transparent text-center py-3 seeeett">
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-clock-rotate-left"></i>
                 </span>
 
                 <h5>Payment History</h5>
               </button>
               <button className="btn btn-transparent text-center py-3 seeeett">
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-regular fa-building"></i>
                 </span>
 
@@ -445,7 +445,7 @@ const MenteeDashboard = () => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeSavedJobsHandler}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   {/* <i className="fa-solid fa-bookmark"></i> */}
                   <i class="fa-regular fa-bookmark"></i>
                 </span>
@@ -456,7 +456,7 @@ const MenteeDashboard = () => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeNotificationHandler}
               >
-                <span className="d-block bg-white position-relative m-auto mb-3">
+                <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-bell"></i>
                 </span>
 
@@ -466,7 +466,7 @@ const MenteeDashboard = () => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   // onClick={MenteeChangePwdHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
+                  <span className="d-block bg-white position-relative m-auto ">
                     <i className="fa-solid fa-arrow-right-arrow-left"></i>
                   </span>
 

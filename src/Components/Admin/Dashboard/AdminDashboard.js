@@ -185,95 +185,106 @@ const AdminDashboard = () => {
         <div className="mentor_dashboard">
           {/* <div className="row"> */}
           {/* <div className="col-lg-2 pe-0 csdegbfraedd"> */}
-          <div className=" display-raw  ">
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              onClick={AdminDashboardProfileHandler}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i class="fa-solid fa-house-circle-check"></i>
-              </span>
-              <h5>Practywiz Dashboard</h5>
-            </button>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              margin: "0 40px 0",
+            }}
+          >
+            <div className=" display-raw  ">
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={AdminDashboardProfileHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i class="fa-solid fa-house-circle-check"></i>
+                </span>
+                <h5>Practywiz Dashboard</h5>
+              </button>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              // onClick={AdminDashboardProfilesettings}
-              onMouseOver={toggleMenu1}
-              onMouseLeave={toggleMenu3}
-              // onBlur={toggleMenu1}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i className="fa-solid fa-bars"></i>
-              </span>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                // onClick={AdminDashboardProfilesettings}
+                onMouseOver={toggleMenu1}
+                onMouseLeave={toggleMenu3}
+                // onBlur={toggleMenu1}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-bars"></i>
+                </span>
 
-              <h5>
-                Profile Settings{" "}
-                <i class="fa-solid fa-chevron-down downarrowsize"></i>
-              </h5>
+                <h5>
+                  Profile Settings{" "}
+                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
 
-              {profilemenu && (
-                <div className="submenu1">
-                  <button
-                    className="submenu-item1"
-                    // onClick={AdminDashboardSearchGuestLacture}
-                  >
-                    <h5>Users List</h5>
-                  </button>
-                  <button
-                    className="submenu-item1"
-                    onClick={AdminDashboardChangePwdHandler}
-                  >
-                    <h5>Change Password</h5>
-                  </button>
-                </div>
-              )}
-            </button>
+                {profilemenu && (
+                  <div className="submenu1">
+                    <button
+                      className="submenu-item1"
+                      // onClick={AdminDashboardSearchGuestLacture}
+                    >
+                      <h5>Users List</h5>
+                    </button>
+                    <button
+                      className="submenu-item1"
+                      onClick={AdminDashboardChangePwdHandler}
+                    >
+                      <h5>Change Password</h5>
+                    </button>
+                  </div>
+                )}
+              </button>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett main-button menu-container"
-              onMouseOver={toggleMenu}
-              onMouseLeave={toggleMenu2}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3 ">
-                {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                <i class="fa-solid fa-chalkboard-user"></i>
-              </span>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett "
+                onMouseOver={toggleMenu}
+                onMouseLeave={toggleMenu2}
+              >
+                <span className="d-block bg-white position-relative m-auto  ">
+                  {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
+                  <i class="fa-solid fa-chalkboard-user"></i>
+                </span>
 
-              <h5>
-                All Mentors
-                <i class="fa-solid fa-chevron-down downarrowsize"></i>
-              </h5>
+                <h5>
+                  All Mentors
+                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
 
-              {isOpen && (
-                <div className="submenu">
-                  <button
-                    className="submenu-item"
-                    onClick={AdminApprovedMentorsHandler}
-                  >
-                    <h5>Approved Mentors</h5>
-                  </button>
-                  <button
-                    className="submenu-item"
-                    onClick={AdminNotApprovedMentorsHandler}
-                  >
-                    <h5>Not Approved Mentors</h5>
-                  </button>
-                </div>
-              )}
-            </button>
+                {isOpen && (
+                  <div className="submenu">
+                    <button
+                      className="submenu-item"
+                      onClick={AdminApprovedMentorsHandler}
+                    >
+                      <h5>Approved Mentors</h5>
+                    </button>
+                    <button
+                      className="submenu-item"
+                      onClick={AdminNotApprovedMentorsHandler}
+                    >
+                      <h5>Not Approved Mentors</h5>
+                    </button>
+                  </div>
+                )}
+              </button>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              onClick={AdminDashboardNotificationHandler}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i className="fa-solid fa-bell"></i>
-              </span>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={AdminDashboardNotificationHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-bell"></i>
+                </span>
 
-              <h5>Notifications</h5>
-            </button>
+                <h5>Notifications</h5>
+              </button>
+            </div>
+            <div></div>
           </div>
+
           <div className="maincontent">
             {adminAllApprovedMentors && <AdminApprovedAllMentors />}
             {adminAllNotApprovedMentors && <AdminNotApprovedAllMentors />}

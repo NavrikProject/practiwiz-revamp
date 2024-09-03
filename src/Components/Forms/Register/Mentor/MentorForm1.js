@@ -29,15 +29,9 @@ const MentorForm1 = (props) => {
   };
   return (
     <>
-      <div className="idneihrrr p-3">
-        <h5 className="mb-0">
-          Hi, Let's Get You On-boarded. It Will Take Approx. 4 Mins For Sign-up
-          And Total 8 For Complete Profile
-        </h5>
-      </div>
       <div className="doiherner_wrapper ">
         <div className="row">
-          <div className="col-lg-12 ">
+          {/* <div className="col-lg-12 ">
             <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
               <label
                 htmlFor="exampleInputEmail1"
@@ -148,7 +142,7 @@ const MentorForm1 = (props) => {
                 </p>
               )}
             </div>
-          </div>
+          </div> */}
 
           <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
             <div className="col-lg-12 mt-2">
@@ -315,8 +309,8 @@ const MentorForm1 = (props) => {
                   {...register("mentor_password", {
                     required: "Password is Required",
                     pattern: {
-                      value:
-                        /^(?!.* )(?=.*[a-z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&.]{8,16}$/,
+                      // value:
+                      //   /^(?!.* )(?=.[a-z])(?=.[@$!%?&])[A-Za-z\d@$!%?&.]{8,16}$/,
                       message:
                         "A min 8 - 16 characters contains a combination of upper, lowercase letter, number and special characters like @ $ ! % * ? & _ . without space",
                     },
