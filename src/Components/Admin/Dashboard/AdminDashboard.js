@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import Logo from "../../../Images/logo.png";
-import AdminAllMentors from "./Mentors/AdminApprovedAllMentors";
 import AdminApprovedAllMentors from "./Mentors/AdminApprovedAllMentors";
 import AdminNotApprovedAllMentors from "./Mentors/AdminNotApprovedAllMentors";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../../Redux/userRedux";
 
 const AdminDashboard = () => {
+  const user = useSelector((state) => state.user?.currentUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
   const [adminAllUsers, setAdminAllUsers] = useState(false);
   const [adminChangePwd, setAdminChangePwd] = useState(false);
   const [adminAllApprovedMentors, setAdminAllApprovedMentors] = useState(false);
@@ -104,7 +112,9 @@ const AdminDashboard = () => {
                 <a className="navbar-brand" href="/">
                   <img src={Logo} alt="" />
                 </a>
-
+                <a className="navbar-brand" href="/">
+                  ADMIN DASHBOARD
+                </a>
                 <button
                   className="navbar-toggler"
                   type="button"
@@ -144,10 +154,15 @@ const AdminDashboard = () => {
 
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
-
-                        <li>View Public Profile</li>
-
-                        <li>Log Out</li>
+                        <li>
+                          <Link
+                            target="_blanks"
+                            to={`/${user?.user_type}/dashboard`}
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                        <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
                   </form>

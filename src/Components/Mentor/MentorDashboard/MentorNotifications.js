@@ -1,9 +1,12 @@
+import axios from "axios";
 import React from "react";
+import { ApiURL } from "../../../Utils/ApiURL";
+import { toast } from "react-toastify";
 
-const MentorNotifications = ({ data }) => {
+const MentorNotifications = ({ data, mentorDtlsId }) => {
+  const url = ApiURL();
   const formatDateToIST = (dateString) => {
     const date = new Date(dateString);
-
     // Convert the date to IST (UTC+5:30)
     const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
     const istDate = new Date(date.getTime() + istOffset);
@@ -24,7 +27,30 @@ const MentorNotifications = ({ data }) => {
 
     return `${formattedDate} at ${formattedTime}`;
   };
-
+  const MarkAllAsReadNotHandler = async () => {
+    const response = await axios.post(
+      `${url}api/v1/mentor/dashboard/notification/mark-all-read`,
+      { userId: mentorDtlsId }
+    );
+    if (response.data.success) {
+      toast.success("Marked all messages as read successfully");
+    }
+    if (response.data.error) {
+      toast.success("There is some error while reading the messages");
+    }
+  };
+  const MarkAsSingleReadHandler = async (notificationId) => {
+    const response = await axios.post(
+      `${url}api/v1/mentor/dashboard/notification/mark-single-read`,
+      { userId: mentorDtlsId, notificationId: notificationId }
+    );
+    if (response.data.success) {
+      toast.success("Marked message as read successfully");
+    }
+    if (response.data.error) {
+      toast.success("There is some error while reading the message");
+    }
+  };
   return (
     <div className="col-lg-10 ps-0">
       <div className="difuhtre_content">
@@ -32,23 +58,53 @@ const MentorNotifications = ({ data }) => {
           <div className="container-fluid px-5">
             <div className="nfhgfg">
               <h4>NOTIFICATION</h4>
+              <p onClick={MarkAllAsReadNotHandler}>Mark all as Read</p>
             </div>
             <div className="nxhjfdffgf5548">
               {JSON?.parse(data[0]?.notification_list)?.map((notification) => {
                 return (
-                  <div className="dbhfhdfgfgf">
+                  <div
+                    className="dbhfhdfgfgf"
+                    style={
+                      notification.notification_is_read !== true
+                        ? { backgroundColor: "#f2f2f2" }
+                        : { backgroundColor: "" }
+                    }
+                  >
                     <div className="row">
                       <div className="col-lg-9">
                         <div className="hfgdfgfdf53564">
-                          <div className="fhjgfg">
-                            <i className="fa-solid fa-x"></i>
+                          <div className="fhjgf">
+                            {notification.notification_type === "Success" && (
+                              <i
+                                class="fa-solid fa-circle-check fa-2xl"
+                                style={{ color: "#03a96c", fontSize: "40px" }}
+                              ></i>
+                            )}
+                            {notification.notification_type === "Info" && (
+                              <i
+                                class="fa-solid fa-circle-exclamation"
+                                style={{ color: "#03a96c", fontSize: "40px" }}
+                              ></i>
+                            )}
+                            {notification.notification_type === "Warning" && (
+                              <i
+                                class="fa-solid fa-circle-exclamation"
+                                style={{ color: "#f00f0f" }}
+                              ></i>
+                            )}
+                            {notification.notification_type === "Error" && (
+                              <i
+                                class="fa-solid fa-circle-exclamation"
+                                color={{ color: "#f92f2f" }}
+                              ></i>
+                            )}
                           </div>
                           <div className="gkfhjg5559">
                             {/* success notification */}
                             {notification.notification_type === "Success" && (
                               <>
                                 <button className="btnhd22">
-                                  <i class="fa-solid fa-circle-info fa-lg"></i>
                                   {notification.notification_type}
                                 </button>
                               </>
@@ -77,6 +133,17 @@ const MentorNotifications = ({ data }) => {
                       </div>
                       <div className="col-lg-3">
                         <div className="dfghjdfdf">
+                          {notification.notification_is_read !== true && (
+                            <p
+                              onClick={() => {
+                                MarkAsSingleReadHandler(
+                                  notification.notification_dtls_id
+                                );
+                              }}
+                            >
+                              Mark as read.
+                            </p>
+                          )}
                           <p className="dateText">
                             <i className="fa-regular fa-clock"></i>
                             {formatDateToIST(

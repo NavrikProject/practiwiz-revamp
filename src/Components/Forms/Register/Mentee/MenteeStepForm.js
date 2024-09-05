@@ -42,22 +42,24 @@ const MenteeStepForm = () => {
   const [step, setStep] = React.useState(1);
   const { trigger } = methods;
   const onSubmit = async (data) => {
-    dispatch(showLoadingHandler());
-    const res = await axios.post(`${url}api/v1/mentee/register`, {
-      data: data,
-      userType: selectedOption,
-    });
-    dispatch(hideLoadingHandler());
-    if (res.data.success) {
-      dispatch(hideLoadingHandler());
-      toast.success("You have been successfully register. Please login again.");
-      reset();
-    }
-    if (res.data.error) {
-      dispatch(hideLoadingHandler());
-      toast.error("There is some error while register.");
-    }
     try {
+      dispatch(showLoadingHandler());
+      const res = await axios.post(`${url}api/v1/mentee/register`, {
+        data: data,
+        userType: selectedOption,
+      });
+      dispatch(hideLoadingHandler());
+      if (res.data.success) {
+        dispatch(hideLoadingHandler());
+        toast.success(
+          "You have been successfully register. Please login again."
+        );
+        reset();
+      }
+      if (res.data.error) {
+        dispatch(hideLoadingHandler());
+        toast.error("There is some error while register.");
+      }
     } catch (error) {
       dispatch(hideLoadingHandler());
       toast.error("There is some error while register.");

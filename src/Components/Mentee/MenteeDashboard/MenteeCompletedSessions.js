@@ -109,15 +109,16 @@ const MenteeCompletedSessions = () => {
                 <SessionCardSkeleton />
               </>
             )}
-            {allCompletedBookingSessions.length > 0 ? (
+            {!loading && allCompletedBookingSessions?.length === 0 && (
+              <div className="error-box-green">
+                There are no completed session found
+              </div>
+            )}
+            {allCompletedBookingSessions?.length > 0 && (
               <MenteeCompletedSessionCard
                 user={user}
                 allCompletedBookingSessions={allCompletedBookingSessions}
               />
-            ) : (
-              <div className="error-box-green">
-                There are no completed session found
-              </div>
             )}
           </div>
         </div>

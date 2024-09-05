@@ -317,3 +317,10 @@ header .navbar-brand img {
 .dateText i {
   margin-right: 6px;
 }
+
+.nfhgfg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 40px 0 0;
+}

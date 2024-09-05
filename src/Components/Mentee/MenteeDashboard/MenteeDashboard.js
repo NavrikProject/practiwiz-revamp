@@ -9,9 +9,11 @@ import MenteeCourseProgress from "./MenteeCourseProgress";
 import MenteeMessages from "./MenteeMessages";
 import MenteeProfileSettings from "./MenteeProfileSettings";
 import MenteeProfileDashboard from "./MenteeProfileDashboard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenteeUpcomingSessions from "./MenteeUpcomingSessions";
 import MenteeCompletedSessions from "./MenteeCompletedSessions";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../../Redux/userRedux";
 const MenteeDashboard = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
@@ -209,6 +211,13 @@ const MenteeDashboard = () => {
       setShowMenteeUpcomingSessions(false)
     );
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user?.currentUser);
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
   return (
     <>
       <div className="md-header">
@@ -234,7 +243,6 @@ const MenteeDashboard = () => {
                     className="fa-solid fa-xmark d-none"
                   ></i>
                 </button>
-
                 <div
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
@@ -266,7 +274,14 @@ const MenteeDashboard = () => {
                           </Link>
                         </li>
 
-                        <li>Log Out</li>
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
+                        <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
                   </form>

@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import CustomDatePicker from "../CustomDatepicker/CustomDatePicker";
 import { toast } from "react-toastify";
 import SingleMentorProfilePageSkelton from "./Skelton/SingleMentorProfilePageSkelton";
+import MentorRatingCard from "./MentorRatingCard";
 const SingleMentorProfile = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [showBookingModel, setShowBookingModel] = useState(false);
@@ -30,7 +31,7 @@ const SingleMentorProfile = () => {
     setSelectedSlot(slot);
   };
 
-  const OverviewShowHandlder = () => {
+  const OverviewShowHandler = () => {
     return setShowRating(false), setShowOverview(!showOverview);
   };
   const RatingShowHandler = () => {
@@ -183,21 +184,29 @@ const SingleMentorProfile = () => {
                             <div className="fkjhgdfbghh my-5">
                               <ul className="tabs">
                                 <li
-                                  className="tab-link current"
+                                  className={
+                                    showOverview
+                                      ? "tab-link current"
+                                      : "tab-link "
+                                  }
                                   data-tab="tab-9"
-                                  onClick={() => OverviewShowHandlder()}
+                                  onClick={() => OverviewShowHandler()}
                                 >
                                   Overview
                                 </li>
                                 <li
-                                  className="tab-link"
+                                  className={
+                                    showRating
+                                      ? "tab-link current"
+                                      : "tab-link "
+                                  }
                                   data-tab="tab-10"
                                   onClick={() => RatingShowHandler()}
                                 >
                                   Rating & Reviews
                                 </li>
                               </ul>
-                              {showOverview ? (
+                              {showOverview && (
                                 <div id="tab-9" className="tab-content current">
                                   <div className="dfgbfgd">
                                     <div className="dfkjhgufgfgh">
@@ -210,14 +219,7 @@ const SingleMentorProfile = () => {
                                         <div className="col-lg-11">
                                           <div className="djbghdrfgfgh">
                                             <h6>Professional Experience</h6>
-                                            <p>
-                                              Co-Founder at Navrik Software
-                                              Solutions, Expert in RPA
-                                              Implementation: Successfully
-                                              Delivered Projects with UiPath,
-                                              Power Automate, and Automation
-                                              Anywhere
-                                            </p>
+                                            <p>{sMentor.mentor_headline}</p>
                                           </div>
                                         </div>
                                       </div>
@@ -233,215 +235,31 @@ const SingleMentorProfile = () => {
                                         <div className="col-lg-11">
                                           <div className="djbghdrfgfgh">
                                             <h6>Expertise In</h6>
-                                            <p>Career Guidance</p>
+                                            <p>
+                                              {
+                                                sMentor.mentor_recommended_area_of_mentorship
+                                              }
+                                            </p>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-
-                                    {/* <div className="dfujghffg my-5">
-                                  <h4>
-                                    Step-by-step Guidance To Business Analysis
-                                  </h4>
-                                  <div className="kfghg">
-                                    <img src={Dcdc1} alt="" />
-                                  </div>
-                                </div> */}
                                   </div>
                                 </div>
-                              ) : (
-                                ""
                               )}
-                              {showRating ? (
-                                <div id="tab-10" className="tab-content">
+                              {showRating && (
+                                <div id="tab-10" className="">
                                   <div className="jfgghghhghkgkhjg">
                                     <div className="jhdfgfjgg">
-                                      <div className="hghgg">
-                                        <div className="djbgdfdfgh d-flex justify-content-between align-items-center">
-                                          <div className="fyhugdghg d-flex justify-content-between align-items-center">
-                                            <div className="kjghjfg me-2">
-                                              <img
-                                                src="./images/rrrr1.png"
-                                                alt=""
-                                              />
-                                            </div>
-                                            <div className="ihceuirr mt-3">
-                                              <h4>Anwesha Sinha</h4>
-                                              <div className="fgnhjghjgh">
-                                                <span>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                </span>
-                                                <p>
-                                                  <i className="fa-solid fa-calendar-days"></i>{" "}
-                                                  17/03/2024
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="gnhjbggf">
-                                            <a href="/mentor">View Profile</a>
-                                          </div>
-                                        </div>
-                                        <div className="dfkjbghdfffg">
-                                          <p>
-                                            As a business analyst professional,
-                                            I feel very lucky to have Tarun Sir
-                                            as my mentor. I got in-depth
-                                            knowledge about the subject. It
-                                            helps me to cope with the dynamicity
-                                            of it quite beautifully. His
-                                            dedication to mentoring the students
-                                            is excellent. If somebody asks to me
-                                            for a business analyst mentor I will
-                                            surely take  Gautam sir’s name.
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="hghgg mt-3">
-                                        <div className="djbgdfdfgh d-flex justify-content-between align-items-center">
-                                          <div className="fyhugdghg d-flex justify-content-between align-items-center">
-                                            <div className="kjghjfg me-2">
-                                              <img
-                                                src="./images/rrrr2.png"
-                                                alt=""
-                                              />
-                                            </div>
-
-                                            <div className="ihceuirr mt-3">
-                                              <h4>Tithi Mishra</h4>
-
-                                              <div className="fgnhjghjgh">
-                                                <span>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                  <i className="fa-solid fa-star"></i>
-                                                </span>
-                                                <p>
-                                                  <i className="fa-solid fa-calendar-days"></i>{" "}
-                                                  17/03/2024
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-
-                                          <div className="gnhjbggf">
-                                            <a href="/mentor">View Profile</a>
-                                          </div>
-                                        </div>
-
-                                        <div className="dfkjbghdfffg">
-                                          <p>
-                                            I was at first in a confusion
-                                            regarding the subject matter of
-                                            business analytics. The first-day
-                                            introduction from Gautam Sir’s part
-                                            made all my confusion clear. He is
-                                            in a true sense a Pole star in the
-                                            business analytics domain.
-                                          </p>
-                                        </div>
-                                      </div>
-
-                                      <div className="dfujghffg">
-                                        <h4>
-                                          Step-by-step Guidance To Business
-                                          Analysis
-                                        </h4>
-                                        <div className="kfghg">
-                                          <img
-                                            src="./images/dcdc1.png"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </div>
-
-                                      <div className="dfujghffg">
-                                        <h4>Engage With Our Top Mentor</h4>
-                                        <div className="ldfuijhgfghfg">
-                                          <div className="owl-carousel gfhghg owl-theme">
-                                            <div className="item">
-                                              <div className="jghdfrg">
-                                                <div className="kmg">
-                                                  <img
-                                                    src="./images/qqq2.webp"
-                                                    alt=""
-                                                  />
-                                                </div>
-
-                                                <div className="dfhjbghfjgfgh py-3">
-                                                  <h4>Bhabnesh Asar</h4>
-
-                                                  <h6>Enterprice Architect</h6>
-
-                                                  <span className="pb-2">
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                  </span>
-
-                                                  <p className="mb-1">
-                                                    10 Sessions (87 Reviews)
-                                                  </p>
-
-                                                  <div className="kbfhgfgfg">
-                                                    <button className="btn-main">
-                                                      BOOK NOW
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-
-                                            <div className="item">
-                                              <div className="jghdfrg">
-                                                <div className="kmg">
-                                                  <img
-                                                    src="./images/qqq2.webp"
-                                                    alt=""
-                                                  />
-                                                </div>
-
-                                                <div className="dfhjbghfjgfgh py-3">
-                                                  <h4>Gourav Bhati</h4>
-
-                                                  <h6>Product Owner</h6>
-
-                                                  <span className="pb-2">
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                  </span>
-
-                                                  <p className="mb-1">
-                                                    07 Sessions (57 Reviews)
-                                                  </p>
-
-                                                  <div className="kbfhgfgfg">
-                                                    <button className="btn-main">
-                                                      BOOK NOW
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
+                                      <MentorRatingCard
+                                        feedbackCount={sMentor.feedback_count}
+                                        feedback_details={
+                                          sMentor.feedback_details
+                                        }
+                                      />
                                     </div>
                                   </div>
                                 </div>
-                              ) : (
-                                ""
                               )}
                             </div>
                           </div>
