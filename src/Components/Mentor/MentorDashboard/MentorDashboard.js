@@ -10,7 +10,6 @@ import MentorBankdetails from "./MentorBankdetails";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../Redux/userRedux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
@@ -37,6 +36,8 @@ const MentorDashboard = (props) => {
     };
     fetchSingleMentors();
   }, [mentorDtlsId, url]);
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
+
   const [showMentorProfile, setShowMentorProfile] = useState(true);
   const [showMentorPsettings, setshowMentorPsettings] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
@@ -183,6 +184,21 @@ const MentorDashboard = (props) => {
     return dispatch(logOut()), navigate("/login");
   };
 
+  useEffect(() => {
+    // Assuming `data` is the JSON array you provided
+    const notifications = singleMentor?.map((item) =>
+      JSON?.parse(item?.notification_list)
+    );
+
+    // Flatten the array of arrays (if there are multiple items in the data)
+    const allNotifications = notifications?.flat();
+
+    // Check if there are any unread notifications
+    const unreadExists = allNotifications?.some(
+      (notification) => !notification.notification_is_read
+    );
+    setHasUnreadNotifications(unreadExists);
+  }, [singleMentor]);
   return (
     <>
       <div className="md-header">
@@ -193,7 +209,6 @@ const MentorDashboard = (props) => {
                 <a className="navbar-brand" href="/">
                   <img src={Logo} alt="" />
                 </a>
-
                 <button
                   className="navbar-toggler"
                   type="button"
@@ -202,7 +217,6 @@ const MentorDashboard = (props) => {
                   data-bs-target="#navbarSupportedContent"
                 >
                   <span id="bar-icon" className="navbar-toggler-icon"></span>
-
                   <i
                     id="close-mark-icon"
                     className="fa-solid fa-xmark d-none"
@@ -244,7 +258,13 @@ const MentorDashboard = (props) => {
                             View Public Profile
                           </Link>
                         </li>
-
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
                         <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
@@ -382,10 +402,23 @@ const MentorDashboard = (props) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorNotificationHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-bell"></i>
+                    {hasUnreadNotifications && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          top: "-3px",
+                          right: "-5px",
+                          width: "12px",
+                          height: "12px",
+                          backgroundColor: "red",
+                          borderRadius: "50%",
+                          border: "2px solid white",
+                        }}
+                      />
+                    )}
                   </span>
-
                   <h5>Notifications</h5>
                 </button>
 
@@ -413,12 +446,13 @@ const MentorDashboard = (props) => {
               <div>
                 <h5 className="h5stmt" style={{ margin: "0px" }}>
                   Status :
-                  {singleMentor[0]?.mentor_approved_status === "Yes" ? (
+                  {singleMentor[0]?.mentor_approved_status === "Yes" && (
                     <>
                       <i class="fa-solid fa-circle-check fa-lg approveStatus"></i>
                       Approved
                     </>
-                  ) : (
+                  )}
+                  {singleMentor[0]?.mentor_approved_status === "No" && (
                     <>
                       <i class="fa-solid fa-circle-exclamation fa-lg disapproveStatus"></i>
                       Not Approved
@@ -429,7 +463,10 @@ const MentorDashboard = (props) => {
             </div>
             <div className="maincontent">
               {showNotification ? (
-                <MentorNotifications data={singleMentor} />
+                <MentorNotifications
+                  data={singleMentor}
+                  mentorDtlsId={mentorDtlsId}
+                />
               ) : (
                 ""
               )}

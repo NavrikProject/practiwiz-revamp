@@ -14,15 +14,17 @@ import RequestGuestlacture from "./RequestGuestLacture";
 import RegisterGuestlacture from "./RegisterGuestLacture";
 import HistoryGuestlacture from "./HistoryGuestlacture";
 import CommunicationTemplate from "./CommunicationTemplate";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../../Redux/userRedux";
 
 const InstituteDashboard = () => {
+  const user = useSelector((state) => state.user?.currentUser);
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
-
   const [showInstituteMessage, setShowInstituteMessage] = useState(false);
   const [showInstituteProfile, setshowInstituteProfile] = useState(true);
   const [showAddMentor, setshowAddMentor] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const [showsearchguest, setshowsearchguest] = useState(false);
   const [ShowRequestGuest, setShowRequestGuest] = useState(false);
@@ -30,7 +32,6 @@ const InstituteDashboard = () => {
   const [ShowHistory, setShowHistory] = useState(false);
   const [Communication, setCommunication] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
-
   const toggleMenu = () => {
     setIsOpen(true);
   };
@@ -43,7 +44,6 @@ const InstituteDashboard = () => {
   const toggleMenu3 = () => {
     setprofilemenu(false);
   };
-
   const InstituteProfileHandler = () => {
     if (!showInstituteProfile) {
       setshowInstituteProfile(true);
@@ -194,6 +194,11 @@ const InstituteDashboard = () => {
       setShowHistory(false)
     );
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
 
   return (
     <>
@@ -245,10 +250,15 @@ const InstituteDashboard = () => {
 
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
-
                         <li>View Public Profile</li>
-
-                        <li>Log Out</li>
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
+                        <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
                   </form>
