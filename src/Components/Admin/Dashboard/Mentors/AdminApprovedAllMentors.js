@@ -229,12 +229,7 @@ const AdminApprovedAllMentors = () => {
                   <tbody>
                     {loading && (
                       <>
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
+                        <ListStatusSkeleton columns={8} />
                       </>
                     )}
                     {allMentors?.length === 0 ? (

@@ -93,7 +93,7 @@ const MentorCompletedSessions = () => {
             </div>
           </div>
           <div className="row mt-4">
-            {loading ? (
+            {loading && (
               <>
                 <SessionCardSkeleton />
                 <SessionCardSkeleton />
@@ -104,12 +104,17 @@ const MentorCompletedSessions = () => {
                 <SessionCardSkeleton />
                 <SessionCardSkeleton />
               </>
-            ) : (
+            )}
+            {allMentorCompletedBookingSessions.length > 0 ? (
               <MentorCompletedSessionCard
                 allMentorCompletedBookingSessions={
                   allMentorCompletedBookingSessions
                 }
               />
+            ) : (
+              <div className="error-box-green" style={{ width: "400px" }}>
+                You have not completed any mentor session{" "}
+              </div>
             )}
           </div>
         </div>

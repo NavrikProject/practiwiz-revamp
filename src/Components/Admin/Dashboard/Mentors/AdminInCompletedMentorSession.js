@@ -5,13 +5,14 @@ import ListStatusSkeleton from "../SkeltonLoaders/ListStatusSkeleton";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
+import "./MentorList.css";
 import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
 import { useDispatch } from "react-redux";
-
-const AdminNotApprovedAllMentors = () => {
+const AdminInCompletedMentorSession = () => {
+  const token = localStorage.getItem("accessToken");
   const [filters, setFilters] = useState({
     location: "",
     skill: "",
@@ -20,7 +21,6 @@ const AdminNotApprovedAllMentors = () => {
     areaOfMentorship: "",
     experience: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters({
@@ -28,27 +28,31 @@ const AdminNotApprovedAllMentors = () => {
       [name]: value,
     });
   };
-  const [allMentors, setAllMentors] = useState([]);
+  const [allInCompletedSession, setAllInCompletedSession] = useState([]);
   const [filteredMentors, setFilteredMentors] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = ApiURL();
-  const token = localStorage.getItem("accessToken");
-
   useEffect(() => {
     const fetchMentors = async () => {
       setLoading(true);
       const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/not-approved/all-list`,
+        `${url}api/v1/admin/dashboard/mentors/booking/in-completed-session-lists`,
         {
           headers: { authorization: "Bearer " + token },
         }
       );
       setLoading(false);
       if (response.data.success) {
-        return setAllMentors(response.data.success), setLoading(false);
+        return (
+          setAllInCompletedSession(response.data.success), setLoading(false)
+        );
       }
       if (response.data.error) {
-        return setAllMentors([]), setLoading(false);
+        return (
+          setAllInCompletedSession([]),
+          setLoading(false),
+          toast.error("No in-completed session found")
+        );
       }
     };
     fetchMentors();
@@ -56,7 +60,7 @@ const AdminNotApprovedAllMentors = () => {
 
   useEffect(() => {
     const filterMentors = () => {
-      let filtered = allMentors;
+      let filtered = allInCompletedSession;
       if (filters.location) {
         filtered = filtered.filter(
           (mentor) => mentor.mentor_country === filters.location
@@ -94,44 +98,13 @@ const AdminNotApprovedAllMentors = () => {
     };
 
     filterMentors();
-  }, [filters, allMentors]);
-  const dispatch = useDispatch();
+  }, [filters, allInCompletedSession]);
+  const [setAppliedFilters] = useState(filters);
 
-  const [appliedFilters, setAppliedFilters] = useState(filters);
   const handleApplyFilter = () => {
     setAppliedFilters(filters);
   };
-  const MentorApproveHandler = async (id, email, mentorName, userId) => {
-    dispatch(showLoadingHandler());
-    const response = await axios.post(
-      `${url}api/v1/admin/dashboard/mentors/update/approve`,
-      {
-        mentorDtlsId: id,
-        mentorEmail: email,
-        mentorName: mentorName,
-        userId: userId,
-      },
-      {
-        headers: { authorization: "Bearer " + token },
-      }
-    );
-    setLoading(false);
-    dispatch(hideLoadingHandler());
-    if (response.data.success) {
-      return (
-        toast.success("Mentor approved successfully"),
-        setLoading(false),
-        dispatch(hideLoadingHandler())
-      );
-    }
-    if (response.data.error) {
-      return (
-        toast.error("There is some error while approving the mentor"),
-        setLoading(false),
-        dispatch(hideLoadingHandler())
-      );
-    }
-  };
+
   return (
     <div className="col-lg-10 ps-0">
       <div className="mentor_dash_msge">
@@ -180,34 +153,6 @@ const AdminNotApprovedAllMentors = () => {
                   <option value="post-graduate">Post-Graduate</option>
                 </select>
               </label>
-              <label htmlFor="areaOfMentorship">
-                <h6 className="inline">Area Of Mentorship</h6>
-                <select
-                  name="areaOfMentorship"
-                  id="areaOfMentorship"
-                  onChange={handleChange}
-                >
-                  <option value="">Select Area Of Mentorship</option>
-                  <option value="delhi">Delhi</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="haryana">Haryana</option>
-                  <option value="grugram">Grugram</option>
-                </select>
-              </label>
-              <label htmlFor="experience">
-                <h6 className="inline">Experience</h6>
-                <select
-                  name="experience"
-                  id="experience"
-                  onChange={handleChange}
-                >
-                  <option value="">Select Experience</option>
-                  <option value="fresher">Fresher</option>
-                  <option value="10">10 Years</option>
-                  <option value="20">20 Years</option>
-                </select>
-              </label>
-              <div></div>
               <button onClick={handleApplyFilter}>Apply Filter</button>
             </div>
             <div className="containerOfCard">
@@ -215,14 +160,16 @@ const AdminNotApprovedAllMentors = () => {
                 <table className="mentor-table">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Location</th>
-                      <th>Skill</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Profile</th>
-                      <th>Button</th>
-                      <th>Approval Status</th>
+                      <th>Mentor Name</th>
+                      <th>Mentor Email</th>
+                      <th>Mentee Name</th>
+                      <th>Mentee Email</th>
+                      <th>Mentor Session Approved Status</th>
+                      <th>Session Date</th>
+                      <th>Session Time</th>
+                      <th>Session Status</th>
+                      <th>Mentor reason for not attending</th>
+                      <th>Mentee reason for not attending</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -231,66 +178,61 @@ const AdminNotApprovedAllMentors = () => {
                         <ListStatusSkeleton columns={8} />
                       </>
                     )}
-                    {allMentors?.length === 0 ? (
-                      <h1>No mentor found</h1>
+                    {allInCompletedSession?.length === 0 ? (
+                      <h3>No in-completed session found</h3>
                     ) : (
                       filteredMentors?.map((mentor) => (
                         <tr key={mentor.id}>
                           <td style={{ textTransform: "capitalize" }}>
-                            {mentor.user_firstname + " " + mentor.user_lastname}
-                          </td>
-                          <td>{mentor.mentor_country}</td>
-                          <td>
-                            {JSON.parse(mentor.expertise_list).map(
-                              (passion, index, array) => {
-                                return (
-                                  <span key={index}>
-                                    {passion.mentor_expertise}
-                                    {index < array.length - 1 && ", "}
-                                  </span>
-                                );
-                              }
-                            )}
+                            {mentor.mentor_firstname +
+                              " " +
+                              mentor.mentor_lastname}
                           </td>
                           <td>{mentor.mentor_email}</td>
-                          <td>{"+" + mentor.mentor_phone_number}</td>
+                          <td style={{ textTransform: "capitalize" }}>
+                            {mentor.mentee_firstname +
+                              " " +
+                              mentor.mentee_lastname}
+                          </td>
+                          <td>{mentor.mentee_email}</td>
                           <td>
-                            <button className="profile-button">
-                              <Link
-                                to={`/mentor-club/mentor-profile/${
-                                  mentor.user_firstname +
-                                  "-" +
-                                  mentor.user_lastname
-                                    .replace(" ", "-")
-                                    .toLowerCase()
-                                }/${mentor.user_dtls_id}`}
-                              >
-                                Profiles
-                              </Link>
-                            </button>
+                            {mentor.mentor_booking_confirmed === "Yes" ? (
+                              <i
+                                class="fa-solid fa-circle-check fa-lg"
+                                style={{
+                                  color: "#4cee49",
+                                  marginRight: "10px",
+                                }}
+                              ></i>
+                            ) : (
+                              <i
+                                class="fa-solid fa-circle-exclamation"
+                                style={{
+                                  color: "#f00f0f",
+                                  marginRight: "10px",
+                                }}
+                              ></i>
+                            )}
+
+                            {mentor.mentor_booking_confirmed}
                           </td>
                           <td>
-                            <button
-                              className="approve-button"
-                              onClick={() => {
-                                MentorApproveHandler(
-                                  mentor.mentor_dtls_id,
-                                  mentor.mentor_email,
-                                  mentor.user_firstname +
-                                    " " +
-                                    mentor.user_lastname,
-                                  mentor.user_dtls_id
-                                );
-                              }}
-                            >
-                              Approve
-                            </button>
+                            {new Date(
+                              mentor.mentor_session_booking_date
+                            ).toDateString()}
+                          </td>
+                          <td>{mentor.mentor_booking_time}</td>
+                          <td>{mentor.mentor_session_status}</td>
+                          <td>
+                            {mentor.mentor_booking_confirmed === "No" &&
+                              "Mentor not accepted the session"}
                           </td>
                           <td>
-                            <i
-                              class="fa-solid fa-circle-check fa-lg"
-                              style={{ color: "#ff1414" }}
-                            ></i>
+                            {mentor.mentor_booking_confirmed === "No" && (
+                              <button className="disapprove-button">
+                                Issue refund to Mentee
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))
@@ -306,4 +248,4 @@ const AdminNotApprovedAllMentors = () => {
   );
 };
 
-export default AdminNotApprovedAllMentors;
+export default AdminInCompletedMentorSession;

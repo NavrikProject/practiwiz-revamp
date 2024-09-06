@@ -37,7 +37,7 @@ const MentorUpcomingSessions = () => {
             <h2>Your Upcoming Mentor Sessions</h2>
           </div>
           <div className="row">
-            {loading ? (
+            {loading && (
               <>
                 <SessionCardSkeleton />
                 <SessionCardSkeleton />
@@ -48,10 +48,15 @@ const MentorUpcomingSessions = () => {
                 <SessionCardSkeleton />
                 <SessionCardSkeleton />
               </>
-            ) : (
+            )}
+            {allBookingSessions.length > 0 ? (
               <MentorUpcomingSessionCard
                 allBookingSessions={allBookingSessions}
               />
+            ) : (
+              <div className="error-box-green" style={{ width: "400px" }}>
+                There are no current upcoming bookings
+              </div>
             )}
           </div>
         </div>

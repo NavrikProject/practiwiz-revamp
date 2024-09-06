@@ -15,11 +15,13 @@
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  text-align: center !important;
 }
 
 .mentor-table th {
   background-color: #f8f8f8;
   font-weight: bold;
+  text-align: center !important;
 }
 
 .action-button {
