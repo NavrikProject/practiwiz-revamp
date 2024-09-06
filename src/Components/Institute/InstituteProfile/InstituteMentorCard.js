@@ -10,31 +10,31 @@ import "swiper/css";
 import "swiper/css/navigation";
 function MentorAlumniCard() {
   return (
-    <div class="item">
-      <div class="njfgfd" style={{ width: "300px" }}>
-        <div class="ghfghgfhg">
-          <div class="jghdfrg">
-            <div class="kmg">
+    <div ClassName="item">
+      <div ClassName="njfgfd" style={{ width: "300px" }}>
+        <div ClassName="ghfghgfhg">
+          <div ClassName="jghdfrg">
+            <div ClassName="kmg">
               <img src={AlumniMentor} alt="AlumininMentor" />
             </div>
 
-            <div class="dfhjbghfjgfgh22">
+            <div ClassName="dfhjbghfjgfgh22">
               <h4>Tarun Gautam</h4>
 
               <h6>Business Analyst</h6>
 
               <span>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
               </span>
 
               <p>7 Sessions Completed (57 Reviews)</p>
 
-              <div class="kbfhgfgfg">
-                <button class="btn-main">BOOK NOW</button>
+              <div ClassName="kbfhgfgfg">
+                <button ClassName="btn-main">BOOK NOW</button>
               </div>
             </div>
           </div>
@@ -45,31 +45,31 @@ function MentorAlumniCard() {
 }
 function Top5AlumniCard() {
   return (
-    <div class="col-lg-4 mb-4">
-      <div class="njfgfd">
-        <div class="ghfghgfhg mb-0">
-          <div class="jghdfrg">
-            <div class="kmg">
+    <div ClassName="col-lg-4 mb-4">
+      <div ClassName="njfgfd">
+        <div ClassName="ghfghgfhg mb-0">
+          <div ClassName="jghdfrg">
+            <div ClassName="kmg">
               <img src={AlumniMentor} alt="Top5Alumini" />
             </div>
 
-            <div class="dfhjbghfjgfgh22">
+            <div ClassName="dfhjbghfjgfgh22">
               <h4>Tarun Gautam</h4>
 
               <h6>Business Analyst</h6>
 
               <span>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
               </span>
 
               <p>7 Sessions Completed (57 Reviews)</p>
 
-              <div class="kbfhgfgfg">
-                <button class="btn-main">BOOK NOW</button>
+              <div ClassName="kbfhgfgfg">
+                <button ClassName="btn-main">BOOK NOW</button>
               </div>
             </div>
           </div>
@@ -80,31 +80,31 @@ function Top5AlumniCard() {
 }
 function NonAlumniCard() {
   return (
-    <div class="item">
-      <div class="njfgfd" style={{ width: "300px" }}>
-        <div class="ghfghgfhg">
-          <div class="jghdfrg">
-            <div class="kmg">
+    <div ClassName="item">
+      <div ClassName="njfgfd" style={{ width: "300px" }}>
+        <div ClassName="ghfghgfhg">
+          <div ClassName="jghdfrg">
+            <div ClassName="kmg">
               <img src={AlumniMentor} alt="" />
             </div>
 
-            <div class="dfhjbghfjgfgh22">
+            <div ClassName="dfhjbghfjgfgh22">
               <h4>Tarun Gautam</h4>
 
               <h6>Business Analyst</h6>
 
               <span>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
               </span>
 
               <p>7 Sessions Completed (57 Reviews)</p>
 
-              <div class="kbfhgfgfg">
-                <button class="btn-main">BOOK NOW</button>
+              <div ClassName="kbfhgfgfg">
+                <button ClassName="btn-main">BOOK NOW</button>
               </div>
             </div>
           </div>
@@ -116,13 +116,13 @@ function NonAlumniCard() {
 
 function UpcomingMentorSessions() {
   return (
-    <div class="itemMentor selectedd" onclick="showContent(1)">
-      <div class="d-flex align-items-center">
-        <div class="iduheirer_img me-2">
+    <div ClassName="itemMentor selectedd" onclick="showContent(1)">
+      <div ClassName="d-flex align-items-center">
+        <div ClassName="iduheirer_img me-2">
           <img src={AlumniMentor} width="100%" alt="Upcoming mentor" />
         </div>
 
-        <h5 class="mb-0">Tarun Gautam</h5>
+        <h5 ClassName="mb-0">Tarun Gautam</h5>
       </div>
     </div>
   );
@@ -130,20 +130,20 @@ function UpcomingMentorSessions() {
 
 function CompletedMentorSessions() {
   return (
-    <div class="col-lg-6 mb-4">
-      <div class="diehrer_inner">
-        <div class="duieghr_inner p-3 bg-white">
-          <div class="row">
-            <div class="col-lg-5 mb-3">
-              <div class="duieghrerewryrr text-center">
-                <div class="duiehirer_left">
+    <div ClassName="col-lg-6 mb-4">
+      <div ClassName="diehrer_inner">
+        <div ClassName="duieghr_inner p-3 bg-white">
+          <div ClassName="row">
+            <div ClassName="col-lg-5 mb-3">
+              <div ClassName="duieghrerewryrr text-center">
+                <div ClassName="duiehirer_left">
                   <img src={Mentor1} alt="mentors" />
                 </div>
               </div>
             </div>
 
-            <div class="col-lg-7">
-              <div class="duiehirer_right">
+            <div ClassName="col-lg-7">
+              <div ClassName="duiehirer_right">
                 <h5>Tarun Gautam</h5>
 
                 <p>
@@ -153,9 +153,9 @@ function CompletedMentorSessions() {
               </div>
             </div>
 
-            <div class="col-lg-12">
-              <div class="deoihrehr_Oirtuetr text-center">
-                <div class="owl-carousel dewrewrer_slider owl-theme">
+            <div ClassName="col-lg-12">
+              <div ClassName="deoihrehr_Oirtuetr text-center">
+                <div ClassName="owl-carousel dewrewrer_slider owl-theme">
                   <Swiper
                     spaceBetween={50}
                     slidesPerView={1}
@@ -167,30 +167,30 @@ function CompletedMentorSessions() {
                     className="mySwiper"
                   >
                     <SwiperSlide>
-                      <div class="item">
-                        <div class="ugeurbuyger_inner">
-                          <div class="doiehrer_slider">
+                      <div ClassName="item">
+                        <div ClassName="ugeurbuyger_inner">
+                          <div ClassName="doiehrer_slider">
                             <h6>
                               <b>Monday - 26/2/2024</b>
                             </h6>
 
-                            <ul class="ps-0">
+                            <ul ClassName="ps-0">
                               <li>
-                                <i class="fa-solid fa-hourglass-start"></i>{" "}
+                                <i ClassName="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i class="fa-solid fa-flag-checkered"></i> 2:30
+                                <i ClassName="fa-solid fa-flag-checkered"></i> 2:30
                               </li>
 
                               <li>
-                                <i class="fa-solid fa-hourglass-start"></i>{" "}
+                                <i ClassName="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i class="fa-solid fa-flag-checkered"></i> 2:30
+                                <i ClassName="fa-solid fa-flag-checkered"></i> 2:30
                               </li>
 
                               <li>
-                                <i class="fa-solid fa-hourglass-start"></i>{" "}
+                                <i ClassName="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i class="fa-solid fa-flag-checkered"></i> 2:30
+                                <i ClassName="fa-solid fa-flag-checkered"></i> 2:30
                               </li>
                             </ul>
                           </div>
@@ -198,30 +198,30 @@ function CompletedMentorSessions() {
                       </div>
                     </SwiperSlide>
                     <SwiperSlide>
-                      <div class="item">
-                        <div class="ugeurbuyger_inner">
-                          <div class="doiehrer_slider">
+                      <div ClassName="item">
+                        <div ClassName="ugeurbuyger_inner">
+                          <div ClassName="doiehrer_slider">
                             <h6>
                               <b>Tuesday - 27/2/2024</b>
                             </h6>
 
-                            <ul class="ps-0">
+                            <ul ClassName="ps-0">
                               <li>
-                                <i class="fa-solid fa-hourglass-start"></i>{" "}
+                                <i ClassName="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i class="fa-solid fa-flag-checkered"></i> 2:30
+                                <i ClassName="fa-solid fa-flag-checkered"></i> 2:30
                               </li>
 
                               <li>
-                                <i class="fa-solid fa-hourglass-start"></i>{" "}
+                                <i ClassName="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i class="fa-solid fa-flag-checkered"></i> 2:30
+                                <i ClassName="fa-solid fa-flag-checkered"></i> 2:30
                               </li>
 
                               <li>
-                                <i class="fa-solid fa-hourglass-start"></i>{" "}
+                                <i ClassName="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i class="fa-solid fa-flag-checkered"></i> 2:30
+                                <i ClassName="fa-solid fa-flag-checkered"></i> 2:30
                               </li>
                             </ul>
                           </div>
@@ -241,31 +241,31 @@ function CompletedMentorSessions() {
 
 function PlannedGuestLecture() {
   return (
-    <div class="item">
-      <div class="njfgfd">
-        <div class="ghfghgfhg">
-          <div class="jghdfrg">
-            <div class="kmg">
+    <div ClassName="item">
+      <div ClassName="njfgfd">
+        <div ClassName="ghfghgfhg">
+          <div ClassName="jghdfrg">
+            <div ClassName="kmg">
               <img src={AlumniMentor} alt="" />
             </div>
 
-            <div class="dfhjbghfjgfgh22">
+            <div ClassName="dfhjbghfjgfgh22">
               <h4>Tarun Gautam</h4>
 
               <h6>Business Analyst</h6>
 
               <span>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
+                <i ClassName="fa-solid fa-star"></i>
               </span>
 
               <p>7 Sessions Completed (57 Reviews)</p>
 
-              <div class="kbfhgfgfg">
-                <button class="btn-main">BOOK NOW</button>
+              <div ClassName="kbfhgfgfg">
+                <button ClassName="btn-main">BOOK NOW</button>
               </div>
             </div>
           </div>

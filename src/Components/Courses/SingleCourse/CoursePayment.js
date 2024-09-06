@@ -8,18 +8,18 @@ import Visa from "../../../Images/Courses/visa1.png";
 const CoursePayment = () => {
   return (
     <>
-      <div class="khgdfyhjgdfgfhftg854">
-        <div class="container">
-          <div class="fbghfgfg">
-            <div class="row">
-              <div class="col-lg-5">
-                <div class="dfjhgzdgdf">
-                  <div class="gfgfgg">
+      <div ClassName="khgdfyhjgdfgfhftg854">
+        <div ClassName="container">
+          <div ClassName="fbghfgfg">
+            <div ClassName="row">
+              <div ClassName="col-lg-5">
+                <div ClassName="dfjhgzdgdf">
+                  <div ClassName="gfgfgg">
                     <h4>Jumpstart To It Business Analyst</h4>
-                    <div class="jhbfdf">
+                    <div ClassName="jhbfdf">
                       <img src={Payment} alt="" />
                     </div>
-                    <div class="nfhjgf2">
+                    <div ClassName="nfhjgf2">
                       <h6>Course Details:</h6>
                       <p>
                         Contrary to popular belief, Lorem Ipsum is not simply
@@ -28,124 +28,124 @@ const CoursePayment = () => {
                       </p>
                     </div>
 
-                    <div class="hjcbghfg2">
+                    <div ClassName="hjcbghfg2">
                       <h6>
                         {" "}
-                        <i class="fa-solid fa-graduation-cap"></i> Course
+                        <i ClassName="fa-solid fa-graduation-cap"></i> Course
                         Duration
                       </h6>
                       <p>6 Months</p>
                     </div>
 
-                    <div class="hjcbghfg2">
+                    <div ClassName="hjcbghfg2">
                       <h6>
                         {" "}
-                        <i class="fa-solid fa-sack-dollar"></i> Course Price
+                        <i ClassName="fa-solid fa-sack-dollar"></i> Course Price
                       </h6>
                       <p>$ 20k</p>
                     </div>
 
-                    <div class="hjcbghfg2">
+                    <div ClassName="hjcbghfg2">
                       <h6>
                         {" "}
-                        <i class="fa-solid fa-money-bill"></i> GST
+                        <i ClassName="fa-solid fa-money-bill"></i> GST
                       </h6>
                       <p>$ 1k</p>
                     </div>
-                    <hr class="hrnm28" />
-                    <div class="hjcbghfg2">
+                    <hr ClassName="hrnm28" />
+                    <div ClassName="hjcbghfg2">
                       <h6>
                         {" "}
-                        <i class="fa-solid fa-money-bill"></i> Total Price
+                        <i ClassName="fa-solid fa-money-bill"></i> Total Price
                       </h6>
                       <p>$ 21k</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-1"></div>
-              <div class="col-lg-6">
-                <div class="gnhdfgfdgf">
-                  <div class="kgfd">
+              <div ClassName="col-lg-1"></div>
+              <div ClassName="col-lg-6">
+                <div ClassName="gnhdfgfdgf">
+                  <div ClassName="kgfd">
                     <h4>Payment</h4>
                   </div>
-                  <div class="fgjffghfg">
+                  <div ClassName="fgjffghfg">
                     <h6>Select Payment Method</h6>
-                    <div class="nghjfbgfgf">
-                      <label class="img-btn">
+                    <div ClassName="nghjfbgfgf">
+                      <label ClassName="img-btn">
                         <input type="radio" name="country-flags" checked />
                         <img src={Paypal} alt="Paypal" />
                       </label>
 
-                      <label class="img-btn">
+                      <label ClassName="img-btn">
                         <input type="radio" name="country-flags" />
                         <img src={Stripe} alt="Stripe" />
                       </label>
 
-                      <label class="img-btn">
+                      <label ClassName="img-btn">
                         <input type="radio" name="country-flags" />
                         <img src={MasterCard} alt="Master Card" />
                       </label>
 
-                      <label class="img-btn">
+                      <label ClassName="img-btn">
                         <input type="radio" name="country-flags" />
                         <img src={Visa} alt="visa" />
                       </label>
                     </div>
-                    <div class="gjggfhfgh">
+                    <div ClassName="gjggfhfgh">
                       <form action="">
-                        <div class="gfgfggf">
+                        <div ClassName="gfgfggf">
                           <label for="">Card Holder Name</label>
                           <input
-                            class="form-control"
+                            ClassName="form-control"
                             type="text"
                             placeholder="Arain Malitya"
                           />
                         </div>
-                        <div class="gfgfggf">
+                        <div ClassName="gfgfggf">
                           <label for="">Card Number</label>
                           <input
                             type="text"
-                            class="form-control"
+                            ClassName="form-control"
                             placeholder="xxxx xxxx xxxx"
                           />
                         </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <div class="gfgfggf">
+                        <div ClassName="row">
+                          <div ClassName="col-lg-6">
+                            <div ClassName="gfgfggf">
                               <label for="">Exp. Date</label>
                               <input
                                 type="date"
-                                class="form-control"
+                                ClassName="form-control"
                                 placeholder="xxxx xxxx xxxx"
                               />
                             </div>
                           </div>
-                          <div class="col-lg-6">
-                            <div class="gfgfggf">
+                          <div ClassName="col-lg-6">
+                            <div ClassName="gfgfggf">
                               <label for="">CVV Number</label>
                               <input
                                 type="number"
-                                class="form-control"
+                                ClassName="form-control"
                                 placeholder="xxxx xxxx xxxx"
                               />
                             </div>
                           </div>
                         </div>
                       </form>
-                      <div class="dfvbdfdf">
-                        <div class="row">
-                          <div class="col-lg-5">
-                            <div class="khfdfgvf">
-                              <button class="btn254">
-                                <i class="fa-solid fa-angle-left"></i> BACK
+                      <div ClassName="dfvbdfdf">
+                        <div ClassName="row">
+                          <div ClassName="col-lg-5">
+                            <div ClassName="khfdfgvf">
+                              <button ClassName="btn254">
+                                <i ClassName="fa-solid fa-angle-left"></i> BACK
                               </button>
                             </div>
                           </div>
-                          <div class="col-lg-7">
-                            <div class="kgfhbgfhfg">
-                              <button class="btynh58">
-                                CONFIRM <i class="fa-solid fa-check"></i>
+                          <div ClassName="col-lg-7">
+                            <div ClassName="kgfhbgfhfg">
+                              <button ClassName="btynh58">
+                                CONFIRM <i ClassName="fa-solid fa-check"></i>
                               </button>
                             </div>
                           </div>

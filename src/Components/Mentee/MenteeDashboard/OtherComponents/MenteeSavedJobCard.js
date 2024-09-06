@@ -1,5 +1,5 @@
 import React from "react";
-import JobImage from "../../../Images/Mentee/download (21).webp";
+import JobImage from "../../../../Images/Mentee/download (21).webp";
 const MenteeSavedJobCard = () => {
   return (
     <div className="col-lg-6 mb-4">

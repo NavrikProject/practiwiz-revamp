@@ -1,24 +1,23 @@
 import React from "react";
-import "./menteeprofile.css";
-import Annesa from "../../../Images/Mentee/annesa.webp";
-import Ll1 from "../../../Images/Mentee/ll1.png";
-import Ll2 from "../../../Images/Mentee/ll2.png";
-import Ll3 from "../../../Images/Mentee/ll3.png";
-import Ll4 from "../../../Images/Mentee/ll4.png";
-import Ll5 from "../../../Images/Mentee/ll5.png";
-import Ii1 from "../../../Images/Mentee/ii1.png";
-import Ii2 from "../../../Images/Mentee/ii2.png";
-import Ii3 from "../../../Images/Mentee/ii3.png";
-import Ii4 from "../../../Images/Mentee/ii4.png";
-import Edu from "../../../Images/Mentee/edu.png";
-import Certification from "../../../Images/Mentee/certification.png";
-import Experience from "../../../Images/Mentee/experiece.png";
-const MenteeProfileDashboard = () => {
+import "../DashboardCSS/menteeprofile.css";
+import Annesa from "../../../../Images/Mentee/annesa.webp";
+import Ll1 from "../../../../Images/Mentee/ll1.png";
+import Ll2 from "../../../../Images/Mentee/ll2.png";
+import Ll3 from "../../../../Images/Mentee/ll3.png";
+import Ll4 from "../../../../Images/Mentee/ll4.png";
+import Ll5 from "../../../../Images/Mentee/ll5.png";
+import Ii1 from "../../../../Images/Mentee/ii1.png";
+import Ii2 from "../../../../Images/Mentee/ii2.png";
+import Ii4 from "../../../../Images/Mentee/ii4.png";
+import Edu from "../../../../Images/Mentee/edu.png";
+import Certification from "../../../../Images/Mentee/certification.png";
+import Experience from "../../../../Images/Mentee/experiece.png";
+const MenteeProfile = () => {
   return (
-    <div className="col-lg-10 ps-0">
+    <>
       <div className="difuhtre_content">
         <div
-          className="duiegrer_bck position-relative mb-3"
+          className="duiegrer_bck position-relative mb-3 mt70"
           id="menteeBackgroundCover"
         >
           <div className="container">
@@ -31,7 +30,8 @@ const MenteeProfileDashboard = () => {
 
               <div className="ihurtf_btn">
                 <button className="btn btn-main">
-                  <i className="fa-solid pe-2 fa-envelope-open-text"></i> Message
+                  <i className="fa-solid pe-2 fa-envelope-open-text"></i>{" "}
+                  Message
                 </button>
 
                 <button className="btn btn-main">
@@ -278,8 +278,8 @@ const MenteeProfileDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default MenteeProfileDashboard;
+export default MenteeProfile;

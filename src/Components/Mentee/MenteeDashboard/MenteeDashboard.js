@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import Logo from "../../../Images/logo.png";
-import "./Mentee.css";
-import MenteeCompletedCourses from "./MenteeCompletedCourses";
-import MenteeNotifications from "./MenteeNotifications";
-import MenteeChangePwd from "./MenteeChangePwd";
-import MenteeSavedJobs from "./MenteeSavedJobs";
-import MenteeCourseProgress from "./MenteeCourseProgress";
-import MenteeMessages from "./MenteeMessages";
-import MenteeProfileSettings from "./MenteeProfileSettings";
-import MenteeProfileDashboard from "./MenteeProfileDashboard";
+import "./DashboardCSS/Mentee.css";
+import MenteeCompletedCourses from "./OtherComponents/MenteeCompletedCourses";
+import MenteeNotifications from "./OtherComponents/MenteeNotifications";
+import MenteeChangePwd from "./OtherComponents/MenteeChangePwd";
+import MenteeSavedJobs from "./OtherComponents/MenteeSavedJobs";
+import MenteeCourseProgress from "./OtherComponents/MenteeCourseProgress";
+import MenteeMessages from "./OtherComponents/MenteeMessages";
+import MenteeProfileSettings from "./OtherComponents/MenteeProfileSettings";
+import MenteeProfileDashboard from "./OtherComponents/MenteeProfileDashboard";
 import { Link } from "react-router-dom";
-import MenteeUpcomingSessions from "./MenteeUpcomingSessions";
-import MenteeCompletedSessions from "./MenteeCompletedSessions";
+import MenteeUpcomingSessions from "./OtherComponents/MenteeUpcomingSessions";
+import MenteeCompletedSessions from "./OtherComponents/MenteeCompletedSessions";
 const MenteeDashboard = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);

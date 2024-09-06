@@ -77,25 +77,25 @@ const MentorNotifications = ({ data, mentorDtlsId }) => {
                           <div className="fhjgf">
                             {notification.notification_type === "Success" && (
                               <i
-                                class="fa-solid fa-circle-check fa-2xl"
+                                ClassName="fa-solid fa-circle-check fa-2xl"
                                 style={{ color: "#03a96c", fontSize: "40px" }}
                               ></i>
                             )}
                             {notification.notification_type === "Info" && (
                               <i
-                                class="fa-solid fa-circle-exclamation"
+                                ClassName="fa-solid fa-circle-exclamation"
                                 style={{ color: "#03a96c", fontSize: "40px" }}
                               ></i>
                             )}
                             {notification.notification_type === "Warning" && (
                               <i
-                                class="fa-solid fa-circle-exclamation"
+                                ClassName="fa-solid fa-circle-exclamation"
                                 style={{ color: "#f00f0f" }}
                               ></i>
                             )}
                             {notification.notification_type === "Error" && (
                               <i
-                                class="fa-solid fa-circle-exclamation"
+                                ClassName="fa-solid fa-circle-exclamation"
                                 color={{ color: "#f92f2f" }}
                               ></i>
                             )}

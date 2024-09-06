@@ -241,7 +241,7 @@ const MentorBankdetails = ({ data }) => {
   console.log(data[0]?.banking_dtls_list);
   return (
     <div className="col-lg-10 ps-0">
-      <div class="mentor_dash_msge">
+      <div ClassName="mentor_dash_msge">
         <div id="">
           <div className="bank-details-container">
             {data[0]?.banking_dtls_list === null ? (

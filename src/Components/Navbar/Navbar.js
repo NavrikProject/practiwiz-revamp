@@ -153,7 +153,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="/mentee-registration"
                                 >
-                                  <i class="fa-solid fa-chalkboard-user"></i>{" "}
+                                  <i ClassName="fa-solid fa-chalkboard-user"></i>{" "}
                                   <h5>Mentee</h5>
                                 </a>
                               </button>
@@ -162,7 +162,7 @@ const Navbar = () => {
                                 // onClick={gotoMentorpage}
                               >
                                 <a className="inOneLine" href="register">
-                                  <i class="fa-solid fa-graduation-cap"></i>{" "}
+                                  <i ClassName="fa-solid fa-graduation-cap"></i>{" "}
                                   <h5>Mentor</h5>
                                 </a>
                               </button>
@@ -174,7 +174,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="/institute-registration"
                                 >
-                                  <i class="fa-solid fa-building-columns"></i>{" "}
+                                  <i ClassName="fa-solid fa-building-columns"></i>{" "}
                                   <h5>Institute</h5>
                                 </a>
                               </button>

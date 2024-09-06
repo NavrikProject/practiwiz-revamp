@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./menteecompletesession.css";
+import "../DashboardCSS/menteecompletesession.css";
 import MenteeCompletedSessionCard from "./MenteeCompletedSessionCard";
 import { useSelector } from "react-redux";
-import { ApiURL } from "../../../Utils/ApiURL";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
-import SessionCardSkeleton from "../../Mentor/MentorDashboard/SkeltonLoaders/SessionCardSkeleton";
+import SessionCardSkeleton from "../../../Mentor/MentorDashboard/SkeltonLoaders/SessionCardSkeleton";
 
 const MenteeCompletedSessions = () => {
   const [loading, setLoading] = useState(false);

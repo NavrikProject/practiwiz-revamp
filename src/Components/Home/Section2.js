@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Mentors1 from "../../Images/Mentors/mentors1.jpeg";
-
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "./Home.css";

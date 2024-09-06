@@ -8,16 +8,17 @@
 }
 
 .iijieirr_left img {
-  transform: scale(2);
+  object-fit: contain;
+  transform: scale(1.3);
+  margin-top: 20px;
 }
-
 .bkjihinewrewr {
   padding: 1rem 3rem;
 }
 
 .aslkhghj2 {
   padding: 100px 0;
-  background: url("../../../Images/plpl1.png");
+  background: url("../../../../Images/plpl1.png");
   background-color: white;
   background-size: 100% 100%;
 }
@@ -308,12 +309,15 @@ caption {
 }
 
 .kjghjfg {
-  width: 55px;
-  height: 55px;
+  width: 100px;
+  height: 100px;
+  margin-right: 20px !important;
 }
 .kjghjfg img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .fgnhjghjgh {
@@ -409,10 +413,10 @@ caption {
 }
 
 .iuhuh__enruiere .kbfhgfgfg {
-  flex-wrap: wrap;
+  flex-wrap: no-wrap;
 }
 
 .iuhuh__enruiere .kbfhgfgfg button {
-  padding: 10px 20px !important;
+  padding: 5px 0.6rem;
   font-size: 0.8rem !important;
 }

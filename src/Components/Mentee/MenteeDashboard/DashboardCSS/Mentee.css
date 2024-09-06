@@ -6,7 +6,7 @@
 }
 
 .section5 {
-  background: url("../../../Images/mentorbclk.png") no-repeat;
+  background: url("../../../../Images/mentorbclk.png") no-repeat;
   width: 100%;
   margin-top: 8rem;
   position: relative;
@@ -24,7 +24,6 @@
 .mentor_dashboard .hgkfgkjfgfghgfg.sticky-top {
   top: -30%;
 }
-
 
 #frame {
   width: 100%;
@@ -993,7 +992,7 @@ caption {
 
 .aslkhghj2 {
   padding: 100px 0;
-  background: url("../../../Images/Mentors/plpl1.png");
+  background: url("../../../../Images/Mentors/plpl1.png");
   background-color: white;
   background-size: 100% 100%;
 }
@@ -1414,4 +1413,3 @@ caption {
   height: 100vh;
   overflow-x: scroll;
 }
-

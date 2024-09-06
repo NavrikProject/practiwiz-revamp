@@ -1,5 +1,5 @@
 import React from "react";
-import Vb1 from "../../../Images/Mentee/vb1.png";
+import Vb1 from "../../../../Images/Mentee/vb1.png";
 const MenteeCourseProgress = () => {
   return (
     <div className="col-lg-10 ps-0">

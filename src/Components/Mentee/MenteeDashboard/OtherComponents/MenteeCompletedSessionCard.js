@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MenteeFeedbackForm from "../MenteeFeedback/MenteeFeedbackForm";
+import MenteeFeedbackForm from "../../MenteeFeedback/MenteeFeedbackForm";
 import { Link } from "react-router-dom";
 const MenteeCompletedSessionCard = ({ allCompletedBookingSessions, user }) => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
