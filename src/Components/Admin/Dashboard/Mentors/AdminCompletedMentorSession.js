@@ -5,13 +5,14 @@ import ListStatusSkeleton from "../SkeltonLoaders/ListStatusSkeleton";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
+import "./MentorList.css";
 import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
 import { useDispatch } from "react-redux";
-
-const AdminNotApprovedAllMentors = () => {
+const AdminCompletedMentorSession = () => {
+  const token = localStorage.getItem("accessToken");
   const [filters, setFilters] = useState({
     location: "",
     skill: "",
@@ -20,7 +21,6 @@ const AdminNotApprovedAllMentors = () => {
     areaOfMentorship: "",
     experience: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters({
@@ -32,13 +32,11 @@ const AdminNotApprovedAllMentors = () => {
   const [filteredMentors, setFilteredMentors] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = ApiURL();
-  const token = localStorage.getItem("accessToken");
-
   useEffect(() => {
     const fetchMentors = async () => {
       setLoading(true);
       const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/not-approved/all-list`,
+        `${url}api/v1/admin/dashboard/mentors/booking/completed-session-lists`,
         {
           headers: { authorization: "Bearer " + token },
         }
@@ -48,7 +46,9 @@ const AdminNotApprovedAllMentors = () => {
         return setAllMentors(response.data.success), setLoading(false);
       }
       if (response.data.error) {
-        return setAllMentors([]), setLoading(false);
+        return (
+          setAllMentors([]), setLoading(false), toast.error(response.data.error)
+        );
       }
     };
     fetchMentors();
@@ -95,16 +95,17 @@ const AdminNotApprovedAllMentors = () => {
 
     filterMentors();
   }, [filters, allMentors]);
-  const dispatch = useDispatch();
+  const [setAppliedFilters] = useState(filters);
 
-  const [appliedFilters, setAppliedFilters] = useState(filters);
   const handleApplyFilter = () => {
     setAppliedFilters(filters);
   };
-  const MentorApproveHandler = async (id, email, mentorName, userId) => {
+  const dispatch = useDispatch();
+
+  const MentorDisApproveHandler = async (id, email, mentorName, userId) => {
     dispatch(showLoadingHandler());
     const response = await axios.post(
-      `${url}api/v1/admin/dashboard/mentors/update/approve`,
+      `${url}api/v1/admin/dashboard/mentors/update/not-approve`,
       {
         mentorDtlsId: id,
         mentorEmail: email,
@@ -119,7 +120,7 @@ const AdminNotApprovedAllMentors = () => {
     dispatch(hideLoadingHandler());
     if (response.data.success) {
       return (
-        toast.success("Mentor approved successfully"),
+        toast.success("Mentor disapproved successfully"),
         setLoading(false),
         dispatch(hideLoadingHandler())
       );
@@ -211,24 +212,27 @@ const AdminNotApprovedAllMentors = () => {
               <button onClick={handleApplyFilter}>Apply Filter</button>
             </div>
             <div className="containerOfCard">
+              <h3>Completed Mentor Sessions</h3>
               <div className="table-container">
                 <table className="mentor-table">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Location</th>
-                      <th>Skill</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Profile</th>
-                      <th>Button</th>
-                      <th>Approval Status</th>
+                      <th>Mentor Name</th>
+                      <th>Mentee Name</th>
+                      <th>Mentee Email</th>
+                      <th>Mentee Phone Number</th>
+                      <th>Session Date</th>
+                      <th>Session Status</th>
+                      <th>Feedback Status</th>
+                      <th>Mentor Rating</th>
+                      <th>Platform Rating</th>
+                      <th>Feedback Remainder</th>
                     </tr>
                   </thead>
                   <tbody>
                     {loading && (
                       <>
-                        <ListStatusSkeleton columns={8} />
+                        <ListStatusSkeleton columns={10} />
                       </>
                     )}
                     {allMentors?.length === 0 ? (
@@ -237,60 +241,48 @@ const AdminNotApprovedAllMentors = () => {
                       filteredMentors?.map((mentor) => (
                         <tr key={mentor.id}>
                           <td style={{ textTransform: "capitalize" }}>
-                            {mentor.user_firstname + " " + mentor.user_lastname}
+                            {mentor.mentor_firstname +
+                              " " +
+                              mentor.mentor_lastname}
                           </td>
-                          <td>{mentor.mentor_country}</td>
+                          <td style={{ textTransform: "capitalize" }}>
+                            {mentor.mentee_firstname +
+                              " " +
+                              mentor.mentee_lastname}
+                          </td>
+                          <td>{mentor.mentee_email}</td>
+                          <td>{mentor.mentee_phone_number}</td>
                           <td>
-                            {JSON.parse(mentor.expertise_list).map(
-                              (passion, index, array) => {
-                                return (
-                                  <span key={index}>
-                                    {passion.mentor_expertise}
-                                    {index < array.length - 1 && ", "}
-                                  </span>
-                                );
-                              }
+                            {new Date(
+                              mentor.mentor_session_booking_date
+                            ).toDateString()}
+                          </td>
+                          <td>{mentor.mentor_session_status}</td>
+                          <td>
+                            {mentor.mentor_appt_booking_dtls_id === null
+                              ? "Feedback not submitted"
+                              : "Feedback submitted"}
+                          </td>
+                          <td>
+                            {mentor.mentor_feedback_session_overall_rating ===
+                            null
+                              ? `0`
+                              : `${mentor.mentor_feedback_session_overall_rating}/5`}
+                          </td>
+                          <td>
+                            {mentor.mentor_feedback_session_platform_rating ===
+                            null
+                              ? `0`
+                              : `${mentor.mentor_feedback_session_platform_rating}/5`}
+                          </td>
+                          <td>
+                            {mentor.mentor_appt_booking_dtls_id === null ? (
+                              <button className="disapprove-button">
+                                Feedback Remainder
+                              </button>
+                            ) : (
+                              "Feedback submitted"
                             )}
-                          </td>
-                          <td>{mentor.mentor_email}</td>
-                          <td>{"+" + mentor.mentor_phone_number}</td>
-                          <td>
-                            <button className="profile-button">
-                              <Link
-                                to={`/mentor-club/mentor-profile/${
-                                  mentor.user_firstname +
-                                  "-" +
-                                  mentor.user_lastname
-                                    .replace(" ", "-")
-                                    .toLowerCase()
-                                }/${mentor.user_dtls_id}`}
-                              >
-                                Profiles
-                              </Link>
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              className="approve-button"
-                              onClick={() => {
-                                MentorApproveHandler(
-                                  mentor.mentor_dtls_id,
-                                  mentor.mentor_email,
-                                  mentor.user_firstname +
-                                    " " +
-                                    mentor.user_lastname,
-                                  mentor.user_dtls_id
-                                );
-                              }}
-                            >
-                              Approve
-                            </button>
-                          </td>
-                          <td>
-                            <i
-                              class="fa-solid fa-circle-check fa-lg"
-                              style={{ color: "#ff1414" }}
-                            ></i>
                           </td>
                         </tr>
                       ))
@@ -306,4 +298,4 @@ const AdminNotApprovedAllMentors = () => {
   );
 };
 
-export default AdminNotApprovedAllMentors;
+export default AdminCompletedMentorSession;

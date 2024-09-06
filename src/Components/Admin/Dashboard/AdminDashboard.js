@@ -5,6 +5,9 @@ import AdminNotApprovedAllMentors from "./Mentors/AdminNotApprovedAllMentors";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../Redux/userRedux";
+import AdminCompletedMentorSession from "./Mentors/AdminCompletedMentorSession";
+import AdminUpcomingMentorSession from "./Mentors/AdminUpcomingMentorSession";
+import AdminInCompletedMentorSession from "./Mentors/AdminInCompletedMentorSession";
 
 const AdminDashboard = () => {
   const user = useSelector((state) => state.user?.currentUser);
@@ -22,12 +25,24 @@ const AdminDashboard = () => {
   const [showAdminDashboardProfile, setShowAdminDashboardProfile] =
     useState(true);
   // const [showAllMentorMentorsMenu, setShowAllMentorsMenu] = useState(false);
+  const [adminAllCompletedMentorSessions, setAdminCompletedMentorSessions] =
+    useState(false);
+  const [adminAllUpcomingMentorSessions, setAdminUpcomingMentorSessions] =
+    useState(false);
+  const [adminAllInCompletedMentorSessions, setAdminInCompletedMentorSessions] =
+    useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
-
+  const [mentorSessionsMenu, setMentorSessionsMenu] = useState(false);
   const toggleMenu = () => {
     setIsOpen(true);
+  };
+  const toggleAllMentor = () => {
+    setMentorSessionsMenu(true);
+  };
+  const toggleAllMentor1 = () => {
+    setMentorSessionsMenu(false);
   };
   const toggleMenu2 = () => {
     setIsOpen(false);
@@ -38,17 +53,34 @@ const AdminDashboard = () => {
   const toggleMenu3 = () => {
     setprofilemenu(false);
   };
-
-  const AdminDashboardProfileHandler = () => {
-    if (!showAdminDashboardProfile) {
-      setShowAdminDashboardProfile(true);
+  const AdminAllUsersHandler = () => {
+    if (!adminAllUsers) {
+      setAdminAllUsers(!adminAllUsers);
     }
     return (
       setAdminAllUsers(false),
       setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
       setAdminAllNotApprovedMentors(false),
-      setShowAdminNotification(false)
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false)
+    );
+  };
+  const AdminDashboardProfileHandler = () => {
+    if (!showAdminDashboardProfile) {
+      setShowAdminDashboardProfile(!showAdminDashboardProfile);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
+      setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false)
     );
   };
 
@@ -61,9 +93,13 @@ const AdminDashboard = () => {
       setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
       setAdminAllNotApprovedMentors(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
       setShowAdminDashboardProfile(false)
     );
   };
+
   const AdminNotApprovedMentorsHandler = () => {
     if (!adminAllNotApprovedMentors) {
       setAdminAllNotApprovedMentors(!adminAllNotApprovedMentors);
@@ -72,8 +108,11 @@ const AdminDashboard = () => {
       setAdminAllUsers(false),
       setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
-      setShowAdminDashboardProfile(false),
-      setShowAdminNotification(false)
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
     );
   };
   const AdminApprovedMentorsHandler = () => {
@@ -84,8 +123,11 @@ const AdminDashboard = () => {
       setAdminAllUsers(false),
       setAdminChangePwd(false),
       setAdminAllNotApprovedMentors(false),
-      setShowAdminDashboardProfile(false),
-      setShowAdminNotification(false)
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
     );
   };
 
@@ -96,9 +138,58 @@ const AdminDashboard = () => {
     return (
       setAdminAllUsers(false),
       setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
+    );
+  };
+
+  const AdminUpcomingMentorSessionHandler = () => {
+    if (!adminAllUpcomingMentorSessions) {
+      setAdminUpcomingMentorSessions(!adminAllUpcomingMentorSessions);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
-      setShowAdminDashboardProfile(false),
-      setShowAdminNotification(false)
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setShowAdminDashboardProfile(false)
+    );
+  };
+  const AdminCompletedMentorSessionHandler = () => {
+    if (!adminAllCompletedMentorSessions) {
+      setAdminCompletedMentorSessions(!adminAllCompletedMentorSessions);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
+      setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
+    );
+  };
+  const AdminInCompletedMentorSessionHandler = () => {
+    if (!adminAllInCompletedMentorSessions) {
+      setAdminInCompletedMentorSessions(!adminAllInCompletedMentorSessions);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
+      setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
     );
   };
 
@@ -198,8 +289,6 @@ const AdminDashboard = () => {
         </header>
 
         <div className="mentor_dashboard">
-          {/* <div className="row"> */}
-          {/* <div className="col-lg-2 pe-0 csdegbfraedd"> */}
           <div
             style={{
               display: "flex",
@@ -285,7 +374,46 @@ const AdminDashboard = () => {
                   </div>
                 )}
               </button>
+              {/* mentor session practiwiz dashboard */}
+              <button
+                className="btn btn-transparent text-center py-3 seeeett "
+                onMouseOver={toggleAllMentor}
+                onMouseLeave={toggleAllMentor1}
+              >
+                <span className="d-block bg-white position-relative m-auto  ">
+                  {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
+                  <i class="fa-solid fa-chalkboard-user"></i>
+                </span>
 
+                <h5>
+                  Mentor Sessions
+                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
+
+                {mentorSessionsMenu && (
+                  <div className="submenu">
+                    <button
+                      className="submenu-item"
+                      onClick={AdminUpcomingMentorSessionHandler}
+                    >
+                      <h5>Mentors Upcoming Sessions</h5>
+                    </button>
+                    <button
+                      className="submenu-item"
+                      onClick={AdminCompletedMentorSessionHandler}
+                    >
+                      <h5>Mentors Completed Sessions</h5>
+                    </button>
+                    <button
+                      className="submenu-item"
+                      onClick={AdminInCompletedMentorSessionHandler}
+                    >
+                      <h5>Mentors In Completed Sessions</h5>
+                    </button>
+                  </div>
+                )}
+              </button>
+              {/* end */}
               <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={AdminDashboardNotificationHandler}
@@ -303,6 +431,11 @@ const AdminDashboard = () => {
           <div className="maincontent">
             {adminAllApprovedMentors && <AdminApprovedAllMentors />}
             {adminAllNotApprovedMentors && <AdminNotApprovedAllMentors />}
+            {adminAllUpcomingMentorSessions && <AdminUpcomingMentorSession />}
+            {adminAllCompletedMentorSessions && <AdminCompletedMentorSession />}
+            {adminAllInCompletedMentorSessions && (
+              <AdminInCompletedMentorSession />
+            )}
           </div>
         </div>
       </div>

@@ -309,12 +309,15 @@ caption {
 }
 
 .kjghjfg {
-  width: 55px;
-  height: 55px;
+  width: 100px;
+  height: 100px;
+  margin-right: 20px !important;
 }
 .kjghjfg img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .fgnhjghjgh {

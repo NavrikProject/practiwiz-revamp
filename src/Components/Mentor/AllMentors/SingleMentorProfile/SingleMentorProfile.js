@@ -14,6 +14,7 @@ import CustomDatePicker from "../CustomDatepicker/CustomDatePicker";
 import { toast } from "react-toastify";
 import SingleMentorProfilePageSkelton from "./Skelton/SingleMentorProfilePageSkelton";
 import MentorRatingCard from "./MentorRatingCard";
+import StarRating from "../../../../Utils/StartRating";
 const SingleMentorProfile = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [showBookingModel, setShowBookingModel] = useState(false);
@@ -160,15 +161,12 @@ const SingleMentorProfile = () => {
                               <div className="fdjdfg">
                                 <p>
                                   <span className="span121">
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                  </span>
-                                  <span>
+                                    <StarRating
+                                      rating={sMentor.avg_mentor_rating}
+                                    />{" "}
                                     ({sMentor.feedback_count} Reviews)
                                   </span>
+                                  
                                 </p>
                               </div>
                             </div>
