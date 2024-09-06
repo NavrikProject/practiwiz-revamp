@@ -93,7 +93,7 @@ function App() {
               path="/mentor/dashboard"
               element={
                 <ProtectedRoute>
-                  <MentorDashboardPage />
+                  <MentorDashboardPage user={user} />
                 </ProtectedRoute>
               }
             />
@@ -108,7 +108,7 @@ function App() {
               path="/mentee/dashboard"
               element={
                 <ProtectedRoute>
-                  <MenteeDashboardPage />
+                  <MenteeDashboardPage user={user} />
                 </ProtectedRoute>
               }
             />
@@ -118,7 +118,7 @@ function App() {
               path="/user/admin/dashboard"
               element={
                 <ProtectedRoute>
-                  <AdminDashboardPage />
+                  <AdminDashboardPage user={user} />
                 </ProtectedRoute>
               }
             />
@@ -127,7 +127,7 @@ function App() {
             path="/mentee/view-profile/:id"
             element={
               <ProtectedRoute>
-                <MenteeProfilePage />
+                <MenteeProfilePage user={user} />
               </ProtectedRoute>
             }
           />
@@ -150,7 +150,7 @@ function App() {
               path="/institute/dashboard"
               element={
                 <ProtectedRoute>
-                  <InstituteDashboardPage />
+                  <InstituteDashboardPage user={user} />
                 </ProtectedRoute>
               }
             />

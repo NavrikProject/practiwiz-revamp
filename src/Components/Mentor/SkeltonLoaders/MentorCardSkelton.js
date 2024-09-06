@@ -3,45 +3,45 @@ import "./SkeltonLoadingStyles.css";
 const MentorCardSkelton = () => {
   return (
     <>
-      <div class="mentorDiv">
-        <div class="mentorDownDiv">
+      <div ClassName="mentorDiv">
+        <div ClassName="mentorDownDiv">
           <img
-            class="mentorImage skeleton"
+            ClassName="mentorImage skeleton"
             style={{ width: "50%", marginTop: "12px" }}
             src=""
             alt=""
           />
           <h3
-            class="mentorName skeleton"
+            ClassName="mentorName skeleton"
             style={{ width: "50%", margin: "10px auto" }}
           >
-            <div class="skelton-text"></div>
+            <div ClassName="skelton-text"></div>
           </h3>
           <div
-            class="mentorDescP skeleton"
+            ClassName="mentorDescP skeleton"
             style={{ width: "80%", margin: "0 auto 10px auto" }}
           >
-            <div class="skelton-text"></div>
+            <div ClassName="skelton-text"></div>
           </div>
           <div
-            class="mentorDescP skeleton"
+            ClassName="mentorDescP skeleton"
             style={{ width: "40%", margin: "0 auto 10px auto" }}
           >
-            <div class="skelton-text"></div>
+            <div ClassName="skelton-text"></div>
           </div>
           <div
-            class="mentorDescP skeleton"
+            ClassName="mentorDescP skeleton"
             style={{ width: "50%", margin: "0 auto 10px auto" }}
           >
-            <div class="skelton-text"></div>
+            <div ClassName="skelton-text"></div>
           </div>
-          <div class="bookNowButtonDiv">
+          <div ClassName="bookNowButtonDiv">
             <div
-              class="mentorName skeleton"
+              ClassName="mentorName skeleton"
               style={{ width: "50%", margin: "auto" }}
             >
               <div
-                class="skelton-text"
+                ClassName="skelton-text"
               ></div>
             </div>
           </div>

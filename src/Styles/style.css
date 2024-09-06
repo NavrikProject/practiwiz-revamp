@@ -186,7 +186,7 @@ header .navbar-brand img {
 }
 header .navbar-nav .nav-link {
   text-transform: uppercase;
-  color: #fff !important;
+  /* color: #fff !important; */
   letter-spacing: 1px;
   font-weight: 600;
   font-size: 0.85rem !important;
@@ -232,10 +232,10 @@ header .iugeuirrr .udgehrr:last-child {
   border-right: 0;
 }
 header .fvjhdf_btn {
-  background: transparent !important;
+  /* background: transparent !important; */
   box-shadow: none;
-  color: #505050;
-  padding: 6px 0.8rem !important;
+  /* color: #505050; */
+  /* padding: 6px 0.8rem !important; */
   border: 2px solid #fff;
   margin: 0 5px;
 }
@@ -311,7 +311,7 @@ header .suggestion:hover {
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 2px solid #3fb9d1;
+  /* border-right: 2px solid #3fb9d1; */
   display: inline-block;
   padding-right: 10px;
 }

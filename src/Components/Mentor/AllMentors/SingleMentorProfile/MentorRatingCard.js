@@ -2,7 +2,6 @@ import React from "react";
 import StarRating from "../../../../Utils/StartRating";
 
 const MentorRatingCard = ({ feedbackCount, feedback_details }) => {
-  console.log(feedbackCount, feedback_details);
   return (
     <>
       {feedbackCount === 0 && (

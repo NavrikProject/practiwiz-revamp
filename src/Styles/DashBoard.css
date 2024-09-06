@@ -202,11 +202,29 @@ header .navbar-brand img {
   flex-wrap: wrap;
 }
 
+.display-raw {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  margin-left: 2rem;
+  /* margin-top: 1.5rem; */
+}
+.seeeett {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.submenu-item:hover {
+  background-color: #7fa5ff !important;
+  color: white;
+}
 /* .navbar{
     border-radius: 85px;
 } */
 header .navbar-brand img {
-  width: 7rem;
+  width: 10rem;
 }
 
 .container-fluid {
@@ -311,11 +329,9 @@ header .navbar-brand img {
 .col-lg-10 {
   width: 100%;
 }
-.dateText {
-  font-size: 16px !important;
-}
-.dateText i {
-  margin-right: 6px;
+
+.Baseposition {
+  position: relative;
 }
 
 .nfhgfg {

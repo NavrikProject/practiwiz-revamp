@@ -5,63 +5,63 @@ import C4 from "../../../Images/Jobs/c4.webp";
 const SingleJob = () => {
   return (
     <>
-      <div class="aslkhghj border-none">
-        <div class="container-fluid px-5">
-          <div class="kndfghjfb">
-            <div class="dfknghffg">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="kjdhhjgd p-3">
-                    <div class="row">
-                      <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                        <div class="hjgfdfg">
+      <div ClassName="aslkhghj border-none">
+        <div ClassName="container-fluid px-5">
+          <div ClassName="kndfghjfb">
+            <div ClassName="dfknghffg">
+              <div ClassName="row">
+                <div ClassName="col-lg-6">
+                  <div ClassName="kjdhhjgd p-3">
+                    <div ClassName="row">
+                      <div ClassName="col-lg-3 col-md-3 col-sm-12 mb-4">
+                        <div ClassName="hjgfdfg">
                           <img src={C4} alt="" />
                         </div>
                       </div>
 
-                      <div class="col-lg-9 col-md-9 col-sm-12 ps-lg-0 ps-sm-2">
-                        <div class="kfhgjfgfh mb-2 d-flex align-items-center justify-content-between">
-                          <div class="jhgjgf">
-                            <h4 class="mb-0">
+                      <div ClassName="col-lg-9 col-md-9 col-sm-12 ps-lg-0 ps-sm-2">
+                        <div ClassName="kfhgjfgfh mb-2 d-flex align-items-center justify-content-between">
+                          <div ClassName="jhgjgf">
+                            <h4 ClassName="mb-0">
                               Software Engineer (Android), Libraries{" "}
-                              <i class="fa-solid fa-up-right-from-square"></i>
+                              <i ClassName="fa-solid fa-up-right-from-square"></i>
                             </h4>
                           </div>
                         </div>
 
-                        <div class="nfhjdfghfdghf mb-3">
-                          <button class="rlknjhgjfg ps-0 btn btn-transparent">
-                            <p class="mb-0">
-                              <i class="fa-solid fa-location-arrow me-1"></i>{" "}
+                        <div ClassName="nfhjdfghfdghf mb-3">
+                          <button ClassName="rlknjhgjfg ps-0 btn btn-transparent">
+                            <p ClassName="mb-0">
+                              <i ClassName="fa-solid fa-location-arrow me-1"></i>{" "}
                               London,Uk
                             </p>
                           </button>
 
-                          <button class="rlknjhgjfg ps-0 btn btn-transparent">
-                            <p class="mb-0">
-                              <i class="fa-solid fa-sack-dollar me-1"></i>{" "}
+                          <button ClassName="rlknjhgjfg ps-0 btn btn-transparent">
+                            <p ClassName="mb-0">
+                              <i ClassName="fa-solid fa-sack-dollar me-1"></i>{" "}
                               $24k-$30k
                             </p>
                           </button>
 
-                          <button class="rlknjhgjfg ps-0 btn btn-transparent">
-                            <p class="mb-0">11 hours ago</p>
+                          <button ClassName="rlknjhgjfg ps-0 btn btn-transparent">
+                            <p ClassName="mb-0">11 hours ago</p>
                           </button>
                         </div>
-                        <button class="rlknjhgjfg1 oidefrgtry px-2 py-1">
+                        <button ClassName="rlknjhgjfg1 oidefrgtry px-2 py-1">
                           Full Time
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3">
-                  <div class="kjhfhffd">
-                    <button class="btn-main">Apply To This Job</button>
-                    <div class="jhgjgf1">
-                      <div class="mhgf1 position-relative text-center">
-                        <i class="fa-regular fa-bookmark position-absolute"></i>
+                <div ClassName="col-lg-3"></div>
+                <div ClassName="col-lg-3">
+                  <div ClassName="kjhfhffd">
+                    <button ClassName="btn-main">Apply To This Job</button>
+                    <div ClassName="jhgjgf1">
+                      <div ClassName="mhgf1 position-relative text-center">
+                        <i ClassName="fa-regular fa-bookmark position-absolute"></i>
                       </div>
                     </div>
                   </div>
@@ -72,13 +72,13 @@ const SingleJob = () => {
         </div>
       </div>
 
-      <div class="kjdfvghjdrbgdfgfd">
-        <div class="container-fluid px-5">
-          <div class="kjdfhdf">
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="kjguydg">
-                  <div class="lghjgt">
+      <div ClassName="kjdfvghjdrbgdfgfd">
+        <div ClassName="container-fluid px-5">
+          <div ClassName="kjdfhdf">
+            <div ClassName="row">
+              <div ClassName="col-lg-8">
+                <div ClassName="kjguydg">
+                  <div ClassName="lghjgt">
                     <h5>Job Description</h5>
                     <p>
                       Lorem Ipsum is simply dummy text of the printing and
@@ -99,7 +99,7 @@ const SingleJob = () => {
                     </p>
                   </div>
 
-                  <div class="lghjgt">
+                  <div ClassName="lghjgt">
                     <h5>Key Responsibilities</h5>
                     <ul>
                       <li>
@@ -126,7 +126,7 @@ const SingleJob = () => {
                   </div>
                   <hr />
 
-                  <div class="lghjgt">
+                  <div ClassName="lghjgt">
                     <h5>Skill & Experience</h5>
                     <ul>
                       <li>
@@ -148,47 +148,47 @@ const SingleJob = () => {
                   </div>
                   <hr />
 
-                  <div class="jfgngjfgh">
+                  <div ClassName="jfgngjfgh">
                     <p>Share This Job</p>
-                    <div class="kfgjh">
-                      <i class="fa-brands fa-facebook"></i>
-                      <i class="fa-brands fa-twitter"></i>
-                      <i class="fa-brands fa-linkedin-in"></i>
+                    <div ClassName="kfgjh">
+                      <i ClassName="fa-brands fa-facebook"></i>
+                      <i ClassName="fa-brands fa-twitter"></i>
+                      <i ClassName="fa-brands fa-linkedin-in"></i>
                     </div>
                   </div>
-                  <div class="kjdhjdrgfg">
+                  <div ClassName="kjdhjdrgfg">
                     <h5>Related Jobs</h5>
                     <p>154 new jobs added today.</p>
                   </div>
-                  <div class="gdfgdfg">
+                  <div ClassName="gdfgdfg">
                     <SingleJobCard />
                     <SingleJobCard /> <SingleJobCard /> <SingleJobCard />
                     <SingleJobCard />
                   </div>
                 </div>
               </div>
-              <div class="col-lg-1"></div>
-              <div class="col-lg-3">
-                <div class="kjdfhjdfdffg ">
+              <div ClassName="col-lg-1"></div>
+              <div ClassName="col-lg-3">
+                <div ClassName="kjdfhjdfdffg ">
                   <h5>Job Overview</h5>
-                  <div class="fkghfgnhgjhg">
-                    <div class="fjhg">
+                  <div ClassName="fkghfgnhgjhg">
+                    <div ClassName="fjhg">
                       <h6>Date Posted:</h6>
                       <p>1 hour ago</p>
                     </div>
-                    <div class="fjhg">
+                    <div ClassName="fjhg">
                       <h6>Location:</h6>
                       <p>Kolkata</p>
                     </div>
-                    <div class="fjhg">
+                    <div ClassName="fjhg">
                       <h6>Job Title:</h6>
                       <p>Designer</p>
                     </div>
-                    <div class="fjhg">
+                    <div ClassName="fjhg">
                       <h6>Hours:</h6>
                       <p>50h/ week</p>
                     </div>
-                    <div class="fjhg">
+                    <div ClassName="fjhg">
                       <h6>Salary:</h6>
                       <p>$10k - $15k</p>
                     </div>

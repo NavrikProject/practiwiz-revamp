@@ -1,25 +1,24 @@
-import "./mentordashboardnotification.css";
-import "./Mentor.css";
+import "./DashboardCSS/mentordashboardnotification.css";
+import "./DashboardCSS/Mentor.css";
 import Logo from "../../../Images/logo.png";
-import MentorNotifications from "./MentorNotifications";
-import MentorSessionSetup from "./MentorSessionSetup";
-import MentorChangePwd from "./MentorChangePwd";
-import MentorProfileSettings from "./MentorProfileSettings";
-import MentorProfile from "./MentorProfile";
-import MentorBankdetails from "./MentorBankdetails";
-import { useDispatch, useSelector } from "react-redux";
+import MentorNotifications from "./OtherComponents/MentorNotifications";
+import MentorSessionSetup from "./OtherComponents/MentorSessionSetup";
+import MentorChangePwd from "./OtherComponents/MentorChangePwd";
+import MentorProfileSettings from "./ProfileSettings/MentorProfileSettings";
+import MentorProfile from "./OtherComponents/MentorProfile";
+import MentorBankdetails from "./OtherComponents/MentorBankdetails";
+import { useDispatch } from "react-redux";
 import { logOut } from "../../../Redux/userRedux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
-import MentorUpcomingSessions from "./MentorUpcomingSessions";
-import MentorCompletedSessions from "./MentorCompletedSessions";
+import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
+import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
 
-const MentorDashboard = (props) => {
+const MentorDashboard = ({ user }) => {
   const url = ApiURL();
   const [singleMentor, setSingleMentor] = useState([]);
-  const user = useSelector((state) => state.user?.currentUser);
   const mentorDtlsId = user?.user_id;
   useEffect(() => {
     const fetchSingleMentors = async () => {
@@ -37,7 +36,6 @@ const MentorDashboard = (props) => {
     fetchSingleMentors();
   }, [mentorDtlsId, url]);
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
-
   const [showMentorProfile, setShowMentorProfile] = useState(true);
   const [showMentorPsettings, setshowMentorPsettings] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
@@ -185,20 +183,26 @@ const MentorDashboard = (props) => {
   };
 
   useEffect(() => {
-    // Assuming `data` is the JSON array you provided
-    const notifications = singleMentor?.map((item) =>
-      JSON?.parse(item?.notification_list)
-    );
-
+    const notifications = singleMentor?.map((item) => {
+      if (item?.notification_list) {
+        try {
+          return JSON.parse(item.notification_list);
+        } catch (error) {
+          console.error("Failed to parse notification_list:", error);
+          return []; // Return an empty array if parsing fails
+        }
+      }
+      return []; // Return an empty array if notification_list is undefined or null
+    });
     // Flatten the array of arrays (if there are multiple items in the data)
     const allNotifications = notifications?.flat();
-
     // Check if there are any unread notifications
     const unreadExists = allNotifications?.some(
       (notification) => !notification.notification_is_read
     );
     setHasUnreadNotifications(unreadExists);
   }, [singleMentor]);
+
   return (
     <>
       <div className="md-header">
@@ -316,27 +320,26 @@ const MentorDashboard = (props) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorProfileShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto className=">
                     {/* <i className="fa-solid fa-user"> */}
-                    <i class="fa-solid fa-house-circle-check"></i>
+                    <i className="fa-solid fa-house-circle-check"></i>
                   </span>
 
                   <h5>Dashboard</h5>
                 </button>
-
-                <button
-                  className="btn btn-transparent text-center py-3 seeeett"
-                  onMouseOver={toggleNoProfile}
-                  onMouseLeave={toggleOffProfile}
-                >
-                  <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-bars"></i>
-                  </span>
-
-                  <h5>
-                    Profile Settings{" "}
-                    <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                  </h5>
+                <div className="Baseposition" onMouseLeave={toggleOffProfile}>
+                  <button
+                    className="btn btn-transparent text-center py-3 seeeett"
+                    onMouseOver={toggleNoProfile}
+                  >
+                    <span className="d-block bg-white position-relative m-auto className=">
+                      <i className="fa-solid fa-bars"></i>
+                    </span>
+                    <h5>
+                      Profile Settings{" "}
+                      <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                    </h5>{" "}
+                  </button>
                   {profilemenu && (
                     <div className="submenu1">
                       <button
@@ -353,21 +356,21 @@ const MentorDashboard = (props) => {
                       </button>
                     </div>
                   )}
-                </button>
-                <button
-                  className="btn btn-transparent text-center py-3 seeeett"
-                  onMouseOver={toggleNosession}
-                  onMouseLeave={toggleOffSession}
-                >
-                  <span className="d-block bg-white position-relative m-auto ">
-                    {/* <i className="fa-solid fa-bars-progress"></i> */}
-                    <i class="fa-solid fa-tv"></i>
-                  </span>
-
-                  <h5>
-                    Session Info{" "}
-                    <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                  </h5>
+                </div>
+                <div className="Baseposition" onMouseLeave={toggleOffSession}>
+                  <button
+                    className="btn btn-transparent text-center py-3 seeeett"
+                    onMouseOver={toggleNosession}
+                  >
+                    <span className="d-block bg-white position-relative m-auto className=">
+                      {/* <i className="fa-solid fa-bars-progress"></i> */}
+                      <i className="fa-solid fa-tv"></i>
+                    </span>
+                    <h5>
+                      Session Info{" "}
+                      <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                    </h5>{" "}
+                  </button>
                   {Sessionmenu && (
                     <div className="submenu1">
                       <button
@@ -384,15 +387,15 @@ const MentorDashboard = (props) => {
                       </button>
                     </div>
                   )}
-                </button>
+                </div>
 
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorMsgShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto className=">
                     {/* <i className="fa-brands fa-rocketchat"></i> */}
-                    <i class="fa-solid fa-building-columns"></i>
+                    <i className="fa-solid fa-building-columns"></i>
                   </span>
 
                   <h5>Bank Details</h5>
@@ -402,23 +405,10 @@ const MentorDashboard = (props) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorNotificationHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto">
+                  <span className="d-block bg-white position-relative m-auto className=">
                     <i className="fa-solid fa-bell"></i>
-                    {hasUnreadNotifications && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "-3px",
-                          right: "-5px",
-                          width: "12px",
-                          height: "12px",
-                          backgroundColor: "red",
-                          borderRadius: "50%",
-                          border: "2px solid white",
-                        }}
-                      />
-                    )}
                   </span>
+
                   <h5>Notifications</h5>
                 </button>
 
@@ -426,7 +416,7 @@ const MentorDashboard = (props) => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MentorChangePwdHandler}
               >
-                <span className="d-block bg-white position-relative m-auto ">
+                <span className="d-block bg-white position-relative m-auto className=">
                   <i className="fa-solid fa-arrow-right-arrow-left"></i>
                 </span>
 
@@ -437,24 +427,33 @@ const MentorDashboard = (props) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorSessionSetupHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto className=">
                     <i className="fa-solid fa-folder"></i>
                   </span>
+
                   <h5>Session Setup</h5>
                 </button>
+
+                {/* <button className="btn btn-transparent text-center py-3">
+                  <span className="d-block bg-white position-relative m-auto className=">
+                    <i className="fa-solid fa-right-from-bracket"></i>
+                  </span>
+
+                  <h5>LOG OUT</h5>
+                </button> */}
               </div>
               <div>
                 <h5 className="h5stmt" style={{ margin: "0px" }}>
                   Status :
                   {singleMentor[0]?.mentor_approved_status === "Yes" && (
                     <>
-                      <i class="fa-solid fa-circle-check fa-lg approveStatus"></i>
+                      <i className="fa-solid fa-circle-check fa-lg approveStatus"></i>
                       Approved
                     </>
                   )}
                   {singleMentor[0]?.mentor_approved_status === "No" && (
                     <>
-                      <i class="fa-solid fa-circle-exclamation fa-lg disapproveStatus"></i>
+                      <i className="fa-solid fa-circle-exclamation fa-lg disapproveStatus"></i>
                       Not Approved
                     </>
                   )}
@@ -464,6 +463,7 @@ const MentorDashboard = (props) => {
             <div className="maincontent">
               {showNotification ? (
                 <MentorNotifications
+                  user={user}
                   data={singleMentor}
                   mentorDtlsId={mentorDtlsId}
                 />
@@ -471,29 +471,37 @@ const MentorDashboard = (props) => {
                 ""
               )}
               {showSessionSetup ? (
-                <MentorSessionSetup data={singleMentor} />
+                <MentorSessionSetup user={user} data={singleMentor} />
               ) : (
                 ""
               )}
-              {showChangePwd ? <MentorChangePwd data={singleMentor} /> : ""}
+              {showChangePwd ? (
+                <MentorChangePwd user={user} data={singleMentor} />
+              ) : (
+                ""
+              )}
               {showMentorPsettings ? (
-                <MentorProfileSettings data={singleMentor} />
+                <MentorProfileSettings user={user} data={singleMentor} />
               ) : (
                 ""
               )}
-              {showMentorProfile ? <MentorProfile data={singleMentor} /> : ""}
+              {showMentorProfile ? (
+                <MentorProfile user={user} data={singleMentor} />
+              ) : (
+                ""
+              )}
               {showMentorMessage ? (
-                <MentorBankdetails data={singleMentor} />
+                <MentorBankdetails user={user} data={singleMentor} />
               ) : (
                 ""
               )}
               {showMentorUpcomingSessions ? (
-                <MentorUpcomingSessions data={singleMentor} />
+                <MentorUpcomingSessions user={user} data={singleMentor} />
               ) : (
                 ""
               )}
               {showMentorCompletedSessions ? (
-                <MentorCompletedSessions data={singleMentor} />
+                <MentorCompletedSessions user={user} data={singleMentor} />
               ) : (
                 ""
               )}

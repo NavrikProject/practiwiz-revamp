@@ -303,7 +303,7 @@ const AdminDashboard = () => {
                 onClick={AdminDashboardProfileHandler}
               >
                 <span className="d-block bg-white position-relative m-auto ">
-                  <i class="fa-solid fa-house-circle-check"></i>
+                  <i ClassName="fa-solid fa-house-circle-check"></i>
                 </span>
                 <h5>Practywiz Dashboard</h5>
               </button>
@@ -321,7 +321,7 @@ const AdminDashboard = () => {
 
                 <h5>
                   Profile Settings{" "}
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                  <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
                 </h5>
 
                 {profilemenu && (
@@ -349,12 +349,12 @@ const AdminDashboard = () => {
               >
                 <span className="d-block bg-white position-relative m-auto  ">
                   {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                  <i class="fa-solid fa-chalkboard-user"></i>
+                  <i ClassName="fa-solid fa-chalkboard-user"></i>
                 </span>
 
                 <h5>
                   All Mentors
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                  <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
                 </h5>
 
                 {isOpen && (
@@ -382,12 +382,12 @@ const AdminDashboard = () => {
               >
                 <span className="d-block bg-white position-relative m-auto  ">
                   {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                  <i class="fa-solid fa-chalkboard-user"></i>
+                  <i ClassName="fa-solid fa-chalkboard-user"></i>
                 </span>
 
                 <h5>
                   Mentor Sessions
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                  <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
                 </h5>
 
                 {mentorSessionsMenu && (

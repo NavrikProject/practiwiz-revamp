@@ -1,5 +1,6 @@
 import React from "react";
-import Logo from "../../Images/practiwizNew Logo.png";
+import Logo from "../../Images/logo.png";
+
 import "./Footer.css";
 const Footer = () => {
   return (
@@ -10,7 +11,6 @@ const Footer = () => {
             <div className="col-lg-4 mb-4">
               <div className="jdfhgdfg">
                 <img src={Logo} alt="2024" />
-
                 <p className="mt-4">
                   Providing solution-oriented guidance through the best mentors
                   who have an immense amount of knowledge and experience in the
@@ -50,26 +50,26 @@ const Footer = () => {
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/mentorclub">
+                        <a href="/mentor-club">
                           <i className="fa-solid fa-angle-right"></i> Mentor
                           Club
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/findjob">
+                        <a href="/jobs">
                           <i className="fa-solid fa-angle-right"></i> Jobs
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/about">
+                        <a href="/about-us">
                           <i className="fa-solid fa-angle-right"></i> About Us
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/contact">
+                        <a href="/contact-us">
                           <i className="fa-solid fa-angle-right"></i> Contact Us
                         </a>
                       </div>
@@ -103,26 +103,26 @@ const Footer = () => {
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/mentorclub">
+                        <a href="/mentor-club">
                           <i className="fa-solid fa-angle-right"></i> Mentor
                           Club
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/findjob">
+                        <a href="/jobs">
                           <i className="fa-solid fa-angle-right"></i> Jobs
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/about">
+                        <a href="/about-us">
                           <i className="fa-solid fa-angle-right"></i> About Us
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/contact">
+                        <a href="/contact-us">
                           <i className="fa-solid fa-angle-right"></i> Contact Us
                         </a>
                       </div>

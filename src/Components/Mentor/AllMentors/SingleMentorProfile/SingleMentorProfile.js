@@ -163,10 +163,9 @@ const SingleMentorProfile = () => {
                                   <span className="span121">
                                     <StarRating
                                       rating={sMentor.avg_mentor_rating}
-                                    />{" "}
-                                    ({sMentor.feedback_count} Reviews)
+                                    />
+                                    ({" " + sMentor.feedback_count} Reviews)
                                   </span>
-                                  
                                 </p>
                               </div>
                             </div>

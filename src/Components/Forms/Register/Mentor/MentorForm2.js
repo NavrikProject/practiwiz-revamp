@@ -97,10 +97,12 @@ const MentorForm2 = () => {
               <input
                 type="number"
                 className="form-control"
+                min="0"
                 // id="exampleInputPassword1"
                 placeholder="Your Experience"
                 {...register("years_of_experience", {
                   required: "Years of Experience is required",
+                  minLength: { value: 0 },
                 })} //1
               />
               {errors.years_of_experience && (
