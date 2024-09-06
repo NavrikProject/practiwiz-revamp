@@ -149,3 +149,7 @@
   border-radius: 10px;
   margin: 20px !important;
 }
+#tickmarkimage {
+  width: 20px;
+  margin-left: 2px;
+}

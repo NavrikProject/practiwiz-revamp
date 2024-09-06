@@ -1,151 +1,93 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import MenteeProfilePersonalDetails from "./MenteeProfilePersonalDetails.js";
+import MenteeProfileEdu_workexpDetails from "./MenteeProfileEdu_workexpDetails.js";
 
 const MenteeProfileSettings = () => {
-  return (
-    <div className="col-lg-10 ps-0">
-      <div className="difuhtre_content">
-        <div className="container">
-          <div className="col-lg-10 col-md-12">
-            <div className="mentor-prf-settings py-5">
-              <h3>Profile Settings</h3>
+  const [page, setPage] = useState(0);
 
-              <h5>Update your profile</h5>
+  const PageDisplay = () => {
+    if (page === 0) {
+      return <MenteeProfilePersonalDetails />;
+    } else if (page === 1) {
+      return <MenteeProfileEdu_workexpDetails />;
+    }
+  };
+
+  const setPageCount = () => {
+    if (page === 0) {
+      setPage((currPage) => currPage + 1);
+    } else if (page === 1) {
+      setPage((currPage) => currPage + 1);
+    }
+  };
+  const tab1 = () => {
+    setPage(0);
+  };
+  const tab2 = () => {
+    setPage(1);
+  };
+
+  return (
+    <>
+      <div div className="col-lg-10 ps-0">
+        <div className="">
+          <div id="mentorRegisterBg">
+            <div
+              className="jdoieoir_wrapper"
+              style={{ width: "85%", paddingTop: "2rem" }}
+            >
+              <div
+                id="tabs"
+                className="d-flex justify-content-between align-items-center mb-4"
+              >
+                {page === 0 ? (
+                  <button
+                    className="btn btn-primary tablinks active"
+                    data-tab="form1"
+                  >
+                    <i className="fa-solid me-1 fa-user"></i> Personal Details
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary tablinks "
+                    data-tab="form1"
+                    onClick={tab1}
+                  >
+                    <i className="fa-solid me-1 fa-user"></i> Personal Details
+                  </button>
+                )}
+                {page === 1 ? (
+                  <button
+                    className="btn btn-primary tablinks active"
+                    data-tab="form2"
+                  >
+                    <i className="fa-solid me-1 fa-bolt"></i> Educational/Work
+                    Experience Details
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary tablinks "
+                    data-tab="form2"
+                    onClick={tab2}
+                  >
+                    <i className="fa-solid me-1 fa-bolt"></i> Educational/Work
+                    Experience Details
+                  </button>
+                )}
+              </div>
 
               <form>
-                <div className="huygrut d-flex py-3 align-items-center">
-                  <div className="deuirr_circle position-relative overflow-hidden me-3">
-                    <img src="images/idherreee.webp" width="100%" alt="" />
-                  </div>
-
-                  <button className="btn btn-main me-3">Upload Avatar</button>
-
-                  <button className="btn btn-transparent">Delete</button>
+                <div id="form1" className="tab active">
+                  {PageDisplay()}
                 </div>
-
-                <div className="mb-4">
-                  <label for="" className="form-label">
-                    You Name *
-                  </label>
-
-                  <input
-                    className="form-control"
-                    placeholder="Enter Your Name"
-                    autofocus
-                  />
-                </div>
-
-                <div className="mb-4" id="skill-tag">
-                  <label for="" className="form-label">
-                    Your Skills *
-                  </label>
-                  <input
-                    className="form-control"
-                    placeholder="Eg., Business Analyst, Data Scientist..."
-                    autofocus
-                  />
-                </div>
-
-                <div className="ufguirniirtr position-relative mb-4">
-                  <label for="" className="form-label">
-                    About Me *
-                  </label>
-
-                  <textarea
-                    type="text"
-                    id="ammyInput"
-                    name="myCountry"
-                    className="form-control"
-                    placeholder="Write something about yourself"
-                  ></textarea>
-
-                  <div id="amautosuggestions"></div>
-                </div>
-
-                <div className="row">
-                  <div className="col-lg-6">
-                    <div className="ufguirniirtr position-relative mb-4">
-                      <label for="" className="form-label">
-                        Your Profession *
-                      </label>
-
-                      <input
-                        type="text"
-                        id="ypmyInput"
-                        name="myCountry"
-                        className="form-control"
-                        placeholder="Type what you do"
-                      />
-
-                      <div id="ypautosuggestions"></div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="ufguirniirtr position-relative mb-4">
-                      <label for="" className="form-label">
-                        You Are Expertise In *
-                      </label>
-
-                      <input
-                        type="text"
-                        id="yemyInput"
-                        name="myCountry"
-                        className="form-control"
-                        placeholder="Start Typing..."
-                      />
-
-                      <div id="yeautosuggestions"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="ufguirniirtr position-relative mb-4">
-                  <label for="" className="form-label">
-                    Professional Experience *
-                  </label>
-
-                  <textarea
-                    type="text"
-                    id="pemyInput"
-                    name="myCountry"
-                    className="form-control"
-                    placeholder="Write About Your Professional Experience"
-                  ></textarea>
-
-                  <div id="peautosuggestions"></div>
-                </div>
-
-                <div className="mb-4">
-                  <label for="" className="form-label">
-                    Your Social Account Link *
-                  </label>
-
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Paste Your LinkedIn Profile Link"
-                  />
-
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Paste Your X Profile Link (Previously Twitter)"
-                  />
-
-                  <input
-                    type="text"
-                    className="form-control mb-2"
-                    placeholder="Paste Your Youtube Link"
-                  />
-                </div>
-
-                <button className="btn btn-main">Save Changes</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default MenteeProfileSettings;

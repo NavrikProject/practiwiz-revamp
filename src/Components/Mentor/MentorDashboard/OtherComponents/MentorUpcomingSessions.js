@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./mentorupcomingsession.css";
+import "../DashboardCSS/mentorupcomingsession.css";
 import MentorUpcomingSessionCard from "./MentorUpcomingSessionCard";
-import { ApiURL } from "../../../Utils/ApiURL";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import SessionCardSkeleton from "./SkeltonLoaders/SessionCardSkeleton";
+import SessionCardSkeleton from "../SkeltonLoaders/SessionCardSkeleton";
 const MentorUpcomingSessions = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [allBookingSessions, setAllBookingSessions] = useState([]);

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "./mentorcompletesession.css";
+import "../DashboardCSS/mentorcompletesession.css";
 import MentorCompletedSessionCard from "./MentorCompletedSessionCard";
-import { useSelector } from "react-redux";
-import { ApiURL } from "../../../Utils/ApiURL";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
-import SessionCardSkeleton from "./SkeltonLoaders/SessionCardSkeleton";
+import SessionCardSkeleton from "../SkeltonLoaders/SessionCardSkeleton";
 
-const MentorCompletedSessions = () => {
+const MentorCompletedSessions = ({ user }) => {
   const [loading, setLoading] = useState(false);
-  const user = useSelector((state) => state.user?.currentUser);
   const [
     allMentorCompletedBookingSessions,
     setAllMentorCompletedBookingSessions,

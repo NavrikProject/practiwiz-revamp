@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Ee1 from "../../../Images/Mentors/ee1.png";
-import Ee2 from "../../../Images/Mentors/ee2.png";
-import Tickmark from "../../../Images/Mentors/tick-mark (1).png";
-import Qw1 from "../../../Images/Mentors/qw1 (1).png";
-import Qw2 from "../../../Images/Mentors/qw1 (2).png";
-import MentorRatingCard from "../AllMentors/SingleMentorProfile/MentorRatingCard";
+import Ee1 from "../../../../Images/Mentors/ee1.png";
+import Ee2 from "../../../../Images/Mentors/ee2.png";
+import Tickmark from "../../../../Images/Mentors/tick-mark (1).png";
+import Qw1 from "../../../../Images/Mentors/qw1 (1).png";
+import Qw2 from "../../../../Images/Mentors/qw1 (2).png";
+import MentorRatingCard from "../../AllMentors/SingleMentorProfile/MentorRatingCard";
+import StarRating from "../../../../Utils/StartRating";
 const MentorProfile = ({ data }) => {
   const [showRating, setShowRating] = useState(null);
   const [showOverview, setShowOverview] = useState(true);
@@ -76,12 +77,11 @@ const MentorProfile = ({ data }) => {
                               </div>
                               <div className="fdjdfg">
                                 <p>
+                                  Average rating :
                                   <span className="span121">
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
+                                    <StarRating
+                                      rating={sMentor.avg_mentor_rating}
+                                    />
                                   </span>
                                   <span>
                                     ({sMentor.feedback_count} Reviews)

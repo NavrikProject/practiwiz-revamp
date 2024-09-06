@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { ApiURL } from "../../../Utils/ApiURL";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
 
 const MentorNotifications = ({ data, mentorDtlsId }) => {

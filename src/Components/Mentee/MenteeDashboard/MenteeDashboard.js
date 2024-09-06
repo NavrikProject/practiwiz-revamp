@@ -9,11 +9,9 @@ import MenteeCourseProgress from "./MenteeCourseProgress";
 import MenteeMessages from "./MenteeMessages";
 import MenteeProfileSettings from "./MenteeProfileSettings";
 import MenteeProfileDashboard from "./MenteeProfileDashboard";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MenteeUpcomingSessions from "./MenteeUpcomingSessions";
 import MenteeCompletedSessions from "./MenteeCompletedSessions";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../../Redux/userRedux";
 const MenteeDashboard = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
@@ -211,13 +209,6 @@ const MenteeDashboard = () => {
       setShowMenteeUpcomingSessions(false)
     );
   };
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user?.currentUser);
-  const userLogoutHandler = () => {
-    return dispatch(logOut()), navigate("/login");
-  };
   return (
     <>
       <div className="md-header">
@@ -243,6 +234,7 @@ const MenteeDashboard = () => {
                     className="fa-solid fa-xmark d-none"
                   ></i>
                 </button>
+
                 <div
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
@@ -274,14 +266,7 @@ const MenteeDashboard = () => {
                           </Link>
                         </li>
 
-                        {user?.user_role === 1 && (
-                          <li>
-                            <Link target="_blanks" to={`/user/admin/dashboard`}>
-                              Admin Dashboard
-                            </Link>
-                          </li>
-                        )}
-                        <li onClick={userLogoutHandler}>Log Out</li>
+                        <li>Log Out</li>
                       </ul>
                     </div>
                   </form>
@@ -323,25 +308,25 @@ const MenteeDashboard = () => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={ShowMenteeProfileHandler}
               >
-                <span className="d-block bg-white position-relative m-auto ">
+                <span className="d-block bg-white position-relative m-auto mb-3">
                   <i className="fa-solid fa-user"></i>
                 </span>
 
                 <h5>Dashboard</h5>
               </button>
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onMouseOver={toggleNoProfile}
-                onMouseLeave={toggleOffProfile}
-              >
-                <span className="d-block bg-white position-relative m-auto ">
-                  <i className="fa-solid fa-bars"></i>
-                </span>
-
-                <h5>
-                  Profile Settings{" "}
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                </h5>
+              <div className="Baseposition" onMouseLeave={toggleOffProfile}>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onMouseOver={toggleNoProfile}
+                >
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    <i className="fa-solid fa-bars"></i>
+                  </span>
+                  <h5>
+                    Profile Settings{" "}
+                    <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>{" "}
+                </button>
                 {profilemenu && (
                   <div className="submenu1">
                     <button
@@ -358,21 +343,22 @@ const MenteeDashboard = () => {
                     </button>
                   </div>
                 )}
-              </button>
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onMouseOver={toggleNosession}
-                onMouseLeave={toggleOffSession}
-              >
-                <span className="d-block bg-white position-relative m-auto ">
-                  {/* <i className="fa-solid fa-bars-progress"></i> */}
-                  <i class="fa-solid fa-tv"></i>
-                </span>
+              </div>
+              <div className="Baseposition" onMouseLeave={toggleOffSession}>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onMouseOver={toggleNosession}
+                >
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    {/* <i className="fa-solid fa-bars-progress"></i> */}
+                    <i className="fa-solid fa-tv"></i>
+                  </span>
 
-                <h5>
-                  My Session Info
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                </h5>
+                  <h5>
+                    My Session Info
+                    <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>
+                </button>
                 {Sessionmenu && (
                   <div className="submenu1">
                     <button
@@ -389,31 +375,31 @@ const MenteeDashboard = () => {
                     </button>
                   </div>
                 )}
-              </button>
+              </div>
               {/* <button
                   className="btn btn-transparent text-center py-3 seeeett" 
                   onClick={ShowMenteeCompletedHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-hourglass-half"></i>
                   </span>
 
                   <h5>COMPLETED SESSIONS</h5>
                 </button> */}
-              <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onMouseOver={toggleNoCourse}
-                onMouseLeave={toggleOffCourse}
-              >
-                <span className="d-block bg-white position-relative m-auto ">
-                  {/* <i className="fa-solid fa-bars-progress"></i> */}
-                  <i class="fa-solid fa-book-open-reader"></i>
-                </span>
-
-                <h5>
-                  Course Info{" "}
-                  <i class="fa-solid fa-chevron-down downarrowsize"></i>
-                </h5>
+              <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onMouseOver={toggleNoCourse}
+                >
+                  <span className="d-block bg-white position-relative m-auto mb-3">
+                    {/* <i className="fa-solid fa-bars-progress"></i> */}
+                    <i className="fa-solid fa-book-open-reader"></i>
+                  </span>
+                  <h5>
+                    Course Info{" "}
+                    <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>{" "}
+                </button>
                 {Coursemenu && (
                   <div className="submenu1">
                     <button
@@ -430,12 +416,12 @@ const MenteeDashboard = () => {
                     </button>
                   </div>
                 )}
-              </button>
+              </div>
               {/* <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MenteeCompCourseHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-hourglass-half"></i>
                   </span>
 
@@ -443,14 +429,14 @@ const MenteeDashboard = () => {
                   
                 </button> */}
               <button className="btn btn-transparent text-center py-3 seeeett">
-                <span className="d-block bg-white position-relative m-auto ">
+                <span className="d-block bg-white position-relative m-auto mb-3">
                   <i className="fa-solid fa-clock-rotate-left"></i>
                 </span>
 
                 <h5>Payment History</h5>
               </button>
               <button className="btn btn-transparent text-center py-3 seeeett">
-                <span className="d-block bg-white position-relative m-auto ">
+                <span className="d-block bg-white position-relative m-auto mb-3">
                   <i className="fa-regular fa-building"></i>
                 </span>
 
@@ -460,9 +446,9 @@ const MenteeDashboard = () => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeSavedJobsHandler}
               >
-                <span className="d-block bg-white position-relative m-auto ">
+                <span className="d-block bg-white position-relative m-auto mb-3">
                   {/* <i className="fa-solid fa-bookmark"></i> */}
-                  <i class="fa-regular fa-bookmark"></i>
+                  <i className="fa-regular fa-bookmark"></i>
                 </span>
 
                 <h5>Saved Jobs</h5>
@@ -471,7 +457,7 @@ const MenteeDashboard = () => {
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeNotificationHandler}
               >
-                <span className="d-block bg-white position-relative m-auto ">
+                <span className="d-block bg-white position-relative m-auto mb-3">
                   <i className="fa-solid fa-bell"></i>
                 </span>
 
@@ -481,7 +467,7 @@ const MenteeDashboard = () => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   // onClick={MenteeChangePwdHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto ">
+                  <span className="d-block bg-white position-relative m-auto mb-3">
                     <i className="fa-solid fa-arrow-right-arrow-left"></i>
                   </span>
 

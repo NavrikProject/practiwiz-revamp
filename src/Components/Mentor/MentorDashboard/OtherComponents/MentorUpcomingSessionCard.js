@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
-import { ApiURL } from "../../../Utils/ApiURL";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import { Link } from "react-router-dom";
 const MentorUpcomingSessionCard = ({ allBookingSessions }) => {
   const url = ApiURL();

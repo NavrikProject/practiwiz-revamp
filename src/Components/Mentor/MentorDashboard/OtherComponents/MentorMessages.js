@@ -1,5 +1,5 @@
 import React from "react";
-import "./institutemessage.css";
+import "../DashboardCSS/institutemessage.css";
 const MentorMessages = () => {
   return (
     <div class="col-lg-10 ps-0">

@@ -1,16 +1,57 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
-import { useState } from "react";
-import "./input-radio.css";
-import GoToTop from "../../../../Utils/GoToTop";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import "../../../Forms/Register/Mentor/input-radio.css";
 
-const MentorForm2 = () => {
+const MentorProfile2 = (props) => {
+  const [userdata, setUserdata] = useState(props.profiledata);
+  const [isEditing, setIsEditing] = useState(false);
+
   const {
     register,
-    formState: { errors },
     watch,
     setValue,
-  } = useFormContext();
+    formState: { errors },
+  } = useForm();
+
+  const [formData, setFormData] = useState({
+    mentor_job_title: userdata.mentor_job_title,
+    mentor_years_of_experience: userdata.mentor_years_of_experience,
+    mentor_company_name: userdata.mentor_company_name,
+    passion_list: userdata.passion_list,
+    mentor_academic_qualification: userdata.mentor_academic_qualification,
+    expertise_list: userdata.expertise_list,
+    mentor_recommended_area_of_mentorship:
+      userdata.mentor_recommended_area_of_mentorship,
+    mentor_headline: userdata.mentor_headline,
+  });
+  console.log(userdata.expertise_list);
+
+  const exp = formData.expertise_list;
+  let expert = JSON.parse(exp);
+
+  const edulevel = formData.mentor_academic_qualification;
+
+  console.log(edulevel);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Submitted Data:", formData);
+    // Add logic here to handle form submission, like sending data to an API
+    setIsEditing(false);
+  };
 
   const [items, setItems] = useState([
     { id: "draggable1", text: " Technology", inside: false },
@@ -64,52 +105,61 @@ const MentorForm2 = () => {
   };
 
   return (
-    <>
-      <GoToTop />
+    <main>
+      {!isEditing && (
+        <div style={{ display: "flex", justifyContent: "end" }}>
+          <button
+            type="button"
+            className="btn juybeubrer_btn btn-primary"
+            style={{ textAlign: "right" }}
+            onClick={handleEditClick}
+          >
+            Edit
+          </button>
+        </div>
+      )}
       <div className="doiherner_wrapper">
-        <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
+        <div className="ihduwfr_form_wrapper p-0 " style={{ height: "auto" }}>
           <div className="row">
             {/* <div className="col-lg-6"> */}
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Job Title</b>
               </label>
+              {/* <input
+              type="text"
+              value={userdata.mentor_job_title}
+              className="form-control"
+              // id="exampleInputEmail1"
+              placeholder="Type Your Job Title"
+              aria-describedby="emailHelp"
+              {...register("mentor_job_title", {
+                required: "Job title  is required",
+              })}
+            /> */}
               <input
-                type="email"
+                type="text"
+                name="mentor_job_title"
                 className="form-control"
-                // id="exampleInputEmail1"
-                placeholder="Type Your Job Title"
-                aria-describedby="emailHelp"
-                {...register("mentor_job_title", {
-                  required: "Job title  is required",
-                })} //1
+                placeholder=" Job title"
+                value={formData.mentor_job_title}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               />
-              {errors.mentor_job_title && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_job_title.message}
-                </p>
-              )}
             </div>
             <div className="mb-4">
               <label htmlFor="exampleInputPassword1" className="form-label">
                 <b>Years of Experience</b>
               </label>
               <input
-                type="number"
+                type="text"
+                name="mentor_years_of_experience"
                 className="form-control"
-                min="0"
-                // id="exampleInputPassword1"
-                placeholder="Your Experience"
-                {...register("years_of_experience", {
-                  required: "Years of Experience is required",
-                  minLength: { value: 0 },
-                })} //1
+                placeholder="Years of experience"
+                value={formData.mentor_years_of_experience}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               />
-              {errors.years_of_experience && (
-                <p className="Error-meg-login-register">
-                  {errors.years_of_experience.message}
-                </p>
-              )}
             </div>
 
             <div className="mb-4">
@@ -117,46 +167,15 @@ const MentorForm2 = () => {
                 <b>Company</b>
               </label>
               <input
-                type="email"
+                type="text"
+                name="mentor_company_name"
                 className="form-control"
-                // id="exampleInputEmail1"
-                placeholder="Type Your Company Name"
-                aria-describedby="emailHelp"
-                {...register("mentor_company_name", {
-                  required: "Company name is required",
-                })} //1
+                placeholder="Company name"
+                value={formData.mentor_company_name}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               />
-              {errors.mentor_company_name && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_company_name.message}
-                </p>
-              )}
             </div>
-            {/* </div> */}
-
-            {/* <div className="col-lg-6">
-            <div className="ikhwnjrr_right">
-              <label htmlFor="exampleInputEmail1" className="form-label mb-3">
-                <b>Percentage Completion</b>
-              </label>
-
-              <div className="d-flex align-items-center">
-                <div className="hinrer_circle position-relative me-3">
-                  <h2>{F_Name.charAt(0)}{L_Name.charAt(0)}</h2>
-                </div>
-
-                <div className="idhnerier_right">
-                  <h4 className="mb-1">{F_Name}&nbsp;{ L_Name}</h4>
-
-                  <p className="mb-1">
-                    <b>40% Complete</b>
-                  </p>
-
-                  <h6 className="mb-0">Signed up - 4 minutes ago</h6>
-                </div>
-              </div>
-            </div>
-          </div> */}
           </div>
 
           <div className="row align-items-center">
@@ -167,6 +186,7 @@ const MentorForm2 = () => {
               <div
                 type=""
                 id="container"
+                value={userdata.user_firstname}
                 className="bg-white"
                 onDragOver={handleDragOver}
                 onDrop={handleDropInContainer}
@@ -218,6 +238,7 @@ const MentorForm2 = () => {
                 id="outside-container"
                 onDragOver={handleDragOver}
                 onDrop={handleDropOutside}
+                value={userdata.user_firstname}
               >
                 {items
                   .filter((item) => !item.inside)
@@ -251,9 +272,9 @@ const MentorForm2 = () => {
                       id="check_1"
                       name="check_1"
                       value="Agile"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Agile"
+                      )}
                     />
                     <label htmlFor="check_1">Agile</label>
                   </li>
@@ -264,9 +285,9 @@ const MentorForm2 = () => {
                       id="check_2"
                       name="check_2"
                       value="AI"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "AI"
+                      )}
                     />
                     <label htmlFor="check_2">AI</label>
                   </li>
@@ -277,9 +298,9 @@ const MentorForm2 = () => {
                       id="check_3"
                       name="check_3"
                       value="Cloud"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Cloud"
+                      )}
                     />
                     <label htmlFor="check_3">Cloud</label>
                   </li>
@@ -290,9 +311,9 @@ const MentorForm2 = () => {
                       id="check_4"
                       name="check_4"
                       value="Python"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Python"
+                      )}
                     />
                     <label htmlFor="check_4">Python</label>
                   </li>
@@ -303,9 +324,9 @@ const MentorForm2 = () => {
                       id="check_5"
                       name="check_5"
                       value="DBA"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "DBA"
+                      )}
                     />
                     <label htmlFor="check_5">DBA</label>
                   </li>
@@ -316,9 +337,9 @@ const MentorForm2 = () => {
                       id="check_6"
                       name="check_6"
                       value="JAVA"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "JAVA"
+                      )}
                     />
                     <label htmlFor="check_6">JAVA</label>
                   </li>
@@ -329,9 +350,9 @@ const MentorForm2 = () => {
                       id="check_7"
                       name="check_7"
                       value="Selenium"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Selenium"
+                      )}
                     />
                     <label htmlFor="check_7">Selenium</label>
                   </li>
@@ -342,9 +363,9 @@ const MentorForm2 = () => {
                       id="check_8"
                       name="check_8"
                       value="Conflict Resolution"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Conflict Resolution"
+                      )}
                     />
                     <label htmlFor="check_8">Conflict Resolution</label>
                   </li>
@@ -355,9 +376,9 @@ const MentorForm2 = () => {
                       id="check_9"
                       name="check_9"
                       value="Communication"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Communication"
+                      )}
                     />
                     <label htmlFor="check_9">Communication</label>
                   </li>
@@ -368,9 +389,9 @@ const MentorForm2 = () => {
                       id="check_10"
                       name="check_10"
                       value="Resume Writing"
-                      {...register("areas_of_expertise", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={expert.some(
+                        (exp) => exp.mentor_expertise === "Resume Writing"
+                      )}
                     />
                     <label htmlFor="check_10">Resume Writing</label>
                   </li>
@@ -390,12 +411,11 @@ const MentorForm2 = () => {
                   <li>
                     <input
                       type="radio"
+                      className="d-none"
                       id="check_11"
                       name="check_11"
                       value="Post Graduate"
-                      {...register("academic_qualification", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={edulevel === "Post Graduate"}
                     />
 
                     <label htmlFor="check_11">Post Graduate</label>
@@ -404,12 +424,11 @@ const MentorForm2 = () => {
                   <li>
                     <input
                       type="radio"
+                      className="d-none"
                       id="check_20"
                       name="check_20"
                       value="Graduate"
-                      {...register("academic_qualification", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={edulevel === "Graduate"}
                     />
 
                     <label htmlFor="check_20">Graduate</label>
@@ -418,12 +437,11 @@ const MentorForm2 = () => {
                   <li>
                     <input
                       type="radio"
+                      className="d-none"
                       id="check_30"
                       name="check_30"
                       value="Doctorate"
-                      {...register("academic_qualification", {
-                        // required: "First Name is required",
-                      })} //1
+                      defaultChecked={edulevel === "Doctorate"}
                     />
 
                     <label htmlFor="check_30">Doctorate</label>
@@ -435,39 +453,58 @@ const MentorForm2 = () => {
             <div className="col-lg-12 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Your Recommended Area of Mentorship</b>
-              </label>{" "}
+              </label>
+
               <input
                 type="text"
                 className="form-control"
-                // id="exampleInputEmail1"
-                placeholder="Type A Headline Here"
-                aria-describedby="emailHelp"
-                {...register("recommended_area_of_mentorship", {
-                  // required: "First Name is required",
-                })}
+                name="mentor_recommended_area_of_mentorship"
+                placeholder=" Mentorship Area "
+                value={formData.mentor_recommended_area_of_mentorship}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               />
             </div>
+
             <div className="col-lg-12 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Headline</b>
               </label>
+
               <textarea
+                name="mentor_headline"
                 className="form-control"
                 style={{ height: "150px" }}
-                {...register("mentor_Headline", {
-                  // required: "First Name is required",
-                })} //1
+                placeholder="Type A Headline Here"
+                value={formData.mentor_headline}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               ></textarea>
-              <p className="iduehnbriee_text mb-0">
-                (*Give a good headline, This help us to understand the mentor
-                overview*)
-              </p>
             </div>
           </div>
+
+          {isEditing && (
+            <div className="d-flex justify-content-between m-4">
+              <button
+                type="button"
+                onClick={handleEditClick}
+                className="btn juybeubrer_btn btn-primary"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="btn juybeubrer_btn btn-primary"
+              >
+                Save
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </main>
   );
 };
 
-export default MentorForm2;
+export default MentorProfile2;
