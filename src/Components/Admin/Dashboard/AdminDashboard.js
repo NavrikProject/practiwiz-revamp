@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import Logo from "../../../Images/logo.png";
-import AdminAllMentors from "./Mentors/AdminApprovedAllMentors";
 import AdminApprovedAllMentors from "./Mentors/AdminApprovedAllMentors";
 import AdminNotApprovedAllMentors from "./Mentors/AdminNotApprovedAllMentors";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../../Redux/userRedux";
+import AdminCompletedMentorSession from "./Mentors/AdminCompletedMentorSession";
+import AdminUpcomingMentorSession from "./Mentors/AdminUpcomingMentorSession";
+import AdminInCompletedMentorSession from "./Mentors/AdminInCompletedMentorSession";
 
 const AdminDashboard = () => {
+  const user = useSelector((state) => state.user?.currentUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
   const [adminAllUsers, setAdminAllUsers] = useState(false);
   const [adminChangePwd, setAdminChangePwd] = useState(false);
   const [adminAllApprovedMentors, setAdminAllApprovedMentors] = useState(false);
@@ -14,12 +25,24 @@ const AdminDashboard = () => {
   const [showAdminDashboardProfile, setShowAdminDashboardProfile] =
     useState(true);
   // const [showAllMentorMentorsMenu, setShowAllMentorsMenu] = useState(false);
+  const [adminAllCompletedMentorSessions, setAdminCompletedMentorSessions] =
+    useState(false);
+  const [adminAllUpcomingMentorSessions, setAdminUpcomingMentorSessions] =
+    useState(false);
+  const [adminAllInCompletedMentorSessions, setAdminInCompletedMentorSessions] =
+    useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
-
+  const [mentorSessionsMenu, setMentorSessionsMenu] = useState(false);
   const toggleMenu = () => {
     setIsOpen(true);
+  };
+  const toggleAllMentor = () => {
+    setMentorSessionsMenu(true);
+  };
+  const toggleAllMentor1 = () => {
+    setMentorSessionsMenu(false);
   };
   const toggleMenu2 = () => {
     setIsOpen(false);
@@ -30,17 +53,34 @@ const AdminDashboard = () => {
   const toggleMenu3 = () => {
     setprofilemenu(false);
   };
-
-  const AdminDashboardProfileHandler = () => {
-    if (!showAdminDashboardProfile) {
-      setShowAdminDashboardProfile(true);
+  const AdminAllUsersHandler = () => {
+    if (!adminAllUsers) {
+      setAdminAllUsers(!adminAllUsers);
     }
     return (
       setAdminAllUsers(false),
       setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
       setAdminAllNotApprovedMentors(false),
-      setShowAdminNotification(false)
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false)
+    );
+  };
+  const AdminDashboardProfileHandler = () => {
+    if (!showAdminDashboardProfile) {
+      setShowAdminDashboardProfile(!showAdminDashboardProfile);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
+      setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false)
     );
   };
 
@@ -53,9 +93,13 @@ const AdminDashboard = () => {
       setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
       setAdminAllNotApprovedMentors(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
       setShowAdminDashboardProfile(false)
     );
   };
+
   const AdminNotApprovedMentorsHandler = () => {
     if (!adminAllNotApprovedMentors) {
       setAdminAllNotApprovedMentors(!adminAllNotApprovedMentors);
@@ -64,8 +108,11 @@ const AdminDashboard = () => {
       setAdminAllUsers(false),
       setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
-      setShowAdminDashboardProfile(false),
-      setShowAdminNotification(false)
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
     );
   };
   const AdminApprovedMentorsHandler = () => {
@@ -76,8 +123,11 @@ const AdminDashboard = () => {
       setAdminAllUsers(false),
       setAdminChangePwd(false),
       setAdminAllNotApprovedMentors(false),
-      setShowAdminDashboardProfile(false),
-      setShowAdminNotification(false)
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
     );
   };
 
@@ -88,9 +138,58 @@ const AdminDashboard = () => {
     return (
       setAdminAllUsers(false),
       setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
+    );
+  };
+
+  const AdminUpcomingMentorSessionHandler = () => {
+    if (!adminAllUpcomingMentorSessions) {
+      setAdminUpcomingMentorSessions(!adminAllUpcomingMentorSessions);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
       setAdminAllApprovedMentors(false),
-      setShowAdminDashboardProfile(false),
-      setShowAdminNotification(false)
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminCompletedMentorSessions(false),
+      setShowAdminDashboardProfile(false)
+    );
+  };
+  const AdminCompletedMentorSessionHandler = () => {
+    if (!adminAllCompletedMentorSessions) {
+      setAdminCompletedMentorSessions(!adminAllCompletedMentorSessions);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
+      setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminInCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
+    );
+  };
+  const AdminInCompletedMentorSessionHandler = () => {
+    if (!adminAllInCompletedMentorSessions) {
+      setAdminInCompletedMentorSessions(!adminAllInCompletedMentorSessions);
+    }
+    return (
+      setAdminAllUsers(false),
+      setAdminChangePwd(false),
+      setAdminAllApprovedMentors(false),
+      setAdminAllNotApprovedMentors(false),
+      setShowAdminNotification(false),
+      setAdminCompletedMentorSessions(false),
+      setAdminUpcomingMentorSessions(false),
+      setShowAdminDashboardProfile(false)
     );
   };
 
@@ -104,7 +203,9 @@ const AdminDashboard = () => {
                 <a className="navbar-brand" href="/">
                   <img src={Logo} alt="" />
                 </a>
-
+                <a className="navbar-brand" href="/">
+                  ADMIN DASHBOARD
+                </a>
                 <button
                   className="navbar-toggler"
                   type="button"
@@ -144,10 +245,15 @@ const AdminDashboard = () => {
 
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
-
-                        <li>View Public Profile</li>
-
-                        <li>Log Out</li>
+                        <li>
+                          <Link
+                            target="_blanks"
+                            to={`/${user?.user_type}/dashboard`}
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                        <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
                   </form>
@@ -183,100 +289,153 @@ const AdminDashboard = () => {
         </header>
 
         <div className="mentor_dashboard">
-          {/* <div className="row"> */}
-          {/* <div className="col-lg-2 pe-0 csdegbfraedd"> */}
-          <div className=" display-raw  ">
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              onClick={AdminDashboardProfileHandler}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i class="fa-solid fa-house-circle-check"></i>
-              </span>
-              <h5>Practywiz Dashboard</h5>
-            </button>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              margin: "0 40px 0",
+            }}
+          >
+            <div className=" display-raw  ">
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={AdminDashboardProfileHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i ClassName="fa-solid fa-house-circle-check"></i>
+                </span>
+                <h5>Practywiz Dashboard</h5>
+              </button>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              // onClick={AdminDashboardProfilesettings}
-              onMouseOver={toggleMenu1}
-              onMouseLeave={toggleMenu3}
-              // onBlur={toggleMenu1}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i className="fa-solid fa-bars"></i>
-              </span>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                // onClick={AdminDashboardProfilesettings}
+                onMouseOver={toggleMenu1}
+                onMouseLeave={toggleMenu3}
+                // onBlur={toggleMenu1}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-bars"></i>
+                </span>
 
-              <h5>
-                Profile Settings{" "}
-                <i class="fa-solid fa-chevron-down downarrowsize"></i>
-              </h5>
+                <h5>
+                  Profile Settings{" "}
+                  <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
 
-              {profilemenu && (
-                <div className="submenu1">
-                  <button
-                    className="submenu-item1"
-                    // onClick={AdminDashboardSearchGuestLacture}
-                  >
-                    <h5>Users List</h5>
-                  </button>
-                  <button
-                    className="submenu-item1"
-                    onClick={AdminDashboardChangePwdHandler}
-                  >
-                    <h5>Change Password</h5>
-                  </button>
-                </div>
-              )}
-            </button>
+                {profilemenu && (
+                  <div className="submenu1">
+                    <button
+                      className="submenu-item1"
+                      // onClick={AdminDashboardSearchGuestLacture}
+                    >
+                      <h5>Users List</h5>
+                    </button>
+                    <button
+                      className="submenu-item1"
+                      onClick={AdminDashboardChangePwdHandler}
+                    >
+                      <h5>Change Password</h5>
+                    </button>
+                  </div>
+                )}
+              </button>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett main-button menu-container"
-              onMouseOver={toggleMenu}
-              onMouseLeave={toggleMenu2}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3 ">
-                {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                <i class="fa-solid fa-chalkboard-user"></i>
-              </span>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett "
+                onMouseOver={toggleMenu}
+                onMouseLeave={toggleMenu2}
+              >
+                <span className="d-block bg-white position-relative m-auto  ">
+                  {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
+                  <i ClassName="fa-solid fa-chalkboard-user"></i>
+                </span>
 
-              <h5>
-                All Mentors
-                <i class="fa-solid fa-chevron-down downarrowsize"></i>
-              </h5>
+                <h5>
+                  All Mentors
+                  <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
 
-              {isOpen && (
-                <div className="submenu">
-                  <button
-                    className="submenu-item"
-                    onClick={AdminApprovedMentorsHandler}
-                  >
-                    <h5>Approved Mentors</h5>
-                  </button>
-                  <button
-                    className="submenu-item"
-                    onClick={AdminNotApprovedMentorsHandler}
-                  >
-                    <h5>Not Approved Mentors</h5>
-                  </button>
-                </div>
-              )}
-            </button>
+                {isOpen && (
+                  <div className="submenu">
+                    <button
+                      className="submenu-item"
+                      onClick={AdminApprovedMentorsHandler}
+                    >
+                      <h5>Approved Mentors</h5>
+                    </button>
+                    <button
+                      className="submenu-item"
+                      onClick={AdminNotApprovedMentorsHandler}
+                    >
+                      <h5>Not Approved Mentors</h5>
+                    </button>
+                  </div>
+                )}
+              </button>
+              {/* mentor session practiwiz dashboard */}
+              <button
+                className="btn btn-transparent text-center py-3 seeeett "
+                onMouseOver={toggleAllMentor}
+                onMouseLeave={toggleAllMentor1}
+              >
+                <span className="d-block bg-white position-relative m-auto  ">
+                  {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
+                  <i ClassName="fa-solid fa-chalkboard-user"></i>
+                </span>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              onClick={AdminDashboardNotificationHandler}
-            >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i className="fa-solid fa-bell"></i>
-              </span>
+                <h5>
+                  Mentor Sessions
+                  <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
 
-              <h5>Notifications</h5>
-            </button>
+                {mentorSessionsMenu && (
+                  <div className="submenu">
+                    <button
+                      className="submenu-item"
+                      onClick={AdminUpcomingMentorSessionHandler}
+                    >
+                      <h5>Mentors Upcoming Sessions</h5>
+                    </button>
+                    <button
+                      className="submenu-item"
+                      onClick={AdminCompletedMentorSessionHandler}
+                    >
+                      <h5>Mentors Completed Sessions</h5>
+                    </button>
+                    <button
+                      className="submenu-item"
+                      onClick={AdminInCompletedMentorSessionHandler}
+                    >
+                      <h5>Mentors In Completed Sessions</h5>
+                    </button>
+                  </div>
+                )}
+              </button>
+              {/* end */}
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={AdminDashboardNotificationHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-bell"></i>
+                </span>
+
+                <h5>Notifications</h5>
+              </button>
+            </div>
+            <div></div>
           </div>
+
           <div className="maincontent">
             {adminAllApprovedMentors && <AdminApprovedAllMentors />}
             {adminAllNotApprovedMentors && <AdminNotApprovedAllMentors />}
+            {adminAllUpcomingMentorSessions && <AdminUpcomingMentorSession />}
+            {adminAllCompletedMentorSessions && <AdminCompletedMentorSession />}
+            {adminAllInCompletedMentorSessions && (
+              <AdminInCompletedMentorSession />
+            )}
           </div>
         </div>
       </div>

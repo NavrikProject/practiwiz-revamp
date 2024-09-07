@@ -50,9 +50,11 @@ const LoginForm = () => {
       dispatch(hideLoadingHandler());
       if (res.data.success) {
         const token = res.data.token;
+        const accessToken = res.data.accessToken;
         const userData = parseJwt(token);
         return (
           localStorage.setItem("token", JSON.stringify(token)),
+          localStorage.setItem("accessToken", JSON.stringify(accessToken)),
           dispatch(loginSuccess(userData)),
           toast.success("Logged in successfully"),
           navigate(`/`)

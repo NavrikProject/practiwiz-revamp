@@ -3,6 +3,7 @@ import "./Home.css";
 import Csdfsfgdf from "../../Images/Home/csdfsfgdf.png";
 import Mkwef from "../../Images/Home/mkwef.png";
 import Archt from "../../Images/architecture-independence-palace-ho-chi-minh-city.jpg";
+import { Link } from "react-router-dom";
 const Section3 = () => {
   return (
     <div className="section3 section-hor-gap overflow-hidden py-5">
@@ -22,7 +23,7 @@ const Section3 = () => {
                 <p>Learn From The Corporate, Step Into Corporate World!</p>
 
                 <button className="btn me-2 btn-main">
-                  Register Your Institute
+                  <Link to="/institute">Register Your Institute</Link>
                 </button>
                 <button className="btn btn-main">Learn More</button>
               </div>

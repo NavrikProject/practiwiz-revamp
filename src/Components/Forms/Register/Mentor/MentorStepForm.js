@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
+import { Link } from "react-router-dom";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 
@@ -145,7 +146,7 @@ const MentorStepForm = () => {
         newData.append("lastName", data.mentor_lastname);
         newData.append("email", data.mentor_email);
         newData.append("image", data.linkedin_photo[0]);
-        newData.append("UserType", data.user_type);
+        newData.append("UserType", "mentor");
         newData.append("phoneNumber", data.mentor_phone_number);
         newData.append("password", data.mentor_password);
         newData.append("Cpassword", data.mentor_confirm_password);
@@ -186,7 +187,7 @@ const MentorStepForm = () => {
         if (res.data.error) {
           return (
             toast.error(
-              "There is some error while applying the mentor application. We will get back you over the email."
+              "There is some error while applying the mentor application."
             ),
             dispatch(hideLoadingHandler())
           );
@@ -207,7 +208,124 @@ const MentorStepForm = () => {
   return (
     <main>
       <div className="regis_background" id="mentorRegisterBg">
+        <div className="col-lg-12 "></div>
         <div className="jdoieoir_wrapper">
+          <div className="idneihrrr p-3">
+            <h5 className="mb-0">
+              Hi, Let's Get You On-boarded. It Will Take Approx. 4 Mins For
+              Sign-up And Total 8 For Complete Profile
+            </h5>
+          </div>
+          <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
+            <label
+              htmlFor="exampleInputEmail1"
+              className="form-label mb-2 mt-3"
+            >
+              <b>I Want To Register As</b>
+            </label>
+            <br />
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input"
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <label htmlFor="rdo1" className="radio-label me-2">
+              <span className="radio-border"></span>
+              <i
+                className="fa-solid fa-user-tie me-1"
+                style={{ color: "#1B759A" }}
+              ></i>
+              Mentor
+            </label>
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input radio-label "
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <Link to="/mentee-registration">
+              {" "}
+              <label
+                htmlFor="rdo2"
+                className="radio-label me-2"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "30px" }}
+              >
+                <span className="radio-border"></span>
+                <i
+                  className="fa-solid fa-graduation-cap me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                Mentee
+              </label>
+            </Link>
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input radio-label "
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <Link to="/mentee-registration">
+              {" "}
+              <label
+                htmlFor="rdo2"
+                className="radio-label me-2"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "30px" }}
+              >
+                <span className="radio-border"></span>
+                <i
+                  className="fa-solid fa-briefcase me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                Job Seeker
+              </label>
+            </Link>
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input radio-label "
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <Link to="/institute-registration">
+              {" "}
+              <label
+                htmlFor="rdo2"
+                className="radio-label me-2"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "30px" }}
+              >
+                <span className="radio-border"></span>
+                <i
+                  className="fa-solid fa-building-columns me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                Institute
+              </label>
+            </Link>
+            {/* {errors.user_type && (
+                <p className="Error-meg-login-register">
+                  {errors.user_type.message}
+                </p>
+              )} */}
+          </div>
           <div
             id="tabs"
             className="d-flex justify-content-between align-items-center mb-4"

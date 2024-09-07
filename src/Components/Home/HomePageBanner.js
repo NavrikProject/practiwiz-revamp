@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Wdrtjh from "../../Images/Home/wdrtjh.png";
 import Csdfsfgdf from "../../Images/Home/csdfsfgdf.png";
 import Dfsh from "../../Images/Home/dfsh.png";
@@ -8,15 +8,15 @@ import Rdtere5rt from "../../Images/Home/rdtere5rt.jpg";
 import Adse from "../../Images/Home/adse.png";
 import { ReactTyped } from "react-typed";
 import "./Home.css";
-import { Autoplay} from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import { Link } from "react-router-dom";
 const HomePageBanner = () => {
-
   return (
     <>
       <div className="banner">
@@ -27,16 +27,21 @@ const HomePageBanner = () => {
                 <div className="iduherr_left">
                   <h1>Share Your Superpower Become a Mentor</h1>
                   <p id="typing" className="mb-0 mt-3">
-                    <ReactTyped
+                    Learn From The Corporate, Step Into Corporate World!
+                    {/* <ReactTyped
                       strings={[
                         "Learn From The Corporate, Step Into Corporate World!",
                       ]}
                       typeSpeed={40}
                       backSpeed={50}
                       loop
-                    ></ReactTyped>
+                    ></ReactTyped> */}
                   </p>
-                  <button className="btn mt-5 btn-main">Register</button>
+                  <button className="btn mt-5 btn-main">
+                    <Link target="_blank" to="/register">
+                      Register
+                    </Link>
+                  </button>
                 </div>
               </div>
               <div className="col-lg-4 mb-4">

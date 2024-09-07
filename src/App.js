@@ -49,6 +49,8 @@ import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
+  const token = localStorage.getItem("accessToken");
+
   return (
     <>
       {isLoading && <Spinner />}
@@ -88,12 +90,13 @@ function App() {
           />
           <Route path="/test" element={<MentorPayment />} />
           <Route path="/date" element={<MenteeFeedbackForm />} />
+          {/* passing of the user and token to dashboard is completed */}
           {user?.user_type === "mentor" && (
             <Route
               path="/mentor/dashboard"
               element={
                 <ProtectedRoute>
-                  <MentorDashboardPage />
+                  <MentorDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />
@@ -103,29 +106,31 @@ function App() {
             path="/courses/single-course/:id"
             element={<SingleCoursePage />}
           />
-          {/* {user?.user_type === "mentee" && ( */}
-          <Route
-            path="/mentee/dashboard"
-            element={
-              // <ProtectedRoute>
-              <MenteeDashboardPage />
-              // </ProtectedRoute>
-            }
-          />
-          {/* {user?.user_type === "mentee" && ( */}
-          <Route
-            path="/user/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <AdminDashboardPage />
-              </ProtectedRoute>
-            }
-          />
+          {user?.user_type === "mentee" && (
+            <Route
+              path="/mentee/dashboard"
+              element={
+                <ProtectedRoute>
+                  <MenteeDashboardPage user={user} token={token} />
+                </ProtectedRoute>
+              }
+            />
+          )}
+          {user?.user_role === 1 && (
+            <Route
+              path="/user/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboardPage user={user} token={token} />
+                </ProtectedRoute>
+              }
+            />
+          )}
           <Route
             path="/mentee/view-profile/:id"
             element={
               <ProtectedRoute>
-                <MenteeProfilePage />
+                <MenteeProfilePage user={user} token={token} />
               </ProtectedRoute>
             }
           />
@@ -146,11 +151,7 @@ function App() {
           {/* {user?.user_type === "institute" && ( */}
           <Route
             path="/institute/dashboard"
-            element={
-              // <ProtectedRoute>
-              <InstituteDashboardPage />
-              // </ProtectedRoute>
-            }
+            element={<InstituteDashboardPage user={user} token={token} />}
           />
           {/* )} */}
           {/* Institute links ends */}

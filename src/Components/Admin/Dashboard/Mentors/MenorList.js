@@ -118,7 +118,7 @@ function MentorList({ filters }) {
                     <Link
                       to={`/mentor-club/mentor-profile/${
                         mentor.user_firstname +
-                        " " +
+                        "-" +
                         mentor.user_lastname.replace(" ", "-").toLowerCase()
                       }/${mentor.user_dtls_id}`}
                     >

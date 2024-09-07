@@ -2,7 +2,7 @@ import React from 'react'
 
 const CommunicationTemplate = () => {
   return (
-    <div class="col-lg-10 ps-0">
+    <div className="col-lg-10 ps-0">
       <div className='container-fluid px-5'>
       Communication Template</div>
     </div>

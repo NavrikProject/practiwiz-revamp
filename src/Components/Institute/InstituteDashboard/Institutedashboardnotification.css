@@ -1,4 +1,3 @@
-
 #MentorCoverPicture {
   background: url("../../../Images/Mentors/ddd.png") no-repeat;
   background-size: "cover";
@@ -11,6 +10,7 @@
 
 .hfgdfgfdf53564 {
   display: flex;
+  align-items: center;
 }
 
 .gkfhjg5559 {
@@ -68,52 +68,46 @@
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
   padding: 15px;
 }
-
 .btnhd22 {
   border: none;
   background-color: #03a96c;
   color: white;
-  font-size: 12px !important;
-  padding: 3px 5px;
+  font-size: 14px !important;
+  padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
 }
 
 .btnhd22a {
   border: none;
   background-color: #d61604;
   color: white;
-  font-size: 12px !important;
-  padding: 3px 5px;
+  font-size: 14px !important;
+  padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
 }
 
 .btnhd22b {
   border: none;
   background-color: #00cfc8;
   color: white;
-  font-size: 12px !important;
-  padding: 3px 5px;
+  font-size: 14px !important;
+  padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+ 
 }
 
 .btnhd22c {
   border: none;
   background-color: #601efa !important;
   color: white;
-  font-size: 12px !important;
-  padding: 3px 5px;
+  font-size: 14px !important;
+  padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+ 
 }
-

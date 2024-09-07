@@ -132,4 +132,24 @@
 .typed-cursor {
   display: none;
 }
+.approveStatus {
+  color: #4cee49;
+  margin: 0 7px;
+}
 
+.disapproveStatus {
+  color: #ff1414;
+  margin: 0 7px;
+}
+
+.feedbackBorder {
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  margin: 20px !important;
+}
+#tickmarkimage {
+  width: 20px;
+  margin-left: 2px;
+}

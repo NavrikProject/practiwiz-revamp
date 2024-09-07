@@ -1,30 +1,14 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-function ListStatusSkeleton() {
+function ListStatusSkeleton({ columns }) {
   return (
     <>
       <tr>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
-        <td>
-          <Skeleton width={"100%"} height={25} />
-        </td>
+        {Array.from({ length: columns }).map((_, index) => (
+          <td key={index}>
+            <Skeleton width={"100%"} height={25} />
+          </td>
+        ))}
       </tr>
     </>
   );
