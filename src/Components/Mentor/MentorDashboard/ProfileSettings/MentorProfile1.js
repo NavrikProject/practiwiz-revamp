@@ -3,18 +3,17 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CountryData from "../../../data/CountryData.json";
 
-const Mentorprofile1 = (props) => {
-  const [userdata, setUserdata] = useState(props.profiledata);
+const Mentorprofile1 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
-  const mentor_profile_photo = userdata.mentor_profile_photo; // Add photo to formData
+  // const mentor_profile_photo = profiledata.mentor_profile_photo; // Add photo to formData
   const [formData, setFormData] = useState({
-    mentor_firstname: userdata.user_firstname,
-    mentor_lastname: userdata.user_lastname,
-    mentor_phone_number: userdata.user_phone_number,
-    mentor_email: userdata.user_email,
-    social_media_profile: userdata.mentor_social_media_profile,
-    mentor_country: userdata.mentor_country,
+    mentor_firstname: profiledata.user_firstname,
+    mentor_lastname: profiledata.user_lastname,
+    mentor_phone_number: profiledata.user_phone_number,
+    mentor_email: profiledata.user_email,
+    social_media_profile: profiledata.mentor_social_media_profile,
+    mentor_country: profiledata.mentor_country,
   });
 
   const [options, setOptions] = useState([]);
@@ -90,7 +89,8 @@ const Mentorprofile1 = (props) => {
           <div>
             <img
               src={
-                formData.mentor_profile_photo || userdata.mentor_profile_photo
+                formData.mentor_profile_photo ||
+                profiledata.mentor_profile_photo
               }
               alt="Selected"
               style={{ maxWidth: "100%", maxHeight: "400px" }}
@@ -184,7 +184,6 @@ const Mentorprofile1 = (props) => {
                   placeholder="Email"
                   value={formData.mentor_email}
                   onChange={handleInputChange}
-                  
                 />
                 <i className="fa-solid fa-envelopes-bulk position-absolute"></i>
               </div>
@@ -220,7 +219,7 @@ const Mentorprofile1 = (props) => {
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 >
-                  <option value="">{userdata.mentor_country}</option>
+                  <option value="">{profiledata.mentor_country}</option>
                   {options.map((option) => (
                     <option key={option.country_id} value={option.country_name}>
                       {option.country_name}

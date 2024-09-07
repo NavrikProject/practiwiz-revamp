@@ -30,7 +30,7 @@ const RequestGuestLacture = () => {
     console.log(mentors);
   }, [url]);
   return (
-    <div ClassName="col-lg-10 ps-0">
+    <div className="col-lg-10 ps-0">
           <div className="table-container">
       <table className="mentor-table">
         <thead>

@@ -12,7 +12,7 @@ import Ii4 from "../../../../Images/Mentee/ii4.png";
 import Edu from "../../../../Images/Mentee/edu.png";
 import Certification from "../../../../Images/Mentee/certification.png";
 import Experience from "../../../../Images/Mentee/experiece.png";
-const MenteeProfileDashboard = () => {
+const MenteeProfileDashboard = ({ data, user, token }) => {
   return (
     <div className="col-lg-10 ps-0">
       <div className="difuhtre_content">

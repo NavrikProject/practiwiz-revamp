@@ -5,81 +5,81 @@ const CourseCard = () => {
   let courseName = "Jumpstart To It Business Analyst";
   return (
     <>
-      <div ClassName="col-lg-4">
-        <div ClassName="drhuydgfth position-relative overflow-hidden">
-          <div ClassName="jgfg">
+      <div className="col-lg-4">
+        <div className="drhuydgfth position-relative overflow-hidden">
+          <div className="jgfg">
             <img src={Vb4} alt="" />
           </div>
 
-          <div ClassName="ngdfhgfdg">
-            <span ClassName="spn55">ALL LEVELS</span>
+          <div className="ngdfhgfdg">
+            <span className="spn55">ALL LEVELS</span>
             <h4>Jumpstart To It Business Analyst</h4>
             <p>
-              <span ClassName="span121">
-                <i ClassName="fa-solid fa-star"></i>
-                <i ClassName="fa-solid fa-star"></i>
-                <i ClassName="fa-solid fa-star"></i>
-                <i ClassName="fa-solid fa-star"></i>
-                <i ClassName="fa-solid fa-star"></i>
+              <span className="span121">
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
               </span>
-              <span ClassName="spn12">(5.0/3 Rating)</span>
+              <span className="spn12">(5.0/3 Rating)</span>
             </p>
             <h3>$39</h3>
-            <div ClassName="kjhgdfgfd">
+            <div className="kjhgdfgfd">
               <span>
                 <p>
-                  <i ClassName="fa-solid fa-layer-group"></i> 11 Lessons
+                  <i className="fa-solid fa-layer-group"></i> 11 Lessons
                 </p>
               </span>
-              <p ClassName="pl-3">
-                <i ClassName="fa-solid fa-user"></i> 107 Students
+              <p className="pl-3">
+                <i className="fa-solid fa-user"></i> 107 Students
               </p>
             </div>
           </div>
 
-          <div ClassName="nhjgghhjhjhjg position-absolute">
-            <div ClassName="nghjgfg55">
-              <div ClassName="kdfhfgfg55">
+          <div className="nhjgghhjhjhjg position-absolute">
+            <div className="nghjgfg55">
+              <div className="kdfhfgfg55">
                 <p>Beginner</p>
               </div>
-              <div ClassName="mdfhjgbg">
+              <div className="mdfhjgbg">
                 <h2>Jumpstart To It Business Analyst</h2>
                 <p>
-                  <span ClassName="span121">
-                    <i ClassName="fa-solid fa-star"></i>
-                    <i ClassName="fa-solid fa-star"></i>
-                    <i ClassName="fa-solid fa-star"></i>
-                    <i ClassName="fa-solid fa-star"></i>
-                    <i ClassName="fa-solid fa-star"></i>
+                  <span className="span121">
+                    <i className="fa-solid fa-star"></i>
+                    <i className="fa-solid fa-star"></i>
+                    <i className="fa-solid fa-star"></i>
+                    <i className="fa-solid fa-star"></i>
+                    <i className="fa-solid fa-star"></i>
                   </span>
                   <span>(3 Reviews)</span>
                 </p>
                 <h2>$39</h2>
               </div>
-              <div ClassName="jufbgyfr">
+              <div className="jufbgyfr">
                 <p>
                   Lorem ipsum dolor sit amet consectur adipisicing elit, sed do
                   eiusmod tempor inc idid unt ut labore et dolore...
                 </p>
               </div>
-              <div ClassName="kjhgdfgfd2">
+              <div className="kjhgdfgfd2">
                 <span>
                   <p>
-                    <i ClassName="fa-solid fa-layer-group"></i> 11 Lessons
+                    <i className="fa-solid fa-layer-group"></i> 11 Lessons
                   </p>
                 </span>
-                <p ClassName="pl-3">
-                  <i ClassName="fa-solid fa-user"></i> 107 Students
+                <p className="pl-3">
+                  <i className="fa-solid fa-user"></i> 107 Students
                 </p>
               </div>
-              <div ClassName="kjghgdg">
+              <div className="kjghgdg">
                 <button>
                   <Link
                     to={
                       "/courses/single-course/Jumpstart-To-It-Business-Analyst"
                     }
                   >
-                    ENROLL NOW <i ClassName="fa-solid fa-circle-right"></i>
+                    ENROLL NOW <i className="fa-solid fa-circle-right"></i>
                   </Link>
                 </button>
               </div>

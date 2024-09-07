@@ -9,46 +9,46 @@ import Visa from "../../../../Images/Courses/visa1.png";
 const MentorPayment = () => {
   return (
     <>
-      <div ClassName="gnhvgfdfgfdgfd">
-        <div ClassName="container">
-          <div ClassName="row">
-            <div ClassName="col-lg-6">
-              <div ClassName="gdfzghfghgfh">
-                <div ClassName="gdfgfg">
-                  <div ClassName="row">
-                    <div ClassName="col-lg-4">
-                      <div ClassName="fhghfg">
+      <div className="gnhvgfdfgfdgfd">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="gdfzghfghgfh">
+                <div className="gdfgfg">
+                  <div className="row">
+                    <div className="col-lg-4">
+                      <div className="fhghfg">
                         <img src="./images/qqq1.webp" alt="qqq1" />
                       </div>
                     </div>
-                    <div ClassName="col-lg-8">
-                      <div ClassName="nhjvfgfg">
-                        <div ClassName="ghvfvdfgg">
-                          <div ClassName="gjnjfghg">
+                    <div className="col-lg-8">
+                      <div className="nhjvfgfg">
+                        <div className="ghvfvdfgg">
+                          <div className="gjnjfghg">
                             <h2>Tarun Gautam</h2>
                           </div>
                         </div>
 
-                        <div ClassName="hfuydfgftgh">
-                          <div ClassName="gjfhg">
+                        <div className="hfuydfgftgh">
+                          <div className="gjfhg">
                             <img src="./images/ee1.png" alt="sa" />
                           </div>
                           <p>Business Analyst</p>
                         </div>
 
-                        <div ClassName="hfuydfgftgh">
-                          <div ClassName="gjfhg">
+                        <div className="hfuydfgftgh">
+                          <div className="gjfhg">
                             <img src="./images/ee2.png" alt="" />
                           </div>
-                          <div ClassName="fdjdfg">
+                          <div className="fdjdfg">
                             <p>
                               {" "}
-                              <span ClassName="span121">
-                                <i ClassName="fa-solid fa-star"></i>
-                                <i ClassName="fa-solid fa-star"></i>
-                                <i ClassName="fa-solid fa-star"></i>
-                                <i ClassName="fa-solid fa-star"></i>
-                                <i ClassName="fa-solid fa-star"></i>
+                              <span className="span121">
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
                               </span>
                               <span>(3 Reviews)</span>
                             </p>
@@ -59,9 +59,9 @@ const MentorPayment = () => {
                   </div>
                 </div>
 
-                <div ClassName="fbghdfgdfg">
+                <div className="fbghdfgdfg">
                   <h3>Skills</h3>
-                  <div ClassName="fhfbfghg">
+                  <div className="fhfbfghg">
                     <button>Decision-Making</button>
                     <button>Communication</button>
                     <button>Adaptability</button>
@@ -70,18 +70,18 @@ const MentorPayment = () => {
                   </div>
                 </div>
 
-                <div ClassName="dfbdfgfdf">
+                <div className="dfbdfgfdf">
                   <h4>Work Experience</h4>
 
-                  <div ClassName="ndfhjgdfrgdfgfd">
-                    <div ClassName="row">
-                      <div ClassName="col-lg-3">
-                        <div ClassName="njhfd2">
+                  <div className="ndfhjgdfrgdfgfd">
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <div className="njhfd2">
                           <img src="./images/kom1.png" alt="" />
                         </div>
                       </div>
-                      <div ClassName="col-lg-9">
-                        <div ClassName="lfjguifhgftgh">
+                      <div className="col-lg-9">
+                        <div className="lfjguifhgftgh">
                           <h6>Product Supply Manager</h6>
                           <span>
                             <p>Wipro Technologies</p>
@@ -95,73 +95,73 @@ const MentorPayment = () => {
               </div>
             </div>
 
-            <div ClassName="col-lg-6">
-              <div ClassName="gnhdfgfdgf sticky-top">
-                <div ClassName="kgfd">
+            <div className="col-lg-6">
+              <div className="gnhdfgfdgf sticky-top">
+                <div className="kgfd">
                   <h4>Payment</h4>
                 </div>
-                <div ClassName="fgjffghfg">
+                <div className="fgjffghfg">
                   <h6>Select Payment Method</h6>
-                  <div ClassName="nghjfbgfgf">
-                    <label ClassName="img-btn">
+                  <div className="nghjfbgfgf">
+                    <label className="img-btn">
                       <input type="radio" name="country-flags" checked />
                       <img src={Paypal} alt="Paypal" />
                     </label>
 
-                    <label ClassName="img-btn">
+                    <label className="img-btn">
                       <input type="radio" name="country-flags" />
                       <img src={Stripe} alt="Stripe" />
                     </label>
 
-                    <label ClassName="img-btn">
+                    <label className="img-btn">
                       <input type="radio" name="country-flags" />
                       <img src={MasterCard} alt="Master Card" />
                     </label>
 
-                    <label ClassName="img-btn">
+                    <label className="img-btn">
                       <input type="radio" name="country-flags" />
                       <img src={Visa} alt="Visa" />
                     </label>
                   </div>
-                  <div ClassName="gjggfhfgh">
+                  <div className="gjggfhfgh">
                     <form action="">
-                      <div ClassName="gjdfhu545">
+                      <div className="gjdfhu545">
                         <label for="">Card Holder Name</label>
                         <input
-                          ClassName="form-control"
+                          className="form-control"
                           type="text"
                           placeholder="Arain Malitya"
                         />
                       </div>
                     </form>
 
-                    <div ClassName="dfkjghjdffg">
+                    <div className="dfkjghjdffg">
                       <h6>Subtotal</h6>
                       <p>16000</p>
                     </div>
-                    <div ClassName="dfkjghjdffg mt-2">
+                    <div className="dfkjghjdffg mt-2">
                       <h6>Tax</h6>
                       <p>16000</p>
                     </div>
-                    <hr ClassName="hrgfg" />
-                    <div ClassName="dfkjghjdffg mt-3">
+                    <hr className="hrgfg" />
+                    <div className="dfkjghjdffg mt-3">
                       <h6>Tax</h6>
                       <p>16000</p>
                     </div>
 
-                    <div ClassName="dfvbdfdf">
-                      <div ClassName="row">
-                        <div ClassName="col-lg-5">
-                          <div ClassName="khfdfgvf">
-                            <button ClassName="btn254">
-                              <i ClassName="fa-solid fa-angle-left"></i> BACK
+                    <div className="dfvbdfdf">
+                      <div className="row">
+                        <div className="col-lg-5">
+                          <div className="khfdfgvf">
+                            <button className="btn254">
+                              <i className="fa-solid fa-angle-left"></i> BACK
                             </button>
                           </div>
                         </div>
-                        <div ClassName="col-lg-7">
-                          <div ClassName="kgfhbgfhfg">
-                            <button ClassName="btynh58">
-                              Pay <i ClassName="fa-solid fa-check"></i>
+                        <div className="col-lg-7">
+                          <div className="kgfhbgfhfg">
+                            <button className="btynh58">
+                              Pay <i className="fa-solid fa-check"></i>
                             </button>
                           </div>
                         </div>

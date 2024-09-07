@@ -3,12 +3,10 @@ import axios from "axios";
 import "../DashboardCSS/institutemessage.css";
 import "../DashboardCSS/BankDetails.css";
 import { ApiURL } from "../../../../Utils/ApiURL";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const MentorBankdetails = ({ data }) => {
+const MentorBankdetails = ({ data,user,token }) => {
   const url = ApiURL();
-  const user = useSelector((state) => state.user?.currentUser);
   const mentorUserDtlsId = user?.user_id;
   const mentorDtlsId = data[0].mentor_dtls_id;
   const [formData, setFormData] = useState({
@@ -241,7 +239,7 @@ const MentorBankdetails = ({ data }) => {
   console.log(data[0]?.banking_dtls_list);
   return (
     <div className="col-lg-10 ps-0">
-      <div ClassName="mentor_dash_msge">
+      <div className="mentor_dash_msge">
         <div id="">
           <div className="bank-details-container">
             {data[0]?.banking_dtls_list === null ? (

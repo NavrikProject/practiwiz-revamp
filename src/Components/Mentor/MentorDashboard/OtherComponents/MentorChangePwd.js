@@ -11,12 +11,9 @@ import {
 } from "../../../../Redux/loadingRedux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 const TIMEOUT_MS = 45000; // Timeout duration in milliseconds
-const MentorChangePwd = ({ user }) => {
-  console.log(user);
+const MentorChangePwd = ({ user, token }) => {
   const url = ApiURL();
   const dispatch = useDispatch();
-  const token = localStorage.getItem("accessToken");
-
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const {

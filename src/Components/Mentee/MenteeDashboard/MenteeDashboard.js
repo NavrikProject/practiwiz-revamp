@@ -12,7 +12,7 @@ import MenteeProfileDashboard from "./OtherComponents/MenteeProfileDashboard";
 import { Link } from "react-router-dom";
 import MenteeUpcomingSessions from "./OtherComponents/MenteeUpcomingSessions";
 import MenteeCompletedSessions from "./OtherComponents/MenteeCompletedSessions";
-const MenteeDashboard = () => {
+const MenteeDashboard = ({ user, token }) => {
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
   const [showMenteePsettings, setShowMenteePsettings] = useState(false);
@@ -323,9 +323,9 @@ const MenteeDashboard = () => {
                     <i className="fa-solid fa-bars"></i>
                   </span>
                   <h5>
-                    Profile Settings{" "}
+                    Profile Settings
                     <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                  </h5>{" "}
+                  </h5>
                 </button>
                 {profilemenu && (
                   <div className="submenu1">
@@ -376,16 +376,6 @@ const MenteeDashboard = () => {
                   </div>
                 )}
               </div>
-              {/* <button
-                  className="btn btn-transparent text-center py-3 seeeett" 
-                  onClick={ShowMenteeCompletedHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
-                    <i className="fa-solid fa-hourglass-half"></i>
-                  </span>
-
-                  <h5>COMPLETED SESSIONS</h5>
-                </button> */}
               <div className="Baseposition" onMouseLeave={toggleOffCourse}>
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
@@ -396,9 +386,9 @@ const MenteeDashboard = () => {
                     <i className="fa-solid fa-book-open-reader"></i>
                   </span>
                   <h5>
-                    Course Info{" "}
+                    Course Info
                     <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                  </h5>{" "}
+                  </h5>
                 </button>
                 {Coursemenu && (
                   <div className="submenu1">
@@ -417,17 +407,6 @@ const MenteeDashboard = () => {
                   </div>
                 )}
               </div>
-              {/* <button
-                  className="btn btn-transparent text-center py-3 seeeett"
-                  onClick={MenteeCompCourseHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
-                    <i className="fa-solid fa-hourglass-half"></i>
-                  </span>
-
-                  <h5>COMPLETED info</h5>
-                  
-                </button> */}
               <button className="btn btn-transparent text-center py-3 seeeett">
                 <span className="d-block bg-white position-relative m-auto mb-3">
                   <i className="fa-solid fa-clock-rotate-left"></i>
@@ -460,31 +439,34 @@ const MenteeDashboard = () => {
                 <span className="d-block bg-white position-relative m-auto mb-3">
                   <i className="fa-solid fa-bell"></i>
                 </span>
-
                 <h5>Notifications</h5>
-              </button>{" "}
-              {/* <button
-                  className="btn btn-transparent text-center py-3 seeeett"
-                  // onClick={MenteeChangePwdHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
-                    <i className="fa-solid fa-arrow-right-arrow-left"></i>
-                  </span>
-
-                  <h5>CHANGE PASSWORD</h5>
-                </button> */}
+              </button>
             </div>
           </div>
-          {showMenteeProfile ? <MenteeProfileDashboard /> : ""}
-          {showMenteePsettings ? <MenteeProfileSettings /> : ""}
-          {showChangePwd ? <MenteeChangePwd /> : ""}
-          {showMenteeCompletedSessions ? <MenteeCompletedSessions /> : ""}
-          {showMenteeUpcomingSessions ? <MenteeUpcomingSessions /> : ""}
-          {showMenteeCourseProgress ? <MenteeCourseProgress /> : ""}
-          {showCompletedCourse ? <MenteeCompletedCourses /> : ""}
-          {showMenteeSavedJobs ? <MenteeSavedJobs /> : ""}
-          {showMenteeMessage ? <MenteeMessages /> : ""}
-          {showNotification ? <MenteeNotifications /> : ""}
+          {showMenteeProfile && (
+            <MenteeProfileDashboard user={user} token={token} />
+          )}
+          {showMenteePsettings && (
+            <MenteeProfileSettings user={user} token={token} />
+          )}
+          {showChangePwd && <MenteeChangePwd user={user} token={token} />}
+          {showMenteeCompletedSessions && (
+            <MenteeCompletedSessions user={user} token={token} />
+          )}
+          {showMenteeUpcomingSessions && (
+            <MenteeUpcomingSessions user={user} token={token} />
+          )}
+          {showMenteeCourseProgress && (
+            <MenteeCourseProgress user={user} token={token} />
+          )}
+          {showCompletedCourse && (
+            <MenteeCompletedCourses user={user} token={token} />
+          )}
+          {showMenteeSavedJobs && <MenteeSavedJobs user={user} token={token} />}
+          {showMenteeMessage && <MenteeMessages user={user} token={token} />}
+          {showNotification && (
+            <MenteeNotifications user={user} token={token} />
+          )}
         </div>
       </div>
     </>

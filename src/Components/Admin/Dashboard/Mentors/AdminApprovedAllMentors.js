@@ -289,7 +289,7 @@ const AdminApprovedAllMentors = () => {
                           </td>
                           <td>
                             <i
-                              ClassName="fa-solid fa-circle-check fa-lg"
+                              className="fa-solid fa-circle-check fa-lg"
                               style={{ color: "#4cee49" }}
                             ></i>
                           </td>

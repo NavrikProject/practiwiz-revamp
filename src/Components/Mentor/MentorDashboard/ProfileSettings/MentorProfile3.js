@@ -14,9 +14,8 @@ const initialTime = {
 
 const initialDate = {};
 
-const MentorProfile3 = (props) => {
+const MentorProfile3 = ({ profiledata, user, data }) => {
   const [condition, setcondition] = useState(true);
-  const [userdata, setuserdata] = useState(props.profiledata);
   const defaultshow = () => {
     if (condition) {
       setcondition(false);
@@ -118,8 +117,8 @@ const MentorProfile3 = (props) => {
 
   // Parsing and setting the time slots from props
   useEffect(() => {
-    if (props.profiledata?.timeslot_list) {
-      const parsedTimeSlots = JSON.parse(props.profiledata.timeslot_list);
+    if (profiledata?.timeslot_list) {
+      const parsedTimeSlots = JSON.parse(profiledata.timeslot_list);
 
       // Map time slots to corresponding days
       const dayWiseSlots = daysOfWeek.reduce((acc, day) => {
@@ -137,7 +136,7 @@ const MentorProfile3 = (props) => {
 
       setTimeSlotTags(dayWiseSlots);
     }
-  }, [props.profiledata]);
+  }, [profiledata]);
 
   const [ifEdit, setifEdit] = useState(false);
   const editHandle = () => {

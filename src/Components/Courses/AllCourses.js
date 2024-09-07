@@ -4,49 +4,49 @@ import CourseCard from "./CourseCard";
 const AllCourses = () => {
   return (
     <>
-      <div ClassName="aslkhghj2">
-        <div ClassName="jbbhvf55">
-          <div ClassName="container-fluid px-5">
-            <div ClassName="jgfgfg">
+      <div className="aslkhghj2">
+        <div className="jbbhvf55">
+          <div className="container-fluid px-5">
+            <div className="jgfgfg">
               <h2>All Courses</h2>
               <p>
-                Home <i ClassName="fa-solid fa-greater-than"></i> All Courses
+                Home <i className="fa-solid fa-greater-than"></i> All Courses
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div ClassName="kjfghdgvfgfghfh">
-        <div ClassName="container-fluid px-5">
-          <div ClassName="jdfhygdff">
-            <div ClassName="row align-items-center">
-              <div ClassName="col-lg-9">
-                <div ClassName="kdrhgjddf">
-                  <h5 ClassName="mb-0">
+      <div className="kjfghdgvfgfghfh">
+        <div className="container-fluid px-5">
+          <div className="jdfhygdff">
+            <div className="row align-items-center">
+              <div className="col-lg-9">
+                <div className="kdrhgjddf">
+                  <h5 className="mb-0">
                     <b>Showing 10 Courses</b>
                   </h5>
                 </div>
               </div>
 
-              <div ClassName="col-lg-3">
-                <div ClassName="nhjfg position-relative">
+              <div className="col-lg-3">
+                <div className="nhjfg position-relative">
                   <input
-                    ClassName="form-control"
+                    className="form-control"
                     placeholder="What are you interested in?.."
                   />
 
-                  <i ClassName="fa-solid fa-2x fa-circle-right position-absolute"></i>
+                  <i className="fa-solid fa-2x fa-circle-right position-absolute"></i>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div ClassName="kjfhhreghft">
-        <div ClassName="container-fluid px-5">
-          <div ClassName="uikjghfh">
-            <div ClassName="row">
+      <div className="kjfhhreghft">
+        <div className="container-fluid px-5">
+          <div className="uikjghfh">
+            <div className="row">
               <CourseCard />
               <CourseCard />
               <CourseCard />

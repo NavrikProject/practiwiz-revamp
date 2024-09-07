@@ -16,7 +16,7 @@ import { ApiURL } from "../../../Utils/ApiURL";
 import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
 
-const MentorDashboard = ({ user }) => {
+const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
   const [singleMentor, setSingleMentor] = useState([]);
   const mentorDtlsId = user?.user_id;
@@ -181,7 +181,6 @@ const MentorDashboard = ({ user }) => {
   const userLogoutHandler = () => {
     return dispatch(logOut()), navigate("/login");
   };
-
   useEffect(() => {
     const notifications = singleMentor?.map((item) => {
       if (item?.notification_list) {
@@ -194,13 +193,14 @@ const MentorDashboard = ({ user }) => {
       }
       return []; // Return an empty array if notification_list is undefined or null
     });
-    // Flatten the array of arrays (if there are multiple items in the data)
     const allNotifications = notifications?.flat();
-    // Check if there are any unread notifications
     const unreadExists = allNotifications?.some(
       (notification) => !notification.notification_is_read
     );
-    setHasUnreadNotifications(unreadExists);
+    // Delay the state update slightly
+    setTimeout(() => {
+      setHasUnreadNotifications(unreadExists);
+    }, 0);
   }, [singleMentor]);
 
   return (
@@ -411,18 +411,6 @@ const MentorDashboard = ({ user }) => {
 
                   <h5>Notifications</h5>
                 </button>
-
-                {/* <button
-                className="btn btn-transparent text-center py-3 seeeett"
-                onClick={MentorChangePwdHandler}
-              >
-                <span className="d-block bg-white position-relative m-auto className=">
-                  <i className="fa-solid fa-arrow-right-arrow-left"></i>
-                </span>
-
-                <h5>Change Password</h5>
-              </button> */}
-
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorSessionSetupHandler}
@@ -461,119 +449,60 @@ const MentorDashboard = ({ user }) => {
               </div>
             </div>
             <div className="maincontent">
-              {showNotification ? (
+              {showNotification && (
                 <MentorNotifications
                   user={user}
+                  token={token}
                   data={singleMentor}
                   mentorDtlsId={mentorDtlsId}
                 />
-              ) : (
-                ""
               )}
-              {showSessionSetup ? (
-                <MentorSessionSetup user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showSessionSetup && (
+                <MentorSessionSetup
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
-              {showChangePwd ? (
-                <MentorChangePwd user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showChangePwd && (
+                <MentorChangePwd
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
-              {showMentorPsettings ? (
-                <MentorProfileSettings user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showMentorPsettings && (
+                <MentorProfileSettings
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
-              {showMentorProfile ? (
-                <MentorProfile user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showMentorProfile && (
+                <MentorProfile user={user} token={token} data={singleMentor} />
               )}
-              {showMentorMessage ? (
-                <MentorBankdetails user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showMentorMessage && (
+                <MentorBankdetails
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
-              {showMentorUpcomingSessions ? (
-                <MentorUpcomingSessions user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showMentorUpcomingSessions && (
+                <MentorUpcomingSessions
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
-              {showMentorCompletedSessions ? (
-                <MentorCompletedSessions user={user} data={singleMentor} />
-              ) : (
-                ""
+              {showMentorCompletedSessions && (
+                <MentorCompletedSessions
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="res-db-sidebar">
-        <div className="md-header ugenhuhrtniu" id="res-db-side-bar">
-          <div className="difuhtre_nav" style={{ display: "none" }}>
-            <div className="huirebff_close">
-              <i
-                className="fa-solid fa-circle-arrow-left"
-                id="close-filter"
-              ></i>
-            </div>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-user"></i>
-              </span>
-
-              <h5>Dashboard</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-bars"></i>
-              </span>
-
-              <h5>PROFILE SETTINGS</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-brands fa-rocketchat"></i>
-              </span>
-
-              <h5>MESSAGES</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-bell"></i>
-              </span>
-
-              <h5>NOTIFICATIONS</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-arrow-right-arrow-left"></i>
-              </span>
-
-              <h5>CHANGE PASSWORD</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-folder"></i>
-              </span>
-
-              <h5>SESSION SETUP</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-right-from-bracket"></i>
-              </span>
-
-              <h5>LOG OUT</h5>
-            </button>
           </div>
         </div>
       </div>

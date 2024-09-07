@@ -2,140 +2,140 @@ import React from "react";
 import "./institutemessage.css";
 const InstituteMessages = () => {
   return (
-    <div ClassName="col-lg-10 ps-0">
-      <div ClassName="mentor_dash_msge">
+    <div className="col-lg-10 ps-0">
+      <div className="mentor_dash_msge">
         <div id="frame">
           <div id="sidepanel">
             <div id="contacts">
-              <ul ClassName="ps-0">
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status online"></span>
+              <ul className="ps-0">
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status online"></span>
 
                     <img
                       src="http://emilcarlsson.se/assets/louislitt.png"
                       alt=""
                     />
 
-                    <div ClassName="meta">
-                      <p ClassName="name">Louis Litt</p>
+                    <div className="meta">
+                      <p className="name">Louis Litt</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact active">
-                  <div ClassName="wrap">
+                <li className="contact active">
+                  <div className="wrap">
                     <img
                       src="http://emilcarlsson.se/assets/harveyspecter.png"
                       alt=""
                     />
 
-                    <div ClassName="meta">
-                      <p ClassName="name">Harvey Specter</p>
+                    <div className="meta">
+                      <p className="name">Harvey Specter</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status away"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status away"></span>
                     <img
                       src="http://emilcarlsson.se/assets/rachelzane.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Rachel Zane</p>
+                    <div className="meta">
+                      <p className="name">Rachel Zane</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status online"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status online"></span>
                     <img
                       src="http://emilcarlsson.se/assets/donnapaulsen.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Donna Paulsen</p>
+                    <div className="meta">
+                      <p className="name">Donna Paulsen</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status busy"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status busy"></span>
                     <img
                       src="http://emilcarlsson.se/assets/jessicapearson.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Jessica Pearson</p>
+                    <div className="meta">
+                      <p className="name">Jessica Pearson</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status"></span>
                     <img
                       src="http://emilcarlsson.se/assets/haroldgunderson.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Harold Gunderson</p>
+                    <div className="meta">
+                      <p className="name">Harold Gunderson</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status"></span>
                     <img
                       src="http://emilcarlsson.se/assets/danielhardman.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Daniel Hardman</p>
+                    <div className="meta">
+                      <p className="name">Daniel Hardman</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status busy"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status busy"></span>
                     <img
                       src="http://emilcarlsson.se/assets/katrinabennett.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Katrina Bennett</p>
+                    <div className="meta">
+                      <p className="name">Katrina Bennett</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status"></span>
                     <img
                       src="http://emilcarlsson.se/assets/charlesforstman.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Charles Forstman</p>
+                    <div className="meta">
+                      <p className="name">Charles Forstman</p>
                     </div>
                   </div>
                 </li>
 
-                <li ClassName="contact">
-                  <div ClassName="wrap">
-                    <span ClassName="contact-status"></span>
+                <li className="contact">
+                  <div className="wrap">
+                    <span className="contact-status"></span>
                     <img
                       src="http://emilcarlsson.se/assets/jonathansidwell.png"
                       alt=""
                     />
-                    <div ClassName="meta">
-                      <p ClassName="name">Jonathan Sidwell</p>
+                    <div className="meta">
+                      <p className="name">Jonathan Sidwell</p>
                     </div>
                   </div>
                 </li>
@@ -143,20 +143,20 @@ const InstituteMessages = () => {
             </div>
           </div>
 
-          <div ClassName="content">
-            <div ClassName="contact-profile d-flex align-items-center p-2">
+          <div className="content">
+            <div className="contact-profile d-flex align-items-center p-2">
               <img
                 src="http://emilcarlsson.se/assets/harveyspecter.png"
-                ClassName="me-2"
+                className="me-2"
                 alt=""
               />
 
-              <p ClassName="mb-0">Harvey Specter</p>
+              <p className="mb-0">Harvey Specter</p>
             </div>
 
-            <div ClassName="messages">
+            <div className="messages">
               <ul>
-                <li ClassName="sent">
+                <li className="sent">
                   <img
                     src="http://emilcarlsson.se/assets/mikeross.png"
                     alt=""
@@ -167,7 +167,7 @@ const InstituteMessages = () => {
                   </p>
                 </li>
 
-                <li ClassName="replies">
+                <li className="replies">
                   <img
                     src="http://emilcarlsson.se/assets/harveyspecter.png"
                     alt=""
@@ -178,7 +178,7 @@ const InstituteMessages = () => {
                   </p>
                 </li>
 
-                <li ClassName="replies">
+                <li className="replies">
                   <img
                     src="http://emilcarlsson.se/assets/harveyspecter.png"
                     alt=""
@@ -186,7 +186,7 @@ const InstituteMessages = () => {
                   <p>Excuses don't win championships.</p>
                 </li>
 
-                <li ClassName="sent">
+                <li className="sent">
                   <img
                     src="http://emilcarlsson.se/assets/mikeross.png"
                     alt=""
@@ -194,7 +194,7 @@ const InstituteMessages = () => {
                   <p>Oh yeah, did Michael Jordan tell you that?</p>
                 </li>
 
-                <li ClassName="replies">
+                <li className="replies">
                   <img
                     src="http://emilcarlsson.se/assets/harveyspecter.png"
                     alt=""
@@ -202,7 +202,7 @@ const InstituteMessages = () => {
                   <p>No, I told him that.</p>
                 </li>
 
-                <li ClassName="replies">
+                <li className="replies">
                   <img
                     src="http://emilcarlsson.se/assets/harveyspecter.png"
                     alt=""
@@ -212,7 +212,7 @@ const InstituteMessages = () => {
                   </p>
                 </li>
 
-                <li ClassName="sent">
+                <li className="sent">
                   <img
                     src="http://emilcarlsson.se/assets/mikeross.png"
                     alt=""
@@ -223,7 +223,7 @@ const InstituteMessages = () => {
                   </p>
                 </li>
 
-                <li ClassName="replies">
+                <li className="replies">
                   <img
                     src="http://emilcarlsson.se/assets/harveyspecter.png"
                     alt=""
@@ -237,12 +237,12 @@ const InstituteMessages = () => {
               </ul>
             </div>
 
-            <div ClassName="message-input">
-              <div ClassName="wrap">
+            <div className="message-input">
+              <div className="wrap">
                 <input type="text" placeholder="Write your message..." />
 
-                <button ClassName="submit">
-                  <i ClassName="fa fa-paper-plane" aria-hidden="true"></i>
+                <button className="submit">
+                  <i className="fa fa-paper-plane" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
