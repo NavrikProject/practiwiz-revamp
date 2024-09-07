@@ -6,7 +6,7 @@ import Qw1 from "../../../../Images/Mentors/qw1 (1).png";
 import Qw2 from "../../../../Images/Mentors/qw1 (2).png";
 import MentorRatingCard from "../../AllMentors/SingleMentorProfile/MentorRatingCard";
 import StarRating from "../../../../Utils/StartRating";
-const MentorProfile = ({ data }) => {
+const MentorProfile = ({ data, user, token }) => {
   const [showRating, setShowRating] = useState(null);
   const [showOverview, setShowOverview] = useState(true);
   const OverviewShowHandler = () => {

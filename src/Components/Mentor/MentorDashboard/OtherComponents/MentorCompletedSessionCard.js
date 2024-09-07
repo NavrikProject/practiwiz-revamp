@@ -1,5 +1,9 @@
 import React from "react";
-const MentorCompletedSessionCard = ({ allMentorCompletedBookingSessions }) => {
+const MentorCompletedSessionCard = ({
+  allMentorCompletedBookingSessions,
+  user,
+  token,
+}) => {
   return (
     <>
       {allMentorCompletedBookingSessions?.map((session) => {

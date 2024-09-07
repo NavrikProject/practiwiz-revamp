@@ -49,6 +49,8 @@ import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
+  const token = localStorage.getItem("accessToken");
+
   return (
     <>
       {isLoading && <Spinner />}
@@ -88,12 +90,13 @@ function App() {
           />
           <Route path="/test" element={<MentorPayment />} />
           <Route path="/date" element={<MenteeFeedbackForm />} />
+          {/* passing of the user and token to dashboard is completed */}
           {user?.user_type === "mentor" && (
             <Route
               path="/mentor/dashboard"
               element={
                 <ProtectedRoute>
-                  <MentorDashboardPage user={user} />
+                  <MentorDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />
@@ -108,7 +111,7 @@ function App() {
               path="/mentee/dashboard"
               element={
                 <ProtectedRoute>
-                  <MenteeDashboardPage user={user} />
+                  <MenteeDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />
@@ -118,7 +121,7 @@ function App() {
               path="/user/admin/dashboard"
               element={
                 <ProtectedRoute>
-                  <AdminDashboardPage user={user} />
+                  <AdminDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />
@@ -127,7 +130,7 @@ function App() {
             path="/mentee/view-profile/:id"
             element={
               <ProtectedRoute>
-                <MenteeProfilePage user={user} />
+                <MenteeProfilePage user={user} token={token} />
               </ProtectedRoute>
             }
           />
@@ -145,16 +148,12 @@ function App() {
             path="/institute/view-profile/:id"
             element={<InstituteProfilePage />}
           />
-          {user?.user_type === "institute" && (
-            <Route
-              path="/institute/dashboard"
-              element={
-                <ProtectedRoute>
-                  <InstituteDashboardPage user={user} />
-                </ProtectedRoute>
-              }
-            />
-          )}
+          {/* {user?.user_type === "institute" && ( */}
+          <Route
+            path="/institute/dashboard"
+            element={<InstituteDashboardPage user={user} token={token} />}
+          />
+          {/* )} */}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
         </Routes>

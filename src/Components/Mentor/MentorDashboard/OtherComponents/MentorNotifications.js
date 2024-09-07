@@ -3,7 +3,7 @@ import React from "react";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
 
-const MentorNotifications = ({ data, mentorDtlsId }) => {
+const MentorNotifications = ({ data, mentorDtlsId, token }) => {
   const url = ApiURL();
   const formatDateToIST = (dateString) => {
     const date = new Date(dateString);
@@ -77,25 +77,25 @@ const MentorNotifications = ({ data, mentorDtlsId }) => {
                           <div className="fhjgf">
                             {notification.notification_type === "Success" && (
                               <i
-                                ClassName="fa-solid fa-circle-check fa-2xl"
+                                className="fa-solid fa-circle-check fa-2xl"
                                 style={{ color: "#03a96c", fontSize: "40px" }}
                               ></i>
                             )}
                             {notification.notification_type === "Info" && (
                               <i
-                                ClassName="fa-solid fa-circle-exclamation"
+                                className="fa-solid fa-circle-exclamation"
                                 style={{ color: "#03a96c", fontSize: "40px" }}
                               ></i>
                             )}
                             {notification.notification_type === "Warning" && (
                               <i
-                                ClassName="fa-solid fa-circle-exclamation"
+                                className="fa-solid fa-circle-exclamation"
                                 style={{ color: "#f00f0f" }}
                               ></i>
                             )}
                             {notification.notification_type === "Error" && (
                               <i
-                                ClassName="fa-solid fa-circle-exclamation"
+                                className="fa-solid fa-circle-exclamation"
                                 color={{ color: "#f92f2f" }}
                               ></i>
                             )}

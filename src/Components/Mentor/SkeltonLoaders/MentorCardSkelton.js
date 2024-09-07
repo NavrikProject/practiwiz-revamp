@@ -3,45 +3,45 @@ import "./SkeltonLoadingStyles.css";
 const MentorCardSkelton = () => {
   return (
     <>
-      <div ClassName="mentorDiv">
-        <div ClassName="mentorDownDiv">
+      <div className="mentorDiv">
+        <div className="mentorDownDiv">
           <img
-            ClassName="mentorImage skeleton"
+            className="mentorImage skeleton"
             style={{ width: "50%", marginTop: "12px" }}
             src=""
             alt=""
           />
           <h3
-            ClassName="mentorName skeleton"
+            className="mentorName skeleton"
             style={{ width: "50%", margin: "10px auto" }}
           >
-            <div ClassName="skelton-text"></div>
+            <div className="skelton-text"></div>
           </h3>
           <div
-            ClassName="mentorDescP skeleton"
+            className="mentorDescP skeleton"
             style={{ width: "80%", margin: "0 auto 10px auto" }}
           >
-            <div ClassName="skelton-text"></div>
+            <div className="skelton-text"></div>
           </div>
           <div
-            ClassName="mentorDescP skeleton"
+            className="mentorDescP skeleton"
             style={{ width: "40%", margin: "0 auto 10px auto" }}
           >
-            <div ClassName="skelton-text"></div>
+            <div className="skelton-text"></div>
           </div>
           <div
-            ClassName="mentorDescP skeleton"
+            className="mentorDescP skeleton"
             style={{ width: "50%", margin: "0 auto 10px auto" }}
           >
-            <div ClassName="skelton-text"></div>
+            <div className="skelton-text"></div>
           </div>
-          <div ClassName="bookNowButtonDiv">
+          <div className="bookNowButtonDiv">
             <div
-              ClassName="mentorName skeleton"
+              className="mentorName skeleton"
               style={{ width: "50%", margin: "auto" }}
             >
               <div
-                ClassName="skelton-text"
+                className="skelton-text"
               ></div>
             </div>
           </div>

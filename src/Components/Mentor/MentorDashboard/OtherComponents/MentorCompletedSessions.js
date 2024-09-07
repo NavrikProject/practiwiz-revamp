@@ -5,7 +5,7 @@ import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
 import SessionCardSkeleton from "../SkeltonLoaders/SessionCardSkeleton";
 
-const MentorCompletedSessions = ({ user }) => {
+const MentorCompletedSessions = ({ user, token }) => {
   const [loading, setLoading] = useState(false);
   const [
     allMentorCompletedBookingSessions,
@@ -105,6 +105,8 @@ const MentorCompletedSessions = ({ user }) => {
             )}
             {allMentorCompletedBookingSessions.length > 0 ? (
               <MentorCompletedSessionCard
+                user={user}
+                token={token}
                 allMentorCompletedBookingSessions={
                   allMentorCompletedBookingSessions
                 }

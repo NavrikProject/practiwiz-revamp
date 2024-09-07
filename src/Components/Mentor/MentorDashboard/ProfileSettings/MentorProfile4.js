@@ -4,17 +4,16 @@ import { useState, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
-const MentorProfile4 = (props) => {
-  const [userdata, setUserdata] = useState(props.profiledata);
+const MentorProfile4 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState({
-    mentor_sessions_free_of_charge: userdata.mentor_sessions_free_of_charge,
-    mentor_guest_lectures_interest: userdata.mentor_guest_lectures_interest,
+    mentor_sessions_free_of_charge: profiledata.mentor_sessions_free_of_charge,
+    mentor_guest_lectures_interest: profiledata.mentor_guest_lectures_interest,
     mentor_curating_case_studies_interest:
-      userdata.mentor_curating_case_studies_interest,
-    mentor_timezone: userdata.mentor_timezone,
-    mentor_language: userdata.mentor_language,
+      profiledata.mentor_curating_case_studies_interest,
+    mentor_timezone: profiledata.mentor_timezone,
+    mentor_language: profiledata.mentor_language,
   });
 
   const handleInputChange = (e) => {
@@ -131,23 +130,21 @@ const MentorProfile4 = (props) => {
   return (
     <div className="doiherner_wrapper">
       <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
-      {!isEditing && (
-        <div style={{ display: "flex", justifyContent: "end" }}>
-          <button
-            type="button"
-           className="btn juybeubrer_btn btn-primary"
-            style={{ textAlign: "right" }}
-            onClick={handleEditClick}
-          >
-            Edit
-          </button>
-        </div>
-      )}
+        {!isEditing && (
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <button
+              type="button"
+              className="btn juybeubrer_btn btn-primary"
+              style={{ textAlign: "right" }}
+              onClick={handleEditClick}
+            >
+              Edit
+            </button>
+          </div>
+        )}
         <div className="row">
           <div className="col-lg-6">
             <div className="mb-4">
-
-           
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Pricing</b>
               </label>
@@ -157,8 +154,8 @@ const MentorProfile4 = (props) => {
                 disabled={!isEditing}
                 name="user_lastname"
               >
-                <option value={userdata.user_lastname}>
-                  {userdata.user_lastname}
+                <option value={profiledata.user_lastname}>
+                  {profiledata.user_lastname}
                 </option>
 
                 <option> $20/hr</option>
@@ -178,8 +175,12 @@ const MentorProfile4 = (props) => {
                 </b>
               </label>
 
-              <select className="form-select"  onChange={handleInputChange} disabled={!isEditing}
-              name="mentor_sessions_free_of_charge">
+              <select
+                className="form-select"
+                onChange={handleInputChange}
+                disabled={!isEditing}
+                name="mentor_sessions_free_of_charge"
+              >
                 {formData.mentor_sessions_free_of_charge === "Yes" && (
                   <>
                     <option value={formData.mentor_sessions_free_of_charge}>
@@ -206,8 +207,11 @@ const MentorProfile4 = (props) => {
                 <b>Would You Be Interested in Delivering Guest Lectures?</b>
               </label>
 
-              <select className="form-select"  onChange={handleInputChange} disabled={!isEditing}
-              name="mentor_guest_lectures_interest"
+              <select
+                className="form-select"
+                onChange={handleInputChange}
+                disabled={!isEditing}
+                name="mentor_guest_lectures_interest"
               >
                 {formData.mentor_guest_lectures_interest === "Yes" && (
                   <>
@@ -235,8 +239,11 @@ const MentorProfile4 = (props) => {
                 <b>Would You Be Interested in Curating Case Studies?</b>
               </label>
 
-              <select className="form-select"  onChange={handleInputChange} disabled={!isEditing}
-              name="mentor_curating_case_studies_interest"
+              <select
+                className="form-select"
+                onChange={handleInputChange}
+                disabled={!isEditing}
+                name="mentor_curating_case_studies_interest"
               >
                 {formData.mentor_curating_case_studies_interest === "Yes" && (
                   <>
@@ -271,10 +278,10 @@ const MentorProfile4 = (props) => {
               </label>
 
               <select
-                className="form-select"  onChange={handleInputChange}
+                className="form-select"
+                onChange={handleInputChange}
                 disabled={!isEditing}
                 name="mentor_timezone"
-              
               >
                 <option defaultValue={formData.mentor_timezone}>
                   {formData.mentor_timezone}
@@ -312,24 +319,23 @@ const MentorProfile4 = (props) => {
           </div>
         </div>
         {isEditing && (
-       <div className="d-flex justify-content-between m-4">
-       <button
-         type="button"
-         onClick={handleEditClick}
-         className="btn juybeubrer_btn btn-primary"
-       >
-         Close
-       </button>
-       <button
-         onClick={handleSubmit}
-         type="submit"
-         className="btn juybeubrer_btn btn-primary"
-       >
-         Save
-       </button>
-     </div>
-      )}
-        
+          <div className="d-flex justify-content-between m-4">
+            <button
+              type="button"
+              onClick={handleEditClick}
+              className="btn juybeubrer_btn btn-primary"
+            >
+              Close
+            </button>
+            <button
+              onClick={handleSubmit}
+              type="submit"
+              className="btn juybeubrer_btn btn-primary"
+            >
+              Save
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

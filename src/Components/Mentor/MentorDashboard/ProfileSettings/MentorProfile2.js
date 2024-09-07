@@ -1,10 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import "../../../Forms/Register/Mentor/input-radio.css";
 
-const MentorProfile2 = (props) => {
-  const [userdata, setUserdata] = useState(props.profiledata);
+const MentorProfile2 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -15,25 +14,19 @@ const MentorProfile2 = (props) => {
   } = useForm();
 
   const [formData, setFormData] = useState({
-    mentor_job_title: userdata.mentor_job_title,
-    mentor_years_of_experience: userdata.mentor_years_of_experience,
-    mentor_company_name: userdata.mentor_company_name,
-    passion_list: userdata.passion_list,
-    mentor_academic_qualification: userdata.mentor_academic_qualification,
-    expertise_list: userdata.expertise_list,
+    mentor_job_title: profiledata.mentor_job_title,
+    mentor_years_of_experience: profiledata.mentor_years_of_experience,
+    mentor_company_name: profiledata.mentor_company_name,
+    passion_list: profiledata.passion_list,
+    mentor_academic_qualification: profiledata.mentor_academic_qualification,
+    expertise_list: profiledata.expertise_list,
     mentor_recommended_area_of_mentorship:
-      userdata.mentor_recommended_area_of_mentorship,
-    mentor_headline: userdata.mentor_headline,
+      profiledata.mentor_recommended_area_of_mentorship,
+    mentor_headline: profiledata.mentor_headline,
   });
-  console.log(userdata.expertise_list);
-
   const exp = formData.expertise_list;
   let expert = JSON.parse(exp);
-
   const edulevel = formData.mentor_academic_qualification;
-
-  console.log(edulevel);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -126,17 +119,6 @@ const MentorProfile2 = (props) => {
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Job Title</b>
               </label>
-              {/* <input
-              type="text"
-              value={userdata.mentor_job_title}
-              className="form-control"
-              // id="exampleInputEmail1"
-              placeholder="Type Your Job Title"
-              aria-describedby="emailHelp"
-              {...register("mentor_job_title", {
-                required: "Job title  is required",
-              })}
-            /> */}
               <input
                 type="text"
                 name="mentor_job_title"
@@ -186,7 +168,7 @@ const MentorProfile2 = (props) => {
               <div
                 type=""
                 id="container"
-                value={userdata.user_firstname}
+                value={profiledata.user_firstname}
                 className="bg-white"
                 onDragOver={handleDragOver}
                 onDrop={handleDropInContainer}
@@ -238,7 +220,7 @@ const MentorProfile2 = (props) => {
                 id="outside-container"
                 onDragOver={handleDragOver}
                 onDrop={handleDropOutside}
-                value={userdata.user_firstname}
+                value={profiledata.user_firstname}
               >
                 {items
                   .filter((item) => !item.inside)

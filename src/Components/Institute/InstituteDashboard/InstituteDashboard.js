@@ -302,7 +302,7 @@ const InstituteDashboard = () => {
               onClick={InstituteProfileHandler}
             >
               <span className="d-block bg-white position-relative m-auto mb-3">
-                <i ClassName="fa-solid fa-house-circle-check"></i>
+                <i className="fa-solid fa-house-circle-check"></i>
               </span>
 
               <h5>Dashboard</h5>
@@ -322,7 +322,7 @@ const InstituteDashboard = () => {
 
               <h5>
                 Profile Settings{" "}
-                <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
+                <i className="fa-solid fa-chevron-down downarrowsize"></i>
               </h5>
 
               {profilemenu && (
@@ -349,7 +349,7 @@ const InstituteDashboard = () => {
             >
               <span className="d-block bg-white position-relative m-auto mb-3">
                 {/* <img src={Pic1} alt="pic1" width={"44px"} /> */}
-                <i ClassName="fa-solid fa-user-plus"></i>
+                <i className="fa-solid fa-user-plus"></i>
               </span>
 
               <h5>Alumni Upload</h5>
@@ -361,12 +361,12 @@ const InstituteDashboard = () => {
             >
               <span className="d-block bg-white position-relative m-auto mb-3 ">
                 {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                <i ClassName="fa-solid fa-chalkboard-user"></i>
+                <i className="fa-solid fa-chalkboard-user"></i>
               </span>
 
               <h5>
                 Guest Lectures{" "}
-                <i ClassName="fa-solid fa-chevron-down downarrowsize"></i>
+                <i className="fa-solid fa-chevron-down downarrowsize"></i>
               </h5>
 
               {isOpen && (

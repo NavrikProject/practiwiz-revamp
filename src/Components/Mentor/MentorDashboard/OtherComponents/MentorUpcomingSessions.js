@@ -3,10 +3,8 @@ import "../DashboardCSS/mentorupcomingsession.css";
 import MentorUpcomingSessionCard from "./MentorUpcomingSessionCard";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import SessionCardSkeleton from "../SkeltonLoaders/SessionCardSkeleton";
-const MentorUpcomingSessions = () => {
-  const user = useSelector((state) => state.user?.currentUser);
+const MentorUpcomingSessions = ({ data, user, token }) => {
   const [allBookingSessions, setAllBookingSessions] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = ApiURL();
@@ -51,6 +49,8 @@ const MentorUpcomingSessions = () => {
             )}
             {allBookingSessions.length > 0 ? (
               <MentorUpcomingSessionCard
+                user={user}
+                token={token}
                 allBookingSessions={allBookingSessions}
               />
             ) : (

@@ -3,7 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { Link } from "react-router-dom";
-const MentorUpcomingSessionCard = ({ allBookingSessions }) => {
+const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
   const url = ApiURL();
   const ApproveMentorSessionHandler = async (BookingId) => {
     if (BookingId) {

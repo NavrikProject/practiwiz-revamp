@@ -198,7 +198,7 @@ const AdminInCompletedMentorSession = () => {
                           <td>
                             {mentor.mentor_booking_confirmed === "Yes" ? (
                               <i
-                                ClassName="fa-solid fa-circle-check fa-lg"
+                                className="fa-solid fa-circle-check fa-lg"
                                 style={{
                                   color: "#4cee49",
                                   marginRight: "10px",
@@ -206,7 +206,7 @@ const AdminInCompletedMentorSession = () => {
                               ></i>
                             ) : (
                               <i
-                                ClassName="fa-solid fa-circle-exclamation"
+                                className="fa-solid fa-circle-exclamation"
                                 style={{
                                   color: "#f00f0f",
                                   marginRight: "10px",

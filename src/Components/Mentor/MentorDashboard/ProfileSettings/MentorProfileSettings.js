@@ -1,38 +1,22 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import MentorProfile1 from "./MentorProfile1.js";
 import MentorProfile2 from "./MentorProfile2.js";
 import MentorProfile3 from "./MentorProfile3.js";
 import MentorProfile4 from "./MentorProfile4.js";
-const MentorProfileSettings = (props) => {
-  const [userdata, setuserdata] = useState(props.data[0]);
-  console.log(" mentor profile1", userdata);
-  const methods = useForm({});
+const MentorProfileSettings = ({ data, user, token }) => {
   const [page, setPage] = useState(0);
-  const [step, setStep] = useState(1);
   const PageDisplay = () => {
     if (page === 0) {
-      return <MentorProfile1 profiledata={userdata} />;
+      return <MentorProfile1 user={user} token={token} profiledata={data[0]} />;
     } else if (page === 1) {
-      return <MentorProfile2 profiledata={userdata} />;
-    } else if (page == 2) {
-      return <MentorProfile3 profiledata={userdata} />;
+      return <MentorProfile2 user={user} token={token} profiledata={data[0]} />;
+    } else if (page === 2) {
+      return <MentorProfile3 user={user} token={token} profiledata={data[0]} />;
     } else {
-      return <MentorProfile4 profiledata={userdata} />;
+      return <MentorProfile4 user={user} token={token} profiledata={data[0]} />;
     }
   };
 
-  const setPageCount = () => {
-    if (page === 0) {
-      setPage((currPage) => currPage + 1);
-    } else if (page === 1) {
-      setPage((currPage) => currPage + 1);
-    } else if (page === 2) {
-      setPage((currPage) => currPage + 1);
-    } else if (page === 3) {
-      setPage((currPage) => currPage + 1);
-    }
-  };
   const tab1 = () => {
     setPage(0);
   };
