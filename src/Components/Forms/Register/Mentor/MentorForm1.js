@@ -9,12 +9,10 @@ import CountryData from "../../../data/CountryData.json";
 import "react-phone-input-2/lib/style.css";
 import "./register.css";
 const MentorForm1 = (props) => {
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [states, setStates] = useState([]);
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
-  const [options, setOptions] = useState([]);
-  useEffect(() => {
-    setOptions(CountryData); // Directly setting options if importing the JSON file
-  }, []);
   const {
     register,
     watch,
@@ -26,6 +24,20 @@ const MentorForm1 = (props) => {
   const handleBlur = async (fieldName) => {
     const data = { [fieldName]: getValues(fieldName) };
     props.saveStepData(data);
+  };
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
+
+    // Find the selected country and set the states
+    const selectedCountryData = CountryData.find(
+      (country) => country.country_name === countryId
+    );
+    if (selectedCountryData) {
+      setStates(selectedCountryData.states);
+    } else {
+      setStates([]);
+    }
   };
   return (
     <>
@@ -440,35 +452,48 @@ const MentorForm1 = (props) => {
                 <select
                   className="form-select"
                   {...register("mentor_country", {
-                    required: "required",
-                  })} //1
+                    required: "Country is required",
+                  })}
+                  onChange={handleCountryChange} // Handle country change
                 >
                   <option value="">Please select a country</option>
-                  {options.map((option) => (
+                  {CountryData.map((option) => (
                     <option key={option.country_id} value={option.country_name}>
                       {option.country_name}
                     </option>
                   ))}
-                </select>
-                {/* <select
-                className="form-select"
-                {...register("mentor_country", {
-                  required: "required",
-                })} //1
-              >
-                <option value="">Please select a country</option>
-                {options.map((option) => (
-                  <option key={option.country_id} value={option.country_name}>
-                    {option.country_name}
-                  </option>
-                ))}
-              </select> */}
+                </select>{" "}
+                {errors.mentor_country && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_country.message}
+                  </p>
+                )}
               </div>
-              {errors.mentor_country && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_country.message}
-                </p>
-              )}
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Which State You Are Living In?</b>
+                </label>
+                <select
+                  className="form-select"
+                  {...register("mentor_state", {
+                    required: "State is required",
+                  })}
+                >
+                  <option value="">Please select a state</option>
+                  {states.map((state) => (
+                    <option key={state.state_id} value={state.state_name}>
+                      {state.state_name}
+                    </option>
+                  ))}
+                </select>{" "}
+                {errors.mentor_state && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_state.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

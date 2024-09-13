@@ -1,0 +1,211 @@
+/* .container-of-case-study {
+  width: 70vw;
+  margin: 20px auto;
+  padding: 20px 0;
+  border: solid #000000 2px;
+  border-radius: 10px;
+  background-color: rgb(243, 243, 243);
+  box-shadow: 0px 0px 50% 17px rgba(0, 0, 0, 0.8);
+}
+
+label > h5 {
+  font-weight: bold;
+  font-size: larger;
+}
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
+  gap: 10px;
+}
+
+.button-container > button {
+  padding: 5px;
+  width: 100px;
+  font-size: 1.1rem;
+  border: solid gray 1px;
+  color: #ffffff;
+  border-radius: 7px;
+  background-color: #0095ff;
+  &:hover {
+    border: solid rgb(0, 221, 255) 1px;
+    background-color: #0074c7;
+  }
+} */
+
+/* Container Styling */
+.container-of-case-study {
+  width: 60vw;
+  margin: 40px auto;
+  padding: 35px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(240, 240, 240, 0.95)
+  );
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.4s ease-in-out, transform 0.3s ease;
+}
+
+.container-of-case-study:hover {
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); /* Slight lift on hover */
+}
+
+label {
+  padding: 15px 10px;
+  border-radius: 10px;
+}
+
+/* Label and Heading Styling */
+label > h5 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+label:hover > h5 {
+  color: #007acc; /* Change label color on hover */
+}
+
+/* Flexbox for spacing and alignment */
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  transition: border-bottom 0.3s ease-in-out;
+}
+
+/* Input & Textarea Styling */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: calc(100% - 20px);
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease-in-out, background-color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #0095ff;
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 149, 255, 0.3);
+}
+
+/* Textarea styling */
+textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  gap: 15px;
+}
+
+/* Button Styling */
+.button-container > button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  background-color: #0095ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
+    transform 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.button-container > button:hover {
+  background-color: #007acc;
+  box-shadow: 0 8px 20px rgba(0, 122, 204, 0.3);
+  transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.button-container > button:active {
+  background-color: #005fa1;
+  box-shadow: none;
+  transform: translateY(0); /* Reset lift on active */
+}
+
+/* Form Submit Button */
+.button-container > button[type="submit"] {
+  background-color: #28a745;
+}
+
+.button-container > button[type="submit"]:hover {
+  background-color: #218838;
+  box-shadow: 0 8px 20px rgba(33, 136, 56, 0.3);
+}
+
+.button-container > button[type="submit"]:active {
+  background-color: #1e7e34;
+}
+
+/* Clear Button */
+.button-container > button[type="button"] {
+  background-color: #dc3545;
+}
+
+.button-container > button[type="button"]:hover {
+  background-color: #c82333;
+  box-shadow: 0 8px 20px rgba(200, 35, 51, 0.3);
+}
+
+.button-container > button[type="button"]:active {
+  background-color: #bd2130;
+}
+
+/* Responsive Design Tweaks */
+@media (max-width: 768px) {
+  .container-of-case-study {
+    width: 90vw;
+    padding: 25px;
+  }
+
+  .space-between {
+    flex-direction: column;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+  }
+
+  .button-container {
+    justify-content: center;
+    gap: 10px;
+  }
+}

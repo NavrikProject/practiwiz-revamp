@@ -97,12 +97,12 @@ const MentorForm2 = () => {
               <input
                 type="number"
                 className="form-control"
-                min="0"
+                min="5"
                 // id="exampleInputPassword1"
                 placeholder="Your Experience"
                 {...register("years_of_experience", {
                   required: "Years of Experience is required",
-                  minLength: { value: 0 },
+                  minLength: { value: 5 },
                 })} //1
               />
               {errors.years_of_experience && (
@@ -389,6 +389,7 @@ const MentorForm2 = () => {
                 <ul className="ps-0 mb-0">
                   <li>
                     <input
+                      className="inputNone"
                       type="radio"
                       id="check_11"
                       name="check_11"
@@ -403,6 +404,7 @@ const MentorForm2 = () => {
 
                   <li>
                     <input
+                      className="inputNone"
                       type="radio"
                       id="check_20"
                       name="check_20"
@@ -417,6 +419,7 @@ const MentorForm2 = () => {
 
                   <li>
                     <input
+                      className="inputNone"
                       type="radio"
                       id="check_30"
                       name="check_30"

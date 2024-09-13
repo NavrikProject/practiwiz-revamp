@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
 import { Link } from "react-router-dom";
@@ -25,7 +25,7 @@ const MentorStepForm = () => {
     lastname: "",
   });
   const [page, setPage] = useState(0);
-  const { watch, setValue, trigger, getValues } = methods;
+  const { trigger, getValues } = methods;
 
   const FormTitles = [
     "ABOUT YOURSELF",
@@ -120,24 +120,19 @@ const MentorStepForm = () => {
       setStep((prev) => prev + 1);
     }
     if (page === 0) {
-      console.log("personal details");
       const Data = getValues();
       const Fname = Data.mentor_firstname;
       const Lname = Data.mentor_lastname;
       const gmail = Data.mentor_email;
       const phone = Data.mentor_phone_number;
-
-      console.log(Fname, Lname, gmail, phone);
     }
   };
-  const prevStep = () => setStep((prev) => prev - 1);
   const dispatch = useDispatch();
-
   const onSubmit = async (data) => {
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
-        console.log("error");
+        return toast.error("Please fill the entire mentor application.");
       }
     } else {
       try {
@@ -168,6 +163,7 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
+        newData.append("state", data.mentor_state);
         newData.append("Mon", JSON.stringify(data.Mon));
         newData.append("Tue", JSON.stringify(data.Tue));
         newData.append("Wed", JSON.stringify(data.Wed));

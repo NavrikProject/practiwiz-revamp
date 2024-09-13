@@ -40,8 +40,6 @@ import ProtectedRoute from "./Utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
 import Test from "./Pages/Test";
-import MentorCardSkelton from "./Components/Mentor/SkeltonLoaders/MentorCardSkelton";
-import Skelton from "./Components/Mentor/SkeltonLoaders/Skelton";
 import MenteeFeedbackForm from "./Components/Mentee/MenteeFeedback/MenteeFeedbackForm";
 import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
