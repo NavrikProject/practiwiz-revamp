@@ -15,7 +15,6 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors: formErrors },
   } = useForm();
   const [showIcon, setShowIcon] = useState(false);
@@ -43,33 +42,39 @@ const LoginForm = () => {
   const loginFormSubmitHandler = async (data) => {
     try {
       dispatch(showLoadingHandler());
-      const res = await axios.post(`${url}api/v1/auth/login`, {
-        email: data.email,
-        password: data.password,
-      });
-      dispatch(hideLoadingHandler());
+      const res = await Promise.race([
+        axios.post(`${url}api/v1/auth/login`, {
+          email: data.email,
+          password: data.password,
+        }),
+        new Promise(
+          (_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+        ),
+      ]);
+
       if (res.data.success) {
         const token = res.data.token;
         const accessToken = res.data.accessToken;
         const userData = parseJwt(token);
-        return (
-          localStorage.setItem("token", JSON.stringify(token)),
-          localStorage.setItem("accessToken", JSON.stringify(accessToken)),
-          dispatch(loginSuccess(userData)),
-          toast.success("Logged in successfully"),
-          navigate(`/`)
-        );
-      }
-      if (res.data.error) {
-        return (
-          dispatch(loginFailure(res.data.error)), toast.error(res.data.error)
-        );
+        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        dispatch(loginSuccess(userData));
+        toast.success("Logged in successfully");
+        navigate(`/`);
+      } else if (res.data.error) {
+        dispatch(loginFailure(res.data.error));
+        toast.error(res.data.error);
       }
     } catch (error) {
-      return (
-        dispatch(loginFailure(error.message)),
-        toast.error("Login failed, Please try again!")
-      );
+      dispatch(loginFailure(error.message));
+      if (error.message === "Request timed out") {
+        toast.error("Login failed due to a timeout. Please try again.");
+      } else {
+        toast.error("Login failed, please try again!");
+      }
+    } finally {
+      dispatch(hideLoadingHandler());
     }
   };
   const showPwdHandler = () => {

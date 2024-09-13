@@ -30,3 +30,6 @@ label:hover {
   text-align: left;
   z-index: 2;
 }
+.inputNone {
+  display: none;
+}

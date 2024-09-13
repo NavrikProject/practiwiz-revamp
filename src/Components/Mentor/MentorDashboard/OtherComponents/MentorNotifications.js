@@ -84,7 +84,7 @@ const MentorNotifications = ({ data, mentorDtlsId, token }) => {
                             {notification.notification_type === "Info" && (
                               <i
                                 className="fa-solid fa-circle-exclamation"
-                                style={{ color: "#03a96c", fontSize: "40px" }}
+                                style={{ color: "#00cfc8", fontSize: "40px" }}
                               ></i>
                             )}
                             {notification.notification_type === "Warning" && (
