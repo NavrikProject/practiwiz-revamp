@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import "./caseStudy.css";
+// import "./caseStudy.css";
 
 function CaseStudyInput({ user, token, data }) {
   const { register, handleSubmit, reset } = useForm();
