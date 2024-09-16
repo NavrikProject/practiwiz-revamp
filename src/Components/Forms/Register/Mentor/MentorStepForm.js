@@ -4,7 +4,6 @@ import "./register.css";
 import { Link } from "react-router-dom";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
-
 import MentorForm3 from "./MentorForm3";
 import MentorForm4 from "./MentorForm4";
 import axios from "axios";
@@ -15,7 +14,6 @@ import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
-// const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
   const url = ApiURL();
@@ -120,19 +118,23 @@ const MentorStepForm = () => {
       setStep((prev) => prev + 1);
     }
     if (page === 0) {
+      console.log("personal details");
       const Data = getValues();
       const Fname = Data.mentor_firstname;
       const Lname = Data.mentor_lastname;
       const gmail = Data.mentor_email;
       const phone = Data.mentor_phone_number;
+
+      console.log(Fname, Lname, gmail, phone);
     }
   };
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
+    console.log(data);
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
-        return toast.error("Please fill the entire mentor application.");
+        toast.error("Please fill all required fields!");
       }
     } else {
       try {
@@ -163,7 +165,9 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
-        newData.append("state", data.mentor_state);
+        newData.append("City", data.mentor_city);
+        newData.append("Currency", data.Mentor_Currency);
+        newData.append("Pricing", data.pricing);
         newData.append("Mon", JSON.stringify(data.Mon));
         newData.append("Tue", JSON.stringify(data.Tue));
         newData.append("Wed", JSON.stringify(data.Wed));
@@ -363,7 +367,7 @@ const MentorStepForm = () => {
                 className="btn btn-primary tablinks active"
                 data-tab="form3"
               >
-                <i className="fa-solid me-1 fa-asterisk"></i> AVAILABILITY
+                <i class="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
             ) : (
               <button
@@ -371,7 +375,7 @@ const MentorStepForm = () => {
                 data-tab="form3"
                 onClick={tab3}
               >
-                <i className="fa-solid me-1 fa-asterisk"></i> AVAILABILITY
+                <i className="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
             )}
             {page === 3 ? (

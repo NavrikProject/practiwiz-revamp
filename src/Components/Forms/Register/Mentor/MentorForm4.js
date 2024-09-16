@@ -1,6 +1,8 @@
 import React from "react";
 
 import { useFormContext } from "react-hook-form";
+import CurrencyData from "../../../data/Currency.json";
+import GoToTop from "../../../../Utils/GoToTop";
 
 const MentorForm4 = () => {
   const {
@@ -104,205 +106,193 @@ const MentorForm4 = () => {
   ];
 
   return (
-    <div className="doiherner_wrapper">
-      <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
-        <div className="row">
-        <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Pricing</b>
-              </label>
+    <>
+      <div className="doiherner_wrapper">
+        <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Currency</b>
+                </label>
 
-              <select
-                className="form-select"
-                {...register("pricing", {
-                  // required: " required",
-                })} 
-              >
-                <option value="">Set your hourly rate</option>
-
-                <option> $20/hr</option>
-                <option> $30/hr</option>
-                <option> $40/hr</option>
-                <option> $50/hr</option>
-                <option> $60/hr</option>
-                <option> $70/hr</option>
-
-                {/* <option>No</option> */}
-              </select>
+                <select
+                  className="form-select"
+                  {...register("Mentor_Currency", {
+                    required: "Please select you Currency ",
+                  })}
+                >
+                  <option value="">Please select Currency </option>
+                  {Object.values(CurrencyData).map((currency) => (
+                    <option key={currency.code} value={currency.code}>
+                      {currency.name} ({currency.symbol})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {errors.Mentor_Currency && (
+                <p className="Error-meg-login-register">
+                  {errors.Mentor_Currency.message}
+                </p>
+              )}
             </div>
-            {/* {errors.guest_lectures_interest && (
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Pricing</b>
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  className="form-control"
+                  placeholder=" Enter Your Amount..."
+                  {...register("pricing", {
+                    required: " is required",
+                  })} //1
+                />
+              </div>
+              {/* {errors.guest_lectures_interest && (
               <p className="Error-meg-login-register">
                 {errors.guest_lectures_interest.message}
               </p>
             )} */}
-          </div>
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Would You Be Interested in Delivering Guest Lectures?</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("guest_lectures_interest", {
-                  required: "Please select the guest lecture option",
-                })} //1
-              >
-                <option value="">Choose An Option</option>
-                <option>Yes</option>
-                <option>No</option>
-              </select>
             </div>
-            {errors.guest_lectures_interest && (
-              <p className="Error-meg-login-register">
-                {errors.guest_lectures_interest.message}
-              </p>
-            )}
-          </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Would You Be Interested in Delivering Guest Lectures?</b>
+                </label>
 
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Would You Be Interested in Curating Case Studies?</b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("curating_case_studies_interest", {
-                  required: "Please select the case study interest",
-                })} //1
-              >
-                <option value="">Choose An Option</option>
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </div>
-            {errors.curating_case_studies_interest && (
-              <p className="Error-meg-login-register">
-                {errors.curating_case_studies_interest.message}
-              </p>
-            )}
-          </div>
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  For Your Alums Would You Be Fine to Do Sessions Free of Charge
-                </b>
-              </label>
-
-              <select
-                className="form-select"
-                {...register("sessions_free_of_charge", {
-                  required: "Please select the number of sessions to free",
-                })} //1
-              >
-                <option value="">Choose An Option</option>
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </div>
-            {errors.sessions_free_of_charge && (
-              <p className="Error-meg-login-register">
-                {errors.sessions_free_of_charge.message}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="row align-items-end">
-          
-
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Your Timezone</b>
-              </label>
-              <select
-                className="form-select"
-                // onChange={option_fro_timezone}
-                {...register("mentor_timezone", {
-                  required: "required",
-                })} //1
-              >
-                <option
-                  defaultValue={
-                    "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)"
-                  }
+                <select
+                  className="form-select"
+                  {...register("guest_lectures_interest", {
+                    required: "Please select the guest lecture option",
+                  })} //1
                 >
-                  {" "}
-                  UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)
-                </option>
-                {option_fro_timezone.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+                  <option value="">Choose An Option</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+              {errors.guest_lectures_interest && (
+                <p className="Error-meg-login-register">
+                  {errors.guest_lectures_interest.message}
+                </p>
+              )}
             </div>
-            {errors.mentor_timezone && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_timezone.message}
-              </p>
-            )}
-          </div>
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Language</b>
-              </label>
-              <select
-                className="form-select"
-                {...register("mentor_language", {
-                  required: "Please select language",
-                })} //1
-              >
-                <option defaultValue={"English"}>English</option>
-                {Language.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Would You Be Interested in Curating Case Studies?</b>
+                </label>
+
+                <select
+                  className="form-select"
+                  {...register("curating_case_studies_interest", {
+                    required: "Please select the case study interest",
+                  })} //1
+                >
+                  <option value="">Choose An Option</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+              {errors.curating_case_studies_interest && (
+                <p className="Error-meg-login-register">
+                  {errors.curating_case_studies_interest.message}
+                </p>
+              )}
             </div>
-            {errors.mentor_language && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_language.message}
-              </p>
-            )}
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>
+                    For Your Alums Would You Be Fine to Do Sessions Free of
+                    Charge
+                  </b>
+                </label>
+
+                <select
+                  className="form-select"
+                  {...register("sessions_free_of_charge", {
+                    required: "Please select the number of sessions to free",
+                  })} //1
+                >
+                  <option value="">Choose An Option</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+              {errors.sessions_free_of_charge && (
+                <p className="Error-meg-login-register">
+                  {errors.sessions_free_of_charge.message}
+                </p>
+              )}
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Your Timezone</b>
+                </label>
+                <select
+                  className="form-select"
+                  // onChange={option_fro_timezone}
+                  {...register("mentor_timezone", {
+                    required: "required",
+                  })} //1
+                >
+                  <option
+                    defaultValue={
+                      "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)"
+                    }
+                  >
+                    {" "}
+                    UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)
+                  </option>
+                  {option_fro_timezone.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {errors.mentor_timezone && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_timezone.message}
+                </p>
+              )}
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Language</b>
+                </label>
+                <select
+                  className="form-select"
+                  {...register("mentor_language", {
+                    required: "Please select language",
+                  })} //1
+                >
+                  <option defaultValue={"English"}>English</option>
+                  {Language.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {errors.mentor_language && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_language.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* <div className="row">
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Language</b>
-              </label>
-              <select
-                className="form-select"
-                {...register("mentor_language", {
-                  required: "Please select language",
-                })} //1
-              >
-                <option defaultValue={"English"}>English</option>
-                {Language.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {errors.mentor_language && (
-              <p className="Error-meg-login-register">
-                {errors.mentor_language.message}
-              </p>
-            )}
-          </div>
-        </div> */}
       </div>
-    </div>
+      <GoToTop />
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CaseStudyDisplay.css";
+// import "./CaseStudyDisplay.css";
 
 function CaseStudyDisplay() {
   // Hardcoded data including long texts
