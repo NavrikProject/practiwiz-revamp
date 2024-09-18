@@ -36,19 +36,35 @@ const AdminNotApprovedAllMentors = () => {
 
   useEffect(() => {
     const fetchMentors = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/not-approved/all-list`,
-        {
-          headers: { authorization: "Bearer " + token },
+      try {
+        setLoading(true);
+        const response = await Promise.race([
+          axios.get(
+            `${url}api/v1/admin/dashboard/mentors/not-approved/all-list`,
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllMentors(response.data.success);
+        } else if (response.data.error) {
+          setAllMentors([]);
         }
-      );
-      setLoading(false);
-      if (response.data.success) {
-        return setAllMentors(response.data.success), setLoading(false);
-      }
-      if (response.data.error) {
-        return setAllMentors([]), setLoading(false);
+      } catch (error) {
+        setAllMentors([]);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false);
       }
     };
     fetchMentors();

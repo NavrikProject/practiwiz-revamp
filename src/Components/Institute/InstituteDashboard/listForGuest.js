@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ApiURL } from "../../../Utils/ApiURL";
 import ListStatusSkeleton from "./ListStatusSkeleton";
+import { toast } from "react-toastify";
 
 function ListForGuest({ filters }) {
   const [allMentors, setAllMentors] = useState([]);
@@ -13,13 +14,28 @@ function ListForGuest({ filters }) {
 
   useEffect(() => {
     const fetchMentors = async () => {
-      const response = await axios.get(
-        `${url}api/v1/institute//guest-lectures`
-      );
-      if (response.data.success) {
-        setAllMentors(response.data.success);
-      } else {
+      try {
+        const response = await Promise.race([
+          axios.get(`${url}api/v1/institute/guest-lectures`),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllMentors(response.data.success);
+        } else {
+          setAllMentors([]);
+        }
+      } catch (error) {
         setAllMentors([]);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
       }
     };
     fetchMentors();

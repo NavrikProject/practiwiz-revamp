@@ -1,12 +1,22 @@
 import React from "react";
-
-import { useState, useEffect } from "react";
-
-import { useForm } from "react-hook-form";
+import CurrencyData from "../../../data/Currency.json";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Language } from "../../../data/Languages";
+import { option_fro_timezone } from "../../../data/Timezones";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { ApiURL } from "../../../../Utils/ApiURL";
 
 const MentorProfile4 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
-
+  const dispatch = useDispatch();
+  const url = ApiURL();
   const [formData, setFormData] = useState({
     mentor_sessions_free_of_charge: profiledata.mentor_sessions_free_of_charge,
     mentor_guest_lectures_interest: profiledata.mentor_guest_lectures_interest,
@@ -14,6 +24,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
       profiledata.mentor_curating_case_studies_interest,
     mentor_timezone: profiledata.mentor_timezone,
     mentor_language: profiledata.mentor_language,
+    mentor_currency_type: profiledata.mentor_currency_type,
   });
 
   const handleInputChange = (e) => {
@@ -26,106 +37,73 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Submitted Data:", formData);
-    // Add logic here to handle form submission, like sending data to an API
-    setIsEditing(false);
+  const validateForm = () => {
+    const {
+      mentor_sessions_free_of_charge,
+      mentor_guest_lectures_interest,
+      mentor_curating_case_studies_interest,
+      mentor_timezone,
+      mentor_language,
+    } = formData;
+
+    if (
+      !mentor_sessions_free_of_charge ||
+      !mentor_guest_lectures_interest ||
+      !mentor_curating_case_studies_interest ||
+      !mentor_timezone ||
+      !mentor_language
+    ) {
+      return toast.error("All fields are required!");
+    }
+
+    return true;
   };
 
-  const option_fro_timezone = [
-    "UTC-12:00: Baker Island Time (BIT)",
-    "UTC-11:00: Niue Time (NUT), Samoa Standard Time (ST)",
-    "UTC-10:00: Hawaii-Aleutian Standard Time (HAST), Tahiti Time (TAHT)",
-    "UTC-09:00: Alaska Standard Time (AKST)",
-    "UTC-08:00: Pacific Standard Time (PST)",
-    "UTC-07:00: Mountain Standard Time (MST)",
-    "UTC-06:00: Central Standard Time (CST)",
-    "UTC-05:00: Eastern Standard Time (EST)",
-    "UTC-04:00: Atlantic Standard Time (AST), Eastern Caribbean Time (ECT)",
-    "UTC-03:00: Argentina Time (ART), Brasília Time (BRT)",
-    "UTC-02:00: South Georgia Time (GST)",
-    " UTC-01:00: Cape Verde Time (CVT)",
-    "UTC±00:00: Coordinated Universal Time (UTC), Greenwich Mean Time (GMT)",
-    "UTC+01:00: Central European Time (CET), West Africa Time (WAT)",
-    "UTC+03:00: Moscow Time (MSK), East Africa Time (EAT)",
-    "UTC+04:00: Azerbaijan Time (AZT), Gulf Standard Time (GST)",
-    "UTC+05:00: Pakistan Standard Time (PKT), Yekaterinburg Time (YEKT)",
-    "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)",
-    " UTC+05:45: Nepal Time (NPT)  ",
-    " UTC+06:00: Bangladesh Standard Time (BST), Omsk Time (OMST)",
-    " UTC+06:30: Cocos Islands Time (CCT)",
-    " UTC+07:00: Indochina Time (ICT), Krasnoyarsk Time (KRAT)",
-    "UTC+08:00: China Standard Time (CST), Australian Western Standard Time (AWST)",
-    "UTC+09:00: Japan Standard Time (JST), Korea Standard Time (KST)",
-    "UTC+09:30: Australian Central Standard Time (ACST)",
-    " UTC+10:00: Australian Eastern Standard Time (AEST), Papua New Guinea Time (PGT)",
-    "UTC+10:30: Lord Howe Standard Time (LHST)",
-    "   UTC+11:00: Solomon Islands Time (SBT), Vanuatu Time (VUT)",
-    " UTC+12:00: Fiji Time (FJT), New Zealand Standard Time (NZST)",
-    " UTC+13:00: Tonga Time (TOT), Phoenix Island Time (PHOT)",
-    " UTC+14:00: Line Islands Time (LINT)",
-    "UTC+03:30: Iran Standard Time (IRST)",
-    "UTC+04:30: Afghanistan Time (AFT)",
+  // Handle form submit
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    "UTC+06:30: Cocos Islands Time (CCT)",
-    "UTC+03:45: Nepal Time (NPT)",
-    "UTC+05:45: Nepal Time (NPT)",
-    "UTC+09:45: Australian Central Standard Time (ACST)",
-    "UTC+12:45: Chatham Islands Time (CHAST)",
-  ];
-  const Language = [
-    "Mandarin Chinese",
-    "Spanish",
-    "English",
-    "Hindi",
-    "Bengali",
-    "Portuguese",
-    "Russian",
-    "Japanese",
-    "Western Punjabi",
-    "Marathi",
-    "Telugu",
-    "Turkish",
-    "Korean",
-    "French",
-    "German",
-    "Vietnamese",
-    "Tamil",
-    "Urdu",
-    "Italian",
-    "Arabic",
-    "Persian (Farsi)",
-    "Polish",
-    "Ukrainian",
-    "Romanian",
-    "Dutch",
-    "Greek",
-    "Hungarian",
-    "Hebrew",
-    "Swedish",
-    "Czech",
-    "Javanese",
-    "Thai",
-    "Gujarati",
-    "Kannada",
-    "Malay/Indonesian",
-    "Burmese",
-    "Amharic",
-    "Somali",
-    "Hausa",
-    "Igbo",
-    "Yoruba",
-    "Zulu",
-    "Xhosa",
-    "Afrikaans",
-    "Serbian",
-    "Croatian",
-    "Bosnian",
-    "Bulgarian",
-    "Slovak",
-    "Finnish",
-  ];
+    if (validateForm()) {
+      try {
+        dispatch(showLoadingHandler());
+        const res = await Promise.race([
+          axios.post(
+            `${url}api/v1/mentor/dashboard/update/profile-4`,
+            {
+              formData,
+              userDtlsId: user.user_id,
+            },
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (res.data.success) {
+          toast.success("Profile Details updated successfully");
+          setIsEditing(false);
+        } else if (res.data.error) {
+          toast.error(res.data.error);
+          setIsEditing(false);
+        }
+      } catch (error) {
+        if (error.message === "Request timed out") {
+          toast.error("Update failed due to a timeout. Please try again.");
+        } else {
+          toast.error(
+            "Error in updating the profile details, please try again!"
+          );
+        }
+      } finally {
+        dispatch(hideLoadingHandler());
+        setIsEditing(false);
+      }
+    }
+  };
 
   return (
     <div className="doiherner_wrapper">
@@ -146,27 +124,38 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Pricing</b>
+                <b>Currency</b>
               </label>
 
-              <select
-                className="form-select"
-                disabled={!isEditing}
-                name="user_lastname"
-              >
-                <option value={profiledata.user_lastname}>
-                  {profiledata.user_lastname}
+              <select className="form-select" disabled={true}>
+                <option value={formData.mentor_currency_type}>
+                  {formData.mentor_currency_type}{" "}
                 </option>
-
-                <option> $20/hr</option>
-                <option> $30/hr</option>
-                <option> $40/hr</option>
-                <option> $50/hr</option>
-                <option> $60/hr</option>
-                <option> $70/hr</option>
+                {Object.values(CurrencyData).map((currency) => (
+                  <option key={currency.code} value={currency.code}>
+                    {currency.name} ({currency.symbol})
+                  </option>
+                ))}
               </select>
             </div>
           </div>
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Pricing</b>
+              </label>
+              <input
+                type="number"
+                name=""
+                value={profiledata.mentor_session_price}
+                min={0}
+                className="form-control"
+                placeholder=" Enter Your Amount..."
+                disabled={!isEditing}
+              />
+            </div>
+          </div>
+
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -268,9 +257,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
               </select>
             </div>
           </div>
-        </div>
 
-        <div className="row align-items-end">
           <div className="col-lg-6">
             <div className="mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -286,7 +273,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 <option defaultValue={formData.mentor_timezone}>
                   {formData.mentor_timezone}
                 </option>
-                {option_fro_timezone.map((option) => (
+                {option_fro_timezone?.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

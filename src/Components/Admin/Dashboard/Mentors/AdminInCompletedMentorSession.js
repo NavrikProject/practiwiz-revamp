@@ -34,25 +34,37 @@ const AdminInCompletedMentorSession = () => {
   const url = ApiURL();
   useEffect(() => {
     const fetchMentors = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/booking/in-completed-session-lists`,
-        {
-          headers: { authorization: "Bearer " + token },
+      try {
+        setLoading(true);
+
+        const response = await Promise.race([
+          axios.get(
+            `${url}api/v1/admin/dashboard/mentors/booking/in-completed-session-lists`,
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+        setLoading(false);
+        if (response.data.success) {
+          setAllInCompletedSession(response.data.success);
+        } else if (response.data.error) {
+          setAllInCompletedSession([]);
+          toast.error("No in-completed session found");
         }
-      );
-      setLoading(false);
-      if (response.data.success) {
-        return (
-          setAllInCompletedSession(response.data.success), setLoading(false)
-        );
-      }
-      if (response.data.error) {
-        return (
-          setAllInCompletedSession([]),
-          setLoading(false),
-          toast.error("No in-completed session found")
-        );
+      } catch (error) {
+        setAllInCompletedSession([]);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false);
       }
     };
     fetchMentors();

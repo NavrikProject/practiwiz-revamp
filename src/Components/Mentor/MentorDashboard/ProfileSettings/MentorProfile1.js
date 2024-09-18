@@ -2,18 +2,30 @@ import React, { useState, useEffect, useRef } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CountryData from "../../../data/CountryData.json";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { ApiURL } from "../../../../Utils/ApiURL";
 
 const Mentorprofile1 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
+  const dispatch = useDispatch();
+  const url = ApiURL();
   // const mentor_profile_photo = profiledata.mentor_profile_photo; // Add photo to formData
   const [formData, setFormData] = useState({
-    mentor_firstname: profiledata.user_firstname,
-    mentor_lastname: profiledata.user_lastname,
-    mentor_phone_number: profiledata.user_phone_number,
-    mentor_email: profiledata.user_email,
-    social_media_profile: profiledata.mentor_social_media_profile,
-    mentor_country: profiledata.mentor_country,
+    mentor_firstname: profiledata?.user_firstname,
+    mentor_lastname: profiledata?.user_lastname,
+    mentor_phone_number: profiledata?.user_phone_number,
+    mentor_email: profiledata?.user_email,
+    social_media_profile: profiledata?.mentor_social_media_profile,
+    mentor_country: profiledata?.mentor_country,
+    mentor_city: profiledata?.mentor_city,
   });
 
   const [options, setOptions] = useState([]);
@@ -63,11 +75,61 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     setIsEditing(!isEditing);
   };
 
-  const handleSubmit = (event) => {
+  const validateForm = () => {
+    const { social_media_profile, mentor_country } = formData;
+
+    if (!social_media_profile || !mentor_country) {
+      toast.error("All fields are required!");
+      return false;
+    }
+
+    return true;
+  };
+
+  // Handle form submit
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Submitted Data:", formData);
-    // Add logic here to handle form submission, like sending data to an API
-    setIsEditing(false);
+
+    if (validateForm()) {
+      try {
+        dispatch(showLoadingHandler());
+        const res = await Promise.race([
+          axios.post(
+            `${url}api/v1/mentor/dashboard/update/profile-1`,
+            {
+              formData,
+              userDtlsId: user.user_id,
+            },
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (res.data.success) {
+          toast.success("Profile Details updated successfully");
+          setIsEditing(false);
+        } else if (res.data.error) {
+          toast.error(res.data.error);
+          setIsEditing(false);
+        }
+      } catch (error) {
+        if (error.message === "Request timed out") {
+          toast.error("Update failed due to a timeout. Please try again.");
+        } else {
+          toast.error(
+            "Error in updating the profile details, please try again!"
+          );
+        }
+      } finally {
+        dispatch(hideLoadingHandler());
+        setIsEditing(false);
+      }
+    }
   };
 
   return (
@@ -135,7 +197,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                   placeholder="First Name"
                   value={formData.mentor_firstname}
                   onChange={handleInputChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
             </div>
@@ -152,7 +214,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                   placeholder="Last Name"
                   value={formData.mentor_lastname}
                   onChange={handleInputChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
             </div>
@@ -166,7 +228,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                   country={"in"}
                   value={formData.mentor_phone_number}
                   onChange={handlePhoneChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
             </div>
@@ -192,14 +254,14 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label className="form-label">
-                  <b>Social Media Profile</b>
+                  <b>Linkedin Social Media Profile</b>
                 </label>
                 <input
                   id="phone"
                   type="text"
                   name="social_media_profile"
                   className="form-control"
-                  placeholder="Social media profile link"
+                  placeholder="Linkedin Social Media Profile link"
                   value={formData.social_media_profile}
                   onChange={handleInputChange}
                   disabled={!isEditing}
@@ -226,6 +288,28 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="csfvgdtrfs mb-4 position-relative">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
+                  <b>City/State</b>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="mentor_city"
+                  placeholder="City"
+                  aria-describedby="emailHelp"
+                  value={formData.mentor_city}
+                  onChange={handleInputChange}
+                  disabled={!isEditing}
+                />
+
+                <i className="fa-solid fa-map-location-dot position-absolute"></i>
               </div>
             </div>
           </div>
