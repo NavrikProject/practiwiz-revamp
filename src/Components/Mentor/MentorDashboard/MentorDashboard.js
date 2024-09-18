@@ -346,7 +346,7 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorProfileShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     {/* <i className="fa-solid fa-user"> */}
                     <i className="fa-solid fa-house-circle-check"></i>
                   </span>
@@ -358,7 +358,7 @@ const MentorDashboard = ({ user, token }) => {
                     className="btn btn-transparent text-center py-3 seeeett"
                     onMouseOver={toggleNoProfile}
                   >
-                    <span className="d-block bg-white position-relative m-auto className=">
+                    <span className="d-block bg-white position-relative m-auto">
                       <i className="fa-solid fa-bars"></i>
                     </span>
                     <h5>
@@ -388,7 +388,7 @@ const MentorDashboard = ({ user, token }) => {
                     className="btn btn-transparent text-center py-3 seeeett"
                     onMouseOver={toggleNosession}
                   >
-                    <span className="d-block bg-white position-relative m-auto className=">
+                    <span className="d-block bg-white position-relative m-auto">
                       {/* <i className="fa-solid fa-bars-progress"></i> */}
                       <i className="fa-solid fa-tv"></i>
                     </span>
@@ -419,7 +419,7 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorMsgShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     {/* <i className="fa-brands fa-rocketchat"></i> */}
                     <i className="fa-solid fa-building-columns"></i>
                   </span>
@@ -431,10 +431,23 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorNotificationHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-bell"></i>
+                    {hasUnreadNotifications && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          top: "-3px",
+                          right: "-5px",
+                          width: "12px",
+                          height: "12px",
+                          backgroundColor: "red",
+                          borderRadius: "50%",
+                          border: "2px solid white",
+                        }}
+                      />
+                    )}
                   </span>
-
                   <h5>Notifications</h5>
                 </button>
 
@@ -442,7 +455,7 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorCaseStudiesShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-folder"></i>
                   </span>
 
@@ -453,14 +466,14 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorSessionSetupHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-folder"></i>
                   </span>
 
                   <h5>Session Setup</h5>
                 </button> */}
                 {/* <button className="btn btn-transparent text-center py-3">
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-right-from-bracket"></i>
                   </span>
 

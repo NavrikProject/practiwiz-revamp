@@ -15,17 +15,31 @@ const Section2 = () => {
   const url = ApiURL();
   useEffect(() => {
     const fetchMentors = async () => {
-      setLoading(true);
-      const response = await axios.get(`${url}api/v1/mentor/fetch-10-mentors`);
-      setLoading(false);
-      if (response.data.success) {
-        setLoading(false);
+      try {
+        setLoading(true);
 
-        setAllMentors(response.data.success);
-      }
-      if (response.data.error) {
-        setLoading(false);
+        const response = await Promise.race([
+          axios.get(`${url}api/v1/mentor/fetch-10-mentors`),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllMentors(response.data.success);
+        } else if (response.data.error) {
+          setAllMentors([]);
+        }
+      } catch (error) {
         setAllMentors([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false); // Ensure loading is stopped regardless of outcome
       }
     };
     fetchMentors();

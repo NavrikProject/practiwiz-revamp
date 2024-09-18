@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./MentorForm3.css";
 import { Controller, useFormContext } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
+import { toast } from "react-toastify";
 
 const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -119,8 +120,9 @@ const MentorForm3 = () => {
       !date.Mentor_timeslot_rec_end_date ||
       !recurring.mentor_timeslot_rec_indicator
     ) {
-      alert("Please fill in all the fields before adding the slot.");
-      return;
+      return toast.error(
+        "Please fill in all the fields before adding the slot."
+      );
     }
 
     const timeSlot = { from, to, date, recurring };

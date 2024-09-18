@@ -1,85 +1,62 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./login.css";
-import { loginFailure, loginSuccess } from "../../../Redux/userRedux.js";
+import "../Login/login.css";
 import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../Redux/loadingRedux.js";
 import { toast } from "react-toastify";
 import { ApiURL } from "../../../Utils/ApiURL.js";
-const LoginForm = () => {
+import { useParams } from "react-router-dom";
+const ResetPassword = () => {
+  const [showIcon, setShowIcon] = useState(false);
+  const [showIcons, setShowIcons] = useState(false);
   const {
+    watch,
     register,
     handleSubmit,
-    formState: { errors: formErrors },
+    formState: { errors },
   } = useForm();
-  const [showIcon, setShowIcon] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const url = ApiURL();
-  const parseJwt = (token) => {
-    try {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map((c) => {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      console.error("Error parsing token:", error);
-      return null;
-    }
-  };
-  const loginFormSubmitHandler = async (data) => {
+  const password = watch("password");
+  const params = useParams();
+  const passwordSubmitHandler = async (data) => {
     try {
       dispatch(showLoadingHandler());
       const res = await Promise.race([
-        axios.post(`${url}api/v1/auth/login`, {
-          email: data.email,
-          password: data.password,
-        }),
+        axios.post(
+          `${url}api/v1/auth/reset-password`,
+          {
+            password: data.password,
+          },
+          {
+            headers: { authorization: "Bearer " + params.token },
+          }
+        ),
         new Promise(
           (_, reject) =>
             setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
         ),
       ]);
-
       if (res.data.success) {
-        const token = res.data.token;
-        const accessToken = res.data.accessToken;
-        const userData = parseJwt(token);
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("accessToken", JSON.stringify(accessToken));
-        dispatch(loginSuccess(userData));
-        toast.success("Logged in successfully");
-        navigate(`/`);
+        toast.success(res.data.success);
       } else if (res.data.error) {
-        dispatch(loginFailure(res.data.error));
         toast.error(res.data.error);
       }
     } catch (error) {
-      dispatch(loginFailure(error.message));
       if (error.message === "Request timed out") {
-        toast.error("Login failed due to a timeout. Please try again.");
+        toast.error("Request timed out. Please try again.");
       } else {
-        toast.error("Login failed, please try again!");
+        toast.error("There is some error, please try again!");
       }
     } finally {
       dispatch(hideLoadingHandler());
     }
   };
-  const showPwdHandler = () => {
-    setShowIcon(!showIcon);
-  };
+
   return (
     <main>
       <div className="regis_background " id="loginBg">
@@ -88,10 +65,9 @@ const LoginForm = () => {
             <div className="col-lg-6 mb-4">
               <div className="iuhieiuihaw_left sticky-top">
                 <h3>
-                  Grow Your Professional Career with{" "}
+                  Grow Your Professional Career with
                   <span className="span222">Top-Rated</span> Mentors
                 </h3>
-
                 <p>
                   Join us to upgrade your professional career with our mentor’s
                   guidance. We provide a personalised training approach to
@@ -156,39 +132,17 @@ const LoginForm = () => {
             <div className="col-lg-6">
               <div className="iuhieiuihaw_right bg-white p-5">
                 <div className="uherrr_text text-center">
-                  <h4>Log in</h4>
-
+                  <h4>Forgot Password</h4>
                   <p className="mb-0">
                     Do Not Have An Account? <a href="/register">Sign Up</a>
                   </p>
                 </div>
 
-                <div className="ihduwfr_form_wrapper mt-3">
-                  <form onSubmit={handleSubmit(loginFormSubmitHandler)}>
-                    <div className="csfvgdtrfs mb-3 position-relative">
-                      <label
-                        htmlFor="exampleInputEmail1"
-                        className="form-label"
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder="Enter your email address"
-                        {...register("email", {
-                          required: "Email is required",
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address",
-                          },
-                        })}
-                      />
-                      <i className="fa-solid fa-envelopes-bulk position-absolute"></i>
-                    </div>
-                    {formErrors.email && (
-                      <p className="text-danger">{formErrors.email.message}</p>
-                    )}
+                <div
+                  className="ihduwfr_form_wrapper mt-3"
+                  style={{ height: "auto" }}
+                >
+                  <form onSubmit={handleSubmit(passwordSubmitHandler)}>
                     <div className="csfvgdtrfs mb-3 position-relative">
                       <label
                         htmlFor="exampleInputEmail1"
@@ -197,65 +151,87 @@ const LoginForm = () => {
                         Password
                       </label>
                       <input
-                        type={!showIcon ? "password" : "text"}
                         className="form-control"
-                        id="exampleInputEmail1"
-                        placeholder="Enter your password"
+                        // id="exampleInputEmail1"
+                        placeholder="Password must be at least 8 characters"
                         aria-describedby="emailHelp"
+                        type={showIcon ? "text" : "password"}
                         {...register("password", {
-                          required: "Password is required",
+                          required: "Password is Required",
+                          pattern: {
+                            value:
+                              /^(?!.* )(?=.*[a-z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&.]{8,16}$/,
+                            message:
+                              "A min 8 - 16 characters contains a combination of upper, lowercase letter, number and special characters like @ $ ! % * ? & _ . without space",
+                          },
+                          maxLength: {
+                            value: 16,
+                            message: "Must be less than 16 characters.",
+                          },
                         })}
                       />
+
                       <i
                         i="true"
-                        onClick={showPwdHandler}
+                        onClick={() => setShowIcon(!showIcon)}
                         className={
                           showIcon
                             ? "fa-solid fa-eye position-absolute"
                             : "fa-solid fa-eye-slash position-absolute"
                         }
                       ></i>
+                      {errors.password && (
+                        <p className="Error-meg-login-register">
+                          {errors.password.message}
+                        </p>
+                      )}
                     </div>
-                    {formErrors.password && (
-                      <span className="text-danger">
-                        {formErrors.password.message}
-                      </span>
-                    )}
-                    <a href="/forgot-password" className="uidherrrr_anchor">
-                      Forget password?
-                    </a>
 
+                    <div className="csfvgdtrfs mb-3 position-relative">
+                      <label
+                        htmlFor="exampleInputEmail1"
+                        className="form-label"
+                      >
+                        Confirm Password
+                      </label>
+                      <input
+                        // type="text"
+                        className="form-control"
+                        // id="exampleInputEmail1"
+                        placeholder="Type your password again"
+                        aria-describedby="emailHelp"
+                        type={showIcons ? "text" : "password"}
+                        //onChange={(e) => setConfirmPassword(e.target.value)}
+                        {...register("confirm_password", {
+                          required: "Password is Required",
+                          validate: (value) =>
+                            value === password || "Password must be matched",
+                        })}
+                      />
+
+                      <i
+                        i="true"
+                        onClick={() => setShowIcons(!showIcons)}
+                        className={
+                          showIcons
+                            ? "fa-solid fa-eye position-absolute"
+                            : "fa-solid fa-eye-slash position-absolute"
+                        }
+                      />
+
+                      {errors.confirm_password && (
+                        <p className="Error-meg-login-register">
+                          {errors.confirm_password.message}
+                        </p>
+                      )}
+                    </div>
+                    <a href="/login" className="uidherrrr_anchor">
+                      All ready have an account ?
+                    </a>
                     <button type="submit" className="btn btn-main py-3 mt-4">
-                      Log in
+                      Update Password
                     </button>
                   </form>
-                  {/* <div className="digheirer text-center pt-3 pb-2">
-                    <h4 className="mb-0" style={{ fontSize: "1.2rem" }}>
-                      <b>OR</b>
-                    </h4>
-                  </div>
-
-                  <div className="dieyhr_iuhfiderr mt-2">
-                    <div className="d-flex align-items-center">
-                      <div className="btn btn-main">
-                        <img
-                          className="me-1"
-                          src="images/facebooklog.webp"
-                          alt=""
-                        />{" "}
-                        Facebook
-                      </div>
-                      <div className="btn btn-main">
-                        <img
-                          className="me-1"
-                          src="images/googlelog.webp"
-                          alt=""
-                        />{" "}
-                        Google
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* </form> */}
                 </div>
               </div>
             </div>
@@ -266,4 +242,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResetPassword;

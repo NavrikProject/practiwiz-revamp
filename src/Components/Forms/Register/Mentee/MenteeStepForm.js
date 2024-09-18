@@ -44,25 +44,36 @@ const MenteeStepForm = () => {
   const onSubmit = async (data) => {
     try {
       dispatch(showLoadingHandler());
-      const res = await axios.post(`${url}api/v1/mentee/register`, {
-        data: data,
-        userType: selectedOption,
-      });
+
+      const res = await Promise.race([
+        axios.post(`${url}api/v1/mentee/register`, {
+          data: data,
+          userType: selectedOption,
+        }),
+        new Promise(
+          (_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+        ),
+      ]);
+
       dispatch(hideLoadingHandler());
+
       if (res.data.success) {
-        dispatch(hideLoadingHandler());
         toast.success(
-          "You have been successfully register. Please login again."
+          "You have been successfully registered. Please login again."
         );
         reset();
-      }
-      if (res.data.error) {
-        dispatch(hideLoadingHandler());
-        toast.error("There is some error while register.");
+      } else if (res.data.error) {
+        toast.error("There is some error while registering.");
       }
     } catch (error) {
+      toast.error(
+        error.message === "Request timed out"
+          ? "Request timed out. Please try again."
+          : "There is some error while registering."
+      );
+    } finally {
       dispatch(hideLoadingHandler());
-      toast.error("There is some error while register.");
     }
   };
 
