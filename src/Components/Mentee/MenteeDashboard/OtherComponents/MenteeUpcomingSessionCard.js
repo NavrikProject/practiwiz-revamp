@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const MenteeUpcomingSessionCard = ({ allBookingSessions }) => {
   return (
     <>
@@ -78,7 +79,12 @@ const MenteeUpcomingSessionCard = ({ allBookingSessions }) => {
                                 the following link on same day and time.!
                               </div>
                               <button className="btn-main me-1">
-                                Join Now
+                                <Link
+                                  target="_blank"
+                                  to={`${session.trainee_join_url}`}
+                                >
+                                  Join Now
+                                </Link>
                               </button>
                               <button className="btn-main">Cancel</button>
                               {/* <button className="btn-main mt-2">

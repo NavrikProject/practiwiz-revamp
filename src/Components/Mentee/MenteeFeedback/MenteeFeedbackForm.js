@@ -68,7 +68,7 @@ const MenteeFeedbackForm = (props) => {
 
     try {
       const response = await axios.post(
-        `${url}api/v1/mentee/appointments/feedback/submit`,
+        `${url}api/v1/mentee/dashboard/appointments/feedback/submit`,
         {
           overallRating: overallRating,
           platformExperience: platformRating,
