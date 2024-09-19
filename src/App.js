@@ -40,10 +40,10 @@ import ProtectedRoute from "./Utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
 import Test from "./Pages/Test";
-import MentorCardSkelton from "./Components/Mentor/SkeltonLoaders/MentorCardSkelton";
-import Skelton from "./Components/Mentor/SkeltonLoaders/Skelton";
 import MenteeFeedbackForm from "./Components/Mentee/MenteeFeedback/MenteeFeedbackForm";
 import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
+import ForgotPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ForgotPasswordPage";
+import ResetPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ResetPasswordPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -156,6 +156,12 @@ function App() {
           {/* )} */}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
+
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/user/activate/reset-password/:token"
+            element={<ResetPasswordPage />}
+          />
         </Routes>
       </Router>
       <ScrollButton />

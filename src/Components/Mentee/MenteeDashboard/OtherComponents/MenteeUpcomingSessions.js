@@ -14,7 +14,7 @@ const MenteeUpcomingSessions = () => {
     const fetchMentors = async () => {
       setLoading(true);
       const response = await axios.post(
-        `${url}api/v1/mentee/appointments/upcoming`,
+        `${url}api/v1/mentee/dashboard/appointments/upcoming`,
         { userDtlsId: user?.user_id }
       );
       setLoading(false);

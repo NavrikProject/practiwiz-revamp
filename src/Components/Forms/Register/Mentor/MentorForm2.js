@@ -3,14 +3,39 @@ import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 import "./input-radio.css";
 import GoToTop from "../../../../Utils/GoToTop";
+import collegeData from "../../../data/collegesname.json";
 
 const MentorForm2 = () => {
   const {
     register,
     formState: { errors },
-    watch,
     setValue,
   } = useFormContext();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
+
+  // Function to handle input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setValue("mentor_InstituteName", value);
+    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
+  };
+
+  // Filter colleges based on the search term
+  const filteredColleges = collegeData.filter((item) =>
+    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Function to handle dropdown option click
+  const handleOptionClick = (college) => {
+    setSelectedCollege(college); // Set selected college
+    setSearchTerm(college["College Name"]); // Update input with selected college name
+    setDropdownVisible(false); // Hide dropdown after selection
+    setValue("mentor_InstituteName", college["College Name"]);
+  };
 
   const [items, setItems] = useState([
     { id: "draggable1", text: " Technology", inside: false },
@@ -65,12 +90,11 @@ const MentorForm2 = () => {
 
   return (
     <>
-      <GoToTop />
       <div className="doiherner_wrapper">
         <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
           <div className="row">
             {/* <div className="col-lg-6"> */}
-            <div className="mb-4">
+            <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Job Title</b>
               </label>
@@ -82,6 +106,10 @@ const MentorForm2 = () => {
                 aria-describedby="emailHelp"
                 {...register("mentor_job_title", {
                   required: "Job title  is required",
+                  pattern: {
+                    value: /^[a-zA-Z\s]+$/, // Allows letters and spaces
+                    message: "Job Title should contain only letters",
+                  },
                 })} //1
               />
               {errors.mentor_job_title && (
@@ -90,7 +118,7 @@ const MentorForm2 = () => {
                 </p>
               )}
             </div>
-            <div className="mb-4">
+            <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputPassword1" className="form-label">
                 <b>Years of Experience</b>
               </label>
@@ -112,18 +140,22 @@ const MentorForm2 = () => {
               )}
             </div>
 
-            <div className="mb-4">
+            <div className=" col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Company</b>
               </label>
               <input
-                type="email"
+                type="text"
                 className="form-control"
                 // id="exampleInputEmail1"
                 placeholder="Type Your Company Name"
                 aria-describedby="emailHelp"
                 {...register("mentor_company_name", {
                   required: "Company name is required",
+                  pattern: {
+                    value: /^[a-zA-Z\s]+$/, // Allows letters and spaces
+                    message: "Company Name should contain only letters",
+                  },
                 })} //1
               />
               {errors.mentor_company_name && (
@@ -132,31 +164,6 @@ const MentorForm2 = () => {
                 </p>
               )}
             </div>
-            {/* </div> */}
-
-            {/* <div className="col-lg-6">
-            <div className="ikhwnjrr_right">
-              <label htmlFor="exampleInputEmail1" className="form-label mb-3">
-                <b>Percentage Completion</b>
-              </label>
-
-              <div className="d-flex align-items-center">
-                <div className="hinrer_circle position-relative me-3">
-                  <h2>{F_Name.charAt(0)}{L_Name.charAt(0)}</h2>
-                </div>
-
-                <div className="idhnerier_right">
-                  <h4 className="mb-1">{F_Name}&nbsp;{ L_Name}</h4>
-
-                  <p className="mb-1">
-                    <b>40% Complete</b>
-                  </p>
-
-                  <h6 className="mb-0">Signed up - 4 minutes ago</h6>
-                </div>
-              </div>
-            </div>
-          </div> */}
           </div>
 
           <div className="row align-items-center">
@@ -380,7 +387,7 @@ const MentorForm2 = () => {
           </div>
 
           <div className="row">
-            <div className="col-lg-12 mb-4">
+            <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label mb-0">
                 <b>Academic Qualification</b>
               </label>
@@ -393,6 +400,7 @@ const MentorForm2 = () => {
                       id="check_11"
                       name="check_11"
                       value="Post Graduate"
+                      className="d-none"
                       {...register("academic_qualification", {
                         // required: "First Name is required",
                       })} //1
@@ -406,6 +414,7 @@ const MentorForm2 = () => {
                       type="radio"
                       id="check_20"
                       name="check_20"
+                      className="d-none"
                       value="Graduate"
                       {...register("academic_qualification", {
                         // required: "First Name is required",
@@ -420,6 +429,7 @@ const MentorForm2 = () => {
                       type="radio"
                       id="check_30"
                       name="check_30"
+                      className="d-none"
                       value="Doctorate"
                       {...register("academic_qualification", {
                         // required: "First Name is required",
@@ -432,40 +442,85 @@ const MentorForm2 = () => {
               </div>
             </div>
 
-            <div className="col-lg-12 mb-4">
+            <div className=" col-lg-6 ">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Your Recommended Area of Mentorship</b>
-              </label>{" "}
-              <input
-                type="text"
-                className="form-control"
-                // id="exampleInputEmail1"
-                placeholder="Type A Headline Here"
-                aria-describedby="emailHelp"
-                {...register("recommended_area_of_mentorship", {
-                  // required: "First Name is required",
-                })}
-              />
-            </div>
-            <div className="col-lg-12 mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Headline</b>
+                <b>Institute/College name</b>
               </label>
-              <textarea
-                className="form-control"
-                style={{ height: "150px" }}
-                {...register("mentor_Headline", {
-                  // required: "First Name is required",
-                })} //1
-              ></textarea>
-              <p className="iduehnbriee_text mb-0">
-                (*Give a good headline, This help us to understand the mentor
-                overview*)
-              </p>
+              <div className="dkjiherer moideuirer_list hello">
+                <div className="dropdown">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a college..."
+                    value={searchTerm} // Ensure input value is controlled
+                    {...register("mentor_InstituteName", {
+                      required: "Institute Name is required",
+                    })}
+                    onChange={handleInputChange}
+                    onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                  />
+                  {dropdownVisible && filteredColleges.length > 0 && (
+                    <div className="dropdown-content">
+                      {filteredColleges.slice(0, 50).map(
+                        (
+                          college,
+                          index // Limit to 10 results
+                        ) => (
+                          <div
+                            key={index}
+                            className="dropdown-item"
+                            onClick={() => handleOptionClick(college)}
+                          >
+                            {college["College Name"]}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {errors.mentor_InstituteName && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_InstituteName.message}
+                </p>
+              )}
             </div>
+          </div>
+          <div className="col-lg-12 mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              <b>Your Recommended Area of Mentorship</b>
+            </label>{" "}
+            <input
+              type="text"
+              className="form-control"
+              // id="exampleInputEmail1"
+              placeholder="Type A Headline Here"
+              aria-describedby="emailHelp"
+              {...register("recommended_area_of_mentorship", {
+                // required: "First Name is required",
+              })}
+            />
+          </div>
+          <div className="col-lg-12 mb-4">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              <b>Headline</b>
+            </label>
+            <textarea
+              className="form-control"
+              style={{ height: "150px" }}
+              {...register("mentor_Headline", {
+                // required: "First Name is required",
+              })} //1
+            ></textarea>
+            <p className="iduehnbriee_text mb-0">
+              (*Give a good headline, This help us to understand the mentor
+              overview*)
+            </p>
           </div>
         </div>
       </div>
+      <GoToTop />
     </>
   );
 };

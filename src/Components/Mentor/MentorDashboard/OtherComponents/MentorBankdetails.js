@@ -5,7 +5,7 @@ import "../DashboardCSS/BankDetails.css";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
 
-const MentorBankdetails = ({ data,user,token }) => {
+const MentorBankdetails = ({ data, user, token }) => {
   const url = ApiURL();
   const mentorUserDtlsId = user?.user_id;
   const mentorDtlsId = data[0].mentor_dtls_id;
@@ -478,7 +478,7 @@ const MentorBankdetails = ({ data,user,token }) => {
                       <div className="form-group">
                         <label htmlFor="accountType">
                           Account Type:
-                          {" " + bank.mentor_bank_account_holder_name}
+                          {" " + bank.mentor_bank_account_type}
                         </label>
                       </div>
                       <div className="form-group">

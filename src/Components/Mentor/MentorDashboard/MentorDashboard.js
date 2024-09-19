@@ -15,6 +15,7 @@ import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
 import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
+import CaseStudyInput from "./CaseStudy/CaseStudyInput";
 
 const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
@@ -48,6 +49,7 @@ const MentorDashboard = ({ user, token }) => {
     useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
   const [Sessionmenu, setSessionmenu] = useState(false);
+  const [caseStudies, setCaseStudies] = useState(false);
   const toggleNoProfile = () => {
     setprofilemenu(true);
   };
@@ -72,7 +74,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorPsettings(false),
       setshowMentorUpcomingSessions(false),
       setShowMentorCompletedSessions(false),
-      setShowMentorMessage(false)
+      setShowMentorMessage(false),
+      setCaseStudies(false)
     );
   };
 
@@ -86,7 +89,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorProfile(false),
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
-      setShowMentorCompletedSessions(false)
+      setShowMentorCompletedSessions(false),
+      setCaseStudies(false)
     );
   };
 
@@ -101,7 +105,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorUpcomingSessions(false),
       setshowMentorPsettings(false),
       setShowMentorProfile(false),
-      setShowMentorMessage(false)
+      setShowMentorMessage(false),
+      setCaseStudies(false)
     );
   };
 
@@ -116,7 +121,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorPsettings(false),
       setShowMentorCompletedSessions(false),
       setShowMentorMessage(false),
-      setShowMentorProfile(false)
+      setShowMentorProfile(false),
+      setCaseStudies(false)
     );
   };
   const ShowMentorCompletedHandler = () => {
@@ -128,7 +134,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowChangePwd(false),
       setshowMentorPsettings(false),
       setShowMentorProfile(false),
-      setshowMentorUpcomingSessions(false)
+      setshowMentorUpcomingSessions(false),
+      setCaseStudies(false)
     );
   };
 
@@ -144,7 +151,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorProfile(false),
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
-      setShowMentorMessage(false)
+      setShowMentorMessage(false),
+      setCaseStudies(false)
     );
   };
   const MentorSessionSetupHandler = () => {
@@ -158,7 +166,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorProfile(false),
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
-      setShowMentorMessage(false)
+      setShowMentorMessage(false),
+      setCaseStudies(false)
     );
   };
 
@@ -173,7 +182,24 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorPsettings(false),
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
-      setShowMentorProfile(false)
+      setShowMentorProfile(false),
+      setCaseStudies(false)
+    );
+  };
+
+  const MentorCaseStudiesShowingHandler = () => {
+    if (!caseStudies) {
+      setCaseStudies(true);
+    }
+    return (
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setshowMentorPsettings(false),
+      setShowMentorCompletedSessions(false),
+      setshowMentorUpcomingSessions(false),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false)
     );
   };
   const dispatch = useDispatch();
@@ -320,7 +346,7 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorProfileShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     {/* <i className="fa-solid fa-user"> */}
                     <i className="fa-solid fa-house-circle-check"></i>
                   </span>
@@ -332,7 +358,7 @@ const MentorDashboard = ({ user, token }) => {
                     className="btn btn-transparent text-center py-3 seeeett"
                     onMouseOver={toggleNoProfile}
                   >
-                    <span className="d-block bg-white position-relative m-auto className=">
+                    <span className="d-block bg-white position-relative m-auto">
                       <i className="fa-solid fa-bars"></i>
                     </span>
                     <h5>
@@ -362,7 +388,7 @@ const MentorDashboard = ({ user, token }) => {
                     className="btn btn-transparent text-center py-3 seeeett"
                     onMouseOver={toggleNosession}
                   >
-                    <span className="d-block bg-white position-relative m-auto className=">
+                    <span className="d-block bg-white position-relative m-auto">
                       {/* <i className="fa-solid fa-bars-progress"></i> */}
                       <i className="fa-solid fa-tv"></i>
                     </span>
@@ -393,7 +419,7 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorMsgShowingHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     {/* <i className="fa-brands fa-rocketchat"></i> */}
                     <i className="fa-solid fa-building-columns"></i>
                   </span>
@@ -405,25 +431,49 @@ const MentorDashboard = ({ user, token }) => {
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorNotificationHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-bell"></i>
+                    {hasUnreadNotifications && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          top: "-3px",
+                          right: "-5px",
+                          width: "12px",
+                          height: "12px",
+                          backgroundColor: "red",
+                          borderRadius: "50%",
+                          border: "2px solid white",
+                        }}
+                      />
+                    )}
                   </span>
-
                   <h5>Notifications</h5>
                 </button>
+
                 <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onClick={MentorCaseStudiesShowingHandler}
+                >
+                  <span className="d-block bg-white position-relative m-auto">
+                    <i className="fa-solid fa-folder"></i>
+                  </span>
+
+                  <h5>Case Studies</h5>
+                </button>
+
+                {/* <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MentorSessionSetupHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-folder"></i>
                   </span>
 
                   <h5>Session Setup</h5>
-                </button>
-
+                </button> */}
                 {/* <button className="btn btn-transparent text-center py-3">
-                  <span className="d-block bg-white position-relative m-auto className=">
+                  <span className="d-block bg-white position-relative m-auto">
                     <i className="fa-solid fa-right-from-bracket"></i>
                   </span>
 
@@ -501,6 +551,9 @@ const MentorDashboard = ({ user, token }) => {
                   token={token}
                   data={singleMentor}
                 />
+              )}
+              {caseStudies && (
+                <CaseStudyInput user={user} token={token} data={singleMentor} />
               )}
             </div>
           </div>

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
 import SessionCardSkeleton from "../../../Mentor/MentorDashboard/SkeltonLoaders/SessionCardSkeleton";
+import { toast } from "react-toastify";
 
 const MenteeCompletedSessions = () => {
   const [loading, setLoading] = useState(false);
@@ -14,19 +15,33 @@ const MenteeCompletedSessions = () => {
   const url = ApiURL();
   useEffect(() => {
     const fetchMentors = async () => {
-      setLoading(true);
-      const response = await axios.post(
-        `${url}api/v1/mentee/appointments/completed`,
-        { userDtlsId: user?.user_id }
-      );
-      setLoading(false);
-      if (response.data.success) {
-        setAllCompletedBookingSessions(response.data.success);
-        setLoading(false);
-      }
-      if (response.data.error) {
+      try {
+        setLoading(true);
+
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/mentee/dashboard/appointments/completed`, {
+            userDtlsId: user?.user_id,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllCompletedBookingSessions(response.data.success);
+        } else if (response.data.error) {
+          setAllCompletedBookingSessions([]);
+        }
+      } catch (error) {
         setAllCompletedBookingSessions([]);
-        setLoading(false);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false); // Ensure loading is stopped in all cases
       }
     };
     fetchMentors();

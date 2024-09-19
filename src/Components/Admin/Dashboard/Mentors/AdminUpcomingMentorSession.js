@@ -36,25 +36,37 @@ const AdminUpcomingMentorSession = () => {
   const url = ApiURL();
   useEffect(() => {
     const fetchUpcomingMentors = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/booking/upcoming-session-lists`,
-        {
-          headers: { authorization: "Bearer " + token },
+      try {
+        setLoading(true);
+
+        const response = await Promise.race([
+          axios.get(
+            `${url}api/v1/admin/dashboard/mentors/booking/upcoming-session-lists`,
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllUpcomingMentorSessions(response.data.success);
+        } else if (response.data.error) {
+          setAllUpcomingMentorSessions([]);
+          toast.error(response.data.error);
         }
-      );
-      setLoading(false);
-      if (response.data.success) {
-        return (
-          setAllUpcomingMentorSessions(response.data.success), setLoading(false)
-        );
-      }
-      if (response.data.error) {
-        return (
-          setAllUpcomingMentorSessions([]),
-          setLoading(false),
-          toast.error(response.data.error)
-        );
+      } catch (error) {
+        setAllUpcomingMentorSessions([]);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false);
       }
     };
     fetchUpcomingMentors();

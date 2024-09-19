@@ -3,8 +3,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./MentorForm3.css";
 import { Controller, useFormContext } from "react-hook-form";
+import GoToTop from "../../../../Utils/GoToTop";
+import { toast } from "react-toastify";
 
-const daysOfWeek = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const initialTime = {
   hours: "00",
@@ -18,7 +20,9 @@ const MentorForm3 = () => {
   const [condition, setCondition] = useState(true);
 
   const defaultShow = () => {
-    setCondition(!condition);
+    if (condition) {
+      setCondition(false);
+    }
   };
 
   const {
@@ -116,8 +120,9 @@ const MentorForm3 = () => {
       !date.Mentor_timeslot_rec_end_date ||
       !recurring.mentor_timeslot_rec_indicator
     ) {
-      alert("Please fill in all the fields before adding the slot.");
-      return;
+      return toast.error(
+        "Please fill in all the fields before adding the slot."
+      );
     }
 
     const timeSlot = { from, to, date, recurring };
@@ -153,11 +158,11 @@ const MentorForm3 = () => {
 
   return (
     <>
-      <div className="line-1">Set your availability</div>
+      {/* <div className="line-1"></div> */}
       <div className="whole">
         <div className="doiherner_wrapper">
           <div className="linesepration">
-            <div className="line-2">Select Days</div>
+            <div className="line-2">Select Day</div>
 
             <span className="line-3">
               Choose your preferred time slots for the selected day
@@ -181,114 +186,143 @@ const MentorForm3 = () => {
               ))}
             </div>
             <div className="Timecolumn">
-              {daysOfWeek.map(
-                (day) =>
-                  selectedDays[day] && (
-                    <div key={day} className="innertimeslot">
-                      <div className="slotrow">
-                        <h6>{day}</h6>
+              {condition ? (
+                <>
+                  <div
+                    style={{
+                      width: "85%",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "3px solid #bdbdbd",
+                      borderRadius: "3rem",
+                      flexDirection: "column",
+                      marginLeft: "2.5rem",
+                      gap: "1.5rem",
+                    }}
+                  >
+                    <i
+                      className="fa-solid fa-calendar-check "
+                      style={{ color: " #bdbdbd", fontSize: "200px" }}
+                    >
+                      {" "}
+                    </i>
+                    <div className="line-1">Set Your Availability</div>{" "}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {daysOfWeek.map(
+                    (day) =>
+                      selectedDays[day] && (
+                        <div key={day} className="innertimeslot">
+                          <div className="slotrow">
+                            <h6>{day}</h6>
 
-                        <div className="timeslots">
-                          <CustomTimePicker
-                            value={timeInputs[day].from}
-                            onChange={(value) =>
-                              handleTimeChange(day, "from", value)
-                            }
-                          />
-                          <span style={styles.toLabel}>to</span>
-                          <CustomTimePicker
-                            value={timeInputs[day].to}
-                            onChange={(value) =>
-                              handleTimeChange(day, "to", value)
-                            }
-                          />
-                          <div className="label-input">
-                            <label>Recurring</label>
-                            <Controller
-                              control={control}
-                              name={`${day}.recurring`}
-                              render={({ field }) => (
-                                <select
-                                  {...field}
-                                  value={
-                                    timeInputs[day].recurring
-                                      .mentor_timeslot_rec_indicator
-                                  }
-                                  onChange={(e) =>
-                                    handleTimeChange(day, "recurring", {
-                                      ...timeInputs[day].recurring,
-                                      mentor_timeslot_rec_indicator:
-                                        e.target.value,
-                                    })
-                                  }
-                                >
-                                  <option value="">None</option>
-                                  <option value="Daily">Daily</option>
-                                  <option value="Weekly">Weekly</option>
-                                  <option value="Monthly">Monthly</option>
-                                </select>
-                              )}
-                            />
+                            <div className="timeslots">
+                              <CustomTimePicker
+                                value={timeInputs[day].from}
+                                onChange={(value) =>
+                                  handleTimeChange(day, "from", value)
+                                }
+                              />
+                              <span style={styles.toLabel}>to</span>
+                              <CustomTimePicker
+                                value={timeInputs[day].to}
+                                onChange={(value) =>
+                                  handleTimeChange(day, "to", value)
+                                }
+                              />
+                            </div>
+                            <div className="label-input">
+                              <label>Recurring</label>
+                              <Controller
+                                control={control}
+                                name={`${day}.recurring`}
+                                render={({ field }) => (
+                                  <select
+                                    {...field}
+                                    value={
+                                      timeInputs[day].recurring
+                                        .mentor_timeslot_rec_indicator
+                                    }
+                                    onChange={(e) =>
+                                      handleTimeChange(day, "recurring", {
+                                        ...timeInputs[day].recurring,
+                                        mentor_timeslot_rec_indicator:
+                                          e.target.value,
+                                      })
+                                    }
+                                  >
+                                    <option value="">None</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                  </select>
+                                )}
+                              />
+                            </div>
+                            <div className="label-input">
+                              <label>End date</label>
+                              <Controller
+                                control={control}
+                                name={`${day}.date`}
+                                render={({ field }) => (
+                                  <DatePicker
+                                    {...field}
+                                    selected={
+                                      timeInputs[day].date
+                                        .Mentor_timeslot_rec_end_date
+                                    }
+                                    onChange={(date) =>
+                                      handleTimeChange(day, "date", {
+                                        ...timeInputs[day].date,
+                                        Mentor_timeslot_rec_end_date:
+                                          formatDate(date),
+                                      })
+                                    }
+                                    dateFormat="MM/dd/yyyy"
+                                    placeholderText="End Date"
+                                    minDate={new Date()} // Prevent past dates
+                                    style={styles.datePicker}
+                                  />
+                                )}
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleOkClick(day)}
+                              style={styles.okButton}
+                            >
+                              ADD
+                            </button>
                           </div>
-                          <div className="label-input">
-                            <label>End date</label>
-                            <Controller
-                              control={control}
-                              name={`${day}.date`}
-                              render={({ field }) => (
-                                <DatePicker
-                                  {...field}
-                                  selected={
-                                    timeInputs[day].date
-                                      .Mentor_timeslot_rec_end_date
-                                  }
-                                  onChange={(date) =>
-                                    handleTimeChange(day, "date", {
-                                      ...timeInputs[day].date,
-                                      Mentor_timeslot_rec_end_date:
-                                        formatDate(date),
-                                    })
-                                  }
-                                  dateFormat="MM/dd/yyyy"
-                                  placeholderText="End Date"
-                                  minDate={new Date()} // Prevent past dates
-                                  style={styles.datePicker}
-                                />
-                              )}
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleOkClick(day)}
-                            style={styles.okButton}
-                          >
-                            ADD
-                          </button>
-                        </div>
-                      </div>
 
-                      {timeSlotTags[day].map((slot, index) => (
-                        <div key={index} className="tag">
-                          <span>{`${slot.from.hours}:${slot.from.minutes} ${
-                            slot.from.ampm
-                          } - ${slot.to.hours}:${slot.to.minutes} ${
-                            slot.to.ampm
-                          }, Recurring: ${
-                            slot.recurring.mentor_timeslot_rec_indicator
-                          }, End Date: ${
-                            slot.date.Mentor_timeslot_rec_end_date || "N/A"
-                          }`}</span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveTag(day, index)}
-                            style={styles.removeButton}
-                          >
-                            Remove
-                          </button>
+                          {timeSlotTags[day].map((slot, index) => (
+                            <div key={index} className="tag">
+                              <span>{`${slot.from.hours}:${slot.from.minutes} ${
+                                slot.from.ampm
+                              } - ${slot.to.hours}:${slot.to.minutes} ${
+                                slot.to.ampm
+                              }, Recurring: ${
+                                slot.recurring.mentor_timeslot_rec_indicator
+                              }, End Date: ${
+                                slot.date.Mentor_timeslot_rec_end_date || "N/A"
+                              }`}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveTag(day, index)}
+                                style={styles.removeButton}
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  )
+                      )
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -297,6 +331,7 @@ const MentorForm3 = () => {
       {Object.keys(errors).length > 0 && (
         <p className="errorMessage">Please add at least one time slot.</p>
       )}
+      <GoToTop />
     </>
   );
 };

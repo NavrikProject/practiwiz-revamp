@@ -102,6 +102,30 @@ const Navbar = () => {
                         MentorClub
                       </a>
                     </li>
+                    {/* <li className="nav-item">
+                      <svg
+                        width="17"
+                        height="16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.166 1.333 3.23 8.458c-.233.28-.35.42-.351.537-.002.102.044.2.124.264.091.074.273.074.636.074H8.5l-.667 5.334L13.77 7.54c.232-.279.348-.418.35-.536a.333.333 0 0 0-.124-.264c-.091-.074-.273-.074-.636-.074H8.5l.666-5.334Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                      <a className="nav-link" href="/case-studies">
+                        Case Studies
+                      </a>
+                    </li> */}
+                    <li className="nav-item">
+                      <a className="nav-link" href="/case-studies">
+                        Case Studies
+                        <span className="ai-button">
+                          AI<i className="fas fa-bolt"></i>
+                        </span>
+                      </a>
+                    </li>
 
                     {/* <li className="nav-item">
                       <a className="nav-link" href="/jobs">

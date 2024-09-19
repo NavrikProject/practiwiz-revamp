@@ -43,6 +43,7 @@
 }
 .text-danger {
   color: red;
+  margin-left: 10px;
 }
 .Error-meg-login-register {
   color: red;
