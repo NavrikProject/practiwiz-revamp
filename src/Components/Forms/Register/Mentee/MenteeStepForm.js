@@ -14,7 +14,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
-
 const MenteeStepForm = () => {
   const dispatch = useDispatch();
   const url = ApiURL();
@@ -41,39 +40,36 @@ const MenteeStepForm = () => {
   const { reset } = useForm();
   const [step, setStep] = React.useState(1);
   const { trigger } = methods;
+
+  const cleanPhoneNumber = (phone) => {
+    return phone.replace(/\D/g, "");
+  };
   const onSubmit = async (data) => {
+    const cleanedData = {
+      ...data,
+      mentee_phone: cleanPhoneNumber(data.mentee_phone), // Clean the phone number
+    };
     try {
       dispatch(showLoadingHandler());
-
-      const res = await Promise.race([
-        axios.post(`${url}api/v1/mentee/register`, {
-          data: data,
-          userType: selectedOption,
-        }),
-        new Promise(
-          (_, reject) =>
-            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
-        ),
-      ]);
-
+      const res = await axios.post(`${url}api/v1/mentee/register`, {
+        data: cleanedData,
+        userType: selectedOption,
+      });
       dispatch(hideLoadingHandler());
-
       if (res.data.success) {
+        dispatch(hideLoadingHandler());
         toast.success(
-          "You have been successfully registered. Please login again."
+          "You have been successfully register. Please login again."
         );
         reset();
-      } else if (res.data.error) {
-        toast.error("There is some error while registering.");
+      }
+      if (res.data.error) {
+        dispatch(hideLoadingHandler());
+        toast.error("There is some error while register.");
       }
     } catch (error) {
-      toast.error(
-        error.message === "Request timed out"
-          ? "Request timed out. Please try again."
-          : "There is some error while registering."
-      );
-    } finally {
       dispatch(hideLoadingHandler());
+      toast.error("There is some error while register.");
     }
   };
 
@@ -209,7 +205,7 @@ const MenteeStepForm = () => {
                               ""
                             ) : (
                               <button
-                                type="submit"
+                                type="button"
                                 onClick={nextStep}
                                 disabled={step === 3}
                                 className="btn dgheuih_btn_next btn-main"
@@ -222,7 +218,10 @@ const MenteeStepForm = () => {
                               //   id="multi-step-form"
                               //   onSubmit={methods.handleSubmit(onSubmit)}
                               // >
-                              <button className="btn dgheuih_btn_next btn-main">
+                              <button
+                                className="btn dgheuih_btn_next btn-main"
+                                type="submit"
+                              >
                                 Submit
                               </button>
                               // </form>

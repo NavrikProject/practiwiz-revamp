@@ -4,27 +4,65 @@ import { useState } from "react";
 import "../../../Forms/Register/Mentor/input-radio.css";
 import collegeData from "../../../data/collegesname.json";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { ApiURL } from "../../../../Utils/ApiURL";
 import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { ApiURL } from "../../../../Utils/ApiURL";
 const MentorProfile2 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
   const {
-    register,
     setValue,
     formState: { errors },
   } = useForm();
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [formData, setFormData] = useState({
+    mentor_job_title: profiledata.mentor_job_title,
+    mentor_years_of_experience: profiledata.mentor_years_of_experience,
+    mentor_company_name: profiledata.mentor_company_name,
+
+    mentor_academic_qualification: profiledata.mentor_academic_qualification,
+    expertise_list: profiledata.expertise_list,
+    mentor_recommended_area_of_mentorship:
+      profiledata.mentor_recommended_area_of_mentorship,
+    mentor_headline: profiledata.mentor_headline,
+    mentor_institute: profiledata.mentor_institute,
+  });
+  const [searchTerm, setSearchTerm] = useState(formData.mentor_institute);
+
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
+
+  const [expertise, setExpertise] = useState(
+    JSON.parse(profiledata.expertise_list) // Assuming expertise_list is a JSON string
+  );
+
+  const handleInputAreaChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    // Handle expertise check/uncheck
+    if (type === "checkbox") {
+      const updatedExpertise = checked
+        ? [...expertise, { mentor_expertise: value }]
+        : expertise.filter((exp) => exp.mentor_expertise !== value);
+
+      setExpertise(updatedExpertise); // Update local expertise state
+      setFormData({
+        ...formData,
+        expertise_list: JSON.stringify(updatedExpertise), // Update formData state
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value, // Update formData dynamically for other input fields
+      });
+    }
+  };
 
   // Function to handle input change
   const handleInputChange1 = (e) => {
@@ -36,7 +74,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
 
   // Filter colleges based on the search term
   const filteredColleges = collegeData.filter((item) =>
-    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+    item["College Name"]?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
 
   // Function to handle dropdown option click
@@ -45,18 +83,9 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     setSearchTerm(college["College Name"]); // Update input with selected college name
     setDropdownVisible(false); // Hide dropdown after selection
     setValue("mentor_InstituteName", college["College Name"]);
+    formData.mentor_institute = college["College Name"];
   };
 
-  const [formData, setFormData] = useState({
-    mentor_job_title: profiledata?.mentor_job_title,
-    mentor_years_of_experience: profiledata?.mentor_years_of_experience,
-    mentor_company_name: profiledata?.mentor_company_name,
-    mentor_academic_qualification: profiledata?.mentor_academic_qualification,
-    expertise_list: profiledata?.expertise_list,
-    mentor_recommended_area_of_mentorship:
-      profiledata?.mentor_recommended_area_of_mentorship,
-    mentor_headline: profiledata?.mentor_headline,
-  });
   const exp = formData.expertise_list;
   let expert = JSON.parse(exp);
   const edulevel = formData.mentor_academic_qualification;
@@ -79,7 +108,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
       mentor_company_name,
       mentor_recommended_area_of_mentorship,
       mentor_headline,
-      // mentor_InstituteName,
+      mentor_InstituteName,
     } = formData;
 
     if (
@@ -87,7 +116,8 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
       !mentor_years_of_experience ||
       !mentor_company_name ||
       !mentor_recommended_area_of_mentorship ||
-      !mentor_headline
+      !mentor_headline ||
+      mentor_InstituteName
     ) {
       toast.error("All fields are required!");
       return false;
@@ -152,7 +182,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   };
 
   // Assume this is the passion_list from the backend
-  const passionList = profiledata?.passion_list;
+  const passionList = profiledata.passion_list;
   // Parse the passion_list JSON string into an array
   const parsedPassionList = JSON.parse(passionList);
 
@@ -272,7 +302,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               <div
                 type=""
                 id="container"
-                value={profiledata?.user_firstname}
+                value={profiledata.user_firstname}
                 className="bg-white"
                 onDragOver={handleDragOver}
                 onDrop={handleDropInContainer}
@@ -308,7 +338,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               </div>
 
               <p className="iduehnbriee_text mb-0">
-                (*Drag and drop the most suitable option in the box*)
+                (Drag and drop the most suitable option in the box)
               </p>
             </div>
 
@@ -324,7 +354,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 id="outside-container"
                 onDragOver={handleDragOver}
                 onDrop={handleDropOutside}
-                value={profiledata?.user_firstname}
+                value={profiledata.user_firstname}
               >
                 {items
                   .filter((item) => !item.inside)
@@ -362,6 +392,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Agile"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_1">Agile</label>
                   </li>
@@ -376,6 +407,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "AI"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_2">AI</label>
                   </li>
@@ -390,6 +422,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Cloud"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_3">Cloud</label>
                   </li>
@@ -404,6 +437,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Python"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_4">Python</label>
                   </li>
@@ -418,6 +452,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "DBA"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_5">DBA</label>
                   </li>
@@ -432,6 +467,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "JAVA"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_6">JAVA</label>
                   </li>
@@ -446,6 +482,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Selenium"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_7">Selenium</label>
                   </li>
@@ -460,6 +497,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Conflict Resolution"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_8">Conflict Resolution</label>
                   </li>
@@ -474,6 +512,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Communication"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_9">Communication</label>
                   </li>
@@ -488,6 +527,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       defaultChecked={expert.some(
                         (exp) => exp.mentor_expertise === "Resume Writing"
                       )}
+                      onChange={handleInputAreaChange}
                     />
                     <label htmlFor="check_10">Resume Writing</label>
                   </li>
@@ -531,6 +571,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                     />
                     <label htmlFor="check_20">Graduate</label>
                   </li>
+
                   <li>
                     <input
                       type="radio"
@@ -559,18 +600,13 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                     className="form-control"
                     placeholder="Search for a college..."
                     disabled={!isEditing}
-                    value={
-                      isEditing ? profiledata.mentor_institute : searchTerm
-                    } // Ensure input value is controlled
-                    {...register("mentor_InstituteName", {
-                      required: "Institute Name is required",
-                    })}
+                    value={searchTerm} // Ensure input value is controlled
                     onChange={handleInputChange1}
                     onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
                   />
                   {dropdownVisible && filteredColleges.length > 0 && (
                     <div className="dropdown-content">
-                      {filteredColleges.slice(0, 50).map(
+                      {filteredColleges.slice(0, 10).map(
                         (
                           college,
                           index // Limit to 10 results
@@ -588,12 +624,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                   )}
                 </div>
               </div>
-
-              {errors.mentor_InstituteName && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_InstituteName.message}
-                </p>
-              )}
             </div>
           </div>
           <div className="col-lg-12 mb-4">

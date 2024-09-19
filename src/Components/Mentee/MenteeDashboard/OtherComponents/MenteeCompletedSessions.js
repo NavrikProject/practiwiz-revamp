@@ -19,7 +19,7 @@ const MenteeCompletedSessions = () => {
         setLoading(true);
 
         const response = await Promise.race([
-          axios.post(`${url}api/v1/mentee/appointments/completed`, {
+          axios.post(`${url}api/v1/mentee/dashboard/appointments/completed`, {
             userDtlsId: user?.user_id,
           }),
           new Promise(

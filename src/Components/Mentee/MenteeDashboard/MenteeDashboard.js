@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../Images/logo.png";
 import "./DashboardCSS/Mentee.css";
 import MenteeCompletedCourses from "./OtherComponents/MenteeCompletedCourses";
@@ -14,7 +14,10 @@ import MenteeUpcomingSessions from "./OtherComponents/MenteeUpcomingSessions";
 import MenteeCompletedSessions from "./OtherComponents/MenteeCompletedSessions";
 import { logOut } from "../../../Redux/userRedux";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+import { ApiURL } from "../../../Utils/ApiURL";
 const MenteeDashboard = ({ user, token }) => {
+  const url = ApiURL();
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
   const [showMenteePsettings, setShowMenteePsettings] = useState(false);
@@ -26,11 +29,13 @@ const MenteeDashboard = ({ user, token }) => {
   const [showMenteeProfile, setShowMenteeProfile] = useState(true);
   const [showMenteeUpcomingSessions, setShowMenteeUpcomingSessions] =
     useState(false);
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
   const [showMenteeCompletedSessions, setShowMenteeCompletedSessions] =
     useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
   const [Sessionmenu, setSessionmenu] = useState(false);
   const [Coursemenu, setCoursemenu] = useState(false);
+  const [singleMentee, setSingleMentee] = useState([]);
   const MenteeNotificationHandler = () => {
     if (!showNotification) {
       setShowNotification(true);
@@ -160,7 +165,44 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeCompletedSessions(false)
     );
   };
+  const menteeDtlsId = user?.user_id;
+  useEffect(() => {
+    const fetchSingleMentee = async () => {
+      const response = await axios.post(
+        `${url}api/v1/mentee/dashboard/fetch-single-details/${menteeDtlsId}`,
+        { userId: menteeDtlsId }
+      );
+      if (response.data.success) {
+        setSingleMentee(response.data.success);
+      }
+      if (response.data.error) {
+        setSingleMentee(null);
+      }
+    };
+    fetchSingleMentee();
+  }, [menteeDtlsId, url]);
 
+  useEffect(() => {
+    const notifications = singleMentee?.map((item) => {
+      if (item?.notification_list) {
+        try {
+          return JSON.parse(item.notification_list);
+        } catch (error) {
+          console.error("Failed to parse notification_list:", error);
+          return []; // Return an empty array if parsing fails
+        }
+      }
+      return []; // Return an empty array if notification_list is undefined or null
+    });
+    const allNotifications = notifications?.flat();
+    const unreadExists = allNotifications?.some(
+      (notification) => !notification.notification_is_read
+    );
+    // Delay the state update slightly
+    setTimeout(() => {
+      setHasUnreadNotifications(unreadExists);
+    }, 0);
+  }, [singleMentee]);
   const toggleNoProfile = () => {
     setprofilemenu(true);
   };
@@ -441,34 +483,94 @@ const MenteeDashboard = ({ user, token }) => {
               >
                 <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-bell"></i>
+                  {hasUnreadNotifications && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "-3px",
+                        right: "-5px",
+                        width: "12px",
+                        height: "12px",
+                        backgroundColor: "red",
+                        borderRadius: "50%",
+                        border: "2px solid white",
+                      }}
+                    />
+                  )}
                 </span>
                 <h5>Notifications</h5>
               </button>
             </div>
           </div>
           {showMenteeProfile && (
-            <MenteeProfileDashboard user={user} token={token} />
+            <MenteeProfileDashboard
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
           {showMenteePsettings && (
-            <MenteeProfileSettings user={user} token={token} />
+            <MenteeProfileSettings
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
-          {showChangePwd && <MenteeChangePwd user={user} token={token} />}
+          {showChangePwd && (
+            <MenteeChangePwd
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
+          )}
           {showMenteeCompletedSessions && (
-            <MenteeCompletedSessions user={user} token={token} />
+            <MenteeCompletedSessions
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
           {showMenteeUpcomingSessions && (
-            <MenteeUpcomingSessions user={user} token={token} />
+            <MenteeUpcomingSessions
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
           {showMenteeCourseProgress && (
-            <MenteeCourseProgress user={user} token={token} />
+            <MenteeCourseProgress
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
           {showCompletedCourse && (
-            <MenteeCompletedCourses user={user} token={token} />
+            <MenteeCompletedCourses
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
-          {showMenteeSavedJobs && <MenteeSavedJobs user={user} token={token} />}
-          {showMenteeMessage && <MenteeMessages user={user} token={token} />}
+          {showMenteeSavedJobs && (
+            <MenteeSavedJobs
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
+          )}
+          {showMenteeMessage && (
+            <MenteeMessages
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
+          )}
           {showNotification && (
-            <MenteeNotifications user={user} token={token} />
+            <MenteeNotifications
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
           )}
         </div>
       </div>
