@@ -1,27 +1,29 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-
 import MenteeProfilePersonalDetails from "./MenteeProfilePersonalDetails.js";
-import MenteeProfileEdu_workexpDetails from "./MenteeProfileEdu_workexpDetails.js";
+import MenteeProfileEduWorkExpDetails from "./MenteeProfileEduWorkExpDetails.js";
 
-const MenteeProfileSettings = () => {
+const MenteeProfileSettings = ({ singleMentee, user, token }) => {
   const [page, setPage] = useState(0);
-
   const PageDisplay = () => {
     if (page === 0) {
-      return <MenteeProfilePersonalDetails />;
+      return (
+        <MenteeProfilePersonalDetails
+          user={user}
+          token={token}
+          singleMentee={singleMentee}
+        />
+      );
     } else if (page === 1) {
-      return <MenteeProfileEdu_workexpDetails />;
+      return (
+        <MenteeProfileEduWorkExpDetails
+          singleMentee={singleMentee}
+          user={user}
+          token={token}
+        />
+      );
     }
   };
 
-  const setPageCount = () => {
-    if (page === 0) {
-      setPage((currPage) => currPage + 1);
-    } else if (page === 1) {
-      setPage((currPage) => currPage + 1);
-    }
-  };
   const tab1 = () => {
     setPage(0);
   };

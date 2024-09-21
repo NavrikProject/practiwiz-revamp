@@ -6,7 +6,7 @@
 }
 
 .section5 {
-  background: url("../../../Images/mentorbclk.png") no-repeat;
+  background: url("../../../../Images/mentorbclk.png") no-repeat;
   width: 100%;
   margin-top: 8rem;
   position: relative;
@@ -992,7 +992,7 @@ caption {
 
 .aslkhghj2 {
   padding: 100px 0;
-  background: url("../../../Images/Mentors/plpl1.png");
+  background: url("../../../../Images/Mentors/plpl1.png");
   background-color: white;
   background-size: 100% 100%;
 }
@@ -1414,8 +1414,6 @@ caption {
   overflow-x: scroll;
 }
 
-
-
 .menu-container {
   position: relative;
   display: inline-block;
@@ -1434,8 +1432,6 @@ caption {
   border: 1px solid #ccc;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-
-
 }
 
 .submenu-item {
@@ -1452,14 +1448,12 @@ caption {
 
 .submenu1 {
   position: absolute;
-  top: 250px;
+  top: 50px;
   left: 54px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-
-
 }
 
 .submenu-item1 {
@@ -1474,17 +1468,17 @@ caption {
   background-color: #f1f1f1;
 }
 
-.box-container{
+.box-container {
   width: 20rem;
   height: 10rem;
   border: 1px solid gray;
   border-radius: 5px;
 }
-.displayArea{
+.displayArea {
   height: 20rem;
   overflow: scroll;
 }
-.gtgtgt{
+.gtgtgt {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

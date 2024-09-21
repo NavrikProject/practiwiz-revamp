@@ -5,12 +5,16 @@ import { ApiURL } from "../../../../Utils/ApiURL";
 import { Link } from "react-router-dom";
 const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
   const url = ApiURL();
-  const ApproveMentorSessionHandler = async (BookingId) => {
+  const ApproveMentorSessionHandler = async (
+    BookingId,
+    mentorUserDtlsId,
+    menteeUserDtlsId
+  ) => {
     if (BookingId) {
       try {
         const response = await axios.post(
           `${url}api/v1/mentor/booking/appointment/update`,
-          { bookingId: BookingId }
+          { bookingId: BookingId, mentorUserDtlsId, menteeUserDtlsId }
         );
         if (response.data.success) {
           toast.success("Successfully updated mentor booking session.");
@@ -104,7 +108,9 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                                   className="btn-main me-1"
                                   onClick={() =>
                                     ApproveMentorSessionHandler(
-                                      session.mentor_booking_appt_id
+                                      session.mentor_booking_appt_id,
+                                      session.mentor_user_dtls_id,
+                                      session.mentee_user_dtls_id
                                     )
                                   }
                                 >

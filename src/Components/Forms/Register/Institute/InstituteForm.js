@@ -13,8 +13,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+// import axios from "axios";
 
-const InstituteForm = ({ InstitutePreviousHandler }) => {
+const InstituteForm = () => {
   const {
     register,
     handleSubmit,
@@ -44,8 +45,7 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
   const filteredColleges = collegeData.filter((item) =>
     item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const dispatch = useDispatch();
-  const url = ApiURL();
+
   const handleOptionClick = (college) => {
     setSelectedCollege(college);
     setSearchTerm(college["College Name"]);
@@ -58,7 +58,8 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
   const cleanPhoneNumber = (phone) => {
     return phone.replace(/\D/g, "");
   };
-
+  const dispatch = useDispatch();
+  const url = ApiURL();
   const onSubmit = async (data) => {
     const cleanedData = {
       ...data,
@@ -94,7 +95,6 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
           <img src="images/icons8-account-96.webp" alt="" className="me-1" />
           Registration For Institutions
         </h4>
-
         <div className="ihduwfr_form_wrapper mt-3">
           <div className="row">
             <div className="col-lg-12">
@@ -344,16 +344,10 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
             </div>
           </div>
         </div>
-
-        <div className="d-flex justify-content-between pt-3">
-          <input
-            type="button"
-            className="btn dgheuih_btn_prev btn-main"
-            onClick={(event) => InstitutePreviousHandler(event, "institute")}
-            value="Previous"
-            name="Previous"
-          />
-
+        <div
+          className="d-flex justify-content-between pt-3"
+          style={{ textAlign: "right" }}
+        >
           <button type="submit" className="btn dgheuih_btn_next btn-main">
             Create Account
           </button>

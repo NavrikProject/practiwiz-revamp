@@ -16,6 +16,7 @@ import { logOut } from "../../../Redux/userRedux";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
+import MenteePaymentHistory from "./OtherComponents/MenteePaymentHistory";
 const MenteeDashboard = ({ user, token }) => {
   const url = ApiURL();
   const [showNotification, setShowNotification] = useState(false);
@@ -36,6 +37,8 @@ const MenteeDashboard = ({ user, token }) => {
   const [Sessionmenu, setSessionmenu] = useState(false);
   const [Coursemenu, setCoursemenu] = useState(false);
   const [singleMentee, setSingleMentee] = useState([]);
+  const [showMenteePaymentHistory, setShowMenteePaymentHistory] =
+    useState(false);
   const MenteeNotificationHandler = () => {
     if (!showNotification) {
       setShowNotification(true);
@@ -49,7 +52,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeMessage(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
 
@@ -66,7 +70,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeMessage(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
   const MenteeSavedJobsHandler = () => {
@@ -82,7 +87,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeMessage(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
   const MenteeCourseProgressHandler = () => {
@@ -98,7 +104,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeMessage(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
   const MenteeCompCourseHandler = () => {
@@ -114,7 +121,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeMessage(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
   const MenteePsettingsHandler = () => {
@@ -130,7 +138,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeMessage(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
   const MenteeMessageHandler = () => {
@@ -146,7 +155,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeCourseProgress(false),
       setShowMenteeProfile(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
     );
   };
   const ShowMenteeProfileHandler = () => {
@@ -162,7 +172,59 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeCourseProgress(false),
       setShowMenteeMessage(false),
       setShowMenteeUpcomingSessions(false),
-      setShowMenteeCompletedSessions(false)
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
+    );
+  };
+  const ShowMenteeUpcomingHandler = () => {
+    if (!showMenteeUpcomingSessions) {
+      setShowMenteeUpcomingSessions(true);
+    }
+    return (
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMenteePsettings(false),
+      setShowCompletedCourse(false),
+      setShowMenteeSavedJobs(false),
+      setShowMenteeCourseProgress(false),
+      setShowMenteeMessage(false),
+      setShowMenteeProfile(false),
+      setShowMenteeCompletedSessions(false),
+      setShowMenteePaymentHistory(false)
+    );
+  };
+  const ShowMenteeCompletedHandler = () => {
+    if (!showMenteeCompletedSessions) {
+      setShowMenteeCompletedSessions(true);
+    }
+    return (
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMenteePsettings(false),
+      setShowCompletedCourse(false),
+      setShowMenteeSavedJobs(false),
+      setShowMenteeCourseProgress(false),
+      setShowMenteeMessage(false),
+      setShowMenteeProfile(false),
+      setShowMenteeUpcomingSessions(false),
+      setShowMenteePaymentHistory(false)
+    );
+  };
+  const ShowMenteePaymentHistoryHandler = () => {
+    if (!showMenteePaymentHistory) {
+      setShowMenteePaymentHistory(true);
+    }
+    return (
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMenteePsettings(false),
+      setShowCompletedCourse(false),
+      setShowMenteeSavedJobs(false),
+      setShowMenteeCourseProgress(false),
+      setShowMenteeMessage(false),
+      setShowMenteeUpcomingSessions(false),
+      setShowMenteeCompletedSessions(false),
+      setShowMenteeProfile(false)
     );
   };
   const menteeDtlsId = user?.user_id;
@@ -221,38 +283,7 @@ const MenteeDashboard = ({ user, token }) => {
   const toggleOffCourse = () => {
     setCoursemenu(false);
   };
-  const ShowMenteeUpcomingHandler = () => {
-    if (!showMenteeUpcomingSessions) {
-      setShowMenteeUpcomingSessions(true);
-    }
-    return (
-      setShowNotification(false),
-      setShowChangePwd(false),
-      setShowMenteePsettings(false),
-      setShowCompletedCourse(false),
-      setShowMenteeSavedJobs(false),
-      setShowMenteeCourseProgress(false),
-      setShowMenteeMessage(false),
-      setShowMenteeProfile(false),
-      setShowMenteeCompletedSessions(false)
-    );
-  };
-  const ShowMenteeCompletedHandler = () => {
-    if (!showMenteeCompletedSessions) {
-      setShowMenteeCompletedSessions(true);
-    }
-    return (
-      setShowNotification(false),
-      setShowChangePwd(false),
-      setShowMenteePsettings(false),
-      setShowCompletedCourse(false),
-      setShowMenteeSavedJobs(false),
-      setShowMenteeCourseProgress(false),
-      setShowMenteeMessage(false),
-      setShowMenteeProfile(false),
-      setShowMenteeUpcomingSessions(false)
-    );
-  };
+
   const dispatch = useDispatch();
   const LogoutHandler = () => {
     dispatch(logOut());
@@ -452,7 +483,10 @@ const MenteeDashboard = ({ user, token }) => {
                   </div>
                 )}
               </div>
-              <button className="btn btn-transparent text-center py-3 seeeett">
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={ShowMenteePaymentHistoryHandler}
+              >
                 <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-clock-rotate-left"></i>
                 </span>
@@ -567,6 +601,13 @@ const MenteeDashboard = ({ user, token }) => {
           )}
           {showNotification && (
             <MenteeNotifications
+              singleMentee={singleMentee}
+              user={user}
+              token={token}
+            />
+          )}
+          {showMenteePaymentHistory && (
+            <MenteePaymentHistory
               singleMentee={singleMentee}
               user={user}
               token={token}

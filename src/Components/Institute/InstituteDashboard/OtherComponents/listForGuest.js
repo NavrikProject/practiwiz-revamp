@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./listForGuest.css";
+import "../DashboardCSS/listForGuest.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ApiURL } from "../../../Utils/ApiURL";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import ListStatusSkeleton from "./ListStatusSkeleton";
 import { toast } from "react-toastify";
 

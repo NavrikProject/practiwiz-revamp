@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-// import "./CaseStudyDisplay.css";
+import "./AdminCaseStudyDisplay.css";
 
-function CaseStudyDisplay() {
-  // Hardcoded data including long texts
+function AdminCaseStudyDisplay() {
   const [caseStudies, setCaseStudies] = useState([
     {
       caseTopic: "option1",
@@ -122,4 +121,4 @@ function CaseStudyDisplay() {
   );
 }
 
-export default CaseStudyDisplay;
+export default AdminCaseStudyDisplay;
