@@ -15,7 +15,7 @@ import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
 import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
-import CaseStudyInput from "./CaseStudy/CaseStudyInput";
+import MentorCaseStudyInput from "./CaseStudy/MentorCaseStudyInput";
 
 const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
@@ -553,7 +553,11 @@ const MentorDashboard = ({ user, token }) => {
                 />
               )}
               {caseStudies && (
-                <CaseStudyInput user={user} token={token} data={singleMentor} />
+                <MentorCaseStudyInput
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
               )}
             </div>
           </div>

@@ -256,7 +256,7 @@ const MentorStepForm = () => {
               //   required: "select this button",
               // })}
             />
-            <Link to="/mentee-registration">
+            <Link to="/mentee-registration" target="_blank">
               {" "}
               <label
                 htmlFor="rdo2"
@@ -282,7 +282,7 @@ const MentorStepForm = () => {
               //   required: "select this button",
               // })}
             />
-            <Link to="/mentee-registration">
+            <Link to="/mentee-registration" target="_blank">
               {" "}
               <label
                 htmlFor="rdo2"
@@ -308,7 +308,7 @@ const MentorStepForm = () => {
               //   required: "select this button",
               // })}
             />
-            <Link to="/institute-registration">
+            <Link to="/institute-registration" target="_blank">
               {" "}
               <label
                 htmlFor="rdo2"

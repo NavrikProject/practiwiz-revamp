@@ -134,7 +134,6 @@ const TextArea = styled.textarea`
   }
 `;
 const MentorBookingAppointment = (props) => {
-  console.log(props);
   const url = ApiURL();
   const {
     register,
@@ -202,6 +201,11 @@ const MentorBookingAppointment = (props) => {
                 to: props.selectedSlot.mentor_timeslot_to,
                 data: data,
                 username: username,
+                mentorUserDtlsId: props.singleMentor[0].mentor_user_dtls_id,
+                mentorName:
+                  props.singleMentor[0].mentor_firstname +
+                  " " +
+                  props.singleMentor[0].mentor_lastname,
               }
             );
             if (res.data.success) {
@@ -265,9 +269,9 @@ const MentorBookingAppointment = (props) => {
             Mentorship session with
             <span>
               {" " +
-                props.singleMentor[0].user_firstname +
+                props.singleMentor[0].mentor_firstname +
                 " " +
-                props.singleMentor[0].user_lastname}
+                props.singleMentor[0].mentor_lastname}
             </span>
           </MentorSessionName>
           <MentorBookedDate>

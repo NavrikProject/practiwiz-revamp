@@ -193,9 +193,11 @@ const MentorBankdetails = ({ data, user, token }) => {
         }
       );
       if (response.data.success) {
+        // eslint-disable-next-line no-sequences
         return toast.success(response.data.success), handleReset();
       }
       if (response.data.error) {
+        // eslint-disable-next-line no-sequences
         return toast.error(response.data.error), handleReset();
       }
       handleReset();
@@ -236,7 +238,6 @@ const MentorBankdetails = ({ data, user, token }) => {
       accountType: "",
     });
   };
-  console.log(data[0]?.banking_dtls_list);
   return (
     <div className="col-lg-10 ps-0">
       <div className="mentor_dash_msge">
@@ -423,6 +424,11 @@ const MentorBankdetails = ({ data, user, token }) => {
                       Clear All
                     </button>
                   </div>
+                  <p className="text-danger">
+                    (*Once you submitted the Bank details it can not edited. You
+                    need to contact <b>Practywiz</b> admin for the correction of
+                    bank details*)
+                  </p>
                 </form>
                 <br />
               </>
@@ -502,7 +508,13 @@ const MentorBankdetails = ({ data, user, token }) => {
                             ).toLocaleDateString()}
                         </label>
                       </div>
+                      <p className="text-danger">
+                        (*Once you submitted the Bank details it can not edited.
+                        You need to contact <b>Practywiz</b> admin for the
+                        correction of bank details*)
+                      </p>
                     </form>
+
                     <br />
                   </>
                 );

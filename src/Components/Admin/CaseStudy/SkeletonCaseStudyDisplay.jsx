@@ -1,8 +1,8 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import "./CaseStudyDisplay.css";
+import "./AdminCaseStudyDisplay.css";
 
-function SkeletonCaseStudy(count) {
+function SkeletonCaseStudyDisplay(count) {
   const style = {
     width: "75%",
     margin: "30px auto",
@@ -51,4 +51,4 @@ function SkeletonCaseStudy(count) {
   );
 }
 
-export default SkeletonCaseStudy;
+export default SkeletonCaseStudyDisplay;
