@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import LnIcon from "./deeteewe.png";
 import { useFormContext, Controller } from "react-hook-form";
 import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import CountryData from "../../../data/CountryData.json";
-// import '../Mentee/Phone-input-style.css'
+import GoToTop from "../../../../Utils/GoToTop";
 import "react-phone-input-2/lib/style.css";
 import "./register.css";
 const MentorForm1 = (props) => {
@@ -29,127 +28,8 @@ const MentorForm1 = (props) => {
   };
   return (
     <>
-      <div className="idneihrrr p-3">
-        <h5 className="mb-0">
-          Hi, Let's Get You On-boarded. It Will Take Approx. 4 Mins For Sign-up
-          And Total 8 For Complete Profile
-        </h5>
-      </div>
       <div className="doiherner_wrapper ">
         <div className="row">
-          <div className="col-lg-12 ">
-            <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
-              <label
-                htmlFor="exampleInputEmail1"
-                className="form-label mb-2 mt-3"
-              >
-                <b>I Want To Register As</b>
-              </label>
-              <br />
-              <input
-                type="radio"
-                id="rdo1"
-                className="radio-input"
-                name="apple"
-                value="mentor"
-                {...register("user_type", {
-                  required: "select this button",
-                })}
-              />
-              <label htmlFor="rdo1" className="radio-label me-2">
-                <span className="radio-border"></span>
-                <i
-                  className="fa-solid fa-user-tie me-1"
-                  style={{ color: "#1B759A" }}
-                ></i>
-                Mentor
-              </label>
-              <input
-                type="radio"
-                id="rdo1"
-                className="radio-input radio-label "
-                name="apple"
-                value="mentor"
-                {...register("user_type", {
-                  required: "select this button",
-                })}
-              />
-              <Link to="/mentee-registration">
-                {" "}
-                <label
-                  htmlFor="rdo2"
-                  className="radio-label me-2"
-                  id="menteeRegistrationlink"
-                  style={{ paddingLeft: "30px" }}
-                >
-                  <span className="radio-border"></span>
-                  <i
-                    className="fa-solid fa-graduation-cap me-1"
-                    style={{ color: "#1B759A" }}
-                  ></i>
-                  Mentee
-                </label>
-              </Link>
-              <input
-                type="radio"
-                id="rdo1"
-                className="radio-input radio-label "
-                name="apple"
-                value="mentor"
-                {...register("user_type", {
-                  required: "select this button",
-                })}
-              />
-              <Link to="/mentee-registration">
-                {" "}
-                <label
-                  htmlFor="rdo2"
-                  className="radio-label me-2"
-                  id="menteeRegistrationlink"
-                  style={{ paddingLeft: "30px" }}
-                >
-                  <span className="radio-border"></span>
-                  <i
-                    className="fa-solid fa-briefcase me-1"
-                    style={{ color: "#1B759A" }}
-                  ></i>
-                  Job Seeker
-                </label>
-              </Link>
-              <input
-                type="radio"
-                id="rdo1"
-                className="radio-input radio-label "
-                name="apple"
-                value="mentor"
-                {...register("user_type", {
-                  required: "select this button",
-                })}
-              />
-              <Link to="/mentee-registration">
-                {" "}
-                <label
-                  htmlFor="rdo2"
-                  className="radio-label me-2"
-                  id="menteeRegistrationlink"
-                  style={{ paddingLeft: "30px" }}
-                >
-                  <span className="radio-border"></span>
-                  <i
-                    className="fa-solid fa-building-columns me-1"
-                    style={{ color: "#1B759A" }}
-                  ></i>
-                  Institute
-                </label>
-              </Link>
-              {errors.user_type && (
-                <p className="Error-meg-login-register">
-                  {errors.user_type.message}
-                </p>
-              )}
-            </div>
-          </div>
-
           <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
             <div className="col-lg-12 mt-2">
               <p className="mb-0 d-flex align-items-center">
@@ -187,6 +67,10 @@ const MentorForm1 = (props) => {
                   // aria-describedby="emailHelp"
                   {...register("mentor_firstname", {
                     required: "First Name is required",
+                    pattern: {
+                      value: /^[a-zA-Z]+$/, // Pattern for letters only
+                      message: "First name should contain only letters",
+                    },
                   })}
                   onBlur={() => handleBlur("mentor_firstname")}
                 />
@@ -210,6 +94,10 @@ const MentorForm1 = (props) => {
                   placeholder="Last Name"
                   {...register("mentor_lastname", {
                     required: "Last Name is required",
+                    pattern: {
+                      value: /^[a-zA-Z]+$/, // Pattern for letters only
+                      message: "last name should contain only letters",
+                    },
                   })} //1
                   onBlur={() => handleBlur("mentor_lastname")}
                 />
@@ -233,27 +121,34 @@ const MentorForm1 = (props) => {
                 <Controller
                   name="mentor_phone_number"
                   control={control}
+                  defaultValue=""
                   rules={{
-                    required: "This field is required",
-                    maxLength: {
-                      value: 13,
-                      message: "Enter valid Phone Number",
-                    },
-                    minLength: {
-                      value: 11,
-                      message: "Enter valid Phone Number",
+                    required: "Phone number is required",
+                    validate: {
+                      minLength: (value) =>
+                        value.replace(/\D/g, "").length >= 10 ||
+                        "Enter a valid phone number",
                     },
                   }}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <PhoneInput
-                      {...field}
-                      country={"in"}
-                      value={field.value}
-                      // className="form-control"
-                      onBlur={() => handleBlur("mentor_phone_number")}
-                      onChange={(phone) => field.onChange(phone)}
-                    />
+                  render={({
+                    field: { name, value, onChange, onBlur, ref },
+                  }) => (
+                    <div>
+                      <PhoneInput
+                        value={value}
+                        country="in"
+                        countryCodeEditable={false}
+                        onChange={(value, country, event, formattedValue) => {
+                          onChange(formattedValue);
+                        }}
+                        onBlur={onBlur}
+                        inputProps={{
+                          autoFocus: false,
+                          name,
+                          ref,
+                        }}
+                      />
+                    </div>
                   )}
                 />
                 {errors.mentor_phone_number && (
@@ -316,9 +211,9 @@ const MentorForm1 = (props) => {
                     required: "Password is Required",
                     pattern: {
                       value:
-                        /^(?!.* )(?=.*[a-z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&.]{8,16}$/,
+                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                       message:
-                        "A min 8 - 16 characters contains a combination of upper, lowercase letter, number and special characters like @ $ ! % * ? & _ . without space",
+                        "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
                     },
                     maxLength: {
                       value: 16,
@@ -326,7 +221,6 @@ const MentorForm1 = (props) => {
                     },
                   })}
                 />
-
                 <i
                   i="true"
                   onClick={() => setShowIcon(!showIcon)}
@@ -400,7 +294,7 @@ const MentorForm1 = (props) => {
                 </label>
                 <input
                   type="file"
-                  accept=".jpg"
+                  accept=".jpg ,.jpeg,.png"
                   className="form-control"
                   {...register("linkedin_photo", {
                     required: "Upload Photo",
@@ -457,29 +351,49 @@ const MentorForm1 = (props) => {
                     </option>
                   ))}
                 </select>
-                {/* <select
-                className="form-select"
-                {...register("mentor_country", {
-                  required: "required",
-                })} //1
-              >
-                <option value="">Please select a country</option>
-                {options.map((option) => (
-                  <option key={option.country_id} value={option.country_name}>
-                    {option.country_name}
-                  </option>
-                ))}
-              </select> */}
+                {errors.mentor_country && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_country.message}
+                  </p>
+                )}
               </div>
-              {errors.mentor_country && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_country.message}
-                </p>
-              )}
+            </div>
+            <div className="col-lg-6">
+              <div className="csfvgdtrfs mb-4 position-relative">
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
+                  <b>City/State</b>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // id="exampleInputEmail1"
+                  placeholder="City"
+                  aria-describedby="emailHelp"
+                  {...register("mentor_city", {
+                    required: "City name is required",
+                    pattern: {
+                      value: /^[a-zA-Z\s]+$/, // Allows letters and spaces
+                      message: "City name should contain only letters",
+                    },
+                  })} //1
+                  onBlur={() => handleBlur("mentor_city")}
+                />
+                {errors.mentor_city && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_city.message}
+                  </p>
+                )}
+
+                <i className="fa-solid fa-map-location-dot position-absolute"></i>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <GoToTop />
     </>
   );
 };

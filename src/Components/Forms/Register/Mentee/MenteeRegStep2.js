@@ -1,15 +1,45 @@
-import React from "react";
-import { useFormContext, Controller } from "react-hook-form";
+import React, { useState } from "react";
 
+import { useFormContext } from "react-hook-form";
+import collegeData from "../../../data/collegesname.json";
 const MenteeRegStep2 = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
+  const [ShowOption, setShowOption] = useState(true);
+  const handleoptionFasle = () => {
+    setShowOption(false);
+  };
+  const handleoptionTrue = () => {
+    setShowOption(true);
+  };
+  // Function to handle input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setValue("mentee_InstituteName", value);
+    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
+  };
+
+  // Filter colleges based on the search term
+  const filteredColleges = collegeData.filter((item) =>
+    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Function to handle dropdown option click
+  const handleOptionClick = (college) => {
+    setSelectedCollege(college); // Set selected college
+    setSearchTerm(college["College Name"]); // Update input with selected college name
+    setDropdownVisible(false); // Hide dropdown after selection
+    setValue("mentee_InstituteName", college["College Name"]);
+  };
+
   const {
     register,
-    watch,
-    control,
+    setValue,
 
     formState: { errors },
   } = useFormContext();
-
   return (
     <div className="step" id="step2">
       <h4 className="text-center">
@@ -28,21 +58,25 @@ const MenteeRegStep2 = () => {
             id="rdo4"
             defaultChecked
             className="radio-input"
+            onClick={handleoptionTrue}
             // name="radio-group1"
             value={"student"}
             {...register("mentee_type", {
               required: "Please select the one of the option",
             })}
           />
+
           <label htmlFor="rdo4" className="radio-label  pe-3">
             <span className="radio-border"></span> Student
           </label>
+
           <input
             type="radio"
             id="rdo5"
             className="radio-input"
             name="radio-group1"
             value={"workingprof"}
+            onClick={handleoptionFasle}
             {...register("mentee_type", {
               required: "Please select the one of the option",
             })}
@@ -56,6 +90,7 @@ const MenteeRegStep2 = () => {
             className="radio-input"
             name="radio-group1"
             value={"corporate"}
+            onClick={handleoptionFasle}
             {...register("mentee_type", {
               required: "Please select the one of the option",
             })}
@@ -69,6 +104,7 @@ const MenteeRegStep2 = () => {
             className="radio-input"
             // name="radio-group1"
             value={"freasher"}
+            onClick={handleoptionFasle}
             {...register("mentee_type", {
               required: "Please select the one of the option",
             })}
@@ -82,7 +118,45 @@ const MenteeRegStep2 = () => {
             {errors.mentee_type.message} pe-3
           </p>
         )}
-
+        {ShowOption && (
+          <>
+            {" "}
+            <label htmlFor="" className="form-label">
+              Institute/College name *
+            </label>
+            <div className="dropdown mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search for a college..."
+                value={searchTerm} // Ensure input value is controlled
+                {...register("mentee_InstituteName", {
+                  required: "Institute Name is required",
+                })}
+                onChange={handleInputChange}
+                onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+              />
+              {dropdownVisible && filteredColleges.length > 0 && (
+                <div className="dropdown-content">
+                  {filteredColleges.slice(0, 10).map(
+                    (
+                      college,
+                      index // Limit to 10 results
+                    ) => (
+                      <div
+                        key={index}
+                        className="dropdown-item"
+                        onClick={() => handleOptionClick(college)}
+                      >
+                        {college["College Name"]}
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        )}
         <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
           <label htmlFor="exampleInputEmail1" className="form-label  pe-3">
             Gender

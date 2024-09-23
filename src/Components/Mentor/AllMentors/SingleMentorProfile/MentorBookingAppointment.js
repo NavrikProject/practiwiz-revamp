@@ -173,7 +173,6 @@ const MentorBookingAppointment = (props) => {
           );
         }
         const { amount, id: order_id, currency } = result?.data.success;
-        console.log(amount, currency);
         const {
           data: { key: razorpayKey },
         } = await axios.get(`${url}api/get-razorpay-key`);
@@ -195,15 +194,18 @@ const MentorBookingAppointment = (props) => {
                 razorpaySignature: response.razorpay_signature,
                 mentorId: props.singleMentor[0].mentor_dtls_id,
                 userId: user?.user_id,
-                date: new Date(
-                  props.timeSlotDetails.startDate
-                ).toLocaleDateString(),
+                date: new Date(props.selectedDate).toLocaleDateString(),
                 userEmail: user?.user_email,
                 mentorEmail: props.singleMentor[0].user_email,
-                from: props.timeSlotDetails.slot.mentor_timeslot_from,
-                to: props.timeSlotDetails.slot.mentor_timeslot_to,
+                from: props.selectedSlot.mentor_timeslot_from,
+                to: props.selectedSlot.mentor_timeslot_to,
                 data: data,
                 username: username,
+                mentorUserDtlsId: props.singleMentor[0].mentor_user_dtls_id,
+                mentorName:
+                  props.singleMentor[0].mentor_firstname +
+                  " " +
+                  props.singleMentor[0].mentor_lastname,
               }
             );
             if (res.data.success) {
@@ -267,9 +269,9 @@ const MentorBookingAppointment = (props) => {
             Mentorship session with
             <span>
               {" " +
-                props.singleMentor[0].user_firstname +
+                props.singleMentor[0].mentor_firstname +
                 " " +
-                props.singleMentor[0].user_lastname}
+                props.singleMentor[0].mentor_lastname}
             </span>
           </MentorSessionName>
           <MentorBookedDate>

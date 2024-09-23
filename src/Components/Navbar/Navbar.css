@@ -1,0 +1,71 @@
+.regmenu {
+  position: absolute;
+}
+
+.MenuBox {
+  position: absolute;
+  top: 1px;
+  width: 10rem;
+  left: 1rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 2px;
+  border-radius: 8px;
+}
+
+.MenuBox-item1 {
+  width: 100%;
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: white;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.MenuBox-item1:hover {
+  background-color: #7fa5ff;
+  color: white;
+}
+
+.udgehrr {
+  display: flex;
+}
+
+.btn-mainHome:hover {
+  color: blue;
+  background-color: white;
+}
+.btn-mainHome {
+  color: white;
+  background-color: blue;
+}
+
+.navbarcolor {
+  background-color: whitesmoke;
+}
+
+.inOneLine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.ai-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #ff7e29, #ffbb72);
+  color: black;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 3px 5px;
+  font-size: 12px;
+}
+
+.ai-button i {
+  /* margin-right: 5px; */
+}

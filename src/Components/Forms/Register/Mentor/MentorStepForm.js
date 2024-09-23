@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
+import { Link } from "react-router-dom";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
-
 import MentorForm3 from "./MentorForm3";
 import MentorForm4 from "./MentorForm4";
 import axios from "axios";
@@ -14,7 +14,6 @@ import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
-// const LOCAL_STORAGE_KEY = "form-data";
 
 const MentorStepForm = () => {
   const url = ApiURL();
@@ -24,7 +23,7 @@ const MentorStepForm = () => {
     lastname: "",
   });
   const [page, setPage] = useState(0);
-  const { watch, setValue, trigger, getValues } = methods;
+  const { trigger, getValues } = methods;
 
   const FormTitles = [
     "ABOUT YOURSELF",
@@ -129,14 +128,13 @@ const MentorStepForm = () => {
       console.log(Fname, Lname, gmail, phone);
     }
   };
-  const prevStep = () => setStep((prev) => prev - 1);
   const dispatch = useDispatch();
-
   const onSubmit = async (data) => {
+    console.log(data);
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
-        console.log("error");
+        toast.error("Please fill all required fields!");
       }
     } else {
       try {
@@ -145,7 +143,7 @@ const MentorStepForm = () => {
         newData.append("lastName", data.mentor_lastname);
         newData.append("email", data.mentor_email);
         newData.append("image", data.linkedin_photo[0]);
-        newData.append("UserType", data.user_type);
+        newData.append("UserType", "mentor");
         newData.append("phoneNumber", data.mentor_phone_number);
         newData.append("password", data.mentor_password);
         newData.append("Cpassword", data.mentor_confirm_password);
@@ -167,6 +165,10 @@ const MentorStepForm = () => {
         newData.append("Timezone", data.mentor_timezone);
         newData.append("Language", data.mentor_language);
         newData.append("Country", data.mentor_country);
+        newData.append("City", data.mentor_city);
+        newData.append("Currency", data.Mentor_Currency);
+        newData.append("Pricing", data.pricing);
+        newData.append("Institute", data.mentor_InstituteName);
         newData.append("Mon", JSON.stringify(data.Mon));
         newData.append("Tue", JSON.stringify(data.Tue));
         newData.append("Wed", JSON.stringify(data.Wed));
@@ -175,29 +177,32 @@ const MentorStepForm = () => {
         newData.append("Sat", JSON.stringify(data.Sat));
         newData.append("Sun", JSON.stringify(data.Sun));
         dispatch(showLoadingHandler());
-        const res = await axios.post(`${url}api/v1/mentor/register`, newData);
+        const res = await Promise.race([
+          axios.post(`${url}api/v1/mentor/register`, newData),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
         dispatch(hideLoadingHandler());
         if (res.data.success) {
-          return (
-            toast.success("Thank you for applying the mentor application."),
-            dispatch(hideLoadingHandler())
-          );
-        }
-        if (res.data.error) {
-          return (
-            toast.error(
-              "There is some error while applying the mentor application. We will get back you over the email."
-            ),
-            dispatch(hideLoadingHandler())
+          toast.success("Thank you for applying for the mentor application.");
+        } else if (res.data.error) {
+          toast.error(
+            "There is some error while applying for the mentor application."
           );
         }
       } catch (error) {
-        return (
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
           toast.error(
-            "There is some error while applying the mentor application. We will get back you over the email."
-          ),
-          dispatch(hideLoadingHandler())
-        );
+            "There is some error while applying for the mentor application. We will get back to you via email."
+          );
+        }
+      } finally {
+        dispatch(hideLoadingHandler());
       }
     }
   };
@@ -207,7 +212,124 @@ const MentorStepForm = () => {
   return (
     <main>
       <div className="regis_background" id="mentorRegisterBg">
+        <div className="col-lg-12 "></div>
         <div className="jdoieoir_wrapper">
+          <div className="idneihrrr p-3">
+            <h5 className="mb-0">
+              Hi, Let's Get You On-boarded. It Will Take Approx. 4 Mins For
+              Sign-up And Total 8 For Complete Profile
+            </h5>
+          </div>
+          <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
+            <label
+              htmlFor="exampleInputEmail1"
+              className="form-label mb-2 mt-3"
+            >
+              <b>I Want To Register As</b>
+            </label>
+            <br />
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input"
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <label htmlFor="rdo1" className="radio-label me-2">
+              <span className="radio-border"></span>
+              <i
+                className="fa-solid fa-user-tie me-1"
+                style={{ color: "#1B759A" }}
+              ></i>
+              Mentor
+            </label>
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input radio-label "
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <Link to="/mentee-registration" target="_blank">
+              {" "}
+              <label
+                htmlFor="rdo2"
+                className="radio-label me-2"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "30px" }}
+              >
+                <span className="radio-border"></span>
+                <i
+                  className="fa-solid fa-graduation-cap me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                Mentee
+              </label>
+            </Link>
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input radio-label "
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <Link to="/mentee-registration" target="_blank">
+              {" "}
+              <label
+                htmlFor="rdo2"
+                className="radio-label me-2"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "30px" }}
+              >
+                <span className="radio-border"></span>
+                <i
+                  className="fa-solid fa-briefcase me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                Job Seeker
+              </label>
+            </Link>
+            <input
+              type="radio"
+              id="rdo1"
+              className="radio-input radio-label "
+              name="apple"
+              value="mentor"
+              // {...register("user_type", {
+              //   required: "select this button",
+              // })}
+            />
+            <Link to="/institute-registration" target="_blank">
+              {" "}
+              <label
+                htmlFor="rdo2"
+                className="radio-label me-2"
+                id="menteeRegistrationlink"
+                style={{ paddingLeft: "30px" }}
+              >
+                <span className="radio-border"></span>
+                <i
+                  className="fa-solid fa-building-columns me-1"
+                  style={{ color: "#1B759A" }}
+                ></i>
+                Institute
+              </label>
+            </Link>
+            {/* {errors.user_type && (
+                <p className="Error-meg-login-register">
+                  {errors.user_type.message}
+                </p>
+              )} */}
+          </div>
           <div
             id="tabs"
             className="d-flex justify-content-between align-items-center mb-4"
@@ -249,7 +371,7 @@ const MentorStepForm = () => {
                 className="btn btn-primary tablinks active"
                 data-tab="form3"
               >
-                <i className="fa-solid me-1 fa-asterisk"></i> AVAILABILITY
+                <i class="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
             ) : (
               <button
@@ -257,7 +379,7 @@ const MentorStepForm = () => {
                 data-tab="form3"
                 onClick={tab3}
               >
-                <i className="fa-solid me-1 fa-asterisk"></i> AVAILABILITY
+                <i className="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
             )}
             {page === 3 ? (

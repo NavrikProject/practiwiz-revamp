@@ -40,15 +40,20 @@ import ProtectedRoute from "./Utils/ProtectedRoutes";
 import { useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
 import Test from "./Pages/Test";
-import MentorCardSkelton from "./Components/Mentor/SkeltonLoaders/MentorCardSkelton";
-import Skelton from "./Components/Mentor/SkeltonLoaders/Skelton";
 import MenteeFeedbackForm from "./Components/Mentee/MenteeFeedback/MenteeFeedbackForm";
 import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
+import ForgotPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ForgotPasswordPage";
+import ResetPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ResetPasswordPage";
+import CaseStudyPage from "./Pages/CaseStudyPages/CaseStudyPage";
+import SingleCaseStudyPage from "./Pages/CaseStudyPages/SingleCaseStudyPage";
+import InstituteRegistrationPage from "./Pages/FormPages/RegisterPages/InstituteRegistrationPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
+  const token = localStorage.getItem("accessToken");
+
   return (
     <>
       {isLoading && <Spinner />}
@@ -88,12 +93,13 @@ function App() {
           />
           <Route path="/test" element={<MentorPayment />} />
           <Route path="/date" element={<MenteeFeedbackForm />} />
+          {/* passing of the user and token to dashboard is completed */}
           {user?.user_type === "mentor" && (
             <Route
               path="/mentor/dashboard"
               element={
                 <ProtectedRoute>
-                  <MentorDashboardPage />
+                  <MentorDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />
@@ -103,35 +109,41 @@ function App() {
             path="/courses/single-course/:id"
             element={<SingleCoursePage />}
           />
-          {/* {user?.user_type === "mentee" && ( */}
-          <Route
-            path="/mentee/dashboard"
-            element={
-              // <ProtectedRoute>
-              <MenteeDashboardPage />
-              // </ProtectedRoute>
-            }
-          />
-          {/* {user?.user_type === "mentee" && ( */}
-          <Route
-            path="/user/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <AdminDashboardPage />
-              </ProtectedRoute>
-            }
-          />
+          {user?.user_type === "mentee" && (
+            <Route
+              path="/mentee/dashboard"
+              element={
+                <ProtectedRoute>
+                  <MenteeDashboardPage user={user} token={token} />
+                </ProtectedRoute>
+              }
+            />
+          )}
+          {user?.user_role === 1 && (
+            <Route
+              path="/user/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboardPage user={user} token={token} />
+                </ProtectedRoute>
+              }
+            />
+          )}
           <Route
             path="/mentee/view-profile/:id"
             element={
               <ProtectedRoute>
-                <MenteeProfilePage />
+                <MenteeProfilePage user={user} token={token} />
               </ProtectedRoute>
             }
           />
           <Route
             path="/mentee-registration"
             element={<MenteeRegistrationPage />}
+          />
+          <Route
+            path="/institute-registration"
+            element={<InstituteRegistrationPage />}
           />
           <Route path="/test1" element={<CoursePayment />} />
           {/* Jobs links start */}
@@ -146,15 +158,25 @@ function App() {
           {/* {user?.user_type === "institute" && ( */}
           <Route
             path="/institute/dashboard"
-            element={
-              // <ProtectedRoute>
-              <InstituteDashboardPage />
-              // </ProtectedRoute>
-            }
+            element={<InstituteDashboardPage user={user} token={token} />}
           />
           {/* )} */}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
+
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/user/activate/reset-password/:token"
+            element={<ResetPasswordPage />}
+          />
+          <Route
+            path="/case-studies"
+            element={<CaseStudyPage user={user} token={token} />}
+          />
+          <Route
+            path="/case-studies/view-case-study/:topic/:id"
+            element={<SingleCaseStudyPage user={user} token={token} />}
+          />
         </Routes>
       </Router>
       <ScrollButton />

@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import ListStatusSkeleton from "../SkeltonLoaders/ListStatusSkeleton";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import { toast } from "react-toastify";
 
 function MentorList({ filters }) {
   const [allMentors, setAllMentors] = useState([]);
@@ -13,12 +14,28 @@ function MentorList({ filters }) {
 
   useEffect(() => {
     const fetchMentors = async () => {
-      const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentor/approved/all-list`
-      );
-      if (response.data.success) {
-        setAllMentors(response.data.success);
-      } else {
+      try {
+        const response = await Promise.race([
+          axios.get(`${url}api/v1/admin/dashboard/mentor/approved/all-list`),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllMentors(response.data.success);
+        } else {
+          setAllMentors([]);
+        }
+      } catch (error) {
+        setAllMentors([]);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
         setAllMentors([]);
       }
     };
@@ -118,7 +135,7 @@ function MentorList({ filters }) {
                     <Link
                       to={`/mentor-club/mentor-profile/${
                         mentor.user_firstname +
-                        " " +
+                        "-" +
                         mentor.user_lastname.replace(" ", "-").toLowerCase()
                       }/${mentor.user_dtls_id}`}
                     >

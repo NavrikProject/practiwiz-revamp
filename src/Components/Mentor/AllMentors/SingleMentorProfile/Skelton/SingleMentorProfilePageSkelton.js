@@ -7,7 +7,7 @@ const SingleMentorProfilePageSkelton = () => {
       <div className="container1">
         <Skeleton width={"100%"} height={"100%"} baseColor="#c6c6c6" />
         <div className="profileContainer">
-          <div class="containerOFProfile">
+          <div className="containerOFProfile">
             <div className="base">
               <Skeleton circle={true} width={"170px"} height={"170px"} />
             </div>

@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import "./Institutedashboardnotification.css";
-// import "./Institute.css";
-// import "./teststyle.css"
-
+import "./DashboardCSS/Institutedashboardnotification.css";
+import "./DashboardCSS/Institute.css";
+// import "./DashboardCSS/teststyle.css";
 import Logo from "../../../Images/logo.png";
-import InstituteNotifications from "./InstituteNotifications";
-import InstituteChangePwd from "./InstituteChangePwd";
-import InstituteMessages from "./InstituteMessages";
-import InstituteProfileDashboard from "./InstituteProfileDashboard";
-import AddMentor from "./AddMentor";
-import SearchGuestLacture from "./SearchGuestLacture";
-import RequestGuestlacture from "./RequestGuestLacture";
-import RegisterGuestlacture from "./RegisterGuestLacture";
-import HistoryGuestlacture from "./HistoryGuestlacture";
-import CommunicationTemplate from "./CommunicationTemplate";
+import InstituteNotifications from "./OtherComponents/InstituteNotifications";
+import InstituteChangePwd from "./OtherComponents/InstituteChangePwd";
+import InstituteMessages from "./OtherComponents/InstituteMessages";
+import InstituteProfileDashboard from "./OtherComponents/InstituteProfileDashboard";
+import AddMentor from "./OtherComponents/AddMentor";
+import SearchGuestLacture from "./OtherComponents/SearchGuestLacture";
+import RequestGuestlacture from "./OtherComponents/RequestGuestLacture";
+import RegisterGuestlacture from "./OtherComponents/RegisterGuestLacture";
+import HistoryGuestlacture from "./OtherComponents/HistoryGuestlacture";
+import CommunicationTemplate from "./OtherComponents/CommunicationTemplate";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../../Redux/userRedux";
 
 const InstituteDashboard = () => {
+  const user = useSelector((state) => state.user?.currentUser);
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
-
   const [showInstituteMessage, setShowInstituteMessage] = useState(false);
   const [showInstituteProfile, setshowInstituteProfile] = useState(true);
   const [showAddMentor, setshowAddMentor] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const [showsearchguest, setshowsearchguest] = useState(false);
   const [ShowRequestGuest, setShowRequestGuest] = useState(false);
@@ -30,7 +31,6 @@ const InstituteDashboard = () => {
   const [ShowHistory, setShowHistory] = useState(false);
   const [Communication, setCommunication] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
-
   const toggleMenu = () => {
     setIsOpen(true);
   };
@@ -43,7 +43,6 @@ const InstituteDashboard = () => {
   const toggleMenu3 = () => {
     setprofilemenu(false);
   };
-
   const InstituteProfileHandler = () => {
     if (!showInstituteProfile) {
       setshowInstituteProfile(true);
@@ -194,6 +193,11 @@ const InstituteDashboard = () => {
       setShowHistory(false)
     );
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
 
   return (
     <>
@@ -245,10 +249,15 @@ const InstituteDashboard = () => {
 
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>Account Settings</li>
-
                         <li>View Public Profile</li>
-
-                        <li>Log Out</li>
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
+                        <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
                   </form>
@@ -291,8 +300,8 @@ const InstituteDashboard = () => {
               className="btn btn-transparent text-center py-3 seeeett"
               onClick={InstituteProfileHandler}
             >
-              <span className="d-block bg-white position-relative m-auto mb-3">
-                <i class="fa-solid fa-house-circle-check"></i>
+              <span className="d-block bg-white position-relative m-auto ">
+                <i className="fa-solid fa-house-circle-check"></i>
               </span>
 
               <h5>Dashboard</h5>
@@ -306,13 +315,13 @@ const InstituteDashboard = () => {
               onMouseLeave={toggleMenu3}
               // onBlur={toggleMenu1}
             >
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bars"></i>
               </span>
 
               <h5>
                 Profile Settings{" "}
-                <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                <i className="fa-solid fa-chevron-down downarrowsize"></i>
               </h5>
 
               {profilemenu && (
@@ -337,9 +346,9 @@ const InstituteDashboard = () => {
               className="btn btn-transparent text-center py-3 seeeett "
               onClick={InstituteAddmentorShowingHandler}
             >
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 {/* <img src={Pic1} alt="pic1" width={"44px"} /> */}
-                <i class="fa-solid fa-user-plus"></i>
+                <i className="fa-solid fa-user-plus"></i>
               </span>
 
               <h5>Alumni Upload</h5>
@@ -349,14 +358,14 @@ const InstituteDashboard = () => {
               onMouseOver={toggleMenu}
               onMouseLeave={toggleMenu2}
             >
-              <span className="d-block bg-white position-relative m-auto mb-3 ">
+              <span className="d-block bg-white position-relative m-auto  ">
                 {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                <i class="fa-solid fa-chalkboard-user"></i>
+                <i className="fa-solid fa-chalkboard-user"></i>
               </span>
 
               <h5>
                 Guest Lectures{" "}
-                <i class="fa-solid fa-chevron-down downarrowsize"></i>
+                <i className="fa-solid fa-chevron-down downarrowsize"></i>
               </h5>
 
               {isOpen && (
@@ -393,7 +402,7 @@ const InstituteDashboard = () => {
               className="btn btn-transparent text-center py-3 seeeett"
               onClick={InstituteCommunicationTemplate}
             >
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-phone-volume"></i>
               </span>
 
@@ -403,7 +412,7 @@ const InstituteDashboard = () => {
               className="btn btn-transparent text-center py-3 seeeett"
               onClick={InstituteNotificationHandler}
             >
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bell"></i>
               </span>
 
@@ -414,7 +423,7 @@ const InstituteDashboard = () => {
                   className="btn btn-transparent text-center py-3"
                   onClick={InstituteChangePwdHandler}
                 >
-                  <span className="d-block bg-white position-relative m-auto mb-3">
+                  <span className="d-block bg-white position-relative m-auto ">
                     <i className="fa-solid fa-arrow-right-arrow-left"></i>
                   </span>
 
@@ -422,7 +431,7 @@ const InstituteDashboard = () => {
                 </button> */}
 
             {/* <button className="btn btn-transparent text-center py-3">
-                  <span className="d-block bg-white position-relative m-auto mb-3">
+                  <span className="d-block bg-white position-relative m-auto ">
                     <i className="fa-solid fa-right-from-bracket"></i>
                   </span>
 
@@ -456,7 +465,7 @@ const InstituteDashboard = () => {
             </div>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-user"></i>
               </span>
 
@@ -464,7 +473,7 @@ const InstituteDashboard = () => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bars"></i>
               </span>
 
@@ -472,21 +481,21 @@ const InstituteDashboard = () => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-brands fa-rocketchat"></i>
               </span>
 
               <h5>ADD MENTOR</h5>
             </button>
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-brands fa-rocketchat"></i>
               </span>
 
               <h5>ADD MENTEE</h5>
             </button>
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-brands fa-rocketchat"></i>
               </span>
 
@@ -494,7 +503,7 @@ const InstituteDashboard = () => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bell"></i>
               </span>
 
@@ -502,7 +511,7 @@ const InstituteDashboard = () => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-arrow-right-arrow-left"></i>
               </span>
 
@@ -510,7 +519,7 @@ const InstituteDashboard = () => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-folder"></i>
               </span>
 
@@ -518,7 +527,7 @@ const InstituteDashboard = () => {
             </button>
 
             <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto mb-3">
+              <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-right-from-bracket"></i>
               </span>
 

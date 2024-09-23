@@ -1,28 +1,45 @@
 import React, { useEffect, useState } from "react";
-import Mentors1 from "../../Images/Mentors/mentors1.jpeg";
-
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "./Home.css";
 import axios from "axios";
 import { ApiURL } from "../../Utils/ApiURL";
 import { Link } from "react-router-dom";
+import StarRating from "../../Utils/StartRating";
+import SkeletonOfSection2 from "./SkeletonOfSection2";
 const Section2 = () => {
   const [allMentors, setAllMentors] = useState([]);
+  const [loading, setLoading] = useState(false);
   const url = ApiURL();
   useEffect(() => {
     const fetchMentors = async () => {
-      const response = await axios.get(`${url}api/v1/mentor/fetch-10-mentors`);
-      if (response.data.success) {
-        setAllMentors(response.data.success);
-      }
-      if (response.data.error) {
+      try {
+        setLoading(true);
+
+        const response = await Promise.race([
+          axios.get(`${url}api/v1/mentor/fetch-10-mentors`),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllMentors(response.data.success);
+        } else if (response.data.error) {
+          setAllMentors([]);
+        }
+      } catch (error) {
         setAllMentors([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false); // Ensure loading is stopped regardless of outcome
       }
     };
     fetchMentors();
@@ -45,6 +62,13 @@ const Section2 = () => {
                   overflow: "hidden",
                 }}
               >
+                {loading && (
+                  <>
+                    <SkeletonOfSection2 />
+                    <SkeletonOfSection2 />
+                    <SkeletonOfSection2 />
+                  </>
+                )}
                 <Swiper
                   spaceBetween={50}
                   slidesPerView={3}
@@ -59,176 +83,72 @@ const Section2 = () => {
                   modules={[Autoplay, Pagination, Navigation]}
                   className="mySwiper"
                 >
-                  {allMentors?.map((mentor) => {
-                    return (
-                      <SwiperSlide>
-                        <div className="item">
-                          <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                            <div className="diegrher overflow-hidden">
-                              <img
-                                src={mentor.mentor_profile_photo}
-                                alt="mentors1"
-                                style={{
-                                  width: "240px !important",
-                                  height: "400px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                            </div>
-                            <div className="doiuher_content">
-                              <h4 className="mb-0">
-                                {mentor.mentor_firstname +
-                                  " " +
-                                  mentor.mentor_lastname}
-                              </h4>
-                              <p className="profession">
-                                {mentor.mentor_job_title}
-                              </p>
-
-                              {mentor.mentor_feedback_session_overall_rating !==
-                              null ? (
-                                <p className="rating mb-0">
-                                  {mentor.mentor_feedback_session_overall_rating ===
-                                    "5" && (
-                                    <>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                    </>
-                                  )}
-                                  {mentor.mentor_feedback_session_overall_rating ===
-                                    "4" && (
-                                    <>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                    </>
-                                  )}
-                                  {mentor.mentor_feedback_session_overall_rating ===
-                                    "3" && (
-                                    <>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                    </>
-                                  )}
-                                  {mentor.mentor_feedback_session_overall_rating ===
-                                    "2" && (
-                                    <>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                    </>
-                                  )}
-                                  {mentor.mentor_feedback_session_overall_rating ===
-                                    "1" && (
-                                    <>
-                                      <i className="fa-solid fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                      <i className="fa-regular fa-star"></i>
-                                    </>
-                                  )}
+                  {!loading &&
+                    allMentors.length > 0 &&
+                    allMentors?.map((mentor, index) => {
+                      return (
+                        <SwiperSlide>
+                          <div className="item" key={index}>
+                            <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
+                              <div className="diegrher overflow-hidden">
+                                <img
+                                  src={mentor.mentor_profile_photo}
+                                  alt="mentors1"
+                                  style={{
+                                    width: "240px !important",
+                                    height: "400px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </div>
+                              <div className="doiuher_content">
+                                <h4 className="mb-0">
+                                  {mentor.mentor_firstname +
+                                    " " +
+                                    mentor.mentor_lastname}
+                                </h4>
+                                <p className="profession">
+                                  {mentor.mentor_job_title}
                                 </p>
-                              ) : (
-                                <>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                </>
-                              )}
-                              <div
-                                className="dhhfff text-center"
-                                style={{ marginTop: "16px" }}
-                              >
-                                <button className="btn small-btn-main">
-                                  <Link
-                                    target="_blanks"
-                                    to={`/mentor-club/mentor-profile/${
-                                      mentor.mentor_firstname +
-                                      "-" +
-                                      mentor.mentor_lastname
-                                        .replace(" ", "-")
-                                        .toLowerCase()
-                                    }/${mentor.user_dtls_id}`}
-                                  >
-                                    BOOK NOW
-                                  </Link>
-                                </button>
+                                <p className="rating mb-0"></p>
+                                {mentor.avg_mentor_rating !== null ? (
+                                  <StarRating
+                                    rating={mentor.avg_mentor_rating}
+                                  />
+                                ) : (
+                                  <>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                  </>
+                                )}
+
+                                <div
+                                  className="dhhfff text-center"
+                                  style={{ marginTop: "12px" }}
+                                >
+                                  <button className="btn small-btn-main">
+                                    <Link
+                                      target="_blanks"
+                                      to={`/mentor-club/mentor-profile/${
+                                        mentor.mentor_firstname +
+                                        "-" +
+                                        mentor.mentor_lastname
+                                          .replace(" ", "-")
+                                          .toLowerCase()
+                                      }/${mentor.user_dtls_id}`}
+                                    >
+                                      View Profile
+                                    </Link>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </SwiperSlide>
-                    );
-                  })}
-                  <SwiperSlide>
-                    <div className="item">
-                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                        <div className="diegrher overflow-hidden">
-                          <img
-                            src={Mentors1}
-                            alt="mentors1"
-                            style={{
-                              width: "240px !important",
-                              height: "400px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                        <div className="doiuher_content">
-                          <h4 className="mb-0">Tarun Gutam</h4>
-                          <p className="profession">Full stack developer</p>
-                          <p className="rating mb-0">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star"></i>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="item">
-                      <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
-                        <div className="diegrher overflow-hidden">
-                          <img
-                            src={Mentors1}
-                            alt="mentors1"
-                            style={{
-                              width: "240px !important",
-                              height: "400px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                        <div className="doiuher_content">
-                          <h4 className="mb-0">Tarun Gutam</h4>
-                          <p className="profession">Full stack developer</p>
-                          <p className="rating mb-0">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star"></i>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
+                        </SwiperSlide>
+                      );
+                    })}
                 </Swiper>
               </div>
             </div>

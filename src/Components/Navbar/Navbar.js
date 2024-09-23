@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import Logo from "../../Images/logo.png";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import "./Navbar.css";
 // import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
   const user = useSelector((state) => state.user?.currentUser);
+  const [menuOn, setmenuOn] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const toggleVisible = () => {
@@ -15,6 +17,14 @@ const Navbar = () => {
       setVisible(false);
     }
   };
+  const registermenuOn = () => {
+    setmenuOn(true);
+  };
+  const registermenuOff = () => {
+    setmenuOn(false);
+  };
+
+  const gotoMenteepage = () => {};
 
   window.addEventListener("scroll", toggleVisible);
 
@@ -23,7 +33,11 @@ const Navbar = () => {
       <header className={visible ? "headeractive" : ""}>
         <div className="header-wrapper">
           <div className="container-fluid">
-            <nav className="navbar fixed-top mx-4 px-3 mt-2 navbar-expand-sm navbar-light bg-white">
+            <nav
+              className="navbar fixed-top mx-4 px-3 mt-2 navbar-expand-sm navbar-light 
+          navbarcolor
+            "
+            >
               <div className="container">
                 <a className="navbar-brand" href="/" id="diorjer-logo">
                   <img src={Logo} alt="Logo" id="dbgheuirbr-image-a" />
@@ -71,29 +85,53 @@ const Navbar = () => {
                     </a>
                   </li> */}
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <a className="nav-link" href="ad">
                         Business Training
                       </a>
-                    </li>
+                    </li> */}
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <a className="nav-link" href="asd">
                         Methodology
                       </a>
-                    </li>
+                    </li> */}
 
                     <li className="nav-item">
                       <a className="nav-link" href="/mentor-club">
                         MentorClub
                       </a>
                     </li>
-
+                    {/* <li className="nav-item">
+                      <svg
+                        width="17"
+                        height="16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.166 1.333 3.23 8.458c-.233.28-.35.42-.351.537-.002.102.044.2.124.264.091.074.273.074.636.074H8.5l-.667 5.334L13.77 7.54c.232-.279.348-.418.35-.536a.333.333 0 0 0-.124-.264c-.091-.074-.273-.074-.636-.074H8.5l.666-5.334Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                      <a className="nav-link" href="/case-studies">
+                        Case Studies
+                      </a>
+                    </li> */}
                     <li className="nav-item">
+                      <a className="nav-link" href="/case-studies">
+                        Case Studies
+                        <span className="ai-button">
+                          AI<i className="fas fa-bolt"></i>
+                        </span>
+                      </a>
+                    </li>
+
+                    {/* <li className="nav-item">
                       <a className="nav-link" href="/jobs">
                         Jobs
                       </a>
-                    </li>
+                    </li> */}
 
                     <li className="nav-item">
                       <a className="nav-link" href="/aboutus">
@@ -117,10 +155,57 @@ const Navbar = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="udgehrr">
-                      <button className="btn fvjhdf_btn btn-main mt-0">
+                    <div className="udgehrr" onMouseLeave={registermenuOff}>
+                      <button className="btn fvjhdf_btn btn-main mt-0 btn-mainHome">
                         <Link to="/login">LogIn</Link>
                       </button>
+                      <div>
+                        <button
+                          className="btn fvjhdf_btn btn-main mt-0 btn-mainHome"
+                          onMouseOver={registermenuOn}
+                        >
+                          Sign Up
+                        </button>
+                        <div className="regmenu">
+                          {menuOn && (
+                            <div className="MenuBox">
+                              <button
+                                className="MenuBox-item1"
+                                // onClick={gotoMenteepage}
+                              >
+                                <a
+                                  className="inOneLine"
+                                  href="/mentee-registration"
+                                >
+                                  <i className="fa-solid fa-chalkboard-user"></i>{" "}
+                                  <h5>Mentee</h5>
+                                </a>
+                              </button>
+                              <button
+                                className="MenuBox-item1"
+                                // onClick={gotoMentorpage}
+                              >
+                                <a className="inOneLine" href="register">
+                                  <i className="fa-solid fa-graduation-cap"></i>{" "}
+                                  <h5>Mentor</h5>
+                                </a>
+                              </button>
+                              <button
+                                className="MenuBox-item1"
+                                // onClick={gotoInstitute}
+                              >
+                                <a
+                                  className="inOneLine"
+                                  href="/institute-registration"
+                                >
+                                  <i className="fa-solid fa-building-columns"></i>{" "}
+                                  <h5>Institute</h5>
+                                </a>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
 

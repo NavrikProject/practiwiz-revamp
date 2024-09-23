@@ -4,6 +4,12 @@ import { Link } from "react-router-dom";
 import ListStatusSkeleton from "../SkeltonLoaders/ListStatusSkeleton";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import { toast } from "react-toastify";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import { useDispatch } from "react-redux";
 
 const AdminNotApprovedAllMentors = () => {
   const [filters, setFilters] = useState({
@@ -26,22 +32,43 @@ const AdminNotApprovedAllMentors = () => {
   const [filteredMentors, setFilteredMentors] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = ApiURL();
+  const token = localStorage.getItem("accessToken");
+
   useEffect(() => {
     const fetchMentors = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `${url}api/v1/admin/dashboard/mentors/not-approved/all-list`
-      );
-      setLoading(false);
-      if (response.data.success) {
-        return setAllMentors(response.data.success), setLoading(false);
-      }
-      if (response.data.error) {
-        return setAllMentors([]), setLoading(false);
+      try {
+        setLoading(true);
+        const response = await Promise.race([
+          axios.get(
+            `${url}api/v1/admin/dashboard/mentors/not-approved/all-list`,
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllMentors(response.data.success);
+        } else if (response.data.error) {
+          setAllMentors([]);
+        }
+      } catch (error) {
+        setAllMentors([]);
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false);
       }
     };
     fetchMentors();
-  }, [url]);
+  }, [url, token]);
 
   useEffect(() => {
     const filterMentors = () => {
@@ -84,10 +111,42 @@ const AdminNotApprovedAllMentors = () => {
 
     filterMentors();
   }, [filters, allMentors]);
-  const [appliedFilters, setAppliedFilters] = useState(filters);
+  const dispatch = useDispatch();
 
+  const [appliedFilters, setAppliedFilters] = useState(filters);
   const handleApplyFilter = () => {
     setAppliedFilters(filters);
+  };
+  const MentorApproveHandler = async (id, email, mentorName, userId) => {
+    dispatch(showLoadingHandler());
+    const response = await axios.post(
+      `${url}api/v1/admin/dashboard/mentors/update/approve`,
+      {
+        mentorDtlsId: id,
+        mentorEmail: email,
+        mentorName: mentorName,
+        userId: userId,
+      },
+      {
+        headers: { authorization: "Bearer " + token },
+      }
+    );
+    setLoading(false);
+    dispatch(hideLoadingHandler());
+    if (response.data.success) {
+      return (
+        toast.success("Mentor approved successfully"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
+    if (response.data.error) {
+      return (
+        toast.error("There is some error while approving the mentor"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
   };
   return (
     <div className="col-lg-10 ps-0">
@@ -178,22 +237,18 @@ const AdminNotApprovedAllMentors = () => {
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Profile</th>
-                      <th>Send Invite</th>
+                      <th>Button</th>
+                      <th>Approval Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {loading && (
                       <>
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
-                        <ListStatusSkeleton />
+                        <ListStatusSkeleton columns={8} />
                       </>
                     )}
-                    {allMentors.length === 0 ? (
-                      <h3>No mentor found</h3>
+                    {allMentors?.length === 0 ? (
+                      <h1>No mentor found</h1>
                     ) : (
                       filteredMentors?.map((mentor) => (
                         <tr key={mentor.id}>
@@ -220,20 +275,38 @@ const AdminNotApprovedAllMentors = () => {
                               <Link
                                 to={`/mentor-club/mentor-profile/${
                                   mentor.user_firstname +
-                                  " " +
+                                  "-" +
                                   mentor.user_lastname
                                     .replace(" ", "-")
                                     .toLowerCase()
                                 }/${mentor.user_dtls_id}`}
                               >
-                                Profile
+                                Profiles
                               </Link>
                             </button>
                           </td>
                           <td>
-                            <button className="action-button invite-button">
-                              Send Invite
+                            <button
+                              className="approve-button"
+                              onClick={() => {
+                                MentorApproveHandler(
+                                  mentor.mentor_dtls_id,
+                                  mentor.mentor_email,
+                                  mentor.user_firstname +
+                                    " " +
+                                    mentor.user_lastname,
+                                  mentor.user_dtls_id
+                                );
+                              }}
+                            >
+                              Approve
                             </button>
+                          </td>
+                          <td>
+                            <i
+                              className="fa-solid fa-circle-check fa-lg"
+                              style={{ color: "#ff1414" }}
+                            ></i>
                           </td>
                         </tr>
                       ))

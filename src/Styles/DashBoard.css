@@ -5,7 +5,7 @@
   align-items: center;
   position: relative;
   margin-left: 2rem;
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
 }
 .seeeett {
   display: flex;
@@ -15,10 +15,10 @@
 }
 
 h5 {
-  font-size: 15px;
+  font-size: 18px;
 }
 .submenu-item:hover {
-  background-color: blue;
+  background-color: #7fa5ff !important;
   color: white;
 }
 /* .navbar{
@@ -74,7 +74,7 @@ header .navbar-brand img {
 
 .submenu1 {
   position: absolute;
-  top: 3rem;
+  top: 1rem;
   left: 0rem;
   background-color: white;
   border: 1px solid #ccc;
@@ -207,29 +207,24 @@ header .navbar-brand img {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
-  position: relative;
+
   margin-left: 2rem;
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
 }
 .seeeett {
   display: flex;
   gap: 10px;
   align-items: baseline;
-  position: relative;
-}
-
-h5 {
-  font-size: 15px;
 }
 .submenu-item:hover {
-  background-color: blue;
+  background-color: #7fa5ff !important;
   color: white;
 }
 /* .navbar{
     border-radius: 85px;
 } */
 header .navbar-brand img {
-  width: 7rem;
+  width: 10rem;
 }
 
 .container-fluid {
@@ -333,4 +328,15 @@ header .navbar-brand img {
 }
 .col-lg-10 {
   width: 100%;
+}
+
+.Baseposition {
+  position: relative;
+}
+
+.nfhgfg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 40px 0 0;
 }
