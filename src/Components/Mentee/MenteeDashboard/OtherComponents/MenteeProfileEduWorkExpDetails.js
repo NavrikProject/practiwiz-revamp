@@ -3,31 +3,14 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import collegeData from "../../../data/collegesname.json";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
+import { useDispatch } from "react-redux";
 const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
-  const handleEditClick = () => {
-    setIfEdit(!ifEdit);
-  };
-  const [formData, setFormData] = useState({
-    mentee_EduLevel: singleMentee[0]?.mentee_type,
-    mentee_instituteName: singleMentee[0]?.mentee_institute,
-    mentee_courseName: singleMentee[0]?.mentee_courseName,
-    mentee_institute_location: singleMentee[0]?.mentee_institute_location,
-    mentee_institute_Start_Year: singleMentee[0]?.mentee_institute_Start_Year,
-    mentee_institute_End_Year: singleMentee[0]?.mentee_institute_End_Year,
-    mentee_Certificate_Name: singleMentee[0]?.mentee_Certificate_Name,
-    mentee_Certificate_level: singleMentee[0]?.mentee_Certificate_level,
-    mentee_Certificate_Desc: singleMentee[0]?.mentee_Certificate_Desc,
-    mentee_Certificate_Start_Year:
-      singleMentee[0]?.mentee_Certificate_Start_Year,
-    mentee_Certificate_End_Year: singleMentee[0]?.mentee_Certificate_End_Year,
-    mentee_Skills: singleMentee[0]?.mentee_skills,
-    mentee_workexp_CompanyName: singleMentee[0]?.mentee_workexp_CompanyName,
-    mentee_workexp_Role: singleMentee[0]?.mentee_workexp_Role,
-    mentee_workexp_Desc: singleMentee[0]?.mentee_workexp_Desc,
-    mentee_workexp_Location: singleMentee[0]?.mentee_workexp_Location,
-    mentee_workexp_Start_Year: singleMentee[0]?.mentee_workexp_Start_Year,
-    mentee_workexp_End_Year: singleMentee[0]?.mentee_workexp_End_Year,
-  });
   const [certificates, setCertificates] = useState([
     {
       mentee_Certificate_Name: "",
@@ -37,9 +20,53 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
       mentee_Certificate_End_Year: "",
     },
   ]);
-
+  const handleEditClick = () => {
+    setIfEdit(!ifEdit);
+  };
+  const [formData, setFormData] = useState({
+    mentee_EduLevel: singleMentee[0]?.mentee_type,
+    mentee_instituteName: JSON.parse(
+      singleMentee[0].mentee_institute_details
+    )[0]?.mentee_instituteName,
+    mentee_courseName: JSON.parse(singleMentee[0].mentee_institute_details)[0]
+      ?.mentee_courseName,
+    mentee_institute_location: JSON.parse(
+      singleMentee[0].mentee_institute_details
+    )[0]?.mentee_institute_location,
+    mentee_institute_Start_Year: JSON.parse(
+      singleMentee[0].mentee_institute_details
+    )[0]?.mentee_institute_Start_Year,
+    mentee_institute_End_Year: JSON.parse(
+      singleMentee[0].mentee_institute_details
+    )[0]?.mentee_institute_End_Year,
+    mentee_Certificate_Name: singleMentee[0]?.mentee_Certificate_Name,
+    mentee_Certificate_level: singleMentee[0]?.mentee_Certificate_level,
+    mentee_Certificate_Desc: singleMentee[0]?.mentee_Certificate_Desc,
+    mentee_Certificate_Start_Year:
+      singleMentee[0]?.mentee_Certificate_Start_Year,
+    mentee_Certificate_End_Year: singleMentee[0]?.mentee_Certificate_End_Year,
+    mentee_Skills: singleMentee[0]?.mentee_skills,
+    mentee_workexp_CompanyName: JSON.parse(
+      singleMentee[0].mentee_experience_details
+    )[0]?.mentee_workexp_CompanyName,
+    mentee_workexp_Role: JSON.parse(
+      singleMentee[0].mentee_experience_details
+    )[0]?.mentee_workexp_Role,
+    mentee_workexp_Desc: JSON.parse(
+      singleMentee[0].mentee_experience_details
+    )[0]?.mentee_workexp_Desc,
+    mentee_workexp_Location: JSON.parse(
+      singleMentee[0].mentee_experience_details
+    )[0]?.mentee_workexp_Location,
+    mentee_workexp_Start_Year: JSON.parse(
+      singleMentee[0].mentee_experience_details
+    )[0]?.mentee_workexp_Start_Year,
+    mentee_workexp_End_Year: JSON.parse(
+      singleMentee[0].mentee_experience_details
+    )[0]?.mentee_workexp_End_Year,
+    certificates: JSON.parse(singleMentee[0].mentee_certificate_details),
+  });
   const [ifEdit, setIfEdit] = useState(false);
-
   const handleInputChange2 = (index, e) => {
     const { name, value } = e.target;
     const updatedCertificates = [...certificates];
@@ -88,7 +115,8 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
 
   // const [ifEdit, setifEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState(formData.mentee_instituteName);
-
+  const url = ApiURL();
+  const dispatch = useDispatch();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
   const handleInputChange1 = (e) => {
@@ -132,9 +160,43 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
 
   const handleSavechanges = async (event) => {
     event.preventDefault();
-    console.log("Save Data", formData);
-    console.log("Certificates:", certificates);
-    setIfEdit(false);
+    try {
+      dispatch(showLoadingHandler());
+      const response = await Promise.race([
+        axios.post(
+          `${url}api/v1/mentee/dashboard/profile/edu-work-details`,
+          {
+            formData,
+            certificates: JSON.stringify(certificates),
+            menteeUserDtlsId: user?.user_id,
+          },
+          {
+            headers: { authorization: "Bearer " + token },
+          }
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), 45000)
+        ),
+      ]);
+      if (response.data.success) {
+        dispatch(hideLoadingHandler());
+        toast.success("Profile Details changed successfully");
+      }
+      if (response.data.error) {
+        dispatch(hideLoadingHandler());
+        toast.error(
+          "There is some error while updating the profile details. Please try again"
+        );
+      }
+    } catch (error) {
+      toast.error(
+        "There is some error while updating the profile details. Please try again"
+      ); // Stop loading
+      dispatch(hideLoadingHandler());
+    } finally {
+      dispatch(hideLoadingHandler());
+      setIfEdit(false);
+    }
   };
   return (
     <div className="col-lg-10 ps-0">
@@ -157,7 +219,7 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
 
               <div>
                 <label htmlFor="" className="form-label">
-                  <h2>Education</h2>
+                  <h3>Education</h3>
                 </label>
 
                 <div className="">
@@ -207,7 +269,6 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                     <div className="row">
                       <div className="col-lg-6">
                         <h5>Collage/Institute Name </h5>
-
                         <div className="dkjiherer moideuirer_list hello">
                           <div className="dropdown">
                             <input
@@ -368,110 +429,114 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                 </div> */}
 
                 <div className=" pb-3" id="skill-tag">
-                  {certificates.map((certificate, index) => (
-                    <div className="pb-3" id="skill-tag" key={index}>
-                      <label htmlFor="" className="form-label">
-                        <h2> Certificate {index + 1}</h2>
-                      </label>
-                      <div className="form-control">
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <h5> Certificate Name </h5>
-                            <input
-                              className="form-control"
-                              name="mentee_Certificate_Name"
-                              value={certificate.mentee_Certificate_Name}
-                              onChange={(e) => handleInputChange2(index, e)}
-                              disabled={!ifEdit}
-                              placeholder="Enter Certificate Name ..."
-                            />
+                  {JSON.parse(singleMentee[0].mentee_certificate_details).map(
+                    (certificate, index) => (
+                      <div className="pb-3" id="skill-tag" key={index}>
+                        <label htmlFor="" className="form-label">
+                          <h3> Certificate {index + 1}</h3>
+                        </label>
+                        <div className="form-control">
+                          <div className="row">
+                            <div className="col-lg-6">
+                              <h5> Certificate Name </h5>
+                              <input
+                                className="form-control"
+                                name="mentee_Certificate_Name"
+                                value={certificate.mentee_Certificate_Name}
+                                onChange={(e) => handleInputChange2(index, e)}
+                                disabled={!ifEdit}
+                                placeholder="Enter Certificate Name ..."
+                              />
+                            </div>
+                            <div className="col-lg-6">
+                              <h5>Certificate level </h5>
+                              <select
+                                name="mentee_Certificate_level"
+                                className="form-select"
+                                value={certificate.mentee_Certificate_level}
+                                onChange={(e) => handleInputChange2(index, e)}
+                                disabled={!ifEdit}
+                              >
+                                <option value="">Select Level</option>
+                                <option value="Entry-Level">Entry-Level</option>
+                                <option value="Intermediate">
+                                  Intermediate
+                                </option>
+                                <option value="Advanced">Advanced</option>
+                              </select>
+                            </div>
                           </div>
-                          <div className="col-lg-6">
-                            <h5>Certificate level </h5>
-                            <select
-                              name="mentee_Certificate_level"
-                              className="form-select"
-                              value={certificate.mentee_Certificate_level}
-                              onChange={(e) => handleInputChange2(index, e)}
-                              disabled={!ifEdit}
-                            >
-                              <option value="">Select Level</option>
-                              <option value="Entry-Level">Entry-Level</option>
-                              <option value="Intermediate">Intermediate</option>
-                              <option value="Advanced">Advanced</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div
-                          className="row"
-                          style={{ display: "flex", alignItems: "baseline" }}
-                        >
-                          <div className="position-relative col-lg-6 pb-3 mt-1">
-                            <label htmlFor="" className="form-label">
-                              Description
-                            </label>
+                          <div
+                            className="row"
+                            style={{ display: "flex", alignItems: "baseline" }}
+                          >
+                            <div className="position-relative col-lg-6 pb-3 mt-1">
+                              <label htmlFor="" className="form-label">
+                                Description
+                              </label>
 
-                            <textarea
-                              name="mentee_Certificate_Desc"
-                              className="form-control"
-                              style={{ height: "45px" }}
-                              placeholder="Write something about the certificate"
-                              value={certificate.mentee_Certificate_Desc}
-                              onChange={(e) => handleInputChange2(index, e)}
-                              disabled={!ifEdit}
-                            ></textarea>
-                          </div>
-                          <div className="col-lg-6 mt-2">
-                            <div className="row">
-                              <div className="col-lg-6">
-                                <h5>Start Date</h5>
-                                <div className="EduBoxSub">
-                                  <input
-                                    type="month"
-                                    name="mentee_Certificate_Start_Year"
-                                    className="form-control"
-                                    value={
-                                      certificate.mentee_Certificate_Start_Year
-                                    }
-                                    onChange={(e) =>
-                                      handleInputChange2(index, e)
-                                    }
-                                    disabled={!ifEdit}
-                                  />
+                              <textarea
+                                name="mentee_Certificate_Desc"
+                                className="form-control"
+                                style={{ height: "45px" }}
+                                placeholder="Write something about the certificate"
+                                value={certificate.mentee_Certificate_Desc}
+                                onChange={(e) => handleInputChange2(index, e)}
+                                disabled={!ifEdit}
+                              ></textarea>
+                            </div>
+                            <div className="col-lg-6 mt-2">
+                              <div className="row">
+                                <div className="col-lg-6">
+                                  <h5>Start Date</h5>
+                                  <div className="EduBoxSub">
+                                    <input
+                                      type="month"
+                                      name="mentee_Certificate_Start_Year"
+                                      className="form-control"
+                                      value={
+                                        certificate.mentee_Certificate_Start_Year
+                                      }
+                                      onChange={(e) =>
+                                        handleInputChange2(index, e)
+                                      }
+                                      disabled={!ifEdit}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-lg-6">
-                                <h5>End Date</h5>
-                                <div className="EduBoxSub">
-                                  <input
-                                    type="month"
-                                    name="mentee_Certificate_End_Year"
-                                    className="form-control"
-                                    value={
-                                      certificate.mentee_Certificate_End_Year
-                                    }
-                                    onChange={(e) =>
-                                      handleInputChange2(index, e)
-                                    }
-                                    disabled={!ifEdit}
-                                  />
+                                <div className="col-lg-6">
+                                  <h5>End Date</h5>
+                                  <div className="EduBoxSub">
+                                    <input
+                                      type="month"
+                                      name="mentee_Certificate_End_Year"
+                                      className="form-control"
+                                      value={
+                                        certificate.mentee_Certificate_End_Year
+                                      }
+                                      onChange={(e) =>
+                                        handleInputChange2(index, e)
+                                      }
+                                      disabled={!ifEdit}
+                                    />
+                                  </div>
                                 </div>
                               </div>
                             </div>
+                            {ifEdit && (
+                              <button
+                                className="btn btn-danger mt-2"
+                                type="button"
+                                onClick={() => deleteCertificate(index)}
+                              >
+                                Delete Certificate
+                              </button>
+                            )}
                           </div>
-                          {ifEdit && (
-                            <button
-                              className="btn btn-danger mt-2"
-                              type="button"
-                              onClick={() => deleteCertificate(index)}
-                            >
-                              Delete Certificate
-                            </button>
-                          )}
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
 
                   {ifEdit && (
                     <div style={{ textAlign: "end" }}>
@@ -505,12 +570,11 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                   </div>
                 </div>
                 <label htmlFor="" className="form-label">
-                  <h2>Work Experience</h2>
+                  <h3>Work Experience</h3>
                 </label>
-
                 <div className=" pb-3" id="skill-tag">
                   <label htmlFor="" className="form-label">
-                    Work Experience Detailes
+                    Work Experience Details
                   </label>
                   <div className="form-control">
                     <div className="row">

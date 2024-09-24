@@ -1,48 +1,77 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
+import "./OptionExtractor.css"; // Import the CSS file
 
-const Test = () => {
-  const [image, setImage] = useState(null); // Initialize state to null
-  const [name, setName] = useState(null); // Initialize state to
-  const SendBackend = async (event) => {
-    event.preventDefault();
-    if (!image) {
-      console.log("No file selected");
-      return;
+const OptionsExtractor = () => {
+  const jsonString = `[
+    {
+        "id": 2,
+        "name": "Business & Management",
+        "subOptions": [
+            {
+                "id": 202,
+                "name": "Project Management",
+                "skills": [
+                    {
+                        "id": 20201,
+                        "name": "Agile/Scrum methodologies"
+                    },
+                    {
+                        "id": 20202,
+                        "name": "Gantt charts, roadmaps"
+                    },
+                    {
+                        "id": 20203,
+                        "name": "Risk management"
+                    },
+                    {
+                        "id": 20204,
+                        "name": "Stakeholder communication"
+                    }
+                ]
+            },
+            {
+                "id": 204,
+                "name": "Financial Planning & Analysis",
+                "skills": []
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Finance & Accounting",
+        "subOptions": []
     }
-    try {
-      const data = new FormData();
-      data.append("file", image);
-      data.append("name", name);
-      const response = await axios.post(
-        "http://localhost:1337/api/v1/mentor/registration/test",
-        data
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  ]`;
+
+  const options = JSON.parse(jsonString);
 
   return (
-    <div>
-      <form onSubmit={SendBackend} encType="multipart/form-data">
-        <input
-          type="file"
-          onChange={(e) => {
-            setImage(e.target.files[0]);
-          }}
-        />
-        <input
-          type="text"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        <button type="submit">Submit</button>
-      </form>
+    <div className="options-container">
+      {options.map((option) => (
+        <div key={option.id} className="main-option box">
+          <h2>{option.name}</h2>
+          {option.subOptions.length > 0 ? (
+            option.subOptions.map((subOption) => (
+              <div key={subOption.id} className="sub-option">
+                <h3>{subOption.name}</h3>
+                {subOption.skills.length > 0 ? (
+                  <ul>
+                    {subOption.skills.map((skill) => (
+                      <li key={skill.id}>{skill.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No skills available</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No sub-options available</p>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
 
-export default Test;
+export default OptionsExtractor;

@@ -32,13 +32,11 @@ const MentorStepForm = () => {
     "PREFERENCES",
   ];
   const saveStepDataToServer = async (data) => {
-    console.log(data.mentor_firstname, data.mentor_lastname);
     setUserData((prevData) => ({
       ...prevData, // Spread the previous data
       firstname: data.mentor_firstname,
       lastname: data.mentor_lastname,
     }));
-    console.log(userData);
     // try {
     //   await axios.post('/saveStepData', data);
     //   console.log('Step data saved:', data);
@@ -118,19 +116,17 @@ const MentorStepForm = () => {
       setStep((prev) => prev + 1);
     }
     if (page === 0) {
-      console.log("personal details");
       const Data = getValues();
       const Fname = Data.mentor_firstname;
       const Lname = Data.mentor_lastname;
       const gmail = Data.mentor_email;
       const phone = Data.mentor_phone_number;
 
-      console.log(Fname, Lname, gmail, phone);
+      // console.log(Fname, Lname, gmail, phone);
     }
   };
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
-    console.log(data);
     if (step < 4) {
       const isValid = await trigger(); // Validate current step
       if (isValid) {
@@ -155,7 +151,10 @@ const MentorStepForm = () => {
           "passionateAbout",
           JSON.stringify(data.passionate_about)
         );
-        newData.append("AreaOfexpertise", data.areas_of_expertise);
+        newData.append(
+          "AreaOfexpertise",
+          JSON.stringify(data.Core_Skills.expertise)
+        );
         newData.append("academicQualification", data.academic_qualification);
         newData.append("areaofmentorship", data.recommended_area_of_mentorship);
         newData.append("headline", data.mentor_Headline);
@@ -410,16 +409,18 @@ const MentorStepForm = () => {
                   {page === 0 ? (
                     ""
                   ) : (
-                    <button
-                      type="button"
-                      className="btn iudhehrnbeer_btn btn-primary"
-                      disabled={page === 0}
-                      onClick={() => {
-                        setPage((currPage) => currPage - 1);
-                      }}
-                    >
-                      <i className="fa-solid me-2 fa-left-long"></i> Previous
-                    </button>
+                    <div className="bjuerirr_btn diuher d-flex mt-4">
+                      <button
+                        type="button"
+                        className="btn iudhehrnbeer_btn btn-primary"
+                        disabled={page === 0}
+                        onClick={() => {
+                          setPage((currPage) => currPage - 1);
+                        }}
+                      >
+                        <i className="fa-solid me-2 fa-left-long"></i> Previous
+                      </button>
+                    </div>
                   )}
                   {page === FormTitles.length - 1 ? (
                     <button

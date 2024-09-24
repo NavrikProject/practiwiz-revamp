@@ -24,14 +24,14 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
   } = useForm();
   const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
-    mentee_profile_photo: singleMentee[0]?.mentee_profile_photo,
+    mentee_profile_photo: singleMentee[0]?.mentee_profile_pic_url,
     mentee_firstname: singleMentee[0]?.mentee_firstname,
     mentee_lastname: singleMentee[0]?.mentee_lastname,
     mentee_phone_number: singleMentee[0]?.mentee_phone_number,
     mentee_email: singleMentee[0]?.mentee_email,
-    mentee_instagram_link: singleMentee[0]?.mentee_instagram_link,
-    mentee_Twitter_link: singleMentee[0]?.mentee_Twitter_link,
-    mentee_linkedin_link: singleMentee[0]?.mentee_linkedin_link,
+    mentee_instagram_link: singleMentee[0]?.mentee_instagram_url,
+    mentee_Twitter_link: singleMentee[0]?.mentee_twitter_url,
+    mentee_linkedin_link: singleMentee[0]?.mentee_linkedin_url,
     mentee_language: singleMentee[0]?.mentee_language,
     mentee_gender: singleMentee[0]?.mentee_gender,
     mentee_aboutyouself: singleMentee[0]?.mentee_about,
@@ -107,35 +107,64 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
       mentee_phone_number: phone,
     });
   };
+  const [menteeProfilePhoto, setMenteeProfilePhoto] = useState();
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Selected file:", file); // Log file in the console
+  const onSubmit = async (data) => {
+    console.log("called this function");
+    const profileFormData = new FormData();
+    profileFormData.append("Image", data);
+    // Log form data including the selected file
+  };
 
-      // Create a URL for the selected file to display the image preview
-      const fileUrl = URL.createObjectURL(file);
+  const UpdateMenteeProfilePhotoHandlers = async () => {
+    if (menteeProfilePhoto) {
+      const fileUrl = URL.createObjectURL(menteeProfilePhoto);
       setFormData({
         ...formData,
         mentee_profile_photo: fileUrl, // Store file URL for preview
       });
-
       // Update the react-hook-form state with the selected file
-      setValue("mentee_profile_photo", file); // Save the file to form data
-      handleSubmit(onSubmit);
+      setValue("mentee_profile_photo", menteeProfilePhoto); // Save the file to form data
+      const menteeProfilePhotoFormData = new FormData();
+      menteeProfilePhotoFormData.append("image", menteeProfilePhoto);
+      try {
+        dispatch(showLoadingHandler());
+        const response = await Promise.race([
+          axios.post(
+            `${url}api/v1/mentee/dashboard/profile/profile-picture`,
+            {
+              menteeProfilePhotoFormData,
+              menteeUserDtlsId: user?.user_id,
+            },
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000)
+          ),
+        ]);
+        if (response.data.success) {
+          dispatch(hideLoadingHandler());
+          toast.success("Profile Details changed successfully");
+        }
+        if (response.data.error) {
+          dispatch(hideLoadingHandler());
+          toast.error(
+            "There is some error while updating the profile details. Please try again"
+          );
+        }
+      } catch (error) {
+        toast.error(
+          "There is some error while updating the profile details. Please try again"
+        ); // Stop loading
+        dispatch(hideLoadingHandler());
+      } finally {
+        dispatch(hideLoadingHandler());
+        setifEdit(false);
+      }
     }
   };
-
-  const onSubmit = (data) => {
-    console.log("Form data:", data); // Log form data including the selected file
-  };
-
-  const handleFileInputClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
   return (
     <div className="col-lg-10 ps-0">
       <div className="">
@@ -162,37 +191,44 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                 </div>
               )}
-
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="huygrut d-flex py-4 align-items-center">
-                  <div className="deuirr_circle position-relative overflow-hidden me-3 iijieirr_left">
-                    <div>
-                      <img
-                        src={formData.mentee_profile_photo}
-                        alt="Selected"
-                        style={{ maxWidth: "100%", maxHeight: "400px" }}
-                      />
-                    </div>
+              <div className="huygrut d-flex py-4 align-items-center">
+                <div className="deuirr_circle position-relative overflow-hidden me-3 iijieirr_left">
+                  <div>
+                    <img
+                      src={formData.mentee_profile_photo}
+                      alt="Selected"
+                      style={{ maxWidth: "100%", maxHeight: "400px" }}
+                    />
                   </div>
+                </div>
+                {ifEdit && (
+                  <>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      // {...register("mentee_profile_photo")}
+                      // Keep input hidden
+                      onChange={(e) => {
+                        setMenteeProfilePhoto(e.target.files[0]);
+                      }} // Handle file change
+                    />
+                  </>
+                )}
+                {ifEdit && menteeProfilePhoto && (
                   <button
                     type="button"
                     className="btn btn-main me-3"
-                    onClick={handleFileInputClick} // Trigger file input on button click
+                    onClick={UpdateMenteeProfilePhotoHandlers} // Trigger file input on button click
                   >
                     Upload Profile Photo
                   </button>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    // {...register("mentee_profile_photo")}
-                    style={{ display: "none" }} // Keep input hidden
-                    onChange={handleFileChange} // Handle file change
-                  />
-                  <button className="btn btn-transparent" type="button">
+                )}
+                {/* <button className="btn btn-transparent" type="button">
                     Delete
-                  </button>
-                </div>
+                  </button> */}
+              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
                   <div className="col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
@@ -310,7 +346,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       type="text"
                       name="mentee_instagram_link"
                       className="form-control mt-1"
-                      placeholder="Linkedin Social Media Profile link"
+                      placeholder="Instagram Social Media Profile link"
                       value={formData.mentee_instagram_link}
                       onChange={handleInputChange}
                       disabled={!ifEdit}
@@ -321,7 +357,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       type="text"
                       name="mentee_Twitter_link"
                       className="form-control mt-1"
-                      placeholder="Linkedin Social Media Profile link"
+                      placeholder="Twitter Social Media Profile link"
                       value={formData.mentee_Twitter_link}
                       onChange={handleInputChange}
                       disabled={!ifEdit}

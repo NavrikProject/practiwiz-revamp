@@ -8,12 +8,12 @@ import MentorRatingCard from "../../AllMentors/SingleMentorProfile/MentorRatingC
 import StarRating from "../../../../Utils/StartRating";
 const MentorProfile = ({ data, user, token }) => {
   const [showRating, setShowRating] = useState(null);
-  const [showOverview, setShowOverview] = useState(true);
-  const OverviewShowHandler = () => {
-    return setShowRating(false), setShowOverview(!showOverview);
-  };
+  const [showAreaOfExpertise, setShowAreaOfExpertise] = useState(true);
   const RatingShowHandler = () => {
-    return setShowRating(!showRating), setShowOverview(false);
+    return setShowRating(!showRating), setShowAreaOfExpertise(false);
+  };
+  const AreaOfExpertiseShowHandler = () => {
+    return setShowRating(false), setShowAreaOfExpertise(!showAreaOfExpertise);
   };
   return (
     <>
@@ -53,9 +53,9 @@ const MentorProfile = ({ data, user, token }) => {
                             <div className="ghvfvdfgg">
                               <div className="gjnjfghg">
                                 <h2>
-                                  {sMentor.user_firstname.toUpperCase() +
+                                  {sMentor?.mentor_firstname?.toUpperCase() +
                                     " " +
-                                    sMentor.user_lastname.toUpperCase()}
+                                    sMentor?.mentor_lastname?.toUpperCase()}
                                 </h2>{" "}
                               </div>
                               <div className="njfgfghf">
@@ -98,19 +98,70 @@ const MentorProfile = ({ data, user, token }) => {
                                 <span className="spnn45"> Show More</span>
                               </p>
                             </div>
+                            <div className="fkjhgdfbghh">
+                              <ul className="tabs">
+                                <li
+                                  className="tab-link current"
+                                  data-tab="tab-9"
+                                >
+                                  Overview
+                                </li>
+                              </ul>
+                              <div id="tab-9" className="tab-content current">
+                                <div className="dfgbfgd">
+                                  <div className="dfkjhgufgfgh">
+                                    <div className="row">
+                                      <div className="col-lg-1">
+                                        <div className="lgkgg">
+                                          <img src={Qw1} alt="" />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-11">
+                                        <div className="djbghdrfgfgh">
+                                          <h6>Professional Experience</h6>
+                                          <p>{sMentor.mentor_headline}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
-                            <div className="fkjhgdfbghh my-5">
+                                  <div className="dfkjhgufgfgh">
+                                    <div className="row">
+                                      <div className="col-lg-1">
+                                        <div className="lgkgg">
+                                          <img src={Qw2} alt="" />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-11">
+                                        <div className="djbghdrfgfgh">
+                                          <h6>Expertise In</h6>
+                                          <p>
+                                            {
+                                              sMentor.mentor_recommended_area_of_mentorship
+                                            }
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {/* key skills and expertise starts here. */}
+
+                            {/* area of expertise and rating starts */}
+                            <div className="fkjhgdfbghh">
                               <ul className="tabs">
                                 <li
                                   className={
-                                    showOverview
+                                    showAreaOfExpertise
                                       ? "tab-link current"
                                       : "tab-link "
                                   }
                                   data-tab="tab-9"
-                                  onClick={() => OverviewShowHandler()}
+                                  onClick={() => AreaOfExpertiseShowHandler()}
                                 >
-                                  Overview
+                                  Area of Expertise
                                 </li>
                                 <li
                                   className={
@@ -124,45 +175,38 @@ const MentorProfile = ({ data, user, token }) => {
                                   Rating & Reviews
                                 </li>
                               </ul>
-                              {showOverview && (
-                                <div id="tab-9" className="tab-content current">
-                                  <div className="dfgbfgd">
-                                    <div className="dfkjhgufgfgh">
-                                      <div className="row">
-                                        <div className="col-lg-1">
-                                          <div className="lgkgg">
-                                            <img src={Qw1} alt="" />
+                              {showAreaOfExpertise && (
+                                <div className="options-container">
+                                  {JSON.parse(
+                                    sMentor.mentor_area_expertise
+                                  ).map((option) => (
+                                    <div
+                                      key={option.id}
+                                      className="main-option box"
+                                    >
+                                      <h2>{option.name}</h2>
+                                      {option.subOptions.length > 0 &&
+                                        option.subOptions.map((subOption) => (
+                                          <div
+                                            key={subOption.id}
+                                            className="sub-option"
+                                          >
+                                            <h3>{subOption.name}</h3>
+                                            {subOption.skills.length > 0 && (
+                                              <div className="fhfbfghg">
+                                                {subOption.skills.map(
+                                                  (skill) => (
+                                                    <button key={skill.id}>
+                                                      {skill.name}
+                                                    </button>
+                                                  )
+                                                )}
+                                              </div>
+                                            )}
                                           </div>
-                                        </div>
-                                        <div className="col-lg-11">
-                                          <div className="djbghdrfgfgh">
-                                            <h6>Professional Experience</h6>
-                                            <p>{sMentor.mentor_headline}</p>
-                                          </div>
-                                        </div>
-                                      </div>
+                                        ))}
                                     </div>
-
-                                    <div className="dfkjhgufgfgh">
-                                      <div className="row">
-                                        <div className="col-lg-1">
-                                          <div className="lgkgg">
-                                            <img src={Qw2} alt="" />
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-11">
-                                          <div className="djbghdrfgfgh">
-                                            <h6>Expertise In</h6>
-                                            <p>
-                                              {
-                                                sMentor.mentor_recommended_area_of_mentorship
-                                              }
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  ))}
                                 </div>
                               )}
                               {showRating && (
@@ -185,9 +229,11 @@ const MentorProfile = ({ data, user, token }) => {
 
                         <div className="col-lg-4">
                           <div className="hgkfgkjfgfghgfg sticky-top">
-                            <h3>Skills</h3>
+                            <h3 style={{ width: "auto", marginTop: "20px" }}>
+                              Additional Skills
+                            </h3>
                             <div className="fhfbfghg">
-                              {JSON.parse(sMentor.expertise_list).map(
+                              {/* {JSON.parse(sMentor.expertise_list).map(
                                 (expertise) => {
                                   return (
                                     <>
@@ -197,12 +243,14 @@ const MentorProfile = ({ data, user, token }) => {
                                     </>
                                   );
                                 }
-                              )}
-                              {JSON.parse(sMentor.passion_list).map(
+                              )} */}
+                              {JSON.parse(sMentor.mentor_passion_dtls).map(
                                 (passion) => {
                                   return (
                                     <>
-                                      <button>{passion.mentor_passion}</button>
+                                      {passion.inside === true && (
+                                        <button>{passion.text}</button>
+                                      )}
                                     </>
                                   );
                                 }
