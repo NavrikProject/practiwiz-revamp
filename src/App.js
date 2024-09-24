@@ -91,7 +91,7 @@ function App() {
             path="/mentor-club/mentor-profile/:name/:id"
             element={<SingleMentorProfilePage />}
           />
-          <Route path="/test" element={<MentorPayment />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/date" element={<MenteeFeedbackForm />} />
           {/* passing of the user and token to dashboard is completed */}
           {user?.user_type === "mentor" && (
