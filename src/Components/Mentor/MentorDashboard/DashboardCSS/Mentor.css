@@ -25,7 +25,6 @@
   top: -30%;
 }
 
-
 #frame {
   width: 100%;
   min-width: 100%;
@@ -768,7 +767,9 @@
 }
 .kfghg img {
   width: 100%;
-  height: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 30px;
 }
 
 .dfujghffg {
@@ -1414,4 +1415,3 @@ caption {
   height: 100vh;
   overflow-x: scroll;
 }
-

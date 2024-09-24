@@ -44,6 +44,9 @@ import MenteeFeedbackForm from "./Components/Mentee/MenteeFeedback/MenteeFeedbac
 import AdminDashboardPage from "./Pages/AdminPages/AdminDashboardPage";
 import ForgotPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ForgotPasswordPage";
 import ResetPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ResetPasswordPage";
+import CaseStudyPage from "./Pages/CaseStudyPages/CaseStudyPage";
+import SingleCaseStudyPage from "./Pages/CaseStudyPages/SingleCaseStudyPage";
+import InstituteRegistrationPage from "./Pages/FormPages/RegisterPages/InstituteRegistrationPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -88,7 +91,7 @@ function App() {
             path="/mentor-club/mentor-profile/:name/:id"
             element={<SingleMentorProfilePage />}
           />
-          <Route path="/test" element={<MentorPayment />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/date" element={<MenteeFeedbackForm />} />
           {/* passing of the user and token to dashboard is completed */}
           {user?.user_type === "mentor" && (
@@ -138,6 +141,10 @@ function App() {
             path="/mentee-registration"
             element={<MenteeRegistrationPage />}
           />
+          <Route
+            path="/institute-registration"
+            element={<InstituteRegistrationPage />}
+          />
           <Route path="/test1" element={<CoursePayment />} />
           {/* Jobs links start */}
           <Route path="/jobs" element={<AllJobPage />} />
@@ -161,6 +168,14 @@ function App() {
           <Route
             path="/user/activate/reset-password/:token"
             element={<ResetPasswordPage />}
+          />
+          <Route
+            path="/case-studies"
+            element={<CaseStudyPage user={user} token={token} />}
+          />
+          <Route
+            path="/case-studies/view-case-study/:topic/:id"
+            element={<SingleCaseStudyPage user={user} token={token} />}
           />
         </Routes>
       </Router>

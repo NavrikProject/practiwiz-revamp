@@ -1,7 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import "../InstituteProfile/institute.css";
+import "../DashboardCSS/Institute.css";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -19,7 +19,8 @@ const InstituteProfileDashboard = () => {
 
                   <div className="fhghgdgg">
                     <h3>
-                      <i className="fa-solid me-2 fa-sign-hanging"></i> Est. 2006
+                      <i className="fa-solid me-2 fa-sign-hanging"></i> Est.
+                      2006
                     </h3>
                   </div>
                 </div>

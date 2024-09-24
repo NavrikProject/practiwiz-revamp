@@ -6,7 +6,9 @@ import PhoneInput from "react-phone-input-2";
 import CountryData from "../../../data/CountryData.json";
 import GoToTop from "../../../../Utils/GoToTop";
 import "react-phone-input-2/lib/style.css";
+import collegeData from "../../../data/collegesname.json";
 import "./register.css";
+import { toast } from "react-toastify";
 const MentorForm1 = (props) => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
@@ -19,8 +21,33 @@ const MentorForm1 = (props) => {
     watch,
     control,
     getValues,
+    setValue,
     formState: { errors },
   } = useFormContext();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
+
+  // Function to handle input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setValue("mentor_InstituteName", value);
+    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
+  };
+
+  // Filter colleges based on the search term
+  const filteredColleges = collegeData.filter((item) =>
+    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Function to handle dropdown option click
+  const handleOptionClick = (college) => {
+    setSelectedCollege(college); // Set selected college
+    setSearchTerm(college["College Name"]); // Update input with selected college name
+    setDropdownVisible(false); // Hide dropdown after selection
+    setValue("mentor_InstituteName", college["College Name"]);
+  };
   const password = watch("mentor_password");
   const handleBlur = async (fieldName) => {
     const data = { [fieldName]: getValues(fieldName) };
@@ -36,8 +63,8 @@ const MentorForm1 = (props) => {
                 <b>Register Using :</b>
                 <button
                   onClick={() => {
-                    window.alert(
-                      "We were working on this register using Linkedin. Please fil the mentor application"
+                    toast.error(
+                      "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
                     );
                   }}
                   className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary"
@@ -333,10 +360,110 @@ const MentorForm1 = (props) => {
                 )}
               </div>
             </div>
+
+            <div className="col-lg-6 mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label mb-0">
+                <b>Academic Qualification</b>
+              </label>
+
+              <div className="dkjiherer moideuirer_list hello">
+                <ul className="ps-0 mb-0">
+                  <li>
+                    <input
+                      type="radio"
+                      id="check_11"
+                      name="check_11"
+                      value="Post Graduate"
+                      className="d-none"
+                      {...register("academic_qualification", {
+                        // required: "First Name is required",
+                      })} //1
+                    />
+
+                    <label htmlFor="check_11">Post Graduate</label>
+                  </li>
+
+                  <li>
+                    <input
+                      type="radio"
+                      id="check_20"
+                      name="check_20"
+                      className="d-none"
+                      value="Graduate"
+                      {...register("academic_qualification", {
+                        // required: "First Name is required",
+                      })} //1
+                    />
+
+                    <label htmlFor="check_20">Graduate</label>
+                  </li>
+
+                  <li>
+                    <input
+                      type="radio"
+                      id="check_30"
+                      name="check_30"
+                      className="d-none"
+                      value="Doctorate"
+                      {...register("academic_qualification", {
+                        // required: "First Name is required",
+                      })} //1
+                    />
+
+                    <label htmlFor="check_30">Doctorate</label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className=" col-lg-6 ">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Institute/College name</b>
+              </label>
+              <div className="dkjiherer moideuirer_list hello">
+                <div className="dropdown">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a college..."
+                    value={searchTerm} // Ensure input value is controlled
+                    {...register("mentor_InstituteName", {
+                      required: "Institute Name is required",
+                    })}
+                    onChange={handleInputChange}
+                    onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                  />
+                  {dropdownVisible && filteredColleges.length > 0 && (
+                    <div className="dropdown-content">
+                      {filteredColleges.slice(0, 50).map(
+                        (
+                          college,
+                          index // Limit to 10 results
+                        ) => (
+                          <div
+                            key={index}
+                            className="dropdown-item"
+                            onClick={() => handleOptionClick(college)}
+                          >
+                            {college["College Name"]}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {errors.mentor_InstituteName && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_InstituteName.message}
+                </p>
+              )}
+            </div>
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  <b>Which Country You Live in?</b>
+                  <b>Which Country do You Live in?</b>
                 </label>
                 <select
                   className="form-select"
@@ -364,7 +491,7 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>City/State</b>
+                  <b>City</b>
                 </label>
                 <input
                   type="text"
@@ -393,6 +520,7 @@ const MentorForm1 = (props) => {
           </div>
         </div>
       </div>
+
       <GoToTop />
     </>
   );

@@ -4,6 +4,7 @@ import Ee2 from "../../../../Images/Mentors/ee2.png";
 import Tickmark from "../../../../Images/Mentors/tick-mark (1).png";
 import Qw1 from "../../../../Images/Mentors/qw1 (1).png";
 import Qw2 from "../../../../Images/Mentors/qw1 (2).png";
+import DCdc1 from "../../../../Images/Mentors/Mentor_session.jpg";
 import "../AllMentors.css";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -96,9 +97,9 @@ const SingleMentorProfile = () => {
                             src={sMentor.mentor_profile_photo}
                             width="100%"
                             alt={
-                              sMentor.user_firstname +
+                              sMentor.mentor_firstname +
                               " " +
-                              sMentor.user_lastname
+                              sMentor.mentor_lastname
                             }
                           />
                         </div>
@@ -128,9 +129,9 @@ const SingleMentorProfile = () => {
                             <div className="ghvfvdfgg">
                               <div className="gjnjfghg">
                                 <h2>
-                                  {sMentor.user_firstname.toUpperCase() +
+                                  {sMentor.mentor_firstname.toUpperCase() +
                                     " " +
-                                    sMentor.user_lastname.toUpperCase()}
+                                    sMentor.mentor_lastname.toUpperCase()}
                                 </h2>
                               </div>
                               <div className="njfgfghf">
@@ -241,6 +242,15 @@ const SingleMentorProfile = () => {
                                         </div>
                                       </div>
                                     </div>
+                                    <div className="dfujghffg">
+                                      <h4>
+                                        Get Super power with Mentor session!
+                                      </h4>
+                                      <hr />
+                                      <div className="kfghg">
+                                        <img src={DCdc1} alt="" />
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               )}
@@ -254,6 +264,14 @@ const SingleMentorProfile = () => {
                                           sMentor.feedback_details
                                         }
                                       />
+                                      <div className="dfujghffg">
+                                        <h4>
+                                          Get Super power with Mentor session!
+                                        </h4>
+                                        <div className="kfghg">
+                                          <img src={DCdc1} alt="" />
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
