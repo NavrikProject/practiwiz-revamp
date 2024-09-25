@@ -5,7 +5,11 @@ const MentorRatingCard = ({ feedbackCount, feedback_details }) => {
   return (
     <>
       {feedbackCount === 0 && (
-        <h4 className="noReviewsFound">No reviews found</h4>
+        <div className="options-container">
+          <div className="main-option">
+            <h4 className="noReviewsFound">No reviews found</h4>
+          </div>
+        </div>
       )}
       {feedback_details !== null &&
         feedbackCount > 0 &&

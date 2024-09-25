@@ -7,7 +7,6 @@ import GoToTop from "../../../../Utils/GoToTop";
 const MentorForm4 = () => {
   const {
     register,
-
     formState: { errors },
   } = useFormContext({});
 
@@ -115,7 +114,6 @@ const MentorForm4 = () => {
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>Currency</b>
                 </label>
-
                 <select
                   className="form-select"
                   {...register("Mentor_Currency", {
@@ -128,13 +126,13 @@ const MentorForm4 = () => {
                       {currency.name} ({currency.symbol})
                     </option>
                   ))}
-                </select>
+                </select>{" "}
+                {errors.Mentor_Currency && (
+                  <p className="Error-meg-login-register">
+                    {errors.Mentor_Currency.message}
+                  </p>
+                )}
               </div>
-              {errors.Mentor_Currency && (
-                <p className="Error-meg-login-register">
-                  {errors.Mentor_Currency.message}
-                </p>
-              )}
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
@@ -143,26 +141,26 @@ const MentorForm4 = () => {
                 </label>
                 <input
                   type="number"
-                  min={0}
+                  min={100}
+                  max={1500}
                   className="form-control"
                   placeholder=" Enter Your Amount..."
                   {...register("pricing", {
-                    required: " is required",
+                    required: "Please mention the price below 1500",
                   })} //1
                 />
+                {errors.pricing && (
+                  <p className="Error-meg-login-register">
+                    {errors.pricing.message}
+                  </p>
+                )}
               </div>
-              {/* {errors.guest_lectures_interest && (
-              <p className="Error-meg-login-register">
-                {errors.guest_lectures_interest.message}
-              </p>
-            )} */}
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>Would You Be Interested in Delivering Guest Lectures?</b>
                 </label>
-
                 <select
                   className="form-select"
                   {...register("guest_lectures_interest", {
@@ -172,13 +170,13 @@ const MentorForm4 = () => {
                   <option value="">Choose An Option</option>
                   <option>Yes</option>
                   <option>No</option>
-                </select>
+                </select>{" "}
+                {errors.guest_lectures_interest && (
+                  <p className="Error-meg-login-register">
+                    {errors.guest_lectures_interest.message}
+                  </p>
+                )}
               </div>
-              {errors.guest_lectures_interest && (
-                <p className="Error-meg-login-register">
-                  {errors.guest_lectures_interest.message}
-                </p>
-              )}
             </div>
 
             <div className="col-lg-6">
@@ -186,7 +184,6 @@ const MentorForm4 = () => {
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>Would You Be Interested in Curating Case Studies?</b>
                 </label>
-
                 <select
                   className="form-select"
                   {...register("curating_case_studies_interest", {
@@ -196,13 +193,13 @@ const MentorForm4 = () => {
                   <option value="">Choose An Option</option>
                   <option>Yes</option>
                   <option>No</option>
-                </select>
+                </select>{" "}
+                {errors.curating_case_studies_interest && (
+                  <p className="Error-meg-login-register">
+                    {errors.curating_case_studies_interest.message}
+                  </p>
+                )}
               </div>
-              {errors.curating_case_studies_interest && (
-                <p className="Error-meg-login-register">
-                  {errors.curating_case_studies_interest.message}
-                </p>
-              )}
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
@@ -212,7 +209,6 @@ const MentorForm4 = () => {
                     Charge
                   </b>
                 </label>
-
                 <select
                   className="form-select"
                   {...register("sessions_free_of_charge", {
@@ -222,13 +218,13 @@ const MentorForm4 = () => {
                   <option value="">Choose An Option</option>
                   <option>Yes</option>
                   <option>No</option>
-                </select>
+                </select>{" "}
+                {errors.sessions_free_of_charge && (
+                  <p className="Error-meg-login-register">
+                    {errors.sessions_free_of_charge.message}
+                  </p>
+                )}
               </div>
-              {errors.sessions_free_of_charge && (
-                <p className="Error-meg-login-register">
-                  {errors.sessions_free_of_charge.message}
-                </p>
-              )}
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
@@ -256,12 +252,12 @@ const MentorForm4 = () => {
                     </option>
                   ))}
                 </select>
+                {errors.mentor_timezone && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_timezone.message}
+                  </p>
+                )}
               </div>
-              {errors.mentor_timezone && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_timezone.message}
-                </p>
-              )}
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
@@ -281,12 +277,12 @@ const MentorForm4 = () => {
                     </option>
                   ))}
                 </select>
+                {errors.mentor_language && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_language.message}
+                  </p>
+                )}
               </div>
-              {errors.mentor_language && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_language.message}
-                </p>
-              )}
             </div>
           </div>
         </div>

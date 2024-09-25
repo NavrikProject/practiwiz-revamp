@@ -6,6 +6,7 @@ import {
   GoogleMap,
   Section7,
 } from "../../Components/Contactus/contact";
+import GoToTop from "../../Utils/GoToTop";
 
 const ContactusPage = () => {
   return (
@@ -15,6 +16,7 @@ const ContactusPage = () => {
       <GoogleMap />
       <Section7 />
       <Footer />
+      <GoToTop />
     </>
   );
 };
