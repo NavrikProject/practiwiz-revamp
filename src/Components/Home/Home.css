@@ -2,6 +2,24 @@
   width: 5px;
   height: 5px;
 }
+.container-homepage {
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.testbackg {
+  border: 5px solid #66b3ff;
+  background-color: rgb(224, 224, 224);
+  border-radius: 15px 50px 30px;
+}
+
+.swiper-img-home > img {
+  height: 450px;
+  width: 100%;
+  object-fit: contain;
+}
 .cxZmyQ {
   display: none !important;
 }

@@ -47,6 +47,7 @@ import ResetPasswordPage from "./Pages/FormPages/ForgotPasswordPages/ResetPasswo
 import CaseStudyPage from "./Pages/CaseStudyPages/CaseStudyPage";
 import SingleCaseStudyPage from "./Pages/CaseStudyPages/SingleCaseStudyPage";
 import InstituteRegistrationPage from "./Pages/FormPages/RegisterPages/InstituteRegistrationPage";
+import InternshipPages from "./Pages/InternshipPages/InternshipPages";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -163,7 +164,7 @@ function App() {
           {/* )} */}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
-
+          <Route path="/internships" element={<InternshipPages />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/user/activate/reset-password/:token"

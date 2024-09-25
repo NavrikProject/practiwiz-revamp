@@ -2,21 +2,16 @@ import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
 import CoreSkill from "../../../data/CoreSkill.json";
+import PassionSkill from "../../../data/PassionSkills.json";
 
 const MentorForm2 = () => {
   const {
     register,
     formState: { errors },
     setValue,
+    trigger,
   } = useFormContext();
-  const [items, setItems] = useState([
-    { id: "draggable1", text: " Technology", inside: false },
-    { id: "draggable2", text: " Management ", inside: false },
-    { id: "draggable3", text: "Leadership", inside: false },
-    { id: "draggable4", text: "Career Guidance", inside: false },
-    { id: "draggable5", text: "Public Speaking", inside: false },
-  ]);
-
+  const [items, setItems] = useState(PassionSkill);
   const handleDragStart = (e, id) => {
     e.dataTransfer.setData("text/plain", id);
     setTimeout(() => {
@@ -60,7 +55,6 @@ const MentorForm2 = () => {
     setValue("passionate_about", items);
   };
 
-
   const [selectedExpertise, setSelectedExpertise] = useState([]);
   const [selectedSubOptions, setSelectedSubOptions] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
@@ -68,7 +62,6 @@ const MentorForm2 = () => {
   const handleExpertiseChange = (e) => {
     const expertiseId = parseInt(e.target.value);
     const expertise = CoreSkill.find((item) => item.id === expertiseId);
-
     if (expertise) {
       setSelectedExpertise((prev) =>
         prev.includes(expertise)
@@ -168,12 +161,15 @@ const MentorForm2 = () => {
           <div className="row">
             <div className="col-lg-6 mb-4">
               <label htmlFor="mentor_job_title" className="form-label">
-                <b>Job Title</b>
+                <b>Your Job Title</b>
               </label>
               <input
+                onKeyUp={() => {
+                  trigger("mentor_job_title");
+                }}
                 type="text"
                 className="form-control"
-                placeholder="Type Your Job Title"
+                placeholder="Type Your Job Title....."
                 {...register("mentor_job_title", {
                   required: "Job title is required",
                   pattern: {
@@ -194,6 +190,9 @@ const MentorForm2 = () => {
                 <b>Years of Experience</b>
               </label>
               <input
+                onKeyUp={() => {
+                  trigger("years_of_experience");
+                }}
                 type="number"
                 className="form-control"
                 min="0"
@@ -215,9 +214,12 @@ const MentorForm2 = () => {
                 <b>Domain</b>
               </label>
               <input
+                onKeyUp={() => {
+                  trigger("Mentor_Domain");
+                }}
                 type="text"
                 className="form-control"
-                placeholder="eg: Banking, Manufacturing, IT, Telecom ..."
+                placeholder="Eg:Banking, Manufacturing, IT, Telecom...."
                 {...register("Mentor_Domain", {
                   required: "Your Domain is required",
                   minLength: { value: 2 },
@@ -235,6 +237,9 @@ const MentorForm2 = () => {
                 <b>Company</b>
               </label>
               <input
+                onKeyUp={() => {
+                  trigger("mentor_company_name");
+                }}
                 type="text"
                 className="form-control"
                 placeholder="Type Your Company Name"
@@ -273,6 +278,7 @@ const MentorForm2 = () => {
                 </div>
               )}
               <select
+                required
                 onChange={handleExpertiseChange}
                 defaultValue=""
                 className="form-select"
@@ -331,33 +337,33 @@ const MentorForm2 = () => {
             </div>
 
             {/* {selectedSubOptions.length > 0 && ( */}
-              <div className="row">
-                <label htmlFor="exampleInputEmail1" className="form-label mb-0">
-                  <b>Areas of Expertise</b>
-                </label>
-                <div className="col-lg-12 mb-4 moideuirer_list areaofint">
-                  <ul className="ps-0 mb-0">
-                    {selectedSubOptions
-                      .flatMap((subOption) => subOption.skills)
-                      .map((skill) => (
-                        <li key={skill.id}>
-                          <input
-                            type="checkbox"
-                            id={`skill-${skill.id}`}
-                            checked={selectedSkills.includes(skill)}
-                            onChange={() => handleSkillChange(skill.id)}
-                          />
-                          <label htmlFor={`skill-${skill.id}`}>
-                            {skill.name}
-                          </label>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
+            <div className="row">
+              <label htmlFor="exampleInputEmail1" className="form-label mb-0">
+                <b>Areas of Expertise</b>
+              </label>
+              <div className="col-lg-12 mb-4 moideuirer_list areaofint">
+                <ul className="ps-0 mb-0">
+                  {selectedSubOptions
+                    .flatMap((subOption) => subOption.skills)
+                    .map((skill) => (
+                      <li key={skill.id}>
+                        <input
+                          type="checkbox"
+                          id={`skill-${skill.id}`}
+                          checked={selectedSkills.includes(skill)}
+                          onChange={() => handleSkillChange(skill.id)}
+                        />
+                        <label htmlFor={`skill-${skill.id}`}>
+                          {skill.name}
+                        </label>
+                      </li>
+                    ))}
+                </ul>
               </div>
+            </div>
             {/* )} */}
             <div className="row align-items-center">
-              <div className="col-lg-7 mb-4">
+              <div className="col-lg-6 mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>Passionate About!</b> (Select max of 4 options)
                 </label>
@@ -404,7 +410,7 @@ const MentorForm2 = () => {
               </div>
 
               <div
-                className="col-lg-5 mb-4"
+                className="col-lg-6 mb-4"
                 style={{
                   overflowY: "scroll",
                   overflowX: "hidden",
@@ -439,31 +445,64 @@ const MentorForm2 = () => {
                 <b>Your Recommended Area of Mentorship</b>
               </label>{" "}
               <input
+                onKeyUp={() => {
+                  trigger("recommended_area_of_mentorship");
+                }}
                 type="text"
                 className="form-control"
                 // id="exampleInputEmail1"
-                placeholder="Type A Headline Here"
+                placeholder="Eg:I will give the mentorship about the react development, communication skills, and resume building"
                 aria-describedby="emailHelp"
                 {...register("recommended_area_of_mentorship", {
-                  // required: "First Name is required",
+                  required: "Your area of mentorship is required",
+                  minLength: {
+                    value: 50,
+                    message: "Must be greater than 50 characters.",
+                  },
+                  maxLength: {
+                    value: 200,
+                    message: "Must be less than 200 characters.",
+                  },
                 })}
               />
+              {errors.recommended_area_of_mentorship && (
+                <p className="Error-meg-login-register">
+                  {errors.recommended_area_of_mentorship.message}
+                </p>
+              )}
             </div>
             <div className="col-lg-12 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Your Super Power</b>
               </label>
               <textarea
+                onKeyUp={() => {
+                  trigger("mentor_Headline");
+                }}
                 className="form-control"
                 style={{ height: "150px" }}
                 {...register("mentor_Headline", {
-                  // required: "First Name is required",
-                })} //1
+                  required: "Please enter about your self",
+                  minLength: {
+                    value: 150,
+                    message: "Must be greater than 150 characters.",
+                  },
+                  maxLength: {
+                    value: 1000,
+                    message: "Must be less than 250 characters.",
+                  },
+                })}
               ></textarea>
+
               <p className="iduehnbriee_text mb-0">
                 (*Give a good headline, This help us to understand the mentor
                 overview*)
               </p>
+              {errors.mentor_Headline && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_Headline.message}
+                </p>
+              )}
             </div>
           </div>
         </div>

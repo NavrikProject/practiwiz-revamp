@@ -22,6 +22,8 @@ const MentorForm1 = (props) => {
     control,
     getValues,
     setValue,
+    trigger,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
   const [searchTerm, setSearchTerm] = useState("");
@@ -87,10 +89,13 @@ const MentorForm1 = (props) => {
                   <b>First Name</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("mentor_firstname");
+                  }}
                   type="text"
                   className="form-control"
                   // id="exampleInputEmail1"
-                  placeholder="First Name"
+                  placeholder="Enter your first name....."
                   // aria-describedby="emailHelp"
                   {...register("mentor_firstname", {
                     required: "First Name is required",
@@ -115,15 +120,18 @@ const MentorForm1 = (props) => {
                   <b>Last Name</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("mentor_lastname");
+                  }}
                   type="text"
                   className="form-control"
                   id="exampleInputPassword1"
-                  placeholder="Last Name"
+                  placeholder="Enter your last name....."
                   {...register("mentor_lastname", {
                     required: "Last Name is required",
                     pattern: {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
-                      message: "last name should contain only letters",
+                      message: "Last name should contain only letters",
                     },
                   })} //1
                   onBlur={() => handleBlur("mentor_lastname")}
@@ -162,6 +170,7 @@ const MentorForm1 = (props) => {
                   }) => (
                     <div>
                       <PhoneInput
+                        placeholder="Enter a valid phone number"
                         value={value}
                         country="in"
                         countryCodeEditable={false}
@@ -195,17 +204,20 @@ const MentorForm1 = (props) => {
                   <b>Email</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("mentor_email");
+                  }}
                   type="email"
                   className="form-control"
                   // id="exampleInputEmail1"
-                  placeholder="Email"
+                  placeholder="Enter your email address....."
                   aria-describedby="emailHelp"
                   {...register("mentor_email", {
                     required: "Email is required",
                     pattern: {
                       value:
                         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Invalid email address",
+                      message: "Must be a valid email address.",
                     },
                   })} //1
                   onBlur={() => handleBlur("mentor_email")}
@@ -226,12 +238,15 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Choose A Password</b>
+                  <b>Password</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("mentor_password");
+                  }}
                   className="form-control"
                   // id="exampleInputEmail1"
-                  placeholder="Password must be at least 8 characters"
+                  placeholder="Enter your password....."
                   aria-describedby="emailHelp"
                   type={showIcon ? "text" : "password"}
                   {...register("mentor_password", {
@@ -241,6 +256,10 @@ const MentorForm1 = (props) => {
                         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                       message:
                         "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "Must be greater than 8 characters.",
                     },
                     maxLength: {
                       value: 16,
@@ -277,13 +296,13 @@ const MentorForm1 = (props) => {
                   <b>Confirm Password</b>
                 </label>
                 <input
-                  // type="text"
+                  onKeyUp={() => {
+                    trigger("mentor_confirm_password");
+                  }}
                   className="form-control"
-                  // id="exampleInputEmail1"
-                  placeholder="Type your password again"
+                  placeholder="Type your password again....."
                   aria-describedby="emailHelp"
                   type={showIcons ? "text" : "password"}
-                  //onChange={(e) => setConfirmPassword(e.target.value)}
                   {...register("mentor_confirm_password", {
                     required: "Password is Required",
                     validate: (value) =>
@@ -317,14 +336,18 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Can we use your LinkedIn Photo for the Profile Pic</b>
+                  <b>Profile Picture</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("linkedin_photo");
+                  }}
+                  placeholder="Choose profile picture....."
                   type="file"
                   accept=".jpg ,.jpeg,.png"
                   className="form-control"
                   {...register("linkedin_photo", {
-                    required: "Upload Photo",
+                    required: "Choose profile picture",
                   })} //1
                 />
                 {errors.linkedin_photo && (
@@ -340,19 +363,28 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Linkedin URL Profile</b>
+                  <b>Linkedin Profile URL</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("social_media_profile");
+                  }}
                   id="phone"
                   type="text"
                   name="phone"
-                  pattern="http(s)?:\/\/([\w]+\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?"
-                  placeholder="Social media profile link"
+                  placeholder="LinkedIn profile URL"
                   {...register("social_media_profile", {
-                    required: "Linkedin profile URL is required",
-                  })} //1
+                    required: "LinkedIn profile URL is required",
+                    pattern: {
+                      value:
+                        /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/,
+                      message:
+                        "Please enter a valid LinkedIn profile URL (e.g., https://www.linkedin.com/in/yourprofile/)",
+                    },
+                  })}
                   className="form-control"
                 />
+
                 {errors.social_media_profile && (
                   <p className="Error-meg-login-register">
                     {errors.social_media_profile.message}
@@ -361,7 +393,7 @@ const MentorForm1 = (props) => {
               </div>
             </div>
 
-            <div className="col-lg-6 mb-4">
+            <div className="col-lg-6">
               <label htmlFor="exampleInputEmail1" className="form-label mb-0">
                 <b>Academic Qualification</b>
               </label>
@@ -370,50 +402,59 @@ const MentorForm1 = (props) => {
                 <ul className="ps-0 mb-0">
                   <li>
                     <input
+                      onKeyUp={() => {
+                        trigger("academic_qualification");
+                      }}
                       type="radio"
                       id="check_11"
-                      name="check_11"
+                      name="academic_qualification"
                       value="Post Graduate"
                       className="d-none"
                       {...register("academic_qualification", {
-                        // required: "First Name is required",
-                      })} //1
+                        required: "Please select your academic qualification",
+                      })}
                     />
-
                     <label htmlFor="check_11">Post Graduate</label>
                   </li>
-
                   <li>
                     <input
+                      onKeyUp={() => {
+                        trigger("academic_qualification");
+                      }}
                       type="radio"
                       id="check_20"
-                      name="check_20"
-                      className="d-none"
+                      name="academic_qualification"
                       value="Graduate"
+                      className="d-none"
                       {...register("academic_qualification", {
-                        // required: "First Name is required",
-                      })} //1
+                        required: "Please select your academic qualification",
+                      })}
                     />
-
                     <label htmlFor="check_20">Graduate</label>
                   </li>
-
                   <li>
                     <input
+                      onKeyUp={() => {
+                        trigger("academic_qualification");
+                      }}
                       type="radio"
                       id="check_30"
-                      name="check_30"
-                      className="d-none"
+                      name="academic_qualification"
                       value="Doctorate"
+                      className="d-none"
                       {...register("academic_qualification", {
-                        // required: "First Name is required",
-                      })} //1
+                        required: "Please select your academic qualification",
+                      })}
                     />
-
                     <label htmlFor="check_30">Doctorate</label>
                   </li>
                 </ul>
               </div>
+              {errors.academic_qualification && (
+                <p className="Error-meg-login-register">
+                  {errors.academic_qualification.message}
+                </p>
+              )}
             </div>
 
             <div className=" col-lg-6 ">
@@ -423,12 +464,15 @@ const MentorForm1 = (props) => {
               <div className="dkjiherer moideuirer_list hello">
                 <div className="dropdown">
                   <input
+                    onKeyUp={() => {
+                      trigger("mentor_InstituteName");
+                    }}
                     type="text"
                     className="form-control"
-                    placeholder="Search for a college..."
+                    placeholder="Choose/Search for a college..."
                     value={searchTerm} // Ensure input value is controlled
                     {...register("mentor_InstituteName", {
-                      required: "Institute Name is required",
+                      required: "College or Institute Name is required",
                     })}
                     onChange={handleInputChange}
                     onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
@@ -462,14 +506,22 @@ const MentorForm1 = (props) => {
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
-                <label htmlFor="exampleInputEmail1" className="form-label">
+                <label htmlFor="mentor_country" className="form-label">
                   <b>Which Country do You Live in?</b>
                 </label>
                 <select
+                  id="mentor_country"
+                  onChange={(e) => {
+                    trigger("mentor_country"); // Trigger validation
+                    if (e.target.value) {
+                      console.log(e.target.value);
+                      clearErrors("mentor_country"); // Clear errors if a country is selected
+                    }
+                  }}
                   className="form-select"
                   {...register("mentor_country", {
-                    required: "required",
-                  })} //1
+                    required: "Country name is required",
+                  })}
                 >
                   <option value="">Please select a country</option>
                   {options.map((option) => (
@@ -494,10 +546,13 @@ const MentorForm1 = (props) => {
                   <b>City</b>
                 </label>
                 <input
+                  onKeyUp={() => {
+                    trigger("mentor_city");
+                  }}
                   type="text"
                   className="form-control"
                   // id="exampleInputEmail1"
-                  placeholder="City"
+                  placeholder="Enter your city name....."
                   aria-describedby="emailHelp"
                   {...register("mentor_city", {
                     required: "City name is required",

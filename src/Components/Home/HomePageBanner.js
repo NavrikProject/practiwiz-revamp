@@ -1,32 +1,37 @@
 import React from "react";
-import Wdrtjh from "../../Images/Home/wdrtjh.png";
-import Csdfsfgdf from "../../Images/Home/csdfsfgdf.png";
-import Dfsh from "../../Images/Home/dfsh.png";
-import Mkwef from "../../Images/Home/mkwef.png";
-import Mentor1 from "../../Images/Home/mentors1.jpeg";
-import Rdtere5rt from "../../Images/Home/rdtere5rt.jpg";
-import Adse from "../../Images/Home/adse.png";
-import { ReactTyped } from "react-typed";
 import "./Home.css";
 import { Autoplay } from "swiper/modules";
-
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import { Link } from "react-router-dom";
+import img1 from "./images/img1.png";
+import img2 from "./images/img2.png";
+import img3 from "./images/img3.png";
+import img4 from "./images/img4.png";
+import img5 from "./images/img5.png";
+import img6 from "./images/img6.png";
+import img7 from "./images/img7.png";
+import img8 from "./images/img8.png";
+
 const HomePageBanner = () => {
   return (
     <>
       <div className="banner">
         <div className="banner_content">
-          <div className="container px-5">
-            <div className="row align-items-center">
+          <div className=" px-5">
+            {/* <div className="row align-items-center container-homepage"> */}
+            <div className="container-homepage">
               <div className="col-lg-8 mb-4">
                 <div className="iduherr_left">
-                  <h1>Share Your Superpower Become a Mentor</h1>
-                  <p id="typing" className="mb-0 mt-3">
+                  <h1>Share Your Superpower</h1>
+                  {/* <h2 style={{ color: "white" }}>Become a Mentor</h2> */}
+                  <h1>Become a Mentor</h1>
+                  <p
+                    id="typing"
+                    className="mb-0 mt-3"
+                    style={{ borderRight: "0" }}
+                  >
                     Learn From The Corporate, Step Into Corporate World!
                     {/* <ReactTyped
                       strings={[
@@ -44,9 +49,9 @@ const HomePageBanner = () => {
                   </button>
                 </div>
               </div>
-              <div className="col-lg-4 mb-4">
+              <div className="col-lg-4 mb-4 testbackg">
                 <div className="iduherr_right">
-                  <div className="diehjrrr_intern position-relative">
+                  {/* <div className="diehjrrr_intern position-relative">
                     <div className="uidgher_circle position-absolute">
                       <img src={Wdrtjh} alt="wdrth" style={{ width: "100%" }} />
                     </div>
@@ -73,7 +78,7 @@ const HomePageBanner = () => {
                         style={{ width: "56%" }}
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="owl-carousel udguafr_slider owl-theme carousel-react">
                     <Swiper
                       spaceBetween={50}
@@ -83,14 +88,14 @@ const HomePageBanner = () => {
                         disableOnInteraction: false,
                       }}
                       modules={[Autoplay]}
-                      className="mySwiper"
+                      className="mySwiper "
                     >
                       <SwiperSlide>
                         <div className="item">
-                          <div className="uihderr_slider text-center">
+                          <div className="uihderr_slider text-center swiper-img-home">
                             <img
-                              src={Mentor1}
-                              alt="mentor"
+                              src={img1}
+                              alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
@@ -98,10 +103,10 @@ const HomePageBanner = () => {
                       </SwiperSlide>
                       <SwiperSlide>
                         <div className="item">
-                          <div className="uihderr_slider text-center">
+                          <div className="uihderr_slider text-center swiper-img-home">
                             <img
-                              src={Mentor1}
-                              alt="mentor"
+                              src={img2}
+                              alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
@@ -109,10 +114,10 @@ const HomePageBanner = () => {
                       </SwiperSlide>
                       <SwiperSlide>
                         <div className="item">
-                          <div className="uihderr_slider text-center">
+                          <div className="uihderr_slider text-center swiper-img-home">
                             <img
-                              src={Rdtere5rt}
-                              alt="rdtere"
+                              src={img3}
+                              alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
@@ -120,10 +125,54 @@ const HomePageBanner = () => {
                       </SwiperSlide>
                       <SwiperSlide>
                         <div className="item">
-                          <div className="uihderr_slider text-center">
+                          <div className="uihderr_slider text-center swiper-img-home">
                             <img
-                              src={Adse}
-                              alt="adse"
+                              src={img4}
+                              alt="Mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center swiper-img-home">
+                            <img
+                              src={img5}
+                              alt="Mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center swiper-img-home">
+                            <img
+                              src={img6}
+                              alt="Mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center swiper-img-home">
+                            <img
+                              src={img7}
+                              alt="Mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div className="item">
+                          <div className="uihderr_slider text-center swiper-img-home">
+                            <img
+                              src={img8}
+                              alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>

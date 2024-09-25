@@ -1,6 +1,5 @@
 import React from "react";
 import Logo from "../../Images/logo.png";
-
 import "./Footer.css";
 const Footer = () => {
   return (
@@ -36,20 +35,6 @@ const Footer = () => {
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/">
-                          <i className="fa-solid fa-angle-right"></i> IT
-                          Training
-                        </a>
-                      </div>
-
-                      <div className="nbffg position-relative mb-3">
-                        <a href="/">
-                          <i className="fa-solid fa-angle-right"></i> Business
-                          Training
-                        </a>
-                      </div>
-
-                      <div className="nbffg position-relative mb-3">
                         <a href="/mentor-club">
                           <i className="fa-solid fa-angle-right"></i> Mentor
                           Club
@@ -57,20 +42,21 @@ const Footer = () => {
                       </div>
 
                       <div className="nbffg position-relative mb-3">
+                        <a href="/case-study">
+                          <i className="fa-solid fa-angle-right"></i> Case Study
+                        </a>
+                      </div>
+
+                      <div className="nbffg position-relative mb-3">
+                        <a href="/internships">
+                          <i className="fa-solid fa-angle-right"></i>{" "}
+                          Internships
+                        </a>
+                      </div>
+
+                      <div className="nbffg position-relative mb-3">
                         <a href="/jobs">
                           <i className="fa-solid fa-angle-right"></i> Jobs
-                        </a>
-                      </div>
-
-                      <div className="nbffg position-relative mb-3">
-                        <a href="/about-us">
-                          <i className="fa-solid fa-angle-right"></i> About Us
-                        </a>
-                      </div>
-
-                      <div className="nbffg position-relative mb-3">
-                        <a href="/contact-us">
-                          <i className="fa-solid fa-angle-right"></i> Contact Us
                         </a>
                       </div>
                     </div>
@@ -82,47 +68,34 @@ const Footer = () => {
                         <h4>Useful Links</h4>
                       </div>
 
-                      <div className="nbffg position-relative mb-3">
+                      {/* <div className="nbffg position-relative mb-3">
                         <a href="/">
                           <i className="fa-solid fa-angle-right"></i> Home
                         </a>
-                      </div>
+                      </div> */}
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/">
+                        <a href="/internships">
                           <i className="fa-solid fa-angle-right"></i> IT
                           Training
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/">
+                        <a href="/internships">
                           <i className="fa-solid fa-angle-right"></i> Business
                           Training
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/mentor-club">
-                          <i className="fa-solid fa-angle-right"></i> Mentor
-                          Club
-                        </a>
-                      </div>
-
-                      <div className="nbffg position-relative mb-3">
-                        <a href="/jobs">
-                          <i className="fa-solid fa-angle-right"></i> Jobs
-                        </a>
-                      </div>
-
-                      <div className="nbffg position-relative mb-3">
-                        <a href="/about-us">
+                        <a href="/aboutus">
                           <i className="fa-solid fa-angle-right"></i> About Us
                         </a>
                       </div>
 
                       <div className="nbffg position-relative mb-3">
-                        <a href="/contact-us">
+                        <a href="/contact">
                           <i className="fa-solid fa-angle-right"></i> Contact Us
                         </a>
                       </div>
@@ -165,23 +138,53 @@ const Footer = () => {
                       <div className="bghjdfgfdg">
                         <div className="ghfgdfgfgffgfg">
                           <button className="position-relative me-lg-2">
-                            <i className="fa-brands position-absolute fa-facebook-f"></i>
+                            <a
+                              href="https://www.facebook.com/profile.php?id=61556301203216&mibextid=LQQJ4d"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i className="fa-brands position-absolute fa-facebook-f"></i>
+                            </a>
                           </button>
 
                           <button className="position-relative me-lg-2">
-                            <i className="fa-brands position-absolute fa-instagram"></i>
+                            <a
+                              href="https://www.instagram.com/practiwiz?igsh=b3VicXZwNGlrdnpo"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i className="fa-brands position-absolute fa-instagram"></i>
+                            </a>
                           </button>
 
                           <button className="position-relative me-lg-2">
-                            <i className="fa-brands position-absolute fa-youtube"></i>
+                            <a
+                              href="https://www.youtube.com/@navriksoftwaresolutions9922"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i className="fa-brands position-absolute fa-youtube"></i>
+                            </a>
                           </button>
 
                           <button className="position-relative me-lg-2">
-                            <i className="fa-brands position-absolute fa-whatsapp"></i>
+                            <a
+                              href="https://www.linkedin.com/company/navrik-software-solutions"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i className="fa-brands position-absolute fa-linkedin"></i>
+                            </a>
                           </button>
 
                           <button className="position-relative me-lg-2">
-                            <i className="fa-brands position-absolute fa-x-twitter"></i>
+                            <a
+                              href="https://x.com/practiwiz"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i className="fa-brands position-absolute fa-x-twitter"></i>
+                            </a>
                           </button>
                         </div>
                       </div>

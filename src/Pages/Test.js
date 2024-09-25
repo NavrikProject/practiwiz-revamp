@@ -1,77 +1,38 @@
 import React from "react";
-import "./OptionExtractor.css"; // Import the CSS file
+// import "./Test.css"; // Import the CSS file for styles
 
-const OptionsExtractor = () => {
-  const jsonString = `[
-    {
-        "id": 2,
-        "name": "Business & Management",
-        "subOptions": [
-            {
-                "id": 202,
-                "name": "Project Management",
-                "skills": [
-                    {
-                        "id": 20201,
-                        "name": "Agile/Scrum methodologies"
-                    },
-                    {
-                        "id": 20202,
-                        "name": "Gantt charts, roadmaps"
-                    },
-                    {
-                        "id": 20203,
-                        "name": "Risk management"
-                    },
-                    {
-                        "id": 20204,
-                        "name": "Stakeholder communication"
-                    }
-                ]
-            },
-            {
-                "id": 204,
-                "name": "Financial Planning & Analysis",
-                "skills": []
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "name": "Finance & Accounting",
-        "subOptions": []
-    }
-  ]`;
-
-  const options = JSON.parse(jsonString);
-
+const Navbar = () => {
   return (
-    <div className="options-container">
-      {options.map((option) => (
-        <div key={option.id} className="main-option box">
-          <h2>{option.name}</h2>
-          {option.subOptions.length > 0 ? (
-            option.subOptions.map((subOption) => (
-              <div key={subOption.id} className="sub-option">
-                <h3>{subOption.name}</h3>
-                {subOption.skills.length > 0 ? (
-                  <ul>
-                    {subOption.skills.map((skill) => (
-                      <li key={skill.id}>{skill.name}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No skills available</p>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No sub-options available</p>
-          )}
-        </div>
-      ))}
-    </div>
+    <nav className="navbar-custom">
+      <div className="navbar-logo">
+        <img src="logo.png" alt="Logo" className="navbar-logo-img" />
+        <span className="navbar-title">PractyWiz</span>
+      </div>
+      <ul className="navbar-links">
+        <li className="navbar-item">
+          <a href="#mentorclub">MENTORCLUB</a>
+        </li>
+        <li className="navbar-item">
+          <a href="#casestudies">CASE STUDIES</a>
+        </li>
+        <li className="navbar-item">
+          <a href="#ai" className="navbar-item-ai">
+            AI
+          </a>
+        </li>
+        <li className="navbar-item">
+          <a href="#aboutus">ABOUT US</a>
+        </li>
+        <li className="navbar-item">
+          <a href="#contact">CONTACT US</a>
+        </li>
+      </ul>
+      <div className="navbar-buttons">
+        <button className="navbar-login-btn">LOGIN</button>
+        <button className="navbar-signup-btn">SIGN UP</button>
+      </div>
+    </nav>
   );
 };
 
-export default OptionsExtractor;
+export default Navbar;

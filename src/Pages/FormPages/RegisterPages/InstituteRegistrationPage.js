@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Footer from "../../../Components/Footer/Footer";
 import InstituteRegister from "../../../Components/Forms/Register/Institute/InstituteRegister";
+import GoToTop from "../../../Utils/GoToTop";
 
 const InstituteRegistrationPage = () => {
   return (
@@ -9,6 +10,7 @@ const InstituteRegistrationPage = () => {
       <Navbar />
       <InstituteRegister />
       <Footer />
+      <GoToTop />
     </>
   );
 };
