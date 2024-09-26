@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../../Forms/Register/Mentor/input-radio.css";
 import CoreSkill from "../../../data/CoreSkill.json";
 import { toast } from "react-toastify";
@@ -20,7 +20,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     setValue,
     formState: { errors },
   } = useForm();
-  console.log(profiledata);
   const [formData, setFormData] = useState({
     mentor_job_title: profiledata?.mentor_job_title,
     mentor_years_of_experience: profiledata?.mentor_years_of_experience,
@@ -28,8 +27,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     mentor_recommended_area_of_mentorship:
       profiledata?.mentor_recommended_area_of_mentorship,
     mentor_headline: profiledata?.mentor_headline,
-    mentor_institute: profiledata?.mentor_institute,
-    mentor_area_expertise: profiledata?.mentor_area_expertise,
     mentor_passion_dtls: profiledata?.mentor_passion_dtls,
     mentor_domain: profiledata?.mentor_domain,
   });
@@ -48,9 +45,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   const [items, setItems] = useState(convertBackendData(parsedPassionList));
 
   // Convert the parsed data to the required format
-
-  console.log(formData.passion_list);
-
   const handleDragStart = (e, id) => {
     e.dataTransfer.setData("text/plain", id);
     setTimeout(() => {
@@ -94,9 +88,48 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     setValue("passionate_about", items);
   };
 
+  const preSelectedData = JSON.parse(profiledata?.mentor_area_expertise);
   const [selectedExpertise, setSelectedExpertise] = useState([]);
   const [selectedSubOptions, setSelectedSubOptions] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [error, setError] = useState(""); // State to store error messages
+  // Initialize the form with preselected data
+  useEffect(() => {
+    const expertise = preSelectedData.map((preSelectedItem) => {
+      const expertiseData = CoreSkill.find(
+        (coreItem) => coreItem.id === preSelectedItem.id
+      );
+      return expertiseData || preSelectedItem;
+    });
+
+    setSelectedExpertise(expertise);
+
+    const subOptions = expertise.flatMap((exp) => {
+      return exp.sub_options.filter((subOption) =>
+        preSelectedData
+          .find((preSelectedItem) => preSelectedItem.id === exp.id)
+          .subOptions.some((preSubOption) => preSubOption.id === subOption.id)
+      );
+    });
+
+    setSelectedSubOptions(subOptions);
+
+    const skills = subOptions.flatMap((subOption) => {
+      const selectedExp = preSelectedData.find((preSelectedItem) =>
+        preSelectedItem.subOptions.some(
+          (preSubOption) => preSubOption.id === subOption.id
+        )
+      );
+
+      return subOption.skills.filter((skill) =>
+        selectedExp.subOptions
+          .flatMap((preSubOption) => preSubOption.skills)
+          .some((preSkill) => preSkill.id === skill.id)
+      );
+    });
+
+    setSelectedSkills(skills);
+  }, []);
 
   const handleExpertiseChange = (e) => {
     const expertiseId = parseInt(e.target.value);
@@ -193,6 +226,68 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     );
     updateFormData();
   };
+  // Function to handle the "Save" button click
+  const handleSave = () => {
+    console.log(selectedExpertise);
+    // Clear any previous errors
+    setError("");
+    // Validation: Check if at least one Core Skill is selected
+    if (selectedExpertise.length === 0) {
+      setError("Please select at least one Core Skill.");
+      return;
+    }
+
+    // Validation: Check if for every selected Core Skill, at least one Sub-option is selected
+    const coreSkillsWithoutSubOptions = selectedExpertise.filter((exp) => {
+      const subOptionsForExp = exp.sub_options.filter((subOption) =>
+        selectedSubOptions.includes(subOption)
+      );
+      return subOptionsForExp.length === 0; // Return true if no sub-options are selected for this core skill
+    });
+
+    if (coreSkillsWithoutSubOptions.length > 0) {
+      setError(
+        "Please select at least one Sub-option for each selected Core Skill."
+      );
+      return;
+    }
+
+    // Check if for each selected Sub-option, at least one Skill is selected
+    const subOptionsWithoutSkills = selectedSubOptions.filter((subOption) => {
+      const skillsForSubOption = subOption.skills.filter((skill) =>
+        selectedSkills.includes(skill)
+      );
+      return skillsForSubOption.length === 0; // Return true if no skills are selected for this sub-option
+    });
+
+    if (subOptionsWithoutSkills.length > 0) {
+      setError(
+        "Please select at least one Skill for each selected Sub-option."
+      );
+      return;
+    }
+
+    // If validation passes, construct the selected data
+    const selectedData = {
+      expertise: selectedExpertise.map((exp) => ({
+        id: exp.id,
+        name: exp.name,
+        subOptions: exp.sub_options
+          .filter((sub) => selectedSubOptions.includes(sub))
+          .map((sub) => ({
+            id: sub.id,
+            name: sub.name,
+            skills: sub.skills.filter((skill) =>
+              selectedSkills.includes(skill)
+            ),
+          })),
+      })),
+    };
+
+    // Log the selected data to the console
+    console.log("Saved Data:", selectedData);
+    return selectedData;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -231,8 +326,10 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
 
   // Handle form submit
   const handleSubmit = async (event) => {
-    // console.log("Datahgdjwgdhvdhwvdahvd",items)
     event.preventDefault();
+    // console.log("Saved Data:", selectedData);
+    const data = handleSave();
+    console.log(data);
     if (validateForm()) {
       try {
         dispatch(showLoadingHandler());
@@ -240,9 +337,9 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
           axios.post(
             `${url}api/v1/mentor/dashboard/update/profile-2`,
             {
-              passionAboutList: JSON.stringify(items),
               formData,
               userDtlsId: user.user_id,
+              expertiseList: JSON.stringify(data.expertise),
             },
             {
               headers: { authorization: "Bearer " + token },
@@ -275,10 +372,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
       }
     }
   };
-
-  // Function to convert parsed backend data to the required format
-
-  // Assume this is the passion_list from the backend
 
   return (
     <main>
@@ -354,138 +447,120 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 disabled={!isEditing}
               />
             </div>
-            {!isEditing ? (
-              <div className="options-container dashboardFlex">
-                {JSON.parse(profiledata.mentor_area_expertise).map((option) => (
-                  <div
-                    key={option.id}
-                    className="main-option box dashboardFlexWidth marginRight"
-                  >
-                    <h2 className="optionH2">{option.name}</h2>
-                    {option.subOptions.length > 0 &&
-                      option.subOptions.map((subOption) => (
-                        <div key={subOption.id} className="sub-option">
-                          <h3>{subOption.name}</h3>
-                          {subOption.skills.length > 0 && (
-                            <div className="fhfbfghg">
-                              {subOption.skills.map((skill) => (
-                                <button key={skill.id}>{skill.name}</button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                  </div>
+
+            {/* Expertise Selection */}
+            <div className="col-lg-6 mb-4">
+              <label htmlFor="core_skill" className="form-label">
+                <b>Core Skill</b>
+              </label>
+              {selectedExpertise.length > 0 && (
+                <div className="Optionshow">
+                  {selectedExpertise.map((expertise) => (
+                    <span key={expertise.id} className="optionbox">
+                      {expertise.name}
+                      <button
+                        onClick={() => handleDeleteExpertise(expertise)}
+                        className="optionDispaly"
+                      >
+                        <span className="OptionCross">&#10006;</span>
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              <select
+                onChange={handleExpertiseChange}
+                defaultValue=""
+                className="form-select"
+              >
+                <option value="" disabled>
+                  Select an Area
+                </option>
+                {CoreSkill.map((expertise) => (
+                  <option key={expertise.id} value={expertise.id}>
+                    {expertise.name}
+                  </option>
                 ))}
-              </div>
-            ) : (
-              <>
-                <div className="col-lg-6 mb-4">
-                  <label htmlFor="core_skill" className="form-label">
-                    <b>Core Skill</b>
-                  </label>
-                  {selectedExpertise.length > 0 && (
-                    <div className="Optionshow">
-                      {selectedExpertise.map((expertise) => (
-                        <span key={expertise.id} className="optionbox">
-                          {expertise.name}
-                          <button
-                            onClick={() => handleDeleteExpertise(expertise)}
-                            className="optionDispaly"
-                          >
-                            <span className="OptionCross">&#10006;</span>
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <select
-                    onChange={handleExpertiseChange}
-                    defaultValue=""
-                    className="form-select"
-                  >
-                    <option value="" disabled>
-                      Select an Area
+              </select>
+            </div>
+
+            {/* Sub-option Selection */}
+            <div className="col-lg-6 mb-4">
+              <label htmlFor="sub_options" className="form-label">
+                <b>Sub-options:</b>
+              </label>
+              {selectedSubOptions.length > 0 && (
+                <div className="Optionshow">
+                  {selectedSubOptions.map((subOption) => (
+                    <span key={subOption.id} className="optionbox">
+                      {subOption.name}
+                      <button
+                        onClick={() => handleDeleteSubOption(subOption)}
+                        className="optionDispaly"
+                      >
+                        <span className="OptionCross">&#10006;</span>
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              <select
+                onChange={(e) =>
+                  handleSubOptionChange(parseInt(e.target.value))
+                }
+                defaultValue=""
+                className="form-select"
+                disabled={selectedExpertise.length === 0}
+              >
+                <option value="" disabled>
+                  {selectedExpertise.length === 0
+                    ? "Select an Area of Expertise first"
+                    : "Select a Sub-option"}
+                </option>
+                {selectedExpertise
+                  .flatMap((exp) => exp.sub_options)
+                  .map((subOption) => (
+                    <option key={subOption.id} value={subOption.id}>
+                      {subOption.name}
                     </option>
-                    {CoreSkill.map((expertise) => (
-                      <option key={expertise.id} value={expertise.id}>
-                        {expertise.name}
-                      </option>
+                  ))}
+              </select>
+            </div>
+            {/* Display error message if any */}
+            {error && <p className="text-danger">{error}</p>}
+            {/* Skill Selection */}
+            <div className="row">
+              <label htmlFor="skills" className="form-label mb-0">
+                <b>Areas of Expertise</b>
+              </label>
+              <div className="col-lg-12 mb-4 moideuirer_list areaofint">
+                <ul className="ps-0 mb-0">
+                  {selectedSubOptions
+                    .flatMap((subOption) => subOption.skills)
+                    .map((skill) => (
+                      <li key={skill.id} className="ps-0">
+                        <div className="form-check d-inline-block my-2">
+                          <input
+                            type="checkbox"
+                            value={skill.id}
+                            id={skill.id}
+                            checked={selectedSkills.includes(skill)}
+                            onChange={() => handleSkillChange(skill.id)}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor={skill.id}
+                          >
+                            {skill.name}
+                          </label>
+                        </div>
+                      </li>
                     ))}
-                  </select>
-                </div>
-                <div className="col-lg-6 mb-4">
-                  <label htmlFor="sub_options" className="form-label">
-                    <b>Sub-options:</b>
-                  </label>
-                  {selectedSubOptions.length > 0 && (
-                    <div className="Optionshow">
-                      {selectedSubOptions.map((subOption) => (
-                        <span key={subOption.id} className="optionbox">
-                          {subOption.name}
-                          <button
-                            onClick={() => handleDeleteSubOption(subOption)}
-                            className="optionDispaly"
-                          >
-                            <span className="OptionCross">&#10006;</span>
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <select
-                    onChange={(e) =>
-                      handleSubOptionChange(parseInt(e.target.value))
-                    }
-                    defaultValue=""
-                    className="form-select"
-                    disabled={selectedExpertise.length === 0}
-                    title="Please select the core skills"
-                  >
-                    <option value="" disabled>
-                      {selectedExpertise.length === 0
-                        ? "Select an Area of Expertise first"
-                        : "Select a Sub-option"}
-                    </option>
-                    {selectedExpertise
-                      .flatMap((exp) => exp.sub_options)
-                      .map((subOption) => (
-                        <option key={subOption.id} value={subOption.id}>
-                          {subOption.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                {/* {selectedSubOptions.length > 0 && ( */}
-                <div className="row">
-                  <label
-                    htmlFor="exampleInputEmail1"
-                    className="form-label mb-0"
-                  >
-                    <b>Areas of Expertise</b>
-                  </label>
-                  <div className="col-lg-12 mb-4 moideuirer_list areaofint">
-                    <ul className="ps-0 mb-0">
-                      {selectedSubOptions
-                        .flatMap((subOption) => subOption.skills)
-                        .map((skill) => (
-                          <li key={skill.id}>
-                            <input
-                              type="checkbox"
-                              id={`skill-${skill.id}`}
-                              checked={selectedSkills.includes(skill)}
-                              onChange={() => handleSkillChange(skill.id)}
-                            />
-                            <label htmlFor={`skill-${skill.id}`}>
-                              {skill.name}
-                            </label>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                </div>
-              </>
-            )}
+                </ul>
+              </div>
+            </div>
+
+            {/* Save Button */}
 
             <div className="row align-items-center">
               <div className="col-lg-7 mb-4">
