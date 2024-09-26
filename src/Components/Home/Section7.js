@@ -12,12 +12,15 @@ const Section7 = () => {
                 <div className="row align-items-center">
                   <div className="col-lg-6 mb-3">
                     <div className="diehrer_inner">
-                      <h2>Register Now</h2>
+                      <h2>Unlock Your Potential Register as a Mentee!</h2>
 
-                      <p>to study in Next Academic Year 2025</p>
+                      <p>
+                        Emphasizes growth and the idea that mentorship can help
+                        individuals reach their full potential
+                      </p>
 
                       <button className="btn btn-main mt-3">
-                        Register Now
+                        <a href="/mentee-registration">Register Now</a>
                       </button>
                     </div>
                   </div>

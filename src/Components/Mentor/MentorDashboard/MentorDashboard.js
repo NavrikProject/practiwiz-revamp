@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import "./DashboardCSS/mentordashboardnotification.css";
 import "./DashboardCSS/Mentor.css";
 import Logo from "../../../Images/logo.png";
@@ -16,22 +17,28 @@ import { ApiURL } from "../../../Utils/ApiURL";
 import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
 import MentorCaseStudyInput from "./CaseStudy/MentorCaseStudyInput";
+import SingleMentorProfilePageSkelton from "../AllMentors/SingleMentorProfile/Skelton/SingleMentorProfilePageSkelton";
 
 const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
   const [singleMentor, setSingleMentor] = useState([]);
+  const [loading, setLoading] = useState(false);
   const mentorDtlsId = user?.user_id;
   useEffect(() => {
     const fetchSingleMentors = async () => {
+      setLoading(true);
       const response = await axios.post(
         `${url}api/v1/mentor/dashboard/fetch-single-details/${mentorDtlsId}`,
         { userId: mentorDtlsId }
       );
+      setLoading(false);
+
       if (response.data.success) {
-        setSingleMentor(response.data.success);
+        // eslint-disable-next-line no-sequences
+        return setSingleMentor(response.data.success), setLoading(false);
       }
       if (response.data.error) {
-        setSingleMentor(null);
+        return setLoading(false), setSingleMentor(null);
       }
     };
     fetchSingleMentors();
@@ -499,6 +506,7 @@ const MentorDashboard = ({ user, token }) => {
               </div>
             </div>
             <div className="maincontent">
+              {loading && <SingleMentorProfilePageSkelton />}
               {showNotification && (
                 <MentorNotifications
                   user={user}

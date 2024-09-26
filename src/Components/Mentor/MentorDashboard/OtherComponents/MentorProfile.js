@@ -184,7 +184,9 @@ const MentorProfile = ({ data, user, token }) => {
                                       key={option.id}
                                       className="main-option box"
                                     >
-                                      <h2>{option.name}</h2>
+                                      <h2 className="optionH2">
+                                        {option.name}
+                                      </h2>
                                       {option.subOptions.length > 0 &&
                                         option.subOptions.map((subOption) => (
                                           <div
@@ -230,20 +232,15 @@ const MentorProfile = ({ data, user, token }) => {
                         <div className="col-lg-4">
                           <div className="hgkfgkjfgfghgfg sticky-top">
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
+                              Domain
+                            </h3>
+                            <div className="fhfbfghg">
+                              <button>{sMentor.mentor_domain}</button>
+                            </div>
+                            <h3 style={{ width: "auto", marginTop: "20px" }}>
                               Additional Skills
                             </h3>
                             <div className="fhfbfghg">
-                              {/* {JSON.parse(sMentor.expertise_list).map(
-                                (expertise) => {
-                                  return (
-                                    <>
-                                      <button>
-                                        {expertise.mentor_expertise}
-                                      </button>
-                                    </>
-                                  );
-                                }
-                              )} */}
                               {JSON.parse(sMentor.mentor_passion_dtls).map(
                                 (passion) => {
                                   return (

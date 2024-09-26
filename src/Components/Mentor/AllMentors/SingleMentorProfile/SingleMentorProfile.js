@@ -23,7 +23,6 @@ const SingleMentorProfile = () => {
   const params = useParams();
   const mentorDtlsId = params.id;
   const [showRating, setShowRating] = useState(null);
-  const [showOverview, setShowOverview] = useState(true);
   const [singleMentor, setSingleMentor] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -33,11 +32,12 @@ const SingleMentorProfile = () => {
     setSelectedSlot(slot);
   };
 
-  const OverviewShowHandler = () => {
-    return setShowRating(false), setShowOverview(!showOverview);
-  };
+  const [showAreaOfExpertise, setShowAreaOfExpertise] = useState(true);
   const RatingShowHandler = () => {
-    return setShowRating(!showRating), setShowOverview(false);
+    return setShowRating(!showRating), setShowAreaOfExpertise(false);
+  };
+  const AreaOfExpertiseShowHandler = () => {
+    return setShowRating(false), setShowAreaOfExpertise(!showAreaOfExpertise);
   };
   useEffect(() => {
     const fetchMentors = async () => {
@@ -129,43 +129,38 @@ const SingleMentorProfile = () => {
                             <div className="ghvfvdfgg">
                               <div className="gjnjfghg">
                                 <h2>
-                                  {sMentor.mentor_firstname.toUpperCase() +
+                                  {sMentor?.mentor_firstname?.toUpperCase() +
                                     " " +
-                                    sMentor.mentor_lastname.toUpperCase()}
-                                </h2>
+                                    sMentor?.mentor_lastname?.toUpperCase()}
+                                </h2>{" "}
                               </div>
                               <div className="njfgfghf">
-                                <Link
-                                  target="_blank"
-                                  to={`/${sMentor.mentor_social_media_profile}`}
-                                >
-                                  <i className="fa-brands fa-linkedin-in"></i>
-                                </Link>
-                                <Link
-                                  target="_blank"
-                                  to={`/${sMentor.mentor_social_media_profile}`}
-                                >
-                                  <i className="fa-brands fa-x-twitter"></i>
-                                </Link>
+                                <i className="fa-brands fa-linkedin-in"></i>
+                                <i className="fa-brands fa-x-twitter"></i>
                               </div>
                             </div>
+
                             <div className="hfuydfgftgh">
                               <div className="gjfhg">
                                 <img src={Ee1} alt="" />
                               </div>
                               <p>{sMentor.mentor_job_title.toUpperCase()}</p>
                             </div>
+
                             <div className="hfuydfgftgh">
                               <div className="gjfhg">
                                 <img src={Ee2} alt="" />
                               </div>
                               <div className="fdjdfg">
                                 <p>
+                                  Average rating :
                                   <span className="span121">
                                     <StarRating
                                       rating={sMentor.avg_mentor_rating}
                                     />
-                                    ({" " + sMentor.feedback_count} Reviews)
+                                  </span>
+                                  <span>
+                                    ({sMentor.feedback_count} Reviews)
                                   </span>
                                 </p>
                               </div>
@@ -175,22 +170,74 @@ const SingleMentorProfile = () => {
                                 <img src={Tickmark} alt="" />
                               </div>
                               <p>
-                                {sMentor.mentor_headline}
-                                {/* <span className="spnn45">Show More</span> */}
+                                {sMentor.mentor_headline + " "}
+                                <span className="spnn45"> Show More</span>
                               </p>
                             </div>
-                            <div className="fkjhgdfbghh my-5">
+                            <div className="fkjhgdfbghh">
+                              <ul className="tabs">
+                                <li
+                                  className="tab-link current"
+                                  data-tab="tab-9"
+                                >
+                                  Overview
+                                </li>
+                              </ul>
+                              <div id="tab-9" className="tab-content current">
+                                <div className="dfgbfgd">
+                                  {/* <div className="dfkjhgufgfgh">
+                                    <div className="row">
+                                      <div className="col-lg-1">
+                                        <div className="lgkgg">
+                                          <img src={Qw1} alt="" />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-11">
+                                        <div className="djbghdrfgfgh">
+                                          <h6>Professional Experience</h6>
+                                          <p>{sMentor.mentor_headline}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div> */}
+
+                                  <div className="dfkjhgufgfgh">
+                                    <div className="row">
+                                      <div className="col-lg-1">
+                                        <div className="lgkgg">
+                                          <img src={Qw2} alt="" />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-11">
+                                        <div className="djbghdrfgfgh">
+                                          <h6>Expertise In</h6>
+                                          <p>
+                                            {
+                                              sMentor.mentor_recommended_area_of_mentorship
+                                            }
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {/* key skills and expertise starts here. */}
+
+                            {/* area of expertise and rating starts */}
+                            <div className="fkjhgdfbghh">
                               <ul className="tabs">
                                 <li
                                   className={
-                                    showOverview
+                                    showAreaOfExpertise
                                       ? "tab-link current"
                                       : "tab-link "
                                   }
                                   data-tab="tab-9"
-                                  onClick={() => OverviewShowHandler()}
+                                  onClick={() => AreaOfExpertiseShowHandler()}
                                 >
-                                  Overview
+                                  Area of Expertise
                                 </li>
                                 <li
                                   className={
@@ -204,54 +251,40 @@ const SingleMentorProfile = () => {
                                   Rating & Reviews
                                 </li>
                               </ul>
-                              {showOverview && (
-                                <div id="tab-9" className="tab-content current">
-                                  <div className="dfgbfgd">
-                                    <div className="dfkjhgufgfgh">
-                                      <div className="row">
-                                        <div className="col-lg-1">
-                                          <div className="lgkgg">
-                                            <img src={Qw1} alt="" />
+                              {showAreaOfExpertise && (
+                                <div className="options-container">
+                                  {JSON.parse(
+                                    sMentor.mentor_area_expertise
+                                  ).map((option) => (
+                                    <div
+                                      key={option.id}
+                                      className="main-option box"
+                                    >
+                                      <h2 className="optionH2">
+                                        {option.name}
+                                      </h2>
+                                      {option.subOptions.length > 0 &&
+                                        option.subOptions.map((subOption) => (
+                                          <div
+                                            key={subOption.id}
+                                            className="sub-option"
+                                          >
+                                            <h3>{subOption.name}</h3>
+                                            {subOption.skills.length > 0 && (
+                                              <div className="fhfbfghg">
+                                                {subOption.skills.map(
+                                                  (skill) => (
+                                                    <button key={skill.id}>
+                                                      {skill.name}
+                                                    </button>
+                                                  )
+                                                )}
+                                              </div>
+                                            )}
                                           </div>
-                                        </div>
-                                        <div className="col-lg-11">
-                                          <div className="djbghdrfgfgh">
-                                            <h6>Professional Experience</h6>
-                                            <p>{sMentor.mentor_headline}</p>
-                                          </div>
-                                        </div>
-                                      </div>
+                                        ))}
                                     </div>
-
-                                    <div className="dfkjhgufgfgh">
-                                      <div className="row">
-                                        <div className="col-lg-1">
-                                          <div className="lgkgg">
-                                            <img src={Qw2} alt="" />
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-11">
-                                          <div className="djbghdrfgfgh">
-                                            <h6>Expertise In</h6>
-                                            <p>
-                                              {
-                                                sMentor.mentor_recommended_area_of_mentorship
-                                              }
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="dfujghffg">
-                                      <h4>
-                                        Get Super power with Mentor session!
-                                      </h4>
-                                      <hr />
-                                      <div className="kfghg">
-                                        <img src={DCdc1} alt="" />
-                                      </div>
-                                    </div>
-                                  </div>
+                                  ))}
                                 </div>
                               )}
                               {showRating && (
@@ -264,14 +297,6 @@ const SingleMentorProfile = () => {
                                           sMentor.feedback_details
                                         }
                                       />
-                                      <div className="dfujghffg">
-                                        <h4>
-                                          Get Super power with Mentor session!
-                                        </h4>
-                                        <div className="kfghg">
-                                          <img src={DCdc1} alt="" />
-                                        </div>
-                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -279,26 +304,24 @@ const SingleMentorProfile = () => {
                             </div>
                           </div>
                         </div>
+
                         <div className="col-lg-4">
                           <div className="hgkfgkjfgfghgfg sticky-top">
-                            <h3>Skills</h3>
+                            <h3 style={{ width: "auto" }}>Domain</h3>
                             <div className="fhfbfghg">
-                              {JSON.parse(sMentor.expertise_list).map(
-                                (expertise) => {
-                                  return (
-                                    <>
-                                      <button>
-                                        {expertise.mentor_expertise}
-                                      </button>
-                                    </>
-                                  );
-                                }
-                              )}
-                              {JSON.parse(sMentor.passion_list).map(
+                              <button>{sMentor.mentor_domain}</button>
+                            </div>
+                            <h3 style={{ width: "auto", marginTop: "20px" }}>
+                              Additional Skills
+                            </h3>
+                            <div className="fhfbfghg">
+                              {JSON.parse(sMentor.mentor_passion_dtls).map(
                                 (passion) => {
                                   return (
                                     <>
-                                      <button>{passion.mentor_passion}</button>
+                                      {passion.inside === true && (
+                                        <button>{passion.text}</button>
+                                      )}
                                     </>
                                   );
                                 }

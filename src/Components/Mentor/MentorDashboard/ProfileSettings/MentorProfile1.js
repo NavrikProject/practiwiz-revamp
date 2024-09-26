@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CountryData from "../../../data/CountryData.json";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import collegeData from "../../../data/collegesname.json";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -19,14 +21,48 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
   const url = ApiURL();
   // const mentor_profile_photo = profiledata.mentor_profile_photo; // Add photo to formData
   const [formData, setFormData] = useState({
-    mentor_firstname: profiledata?.user_firstname,
-    mentor_lastname: profiledata?.user_lastname,
-    mentor_phone_number: profiledata?.user_phone_number,
-    mentor_email: profiledata?.user_email,
+    mentor_firstname: profiledata?.mentor_firstname,
+    mentor_lastname: profiledata?.mentor_lastname,
+    mentor_phone_number: profiledata?.mentor_phone_number,
+    mentor_email: profiledata?.mentor_email,
     social_media_profile: profiledata?.mentor_social_media_profile,
     mentor_country: profiledata?.mentor_country,
     mentor_city: profiledata?.mentor_city,
+    mentor_institute: profiledata.mentor_institute,
+    mentor_academic_qualification: profiledata?.mentor_academic_qualification,
   });
+  const edulevel = formData.mentor_academic_qualification;
+  const {
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const [searchTerm, setSearchTerm] = useState(formData.mentor_institute);
+
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
+
+  // Function to handle input change
+  const handleInputChange1 = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setValue("mentor_InstituteName", value);
+    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
+  };
+
+  // Filter colleges based on the search term
+  const filteredColleges = collegeData.filter((item) =>
+    item["College Name"]?.toLowerCase().includes(searchTerm?.toLowerCase())
+  );
+
+  // Function to handle dropdown option click
+  const handleOptionClick = (college) => {
+    setSelectedCollege(college); // Set selected college
+    setSearchTerm(college["College Name"]); // Update input with selected college name
+    setDropdownVisible(false); // Hide dropdown after selection
+    setValue("mentor_InstituteName", college["College Name"]);
+    formData.mentor_institute = college["College Name"];
+  };
 
   const [options, setOptions] = useState([]);
   useEffect(() => {
@@ -89,7 +125,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
   // Handle form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (validateForm()) {
       try {
         dispatch(showLoadingHandler());
@@ -109,7 +144,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
           ),
         ]);
-
         if (res.data.success) {
           toast.success("Profile Details updated successfully");
           setIsEditing(false);
@@ -251,6 +285,95 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               </div>
             </div>
 
+            <div className="col-lg-6 mb-4">
+              <label htmlFor="exampleInputEmail1" className="form-label mb-0">
+                <b>Academic Qualification</b>
+              </label>
+
+              <div className="dkjiherer moideuirer_list hello">
+                <ul className="ps-0 mb-0">
+                  <li>
+                    <input
+                      type="radio"
+                      id="check_11"
+                      name="mentor_academic_qualification"
+                      className="d-none"
+                      value="Post Graduate"
+                      defaultChecked={edulevel === "Post Graduate"}
+                      onChange={handleInputChange} // Add the onChange event
+                      disabled={!isEditing}
+                    />
+                    <label htmlFor="check_11">Post Graduate</label>
+                  </li>
+
+                  <li>
+                    <input
+                      type="radio"
+                      id="check_20"
+                      name="mentor_academic_qualification"
+                      className="d-none"
+                      value="Graduate"
+                      defaultChecked={edulevel === "Graduate"}
+                      onChange={handleInputChange} // Add the onChange event
+                      disabled={!isEditing}
+                    />
+                    <label htmlFor="check_20">Graduate</label>
+                  </li>
+
+                  <li>
+                    <input
+                      type="radio"
+                      id="check_30"
+                      name="mentor_academic_qualification"
+                      className="d-none"
+                      value="Doctorate"
+                      defaultChecked={edulevel === "Doctorate"}
+                      onChange={handleInputChange} // Add the onChange event
+                      disabled={!isEditing}
+                    />
+                    <label htmlFor="check_30">Doctorate</label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className=" col-lg-6 ">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                <b>Institute/College name</b>
+              </label>
+              <div className="dkjiherer moideuirer_list hello">
+                <div className="dropdown">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a college..."
+                    disabled={!isEditing}
+                    value={searchTerm} // Ensure input value is controlled
+                    onChange={handleInputChange1}
+                    onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                  />
+                  {dropdownVisible && filteredColleges.length > 0 && (
+                    <div className="dropdown-content">
+                      {filteredColleges.slice(0, 10).map(
+                        (
+                          college,
+                          index // Limit to 10 results
+                        ) => (
+                          <div
+                            key={index}
+                            className="dropdown-item"
+                            onClick={() => handleOptionClick(college)}
+                          >
+                            {college["College Name"]}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label className="form-label">
@@ -272,7 +395,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             <div className="col-lg-6">
               <div className="mb-4">
                 <label className="form-label">
-                  <b>Which Country You Live in?</b>
+                  <b>Which Country do You Live in?</b>
                 </label>
                 <select
                   className="form-select"
@@ -296,7 +419,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>City/State</b>
+                  <b>City</b>
                 </label>
                 <input
                   type="text"

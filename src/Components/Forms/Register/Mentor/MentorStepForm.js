@@ -155,6 +155,7 @@ const MentorStepForm = () => {
           "AreaOfexpertise",
           JSON.stringify(data.Core_Skills.expertise)
         );
+        newData.append("Mentor_Domain", data.Mentor_Domain);
         newData.append("academicQualification", data.academic_qualification);
         newData.append("areaofmentorship", data.recommended_area_of_mentorship);
         newData.append("headline", data.mentor_Headline);
@@ -175,6 +176,8 @@ const MentorStepForm = () => {
         newData.append("Fri", JSON.stringify(data.Fri));
         newData.append("Sat", JSON.stringify(data.Sat));
         newData.append("Sun", JSON.stringify(data.Sun));
+        newData.append("linkedinSign", data.linkedinSign);
+        newData.append("linkedinPhotoUrl", data.linkedinPhotoUrl);
         dispatch(showLoadingHandler());
         const res = await Promise.race([
           axios.post(`${url}api/v1/mentor/register`, newData),
@@ -423,13 +426,15 @@ const MentorStepForm = () => {
                     </div>
                   )}
                   {page === FormTitles.length - 1 ? (
-                    <button
-                      type="submit"
-                      className="btn juybeubrer_btn btn-primary"
-                      onSubmit={methods.handleSubmit(onSubmit)}
-                    >
-                      Submit
-                    </button>
+                    <div className="bjuerirr_btn diuher d-flex mt-4">
+                      <button
+                        type="submit"
+                        className="btn juybeubrer_btn btn-primary"
+                        onSubmit={methods.handleSubmit(onSubmit)}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   ) : (
                     <div className="bjuerirr_btn diuher d-flex mt-4">
                       <button

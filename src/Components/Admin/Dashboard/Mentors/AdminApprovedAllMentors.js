@@ -253,18 +253,7 @@ const AdminApprovedAllMentors = () => {
                             {mentor.user_firstname + " " + mentor.user_lastname}
                           </td>
                           <td>{mentor.mentor_country}</td>
-                          <td>
-                            {JSON.parse(mentor.expertise_list).map(
-                              (passion, index, array) => {
-                                return (
-                                  <span key={index}>
-                                    {passion.mentor_expertise}
-                                    {index < array.length - 1 && ", "}
-                                  </span>
-                                );
-                              }
-                            )}
-                          </td>
+                          <td></td>
                           <td>{mentor.mentor_email}</td>
                           <td>{"+" + mentor.mentor_phone_number}</td>
                           <td>

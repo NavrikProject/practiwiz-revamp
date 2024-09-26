@@ -257,7 +257,7 @@ const AdminNotApprovedAllMentors = () => {
                           </td>
                           <td>{mentor.mentor_country}</td>
                           <td>
-                            {JSON.parse(mentor.expertise_list).map(
+                            {/* {JSON.parse(mentor.expertise_list).map(
                               (passion, index, array) => {
                                 return (
                                   <span key={index}>
@@ -266,7 +266,7 @@ const AdminNotApprovedAllMentors = () => {
                                   </span>
                                 );
                               }
-                            )}
+                            )} */}
                           </td>
                           <td>{mentor.mentor_email}</td>
                           <td>{"+" + mentor.mentor_phone_number}</td>
