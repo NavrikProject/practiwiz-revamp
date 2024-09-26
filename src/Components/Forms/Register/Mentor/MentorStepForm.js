@@ -176,6 +176,8 @@ const MentorStepForm = () => {
         newData.append("Fri", JSON.stringify(data.Fri));
         newData.append("Sat", JSON.stringify(data.Sat));
         newData.append("Sun", JSON.stringify(data.Sun));
+        newData.append("linkedinSign", data.linkedinSign);
+        newData.append("linkedinPhotoUrl", data.linkedinPhotoUrl);
         dispatch(showLoadingHandler());
         const res = await Promise.race([
           axios.post(`${url}api/v1/mentor/register`, newData),

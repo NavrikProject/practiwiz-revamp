@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LnIcon from "./deeteewe.png";
 import { useFormContext, Controller } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import CountryData from "../../../data/CountryData.json";
 import GoToTop from "../../../../Utils/GoToTop";
@@ -9,13 +9,18 @@ import "react-phone-input-2/lib/style.css";
 import collegeData from "../../../data/collegesname.json";
 import "./register.css";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+const STATE = process.env.REACT_APP_STATE;
+const SCOPE = process.env.REACT_APP_SCOPE;
+
 const MentorForm1 = (props) => {
+  const location = useLocation();
+  const profileData = location.state?.profileData || null;
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
-  const [options, setOptions] = useState([]);
-  useEffect(() => {
-    setOptions(CountryData); // Directly setting options if importing the JSON file
-  }, []);
   const {
     register,
     watch,
@@ -28,15 +33,26 @@ const MentorForm1 = (props) => {
   } = useFormContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [signedUsingLinkedin, setSignedUsingLinkedin] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
-
-  // Function to handle input change
+  // Function to handle input changeconst apiUrl = process.env.REACT_APP_API_URL;
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     setValue("mentor_InstituteName", value);
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
   };
+  console.log(profileData.picture);
+  useEffect(() => {
+    if (profileData !== null) {
+      setSignedUsingLinkedin(true);
+      setValue("mentor_firstname", profileData?.given_name);
+      setValue("mentor_lastname", profileData?.family_name);
+      setValue("mentor_email", profileData?.email);
+      setValue("linkedinPhotoUrl", profileData?.picture);
+      setValue("linkedinSign", "linkedin");
+    }
+  }, [profileData]);
 
   // Filter colleges based on the search term
   const filteredColleges = collegeData.filter((item) =>
@@ -55,6 +71,10 @@ const MentorForm1 = (props) => {
     const data = { [fieldName]: getValues(fieldName) };
     props.saveStepData(data);
   };
+  const handleLinkedInLogin = () => {
+    const authorizationUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}&scope=${SCOPE}`;
+    window.location.href = authorizationUrl;
+  };
   return (
     <>
       <div className="doiherner_wrapper ">
@@ -64,11 +84,12 @@ const MentorForm1 = (props) => {
               <p className="mb-0 d-flex align-items-center">
                 <b>Register Using :</b>
                 <button
-                  onClick={() => {
-                    toast.error(
-                      "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
-                    );
-                  }}
+                  onClick={handleLinkedInLogin}
+                  // onClick={() => {
+                  //   toast.error(
+                  //     "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
+                  //   );
+                  // }}
                   className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary"
                 >
                   <img src={LnIcon} className="me-2" alt="deeteewe" />
@@ -338,22 +359,28 @@ const MentorForm1 = (props) => {
                 >
                   <b>Profile Picture</b>
                 </label>
-                <input
-                  onKeyUp={() => {
-                    trigger("linkedin_photo");
-                  }}
-                  placeholder="Choose profile picture....."
-                  type="file"
-                  accept=".jpg ,.jpeg,.png"
-                  className="form-control"
-                  {...register("linkedin_photo", {
-                    required: "Choose profile picture",
-                  })} //1
-                />
-                {errors.linkedin_photo && (
-                  <p className="Error-meg-login-register">
-                    {errors.linkedin_photo.message}
-                  </p>
+                {signedUsingLinkedin === true ? (
+                  <h6>We are using the Linkedin profile picture</h6>
+                ) : (
+                  <>
+                    <input
+                      onKeyUp={() => {
+                        trigger("linkedin_photo");
+                      }}
+                      placeholder="Choose profile picture....."
+                      type="file"
+                      accept=".jpg ,.jpeg,.png"
+                      className="form-control"
+                      {...register("linkedin_photo", {
+                        required: "Choose profile picture",
+                      })}
+                    />
+                    {errors.linkedin_photo && (
+                      <p className="Error-meg-login-register">
+                        {errors.linkedin_photo.message}
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -524,7 +551,7 @@ const MentorForm1 = (props) => {
                   })}
                 >
                   <option value="">Please select a country</option>
-                  {options.map((option) => (
+                  {CountryData.map((option) => (
                     <option key={option.country_id} value={option.country_name}>
                       {option.country_name}
                     </option>
