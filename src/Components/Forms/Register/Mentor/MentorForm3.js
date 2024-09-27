@@ -121,7 +121,10 @@ const MentorForm3 = () => {
       !recurring.mentor_timeslot_rec_indicator
     ) {
       return toast.error(
-        "Please fill in all the fields before adding the slot."
+        "Please fill in all the fields before adding the slot.",
+        {
+          position: "top-right", // Directly specifying the position
+        }
       );
     }
 

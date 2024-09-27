@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
 import CoreSkill from "../../../data/CoreSkill.json";
 import PassionSkill from "../../../data/PassionSkills.json";
-
+import { toast } from "react-toastify";
 const MentorForm2 = () => {
   const {
     register,
@@ -11,6 +11,8 @@ const MentorForm2 = () => {
     setValue,
     trigger,
   } = useFormContext();
+  const [statefordata, setstatefordata] = useState();
+  // setValue("ForSkillValidation","No")
   const [items, setItems] = useState(PassionSkill);
   const handleDragStart = (e, id) => {
     e.dataTransfer.setData("text/plain", id);
@@ -102,6 +104,7 @@ const MentorForm2 = () => {
     }
   };
 
+  const [error, setError] = useState(""); // State to store error messages
   const updateFormData = () => {
     const selectedData = {
       expertise: selectedExpertise.map((exp) => ({
@@ -118,8 +121,9 @@ const MentorForm2 = () => {
           })),
       })),
     };
+    setstatefordata(selectedData);
 
-    setValue("Core_Skills", selectedData);
+    // setValue("Core_Skills", selectedData);
   };
 
   const handleDeleteExpertise = (expertiseToDelete) => {
@@ -152,6 +156,57 @@ const MentorForm2 = () => {
       selectedSkills.filter((skill) => skill.id !== skillToDelete.id)
     );
     updateFormData();
+  };
+
+  const handleSave = () => {
+    // Clear any previous errors
+    setError("");
+
+    // Validation: Check if at least one Core Skill is selected
+    if (selectedExpertise.length === 0) {
+      setError("Please select at least one Core Skill.");
+      return;
+    }
+
+    // Validation: Check if for every selected Core Skill, at least one Sub-option is selected
+    const coreSkillsWithoutSubOptions = selectedExpertise.filter((exp) => {
+      const subOptionsForExp = exp.sub_options.filter((subOption) =>
+        selectedSubOptions.includes(subOption)
+      );
+      return subOptionsForExp.length === 0; // Return true if no sub-options are selected for this core skill
+    });
+
+    if (coreSkillsWithoutSubOptions.length > 0) {
+      setError(
+        "Please select at least one Sub-option for each selected Core Skill."
+      );
+      return;
+    }
+
+    // Check if for each selected Sub-option, at least one Skill is selected
+    const subOptionsWithoutSkills = selectedSubOptions.filter((subOption) => {
+      const skillsForSubOption = subOption.skills.filter((skill) =>
+        selectedSkills.includes(skill)
+      );
+      return skillsForSubOption.length === 0; // Return true if no skills are selected for this sub-option
+    });
+
+    if (subOptionsWithoutSkills.length > 0) {
+      setError(
+        "Please select at least one Skill for each selected Sub-option."
+      );
+      return;
+    }
+
+
+    
+    toast.success("😊 Success! Your Field Saved.", {
+      position: "top-right", // Directly specifying the position
+  });
+  
+    // console.log(statefordata);
+    setValue("Core_Skills", statefordata);
+    setValue("ForSkillValidation", "ok");
   };
 
   return (
@@ -361,6 +416,14 @@ const MentorForm2 = () => {
                 </ul>
               </div>
             </div>
+            {error && <p className="text-danger">{error}</p>}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSave}
+            >
+              Save data
+            </button>
             {/* )} */}
             <div className="row align-items-center">
               <div className="col-lg-6 mb-4">

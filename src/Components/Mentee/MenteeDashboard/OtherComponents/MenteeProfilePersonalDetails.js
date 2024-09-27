@@ -22,7 +22,6 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
     setValue,
     formState: { errors },
   } = useForm();
-  const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
     mentee_profile_photo: singleMentee[0]?.mentee_profile_pic_url,
     mentee_firstname: singleMentee[0]?.mentee_firstname,
@@ -54,7 +53,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
         dispatch(showLoadingHandler());
         const response = await Promise.race([
           axios.post(
-            `${url}api/v1/mentee/dashboard/profile/profile-details`,
+           `${url}api/v1/mentee/dashboard/profile/profile-details`,
             {
               formData,
               menteeUserDtlsId: user?.user_id,
@@ -110,61 +109,62 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
   const [menteeProfilePhoto, setMenteeProfilePhoto] = useState();
 
   const onSubmit = async (data) => {
-    console.log("called this function");
     const profileFormData = new FormData();
     profileFormData.append("Image", data);
     // Log form data including the selected file
   };
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const [file, setFile] = useState(null);
 
-  const UpdateMenteeProfilePhotoHandlers = async () => {
-    if (menteeProfilePhoto) {
-      const fileUrl = URL.createObjectURL(menteeProfilePhoto);
-      setFormData({
-        ...formData,
-        mentee_profile_photo: fileUrl, // Store file URL for preview
-      });
-      // Update the react-hook-form state with the selected file
-      setValue("mentee_profile_photo", menteeProfilePhoto); // Save the file to form data
-      const menteeProfilePhotoFormData = new FormData();
-      menteeProfilePhotoFormData.append("image", menteeProfilePhoto);
-      try {
-        dispatch(showLoadingHandler());
-        const response = await Promise.race([
-          axios.post(
-            `${url}api/v1/mentee/dashboard/profile/profile-picture`,
-            {
-              menteeProfilePhotoFormData,
-              menteeUserDtlsId: user?.user_id,
+  const UpdateMenteeProfilePhotoHandler = async (e) => {
+    e.preventDefault();
+    if (!file) {
+      alert("Please select a file.");
+      return;
+    }
+    const fileUrl = URL.createObjectURL(file);
+    setFormData({
+      ...formData,
+      mentee_profile_photo: fileUrl, // Store file URL for preview
+    });
+    const formData1 = new FormData();
+    formData1.append("image", file);
+    formData1.append("menteeUserDtlsId", user?.user_id); // Append user ID to the form data
+    try {
+      dispatch(showLoadingHandler());
+      const response = await Promise.race([
+        axios.post(
+          `${url}api/v1/mentee/dashboard/profile/profile-picture`,
+          formData1,
+          {
+            headers: {
+              authorization: "Bearer " + token,
+              // No need to set "Content-Type" header explicitly; Axios does this automatically
             },
-            {
-              headers: { authorization: "Bearer " + token },
-            }
-          ),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Request timed out")), 45000)
-          ),
-        ]);
-        if (response.data.success) {
-          dispatch(hideLoadingHandler());
-          toast.success("Profile Details changed successfully");
-        }
-        if (response.data.error) {
-          dispatch(hideLoadingHandler());
-          toast.error(
-            "There is some error while updating the profile details. Please try again"
-          );
-        }
-      } catch (error) {
-        toast.error(
-          "There is some error while updating the profile details. Please try again"
-        ); // Stop loading
+          }
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), 45000)
+        ),
+      ]);
+      if (response.data.success) {
         dispatch(hideLoadingHandler());
-      } finally {
+        toast.success("Profile picture updated successfully.");
+      } else if (response.data.error) {
         dispatch(hideLoadingHandler());
-        setifEdit(false);
+        toast.error("Error updating profile picture. Please try again.");
       }
+    } catch (error) {
+      toast.error("An error occurred while updating the profile picture.");
+      dispatch(hideLoadingHandler());
+    } finally {
+      dispatch(hideLoadingHandler());
+      setifEdit(false);
     }
   };
+
   return (
     <div className="col-lg-10 ps-0">
       <div className="">
@@ -202,33 +202,23 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                 </div>
                 {ifEdit && (
-                  <>
+                  <form>
                     <input
                       type="file"
                       accept="image/*"
-                      ref={fileInputRef}
-                      // {...register("mentee_profile_photo")}
-                      // Keep input hidden
-                      onChange={(e) => {
-                        setMenteeProfilePhoto(e.target.files[0]);
-                      }} // Handle file change
+                      onChange={handleFileChange}
                     />
-                  </>
+                    <button
+                      onClick={UpdateMenteeProfilePhotoHandler}
+                      type="submit"
+                      className="btn btn-main me-3"
+                    >
+                      Upload Profile Photo
+                    </button>
+                  </form>
                 )}
-                {ifEdit && menteeProfilePhoto && (
-                  <button
-                    type="button"
-                    className="btn btn-main me-3"
-                    onClick={UpdateMenteeProfilePhotoHandlers} // Trigger file input on button click
-                  >
-                    Upload Profile Photo
-                  </button>
-                )}
-                {/* <button className="btn btn-transparent" type="button">
-                    Delete
-                  </button> */}
               </div>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <div onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
                   <div className="col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
@@ -240,7 +230,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="mentee_firstname"
                       className="form-control"
                       placeholder="First Name"
-                      value={formData.mentee_firstname}
+                      value={formData?.mentee_firstname}
                       onChange={handleInputChange}
                       disabled
                     />
@@ -254,7 +244,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="mentee_lastname"
                       className="form-control"
                       placeholder="Last Name"
-                      value={formData.mentee_lastname}
+                      value={formData?.mentee_lastname}
                       onChange={handleInputChange}
                       disabled
                     />
@@ -266,11 +256,12 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
 
                     <select
                       name="Gender"
-                      id=""
                       className="form-select"
                       disabled={!ifEdit}
                     >
-                      <option value="">{formData.mentee_gender}</option>
+                      <option value={formData?.mentee_gender}>
+                        {formData?.mentee_gender}
+                      </option>
                       <option value="">Male</option>
                       <option value="">Female</option>
                       <option value="">Other</option>
@@ -282,7 +273,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                     </label>
                     <PhoneInput
                       country={"in"}
-                      value={formData.mentee_phone_number}
+                      value={formData?.mentee_phone_number}
                       onChange={handlePhoneChange}
                       disabled
                     />
@@ -297,7 +288,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="mentee_email"
                       className="form-control"
                       placeholder="Email"
-                      value={formData.mentee_email}
+                      value={formData?.mentee_email}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -312,7 +303,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       disabled={!ifEdit}
                       name="mentee_language"
                     >
-                      <option defaultValue={formData.mentee_language}>
+                      <option defaultValue={formData?.mentee_language}>
                         {formData.mentee_language}
                       </option>
                       {Language.map((option) => (
@@ -336,7 +327,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="mentee_linkedin_link"
                       className="form-control mt-1"
                       placeholder="Linkedin Social Media Profile link"
-                      value={formData.mentee_linkedin_link}
+                      value={formData?.mentee_linkedin_link}
                       onChange={handleInputChange}
                       disabled={!ifEdit}
                     />
@@ -347,7 +338,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="mentee_instagram_link"
                       className="form-control mt-1"
                       placeholder="Instagram Social Media Profile link"
-                      value={formData.mentee_instagram_link}
+                      value={formData?.mentee_instagram_link}
                       onChange={handleInputChange}
                       disabled={!ifEdit}
                     />
@@ -358,7 +349,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="mentee_Twitter_link"
                       className="form-control mt-1"
                       placeholder="Twitter Social Media Profile link"
-                      value={formData.mentee_Twitter_link}
+                      value={formData?.mentee_Twitter_link}
                       onChange={handleInputChange}
                       disabled={!ifEdit}
                     />
@@ -374,7 +365,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       className="form-control"
                       style={{ height: "150px" }}
                       placeholder="Write something about yourself"
-                      value={formData.mentee_aboutyouself}
+                      value={formData?.mentee_aboutyouself}
                       onChange={handleInputChange}
                       disabled={!ifEdit}
                     ></textarea>
@@ -400,7 +391,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                     </button>
                   </div>
                 )}
-              </form>
+              </div>
             </div>
           </div>
         </div>

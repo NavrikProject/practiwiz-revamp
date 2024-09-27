@@ -102,12 +102,12 @@ const Section2 = () => {
                                 />
                               </div>
                               <div className="doiuher_content">
-                                <h4 className="mb-0">
+                                <h4 className="mb-0 gdgdght">
                                   {mentor.mentor_firstname +
                                     " " +
                                     mentor.mentor_lastname}
                                 </h4>
-                                <p className="profession">
+                                <p className="profession gdgdght">
                                   {mentor.mentor_job_title}
                                 </p>
                                 <p className="rating mb-0"></p>

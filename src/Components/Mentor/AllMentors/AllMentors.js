@@ -3,7 +3,7 @@ import AllMentorCard from "./AllMentorCard";
 import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
 import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
-
+import "./AllMentors.css";
 const AllMentors = () => {
   const [allMentors, setAllMentors] = useState([]);
   const url = ApiURL();
@@ -46,19 +46,29 @@ const AllMentors = () => {
   }, [url]);
   return (
     <>
-      <div className="aslkhghj2">
-        <div className="jbbhvf55">
-          <div className="container-fluid px-5">
-            <div className="jgfgfg">
-              <h2>Mentor club</h2>
-              <p>
-                Home <i className="fa-solid fa-angles-right"></i> Mentor Club
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="adadadad mt-6">
+        <p>
+          Home{" "}
+          <i
+            className="fa-solid fa-angles-right"
+            style={{ fontSize: "14px" }}
+          ></i>{" "}
+          Mentor Connect
+        </p>
+
+        <h2 style={{ textAlign: "center" }} className="kukuddd">
+          Mentor Connect{" "}
+          <i
+            className="fa-solid fa-plus fa-2xl fgtrbdhefg"
+            style={{ color: "#1b63de" }}
+          ></i>
+        </h2>
+        <h4 style={{ textAlign: "center" }}>
+          Learn From The Corporate, Step Into Corporate World!
+        </h4>
       </div>
-      <div className="kghfbgfgbhfg pb-0">
+
+      <div className="kghfbgfgbhfg pb-0 " style={{ paddingTop: "2rem" }}>
         <div className="ighefirr bg-white py-2">
           <div className="container-fluid px-5">
             <div className="uilhdier_filter_wrap d-flex slign-items-center justify-content-between">

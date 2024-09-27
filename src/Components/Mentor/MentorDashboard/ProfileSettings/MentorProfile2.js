@@ -461,6 +461,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       <button
                         onClick={() => handleDeleteExpertise(expertise)}
                         className="optionDispaly"
+                        disabled={!isEditing}
                       >
                         <span className="OptionCross">&#10006;</span>
                       </button>
@@ -472,6 +473,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 onChange={handleExpertiseChange}
                 defaultValue=""
                 className="form-select"
+                disabled={!isEditing}
               >
                 <option value="" disabled>
                   Select an Area
@@ -497,6 +499,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                       <button
                         onClick={() => handleDeleteSubOption(subOption)}
                         className="optionDispaly"
+                        disabled={!isEditing}
                       >
                         <span className="OptionCross">&#10006;</span>
                       </button>
@@ -507,10 +510,12 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               <select
                 onChange={(e) =>
                   handleSubOptionChange(parseInt(e.target.value))
+                  
                 }
+                
                 defaultValue=""
                 className="form-select"
-                disabled={selectedExpertise.length === 0}
+                disabled={!isEditing}
               >
                 <option value="" disabled>
                   {selectedExpertise.length === 0
@@ -546,6 +551,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                             id={skill.id}
                             checked={selectedSkills.includes(skill)}
                             onChange={() => handleSkillChange(skill.id)}
+                            disabled={!isEditing}
                           />
                           <label
                             className="form-check-label"
