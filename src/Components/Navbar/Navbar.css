@@ -1,7 +1,16 @@
 .regmenu {
   position: absolute;
 }
-
+.navMenuIcon {
+  color: rgb(27, 99, 222);
+  position: absolute;
+  top: 5px;
+  font-size: 20px !important;
+  right: -8px;
+}
+.navMenuIconPosition {
+  position: relative;
+}
 .MenuBox {
   position: absolute;
   top: 1px;

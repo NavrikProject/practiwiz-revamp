@@ -14,7 +14,6 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
   const handleEditClick = () => {
     setIfEdit(!ifEdit);
   };
-  console.log(singleMentee);
   const [formData, setFormData] = useState({
     mentee_EduLevel: singleMentee[0]?.mentee_type,
     mentee_instituteName: JSON.parse(
@@ -35,10 +34,9 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
     mentee_Skills: singleMentee[0]?.mentee_skills,
 
     certificates:
-      JSON.parse(singleMentee[0]?.mentee_certificate_details) || " ",
+      JSON.parse(singleMentee[0]?.mentee_certificate_details) || null,
   });
   const initialCertificates = formData?.certificates;
-
   const [certificatesDATA, setcertificatesDATA] = useState(
     formData?.certificates
   );
@@ -206,6 +204,7 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
       setIfEdit(false);
     }
   };
+
   return (
     <div className="col-lg-10 ps-0">
       <div className="">
@@ -438,124 +437,132 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
 
                 <div className=" pb-3" id="skill-tag">
                   <div>
-                    {certificates.map((certificate, index) => (
-                      <div className="pb-3" id="skill-tag" key={index}>
-                        <label htmlFor="" className="form-label">
-                          <h2> Certificate {index + 1}</h2>
-                        </label>
-                        <div className="form-control">
-                          <div className="row">
-                            <div className="col-lg-6">
-                              <h5> Certificate Name </h5>
-                              <input
-                                className="form-control"
-                                name="mentee_Certificate_Name"
-                                disabled={!ifEdit}
-                                value={certificate.mentee_Certificate_Name}
-                                onChange={(e) =>
-                                  handleInputChangeForCertificate(index, e)
-                                }
-                                placeholder="Enter Certificate Name ..."
-                              />
+                    {}
+                    {certificates !== null &&
+                      certificates !== "" &&
+                      certificates?.map((certificate, index) => (
+                        <div className="pb-3" id="skill-tag" key={index}>
+                          <label htmlFor="" className="form-label">
+                            <h2> Certificate {index + 1}</h2>
+                          </label>
+                          <div className="form-control">
+                            <div className="row">
+                              <div className="col-lg-6">
+                                <h5> Certificate Name </h5>
+                                <input
+                                  className="form-control"
+                                  name="mentee_Certificate_Name"
+                                  disabled={!ifEdit}
+                                  value={certificate.mentee_Certificate_Name}
+                                  onChange={(e) =>
+                                    handleInputChangeForCertificate(index, e)
+                                  }
+                                  placeholder="Enter Certificate Name ..."
+                                />
+                              </div>
+                              <div className="col-lg-6">
+                                <h5>Certificate level </h5>
+                                <select
+                                  name="mentee_Certificate_level"
+                                  className="form-select"
+                                  value={certificate.mentee_Certificate_level}
+                                  disabled={!ifEdit}
+                                  onChange={(e) =>
+                                    handleInputChangeForCertificate(index, e)
+                                  }
+                                >
+                                  <option value="">Select Level</option>
+                                  <option value="Entry-Level">
+                                    Entry-Level
+                                  </option>
+                                  <option value="Intermediate">
+                                    Intermediate
+                                  </option>
+                                  <option value="Advanced">Advanced</option>
+                                </select>
+                              </div>
                             </div>
-                            <div className="col-lg-6">
-                              <h5>Certificate level </h5>
-                              <select
-                                name="mentee_Certificate_level"
-                                className="form-select"
-                                value={certificate.mentee_Certificate_level}
-                                disabled={!ifEdit}
-                                onChange={(e) =>
-                                  handleInputChangeForCertificate(index, e)
-                                }
-                              >
-                                <option value="">Select Level</option>
-                                <option value="Entry-Level">Entry-Level</option>
-                                <option value="Intermediate">
-                                  Intermediate
-                                </option>
-                                <option value="Advanced">Advanced</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div
-                            className="row"
-                            style={{ display: "flex", alignItems: "baseline" }}
-                          >
-                            <div className="position-relative col-lg-6 pb-3 mt-1">
-                              <label htmlFor="" className="form-label">
-                                Description
-                              </label>
-                              <textarea
-                                name="mentee_Certificate_Desc"
-                                className="form-control"
-                                style={{ height: "45px" }}
-                                placeholder="Write something about the certificate"
-                                value={certificate.mentee_Certificate_Desc}
-                                onChange={(e) =>
-                                  handleInputChangeForCertificate(index, e)
-                                }
-                                disabled={!ifEdit}
-                              ></textarea>
-                            </div>
-                            <div className="col-lg-6 mt-2">
-                              <div className="row">
-                                <div className="col-lg-6">
-                                  <h5>Start Date</h5>
-                                  <div className="EduBoxSub">
-                                    <input
-                                      type="month"
-                                      disabled={!ifEdit}
-                                      name="mentee_Certificate_Start_Year"
-                                      className="form-control"
-                                      value={
-                                        certificate.mentee_Certificate_Start_Year
-                                      }
-                                      onChange={(e) =>
-                                        handleInputChangeForCertificate(
-                                          index,
-                                          e
-                                        )
-                                      }
-                                    />
+                            <div
+                              className="row"
+                              style={{
+                                display: "flex",
+                                alignItems: "baseline",
+                              }}
+                            >
+                              <div className="position-relative col-lg-6 pb-3 mt-1">
+                                <label htmlFor="" className="form-label">
+                                  Description
+                                </label>
+                                <textarea
+                                  name="mentee_Certificate_Desc"
+                                  className="form-control"
+                                  style={{ height: "45px" }}
+                                  placeholder="Write something about the certificate"
+                                  value={certificate.mentee_Certificate_Desc}
+                                  onChange={(e) =>
+                                    handleInputChangeForCertificate(index, e)
+                                  }
+                                  disabled={!ifEdit}
+                                ></textarea>
+                              </div>
+                              <div className="col-lg-6 mt-2">
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <h5>Start Date</h5>
+                                    <div className="EduBoxSub">
+                                      <input
+                                        type="month"
+                                        disabled={!ifEdit}
+                                        name="mentee_Certificate_Start_Year"
+                                        className="form-control"
+                                        value={
+                                          certificate.mentee_Certificate_Start_Year
+                                        }
+                                        onChange={(e) =>
+                                          handleInputChangeForCertificate(
+                                            index,
+                                            e
+                                          )
+                                        }
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-lg-6">
-                                  <h5>End Date</h5>
-                                  <div className="EduBoxSub">
-                                    <input
-                                      type="month"
-                                      disabled={!ifEdit}
-                                      name="mentee_Certificate_End_Year"
-                                      className="form-control"
-                                      value={
-                                        certificate.mentee_Certificate_End_Year
-                                      }
-                                      onChange={(e) =>
-                                        handleInputChangeForCertificate(
-                                          index,
-                                          e
-                                        )
-                                      }
-                                    />
+                                  <div className="col-lg-6">
+                                    <h5>End Date</h5>
+                                    <div className="EduBoxSub">
+                                      <input
+                                        type="month"
+                                        disabled={!ifEdit}
+                                        name="mentee_Certificate_End_Year"
+                                        className="form-control"
+                                        value={
+                                          certificate.mentee_Certificate_End_Year
+                                        }
+                                        onChange={(e) =>
+                                          handleInputChangeForCertificate(
+                                            index,
+                                            e
+                                          )
+                                        }
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
+                            {ifEdit && (
+                              <div>
+                                <button
+                                  className="btn btn-danger mt-2"
+                                  onClick={() => deleteCertificate(index)}
+                                >
+                                  Delete Certificate
+                                </button>
+                              </div>
+                            )}{" "}
                           </div>
-                          {ifEdit && (
-                            <div>
-                              <button
-                                className="btn btn-danger mt-2"
-                                onClick={() => deleteCertificate(index)}
-                              >
-                                Delete Certificate
-                              </button>
-                            </div>
-                          )}{" "}
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                   {ifEdit && (
                     <>

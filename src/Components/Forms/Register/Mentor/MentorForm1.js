@@ -42,7 +42,7 @@ const MentorForm1 = (props) => {
     setValue("mentor_InstituteName", value);
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
   };
-  // console.log(profileData.picture);
+
   useEffect(() => {
     if (profileData !== null) {
       setSignedUsingLinkedin(true);
@@ -75,6 +75,7 @@ const MentorForm1 = (props) => {
     const authorizationUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}&scope=${SCOPE}`;
     window.location.href = authorizationUrl;
   };
+  console.log(REDIRECT_URI, CLIENT_ID, STATE, SCOPE);
   return (
     <>
       <div className="doiherner_wrapper ">
@@ -84,12 +85,12 @@ const MentorForm1 = (props) => {
               <p className="mb-0 d-flex align-items-center">
                 <b>Register Using :</b>
                 <button
-                  onClick={handleLinkedInLogin}
-                  // onClick={() => {
-                  //   toast.error(
-                  //     "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
-                  //   );
-                  // }}
+                  // onClick={handleLinkedInLogin}
+                  onClick={() => {
+                    toast.error(
+                      "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
+                    );
+                  }}
                   className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary"
                 >
                   <img src={LnIcon} className="me-2" alt="deeteewe" />
@@ -541,7 +542,6 @@ const MentorForm1 = (props) => {
                   onChange={(e) => {
                     trigger("mentor_country"); // Trigger validation
                     if (e.target.value) {
-                      console.log(e.target.value);
                       clearErrors("mentor_country"); // Clear errors if a country is selected
                     }
                   }}

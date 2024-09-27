@@ -39,7 +39,6 @@ const MentorStepForm = () => {
     }));
     // try {
     //   await axios.post('/saveStepData', data);
-    //   console.log('Step data saved:', data);
     // } catch (error) {
     //   console.error('Error saving step data:', error);
     // }
@@ -107,7 +106,6 @@ const MentorStepForm = () => {
       const result = await trigger(); // Validate form data
       if (result) {
         const specificValue = getValues("ForSkillValidation"); // Get value of the 'name' field
-        // console.log(specificValue);
         if (specificValue !== "ok") {
           // toast.error(
           //   "Please fill out all required fields: Core Skill, Sub-option, and Area of Expertise. Don't forget to save your changes using the 'Save' button."
@@ -148,7 +146,6 @@ const MentorStepForm = () => {
         setStep((prev) => prev + 1);
       }
 
-      // console.log(Fname, Lname, gmail, phone);
     }
   };
   const dispatch = useDispatch();
