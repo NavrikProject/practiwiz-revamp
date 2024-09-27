@@ -98,8 +98,12 @@ const Navbar = () => {
                     </li> */}
 
                     <li className="nav-item">
-                      <a className="nav-link" href="/mentor-club">
-                       Mentor Connect <i className="fa-solid fa-plus" style={{color: "#1b63de"}}></i>
+                      <a
+                        className="nav-link navMenuIconPosition"
+                        href="/mentor-club"
+                      >
+                        Mentor Connect{" "}
+                        <i className="fa-solid fa-plus navMenuIcon"></i>
                       </a>
                     </li>
                     {/* <li className="nav-item">

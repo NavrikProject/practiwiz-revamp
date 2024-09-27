@@ -204,7 +204,6 @@ const MentorForm2 = () => {
       position: "top-right", // Directly specifying the position
   });
   
-    // console.log(statefordata);
     setValue("Core_Skills", statefordata);
     setValue("ForSkillValidation", "ok");
   };

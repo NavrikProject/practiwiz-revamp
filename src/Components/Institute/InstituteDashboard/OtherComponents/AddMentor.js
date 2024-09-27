@@ -10,7 +10,6 @@ const AddMentor = () => {
 
   const requiredHeaders = ["S.No", "Name", "Email", "Phone Number"];
   const handleuploadfile = () => {
-    console.log(file);
   };
 
   const handleFileUpload = (e) => {
