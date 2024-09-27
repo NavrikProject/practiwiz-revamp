@@ -103,24 +103,50 @@ const MentorStepForm = () => {
   };
 
   const nextStep = async () => {
-    const result = await trigger(); // Validate form data
+    if (page === 1) {
+      const result = await trigger(); // Validate form data
+      if (result) {
+        const specificValue = getValues("ForSkillValidation"); // Get value of the 'name' field
+        // console.log(specificValue);
+        if (specificValue !== "ok") {
+          // toast.error(
+          //   "Please fill out all required fields: Core Skill, Sub-option, and Area of Expertise. Don't forget to save your changes using the 'Save' button."
+          // );
+
+          toast.error(
+            "Please fill out all required fields: Core Skill, Sub-option, and Area of Expertise. Don't forget to save your changes using the 'Save' button.",
+            {
+              position: "top-right", // Directly specifying the position
+            }
+          );
+
+          return;
+        }
+        if (specificValue === "ok") {
+          setPageCount();
+          setStep((prev) => prev + 1);
+        }
+      }
+    }
+
     if (page === 2) {
       const isValid = await validateAvailabilityStep();
       if (!isValid) {
-        toast.error("Please add at least one time slot before proceeding.");
+        toast.error("Please add at least one time slot before proceeding.", {
+          position: "top-right", // Directly specifying the position
+        });
         return;
       }
-    }
-    if (result) {
       setPageCount();
       setStep((prev) => prev + 1);
     }
+
     if (page === 0) {
-      const Data = getValues();
-      const Fname = Data.mentor_firstname;
-      const Lname = Data.mentor_lastname;
-      const gmail = Data.mentor_email;
-      const phone = Data.mentor_phone_number;
+      const result = await trigger(); // Validate form data
+      if (result) {
+        setPageCount();
+        setStep((prev) => prev + 1);
+      }
 
       // console.log(Fname, Lname, gmail, phone);
     }

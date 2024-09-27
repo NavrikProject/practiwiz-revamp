@@ -452,13 +452,13 @@ const MenteeDashboard = ({ user, token }) => {
                   </div>
                 )}
               </div>
-              <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+              {/* <div className="Baseposition" onMouseLeave={toggleOffCourse}>
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onMouseOver={toggleNoCourse}
                 >
                   <span className="d-block bg-white position-relative m-auto ">
-                    {/* <i className="fa-solid fa-bars-progress"></i> */}
+                
                     <i className="fa-solid fa-book-open-reader"></i>
                   </span>
                   <h5>
@@ -482,7 +482,7 @@ const MenteeDashboard = ({ user, token }) => {
                     </button>
                   </div>
                 )}
-              </div>
+              </div> */}
               <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={ShowMenteePaymentHistoryHandler}
@@ -493,24 +493,24 @@ const MenteeDashboard = ({ user, token }) => {
 
                 <h5>Payment History</h5>
               </button>
-              <button className="btn btn-transparent text-center py-3 seeeett">
+              {/* <button className="btn btn-transparent text-center py-3 seeeett">
                 <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-regular fa-building"></i>
                 </span>
 
                 <h5>Saved Institute</h5>
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeSavedJobsHandler}
               >
                 <span className="d-block bg-white position-relative m-auto ">
-                  {/* <i className="fa-solid fa-bookmark"></i> */}
+              
                   <i className="fa-regular fa-bookmark"></i>
                 </span>
 
                 <h5>Saved Jobs</h5>
-              </button>
+              </button> */}
               <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeNotificationHandler}

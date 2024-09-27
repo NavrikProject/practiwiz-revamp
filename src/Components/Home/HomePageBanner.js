@@ -32,7 +32,7 @@ const HomePageBanner = () => {
                     className="mb-0 mt-3"
                     style={{ borderRight: "0" }}
                   >
-                    Learn From The Corporate, Step Into Corporate World!
+                    {/* Learn From The Corporate, Step Into Corporate World! */}
                     {/* <ReactTyped
                       strings={[
                         "Learn From The Corporate, Step Into Corporate World!",

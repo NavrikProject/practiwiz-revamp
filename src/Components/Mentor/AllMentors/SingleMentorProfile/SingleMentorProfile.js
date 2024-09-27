@@ -165,14 +165,21 @@ const SingleMentorProfile = () => {
                                 </p>
                               </div>
                             </div>
+
                             <div className="hfuydfgftgh">
                               <div className="gjfhg">
-                                <img src={Tickmark} alt="" />
+                                <img
+                                  src={Tickmark}
+                                  style={{ width: "25px" }}
+                                  alt=""
+                                />
                               </div>
-                              <p>
-                                {sMentor.mentor_headline + " "}
-                                <span className="spnn45"> Show More</span>
-                              </p>
+                              <div className="fdjdfg">
+                                <p>
+                                  {sMentor.mentor_headline + " "}
+                                  <span className="spnn45"> Show More</span>
+                                </p>
+                              </div>
                             </div>
                             <div className="fkjhgdfbghh">
                               <ul className="tabs">

@@ -15,8 +15,8 @@ import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 
 const Mentorprofile1 = ({ profiledata, user, token }) => {
+  console.log();
   const [isEditing, setIsEditing] = useState(false);
-  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const url = ApiURL();
   // const mentor_profile_photo = profiledata.mentor_profile_photo; // Add photo to formData
@@ -84,12 +84,8 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     });
   };
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    setFile(event.target.files[0]);
     if (file) {
       const fileURL = URL.createObjectURL(file);
       setFormData({
@@ -97,14 +93,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
         mentor_profile_photo: fileURL, // Update photo in formData
       });
     }
-  };
-
-  const handleDeleteClick = () => {
-    setFormData({
-      ...formData,
-      mentor_profile_photo: null, // Remove photo from formData
-    });
-    fileInputRef.current.value = "";
   };
 
   const handleEditClick = () => {
@@ -165,7 +153,55 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
       }
     }
   };
-
+  const [file, setFile] = useState(null);
+  const UpdateMentorProfilePhotoHandler = async (e) => {
+    e.preventDefault();
+    if (!file) {
+      alert("Please select a file.");
+      return;
+    }
+    const fileUrl = URL.createObjectURL(file);
+    setFormData({
+      ...formData,
+      mentee_profile_photo: fileUrl, // Store file URL for preview
+    });
+    const formData1 = new FormData();
+    formData1.append("image", file);
+    formData1.append("mentorUserDtlsId", user?.user_id);
+    formData1.append("mentorDtlsId", profiledata?.mentor_dtls_id); // Append user ID to the
+    // Append user ID to the
+    try {
+      dispatch(showLoadingHandler());
+      const response = await Promise.race([
+        axios.post(
+          `${url}api/v1/mentor/dashboard/update/profile-picture`,
+          formData1,
+          {
+            headers: {
+              authorization: "Bearer " + token,
+              // No need to set "Content-Type" header explicitly; Axios does this automatically
+            },
+          }
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), 45000)
+        ),
+      ]);
+      if (response.data.success) {
+        dispatch(hideLoadingHandler());
+        toast.success("Profile picture updated successfully.");
+      } else if (response.data.error) {
+        dispatch(hideLoadingHandler());
+        toast.error("Error updating profile picture. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating the profile picture.");
+      dispatch(hideLoadingHandler());
+    } finally {
+      dispatch(hideLoadingHandler());
+      setIsEditing(false);
+    }
+  };
   return (
     <main>
       {!isEditing && (
@@ -193,27 +229,18 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             />
           </div>
         </div>
-        <button
-          className="btn btn-main me-3"
-          type="button"
-          onClick={handleButtonClick}
-        >
-          Upload Avatar
-        </button>
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-        <button
-          className="btn btn-transparent"
-          type="button"
-          onClick={handleDeleteClick}
-        >
-          Delete
-        </button>
+        {isEditing && (
+          <form>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <button
+              onClick={UpdateMentorProfilePhotoHandler}
+              type="submit"
+              className="btn btn-main me-3"
+            >
+              Upload Profile Photo
+            </button>
+          </form>
+        )}
       </div>
 
       <div className="doiherner_wrapper">

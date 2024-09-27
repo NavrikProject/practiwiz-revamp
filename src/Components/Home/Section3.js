@@ -30,7 +30,7 @@ const Section3 = () => {
                       Register Your Institute
                     </Link>
                   </button>
-                  <button className="btn btn-main">Learn More</button>
+                  {/* <button className="btn btn-main">Learn More</button> */}
                 </div>
               </div>
               <div className="col-lg-5">

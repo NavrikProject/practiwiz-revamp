@@ -99,7 +99,7 @@ const Navbar = () => {
 
                     <li className="nav-item">
                       <a className="nav-link" href="/mentor-club">
-                        MentorClub
+                       Mentor Connect <i className="fa-solid fa-plus" style={{color: "#1b63de"}}></i>
                       </a>
                     </li>
                     {/* <li className="nav-item">
@@ -133,7 +133,7 @@ const Navbar = () => {
                       </a>
                     </li> */}
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <a className="nav-link" href="/aboutus">
                         About Us
                       </a>
@@ -143,7 +143,7 @@ const Navbar = () => {
                       <a className="nav-link" href="/contact">
                         Contact Us
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                   {user ? (
                     <div className="udgehrr">
