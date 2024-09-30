@@ -198,12 +198,10 @@ const MentorForm2 = () => {
       return;
     }
 
-
-    
     toast.success("😊 Success! Your Field Saved.", {
       position: "top-right", // Directly specifying the position
-  });
-  
+    });
+
     setValue("Core_Skills", statefordata);
     setValue("ForSkillValidation", "ok");
   };
@@ -538,20 +536,21 @@ const MentorForm2 = () => {
                 <b>Your Super Power</b>
               </label>
               <textarea
+                placeholder="My superpower is problem-solving. I excel at breaking down complex challenges into manageable steps and finding innovative solutions, whether it's troubleshooting technical issues or resolving conflicts in a team."
                 onKeyUp={() => {
                   trigger("mentor_Headline");
                 }}
                 className="form-control"
-                style={{ height: "150px" }}
+                style={{ height: "100px" }}
                 {...register("mentor_Headline", {
                   required: "Please enter about your self",
                   minLength: {
-                    value: 150,
-                    message: "Must be greater than 150 characters.",
+                    value: 100,
+                    message: "Must be greater than 100 characters.",
                   },
                   maxLength: {
                     value: 1000,
-                    message: "Must be less than 250 characters.",
+                    message: "Must be less than 1000 characters.",
                   },
                 })}
               ></textarea>

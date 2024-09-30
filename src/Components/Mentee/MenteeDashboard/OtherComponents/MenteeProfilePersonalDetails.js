@@ -53,7 +53,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
         dispatch(showLoadingHandler());
         const response = await Promise.race([
           axios.post(
-           `${url}api/v1/mentee/dashboard/profile/profile-details`,
+            `${url}api/v1/mentee/dashboard/profile/profile-details`,
             {
               formData,
               menteeUserDtlsId: user?.user_id,
@@ -113,57 +113,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
     profileFormData.append("Image", data);
     // Log form data including the selected file
   };
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-  const [file, setFile] = useState(null);
-
-  const UpdateMenteeProfilePhotoHandler = async (e) => {
-    e.preventDefault();
-    if (!file) {
-      alert("Please select a file.");
-      return;
-    }
-    const fileUrl = URL.createObjectURL(file);
-    setFormData({
-      ...formData,
-      mentee_profile_photo: fileUrl, // Store file URL for preview
-    });
-    const formData1 = new FormData();
-    formData1.append("image", file);
-    formData1.append("menteeUserDtlsId", user?.user_id); // Append user ID to the form data
-    try {
-      dispatch(showLoadingHandler());
-      const response = await Promise.race([
-        axios.post(
-          `${url}api/v1/mentee/dashboard/profile/profile-picture`,
-          formData1,
-          {
-            headers: {
-              authorization: "Bearer " + token,
-              // No need to set "Content-Type" header explicitly; Axios does this automatically
-            },
-          }
-        ),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), 45000)
-        ),
-      ]);
-      if (response.data.success) {
-        dispatch(hideLoadingHandler());
-        toast.success("Profile picture updated successfully.");
-      } else if (response.data.error) {
-        dispatch(hideLoadingHandler());
-        toast.error("Error updating profile picture. Please try again.");
-      }
-    } catch (error) {
-      toast.error("An error occurred while updating the profile picture.");
-      dispatch(hideLoadingHandler());
-    } finally {
-      dispatch(hideLoadingHandler());
-      setifEdit(false);
-    }
-  };
+ 
 
   return (
     <div className="col-lg-10 ps-0">
@@ -191,33 +141,6 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                 </div>
               )}
-              <div className="huygrut d-flex py-4 align-items-center">
-                <div className="deuirr_circle position-relative overflow-hidden me-3 iijieirr_left">
-                  <div>
-                    <img
-                      src={formData.mentee_profile_photo}
-                      alt="Selected"
-                      style={{ maxWidth: "100%", maxHeight: "400px" }}
-                    />
-                  </div>
-                </div>
-                {ifEdit && (
-                  <form>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                    <button
-                      onClick={UpdateMenteeProfilePhotoHandler}
-                      type="submit"
-                      className="btn btn-main me-3"
-                    >
-                      Upload Profile Photo
-                    </button>
-                  </form>
-                )}
-              </div>
               <div onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
                   <div className="col-lg-6 pb-3">

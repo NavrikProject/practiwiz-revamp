@@ -66,8 +66,8 @@
 }
 
 .iijieirr_left {
-  width: 10rem;
-  height: 10rem;
+  width: 15rem;
+  height: 15rem;
   border-radius: 50%;
   border: 8px solid #fff;
   transform: translateY(1rem);
@@ -284,7 +284,6 @@
   padding-left: 2rem;
 }
 
-.hththtggh p{
-  color:#000 !important;
-
+.hththtggh p {
+  color: #000 !important;
 }

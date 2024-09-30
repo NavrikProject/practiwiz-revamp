@@ -19,7 +19,14 @@ select:disabled,
 textarea:disabled {
   cursor: not-allowed;
 }
-
+.iijieirr_left2 {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  transform: translateY(1rem);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
 :root {
   --main-orange-color: #0255ca;
   --font-family-lato: "Lato", sans-serif;

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 import MentorForm3 from "./MentorForm3";
@@ -18,6 +18,7 @@ import {
 const MentorStepForm = () => {
   const url = ApiURL();
   const methods = useForm({});
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
@@ -31,19 +32,25 @@ const MentorStepForm = () => {
     "AVAILABILITY",
     "PREFERENCES",
   ];
-  const saveStepDataToServer = async (data) => {
-    setUserData((prevData) => ({
-      ...prevData, // Spread the previous data
-      firstname: data.mentor_firstname,
-      lastname: data.mentor_lastname,
-    }));
-    // try {
-    //   await axios.post('/saveStepData', data);
-    // } catch (error) {
-    //   console.error('Error saving step data:', error);
-    // }
+  const saveStepDataToServer = async (data1) => {
+    // console.log(data1);
   };
+  const data = getValues();
 
+  // if (
+  //   data?.mentor_firstname &&
+  //   data?.mentor_lastname &&
+  //   data?.mentor_phone_number &&
+  //   data?.mentor_email
+  // ) {
+  //   console.log(validateEmail(data?.mentor_email));
+  //   console.log(
+  //     data.mentor_firstname,
+  //     data.mentor_lastname,
+  //     data.mentor_phone_number,
+  //     data?.mentor_email
+  //   );
+  // }
   const [step, setStep] = useState(1);
   const PageDisplay = () => {
     if (page === 0) {
@@ -145,7 +152,6 @@ const MentorStepForm = () => {
         setPageCount();
         setStep((prev) => prev + 1);
       }
-
     }
   };
   const dispatch = useDispatch();
@@ -212,7 +218,10 @@ const MentorStepForm = () => {
 
         dispatch(hideLoadingHandler());
         if (res.data.success) {
-          toast.success("Thank you for applying for the mentor application.");
+          return (
+            toast.success("Thank you for applying for the mentor application."),
+            navigate(`/`)
+          );
         } else if (res.data.error) {
           toast.error(
             "There is some error while applying for the mentor application."

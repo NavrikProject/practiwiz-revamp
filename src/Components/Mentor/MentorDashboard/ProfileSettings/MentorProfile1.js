@@ -216,33 +216,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
           </button>
         </div>
       )}
-      <div className="huygrut d-flex py-4 align-items-center">
-        <div className="deuirr_circle position-relative overflow-hidden me-3 iijieirr_left">
-          <div>
-            <img
-              src={
-                formData.mentor_profile_photo ||
-                profiledata.mentor_profile_photo
-              }
-              alt="Selected"
-              style={{ maxWidth: "100%", maxHeight: "400px" }}
-            />
-          </div>
-        </div>
-        {isEditing && (
-          <form>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            <button
-              onClick={UpdateMentorProfilePhotoHandler}
-              type="submit"
-              className="btn btn-main me-3"
-            >
-              Upload Profile Photo
-            </button>
-          </form>
-        )}
-      </div>
-
       <div className="doiherner_wrapper">
         <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
           <div className="row">

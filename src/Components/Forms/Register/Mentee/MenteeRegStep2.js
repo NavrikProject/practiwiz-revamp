@@ -37,7 +37,7 @@ const MenteeRegStep2 = () => {
   const {
     register,
     setValue,
-
+    trigger,
     formState: { errors },
   } = useFormContext();
   return (
@@ -126,6 +126,7 @@ const MenteeRegStep2 = () => {
             </label>
             <div className="dropdown mb-3">
               <input
+                onKeyUp={() => trigger("mentee_InstituteName")}
                 type="text"
                 className="form-control"
                 placeholder="Search for a college..."
