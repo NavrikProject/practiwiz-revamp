@@ -1,37 +1,32 @@
 import React, { useEffect, useState } from "react";
+import CustomDatePicker from "../../../Mentor/AllMentors/CustomDatepicker/CustomDatePicker";
+import { useParams } from "react-router-dom";
+import StarRating from "../../../../Utils/StartRating";
+import SingleMentorProfilePageSkelton from "../../../Mentor/AllMentors/SingleMentorProfile/Skelton/SingleMentorProfilePageSkelton";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
 import Ee1 from "../../../../Images/Mentors/ee1.png";
 import Ee2 from "../../../../Images/Mentors/ee2.png";
 import Tickmark from "../../../../Images/Mentors/tick-mark (1).png";
 import Qw1 from "../../../../Images/Mentors/qw1 (1).png";
 import Qw2 from "../../../../Images/Mentors/qw1 (2).png";
 import DCdc1 from "../../../../Images/Mentors/Mentor_session.jpg";
-import "../AllMentors.css";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
-import { ApiURL } from "../../../../Utils/ApiURL";
-import MentorBookingAppointment from "./MentorBookingAppointment";
-import { useSelector } from "react-redux";
-import CustomDatePicker from "../CustomDatepicker/CustomDatePicker";
+import "../../../Mentor/AllMentors/AllMentors.css";
+import MentorRatingCard from "../../../Mentor/AllMentors/SingleMentorProfile/MentorRatingCard";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
 import { toast } from "react-toastify";
-import SingleMentorProfilePageSkelton from "./Skelton/SingleMentorProfilePageSkelton";
-import MentorRatingCard from "./MentorRatingCard";
-import StarRating from "../../../../Utils/StartRating";
-const SingleMentorProfile = () => {
-  const user = useSelector((state) => state.user?.currentUser);
-  const [showBookingModel, setShowBookingModel] = useState(false);
+import { useDispatch } from "react-redux";
+const MentorPrivateProfile = ({ user, token }) => {
   const url = ApiURL();
   const params = useParams();
   const mentorDtlsId = params.id;
+  const dispatch = useDispatch();
   const [showRating, setShowRating] = useState(null);
   const [singleMentor, setSingleMentor] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedSlot, setSelectedSlot] = useState(null);
   const [loading, setLoading] = useState(false);
-  const handleDateSlotSelect = (date, slot) => {
-    setSelectedDate(date);
-    setSelectedSlot(slot);
-  };
-
   const [showAreaOfExpertise, setShowAreaOfExpertise] = useState(true);
   const RatingShowHandler = () => {
     return setShowRating(!showRating), setShowAreaOfExpertise(false);
@@ -42,9 +37,11 @@ const SingleMentorProfile = () => {
   useEffect(() => {
     const fetchMentors = async () => {
       setLoading(true);
-      const response = await axios.post(
-        `${url}api/v1/mentor/fetch-single-details/${mentorDtlsId}`,
-        { userId: mentorDtlsId }
+      const response = await axios.get(
+        `${url}api/v1/admin/dashboard/mentors/private-profile/${mentorDtlsId}`,
+        {
+          headers: { authorization: "Bearer " + token },
+        }
       );
       setLoading(false);
       if (response.data.success) {
@@ -58,11 +55,68 @@ const SingleMentorProfile = () => {
     };
     fetchMentors();
   }, [mentorDtlsId, url]);
-  const CreateBookingAppointment = () => {
-    if (selectedDate === null || selectedSlot === null) {
-      toast.error("Please select the Date and Time slot details");
-    } else {
-      setShowBookingModel(!showBookingModel);
+
+  const MentorApproveHandler = async (id, email, mentorName, userId) => {
+    dispatch(showLoadingHandler());
+    const response = await axios.post(
+      `${url}api/v1/admin/dashboard/mentors/update/approve`,
+      {
+        mentorDtlsId: id,
+        mentorEmail: email,
+        mentorName: mentorName,
+        userId: userId,
+      },
+      {
+        headers: { authorization: "Bearer " + token },
+      }
+    );
+    setLoading(false);
+    dispatch(hideLoadingHandler());
+    if (response.data.success) {
+      return (
+        toast.success("Mentor approved successfully"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
+    if (response.data.error) {
+      return (
+        toast.error("There is some error while approving the mentor"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
+  };
+
+  const MentorDisApproveHandler = async (id, email, mentorName, userId) => {
+    dispatch(showLoadingHandler());
+    const response = await axios.post(
+      `${url}api/v1/admin/dashboard/mentors/update/not-approve`,
+      {
+        mentorDtlsId: id,
+        mentorEmail: email,
+        mentorName: mentorName,
+        userId: userId,
+      },
+      {
+        headers: { authorization: "Bearer " + token },
+      }
+    );
+    setLoading(false);
+    dispatch(hideLoadingHandler());
+    if (response.data.success) {
+      return (
+        toast.success("Mentor disapproved successfully"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
+    }
+    if (response.data.error) {
+      return (
+        toast.error("There is some error while approving the mentor"),
+        setLoading(false),
+        dispatch(hideLoadingHandler())
+      );
     }
   };
   return (
@@ -73,14 +127,6 @@ const SingleMentorProfile = () => {
         </>
       ) : (
         <>
-          {showBookingModel && (
-            <MentorBookingAppointment
-              selectedDate={selectedDate}
-              selectedSlot={selectedSlot}
-              singleMentor={singleMentor}
-              showCloseHandler={CreateBookingAppointment}
-            />
-          )}
           {singleMentor?.map((sMentor) => {
             return (
               <>
@@ -105,14 +151,44 @@ const SingleMentorProfile = () => {
                         </div>
                       </div>
                       <div className="ihurtf_btn">
-                        <button className="btn btn-main">
-                          <i className="fa-solid pe-2 fa-envelope-open-text"></i>
-                          Message
-                        </button>
-                        <button className="btn btn-main">
+                        {sMentor.mentor_approved_status === "No" ? (
+                          <button
+                            className="btn btn-main approve-button"
+                            onClick={() => {
+                              MentorApproveHandler(
+                                sMentor.mentor_dtls_id,
+                                sMentor.mentor_email,
+                                sMentor.mentor_firstname +
+                                  " " +
+                                  sMentor.mentor_lastname,
+                                sMentor.user_dtls_id
+                              );
+                            }}
+                          >
+                            Approve Now
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-main disapprove-button"
+                            onClick={() => {
+                              MentorDisApproveHandler(
+                                sMentor.mentor_dtls_id,
+                                sMentor.mentor_email,
+                                sMentor.mentor_firstname +
+                                  " " +
+                                  sMentor.mentor_lastname,
+                                sMentor.user_dtls_id
+                              );
+                            }}
+                          >
+                            DisApprove Now
+                          </button>
+                        )}
+
+                        {/* <button className="btn btn-main">
                           <i className="fa-solid pe-2 fa-share"></i> Share
                           Profile
-                        </button>
+                        </button> */}
                       </div>
                       {/* <div className="ljrfhf">
                         <i className="fa-solid fa-upload"></i>
@@ -146,7 +222,6 @@ const SingleMentorProfile = () => {
                               </div>
                               <p>{sMentor.mentor_job_title.toUpperCase()}</p>
                             </div>
-
                             <div className="hfuydfgftgh">
                               <div className="gjfhg">
                                 <img src={Ee2} alt="" />
@@ -319,7 +394,7 @@ const SingleMentorProfile = () => {
                               <button>{sMentor.mentor_domain}</button>
                             </div>
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
-                              Skills
+                              Additional Skills
                             </h3>
                             <div className="fhfbfghg">
                               {JSON.parse(sMentor.mentor_passion_dtls).map(
@@ -340,7 +415,6 @@ const SingleMentorProfile = () => {
                                   Mentor Availability
                                 </h4>
                                 <CustomDatePicker
-                                  onDateSlotSelect={handleDateSlotSelect}
                                   timeslotList={JSON.parse(
                                     sMentor.timeslot_list
                                   )}
@@ -348,7 +422,7 @@ const SingleMentorProfile = () => {
                                     sMentor?.booking_dtls_list
                                   )}
                                 />
-                                <div className="dfghjffg mt-3">
+                                {/* <div className="dfghjffg mt-3">
                                   {user && user?.user_type !== "mentor" && (
                                     <button
                                       className="btn btn-main"
@@ -362,7 +436,7 @@ const SingleMentorProfile = () => {
                                       <Link to="/login">LOGIN</Link>
                                     </button>
                                   )}
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -380,4 +454,4 @@ const SingleMentorProfile = () => {
   );
 };
 
-export default SingleMentorProfile;
+export default MentorPrivateProfile;

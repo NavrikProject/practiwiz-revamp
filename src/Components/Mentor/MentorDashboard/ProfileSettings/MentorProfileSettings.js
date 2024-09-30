@@ -3,6 +3,7 @@ import MentorProfile1 from "./MentorProfile1.js";
 import MentorProfile2 from "./MentorProfile2.js";
 import MentorProfile3 from "./MentorProfile3.js";
 import MentorProfile4 from "./MentorProfile4.js";
+import Mentorprofile5 from "./MentorProfile5.js";
 const MentorProfileSettings = ({ data, user, token }) => {
   const [page, setPage] = useState(0);
   const PageDisplay = () => {
@@ -12,8 +13,10 @@ const MentorProfileSettings = ({ data, user, token }) => {
       return <MentorProfile2 user={user} token={token} profiledata={data[0]} />;
     } else if (page === 2) {
       return <MentorProfile3 user={user} token={token} profiledata={data[0]} />;
-    } else {
+    } else if (page === 3) {
       return <MentorProfile4 user={user} token={token} profiledata={data[0]} />;
+    } else if (page === 4) {
+      return <Mentorprofile5 user={user} token={token} profiledata={data[0]} />;
     }
   };
 
@@ -29,7 +32,9 @@ const MentorProfileSettings = ({ data, user, token }) => {
   const tab4 = () => {
     setPage(3);
   };
-
+  const tab5 = () => {
+    setPage(4);
+  };
   return (
     <>
       <div div className="col-lg-10 ps-0">
@@ -43,6 +48,22 @@ const MentorProfileSettings = ({ data, user, token }) => {
                 id="tabs"
                 className="d-flex justify-content-between align-items-center mb-4"
               >
+                {page === 5 ? (
+                  <button
+                    className="btn btn-primary tablinks active"
+                    data-tab="form5"
+                  >
+                    <i className="fa-solid me-1 fa-user"></i> Profile Picture
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary tablinks "
+                    data-tab="form5"
+                    onClick={tab5}
+                  >
+                    <i className="fa-solid me-1 fa-user"></i> Profile Picture
+                  </button>
+                )}
                 {page === 0 ? (
                   <button
                     className="btn btn-primary tablinks active"

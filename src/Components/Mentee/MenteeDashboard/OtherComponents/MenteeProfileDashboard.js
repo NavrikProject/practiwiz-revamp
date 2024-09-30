@@ -27,7 +27,7 @@ const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
                 <div className="container">
                   <div className="csdpeijf kjbdbeuirrr d-flex justify-content-between">
                     <div className="ihuerorktrt ujgereter position-relative">
-                      <div className="iijieirr_left overflow-hidden">
+                      <div className="iijieirr_left2 overflow-hidden">
                         <img
                           src={sMentee?.mentee_profile_pic_url}
                           width="100%"

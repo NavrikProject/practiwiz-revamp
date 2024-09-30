@@ -29,7 +29,7 @@ const MentorProfile = ({ data, user, token }) => {
                   <div className="container">
                     <div className="csdpeijf d-flex justify-content-between">
                       <div className="ihuerorktrt position-relative">
-                        <div className="iijieirr_left overflow-hidden">
+                        <div className="iijieirr_left2 overflow-hidden">
                           <img
                             src={sMentor.mentor_profile_photo}
                             width="100%"

@@ -13,7 +13,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
     register,
     watch,
     control,
-
+    trigger,
     formState: { errors },
   } = useFormContext();
   const password = watch("mentee_password");
@@ -95,6 +95,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                   First Name
                 </label>
                 <input
+                  onKeyUp={() => trigger("mentee_firstname")}
                   type="text"
                   className="form-control"
                   // id="exampleInputEmail1"
@@ -122,6 +123,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                   Last Name
                 </label>
                 <input
+                  onKeyUp={() => trigger("mentee_lastname")}
                   type="text"
                   className="form-control"
                   // id="exampleInputPassword1"
@@ -196,6 +198,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               Email
             </label>
             <input
+              onKeyUp={() => trigger("mentee_Email")}
               type="email"
               className="form-control"
               // id="exampleInputEmail1"
@@ -219,6 +222,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               Password
             </label>
             <input
+              onKeyUp={() => trigger("mentee_password")}
               className="form-control"
               // id="exampleInputEmail1"
               placeholder="Password must be at least 8 characters"
@@ -263,6 +267,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               Confirm Password
             </label>
             <input
+              onKeyUp={() => trigger("mentee_confirm_password")}
               // type="text"
               className="form-control"
               // id="exampleInputEmail1"

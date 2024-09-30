@@ -117,37 +117,7 @@ const AdminNotApprovedAllMentors = () => {
   const handleApplyFilter = () => {
     setAppliedFilters(filters);
   };
-  const MentorApproveHandler = async (id, email, mentorName, userId) => {
-    dispatch(showLoadingHandler());
-    const response = await axios.post(
-      `${url}api/v1/admin/dashboard/mentors/update/approve`,
-      {
-        mentorDtlsId: id,
-        mentorEmail: email,
-        mentorName: mentorName,
-        userId: userId,
-      },
-      {
-        headers: { authorization: "Bearer " + token },
-      }
-    );
-    setLoading(false);
-    dispatch(hideLoadingHandler());
-    if (response.data.success) {
-      return (
-        toast.success("Mentor approved successfully"),
-        setLoading(false),
-        dispatch(hideLoadingHandler())
-      );
-    }
-    if (response.data.error) {
-      return (
-        toast.error("There is some error while approving the mentor"),
-        setLoading(false),
-        dispatch(hideLoadingHandler())
-      );
-    }
-  };
+
   return (
     <div className="col-lg-10 ps-0">
       <div className="mentor_dash_msge">
@@ -231,20 +201,19 @@ const AdminNotApprovedAllMentors = () => {
                 <table className="mentor-table">
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Name</th>
                       <th>Location</th>
-                      <th>Skill</th>
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Profile</th>
-                      <th>Button</th>
                       <th>Approval Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {loading && (
                       <>
-                        <ListStatusSkeleton columns={8} />
+                        <ListStatusSkeleton columns={7} />
                       </>
                     )}
                     {allMentors?.length === 0 ? (
@@ -252,57 +221,32 @@ const AdminNotApprovedAllMentors = () => {
                     ) : (
                       filteredMentors?.map((mentor) => (
                         <tr key={mentor.id}>
+                          <td>{mentor.mentor_dtls_id}</td>
                           <td style={{ textTransform: "capitalize" }}>
                             {mentor.user_firstname + " " + mentor.user_lastname}
                           </td>
                           <td>{mentor.mentor_country}</td>
-                          <td>
-                            {/* {JSON.parse(mentor.expertise_list).map(
-                              (passion, index, array) => {
-                                return (
-                                  <span key={index}>
-                                    {passion.mentor_expertise}
-                                    {index < array.length - 1 && ", "}
-                                  </span>
-                                );
-                              }
-                            )} */}
-                          </td>
                           <td>{mentor.mentor_email}</td>
-                          <td>{"+" + mentor.mentor_phone_number}</td>
+                          <td>{mentor.mentor_phone_number}</td>
                           <td>
                             <button className="profile-button">
                               <Link
-                                to={`/mentor-club/mentor-profile/${
-                                  mentor.user_firstname +
+                                target="_blank"
+                                to={`/mentor-club/mentor-profile/private/${
+                                  mentor.user_firstname.toLowerCase() +
                                   "-" +
                                   mentor.user_lastname
                                     .replace(" ", "-")
                                     .toLowerCase()
                                 }/${mentor.user_dtls_id}`}
                               >
-                                Profiles
+                                View Profile
                               </Link>
                             </button>
                           </td>
+
                           <td>
-                            <button
-                              className="approve-button"
-                              onClick={() => {
-                                MentorApproveHandler(
-                                  mentor.mentor_dtls_id,
-                                  mentor.mentor_email,
-                                  mentor.user_firstname +
-                                    " " +
-                                    mentor.user_lastname,
-                                  mentor.user_dtls_id
-                                );
-                              }}
-                            >
-                              Approve
-                            </button>
-                          </td>
-                          <td>
+                            Not Approved
                             <i
                               className="fa-solid fa-circle-check fa-lg"
                               style={{ color: "#ff1414" }}

@@ -49,6 +49,7 @@ import SingleCaseStudyPage from "./Pages/CaseStudyPages/SingleCaseStudyPage";
 import InstituteRegistrationPage from "./Pages/FormPages/RegisterPages/InstituteRegistrationPage";
 import InternshipPages from "./Pages/InternshipPages/InternshipPages";
 import LinkedInCallback from "./Components/Linkedin/LinkedInCallback";
+import AdminMentorPrivateProfilePage from "./Pages/AdminPages/AdminMentorPrivateProfilePage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -92,6 +93,12 @@ function App() {
           <Route
             path="/mentor-club/mentor-profile/:name/:id"
             element={<SingleMentorProfilePage />}
+          />
+          <Route
+            path="/mentor-club/mentor-profile/private/:name/:id"
+            element={
+              <AdminMentorPrivateProfilePage user={user} token={token} />
+            }
           />
           <Route path="/test" element={<Test />} />
           <Route path="/date" element={<MenteeFeedbackForm />} />
