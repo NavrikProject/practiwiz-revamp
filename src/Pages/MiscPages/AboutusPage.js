@@ -5,6 +5,8 @@ import About from "../../Components/AboutUs/about";
 import GoToTop from "../../Utils/GoToTop";
 
 const AboutusPage = () => {
+  document.title = "Practywiz | About Us";
+
   return (
     <>
       <Navbar />

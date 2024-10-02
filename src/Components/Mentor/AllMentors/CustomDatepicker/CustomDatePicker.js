@@ -92,7 +92,7 @@ const CustomDatePicker = ({
   const handleSlotSelection = (slot) => {
     if (!isSlotBooked(startDate, slot)) {
       setSelectedSlot(slot);
-      onDateSlotSelect(startDate, slot);
+      onDateSlotSelect(startDate, slot, slot.mentor_timeslot_id);
     }
   };
 

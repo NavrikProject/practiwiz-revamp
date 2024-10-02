@@ -50,6 +50,7 @@ import InstituteRegistrationPage from "./Pages/FormPages/RegisterPages/Institute
 import InternshipPages from "./Pages/InternshipPages/InternshipPages";
 import LinkedInCallback from "./Components/Linkedin/LinkedInCallback";
 import AdminMentorPrivateProfilePage from "./Pages/AdminPages/AdminMentorPrivateProfilePage";
+import MainComponent from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -101,7 +102,7 @@ function App() {
             }
           />
           <Route path="/test" element={<Test />} />
-          <Route path="/date" element={<MenteeFeedbackForm />} />
+          <Route path="/date" element={<MainComponent />} />
           {/* passing of the user and token to dashboard is completed */}
           {user?.user_type === "mentor" && (
             <Route

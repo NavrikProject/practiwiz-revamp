@@ -13,7 +13,6 @@ import Edu from "../../../../Images/Mentee/edu.png";
 import Certification from "../../../../Images/Mentee/certification.png";
 import Experience from "../../../../Images/Mentee/experiece.png";
 const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
-  console.log(singleMentee);
   return (
     <>
       {singleMentee?.map((sMentee) => {
@@ -97,10 +96,7 @@ const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
                           </div> */}
 
                           <div className="hfuydfgftgh d-flex mb-2 gfgh">
-                            <div
-                              className="gjfhg me-2 "
-                              style={{ width: "7rem" }}
-                            >
+                            <div className="gjfhg me-2 ">
                               <img src={Ii4} alt="" />
                             </div>
 

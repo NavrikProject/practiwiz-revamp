@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import StarRating from "../../../Utils/StartRating";
 const AllMentorCard = ({ mentor }) => {
   let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
   return (
@@ -23,15 +24,14 @@ const AllMentorCard = ({ mentor }) => {
           <h5 style={{ textTransform: "capitalize" }}>
             {mentor.mentor_job_title}
           </h5>
-          <span>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
+          <span className="span121">
+            <StarRating rating={mentor.avg_mentor_rating} />
           </span>
 
-          <p>07 Sessions (57 Reviews)</p>
+          <p>
+            {mentor.mentor_session_count} Sessions ({mentor.feedback_count}
+            Reviews)
+          </p>
 
           <div className="kbfhgfgfg">
             <button className="btn-main">

@@ -5,6 +5,8 @@ import ForgotPassword from "../../../Components/Forms/ForgotPassword/ForgotPassw
 import GoToTop from "../../../Utils/GoToTop";
 
 const ForgotPasswordPage = () => {
+  document.title = "Practywiz | Forgot Password";
+
   return (
     <>
       <Navbar />

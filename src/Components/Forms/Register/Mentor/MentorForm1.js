@@ -10,6 +10,7 @@ import collegeData from "../../../data/collegesname.json";
 import "./register.css";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import UserRegisterModel from "./UserRegisterModel";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
@@ -42,7 +43,7 @@ const MentorForm1 = (props) => {
     setValue("mentor_InstituteName", value);
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
   };
-
+  // console.log(profileData.picture);
   useEffect(() => {
     if (profileData !== null) {
       setSignedUsingLinkedin(true);
@@ -67,17 +68,60 @@ const MentorForm1 = (props) => {
     setValue("mentor_InstituteName", college["College Name"]);
   };
   const password = watch("mentor_password");
-  const handleBlur = async (fieldName) => {
-    const data = { [fieldName]: getValues(fieldName) };
-    props.saveStepData(data);
-  };
   const handleLinkedInLogin = () => {
     const authorizationUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}&scope=${SCOPE}`;
     window.location.href = authorizationUrl;
   };
-  console.log(REDIRECT_URI, CLIENT_ID, STATE, SCOPE);
+  const [firstname, setfirstname] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
+  const [emailid, setemailid] = useState("");
+  const [mentorPassword, setMentorPassword] = useState("");
+
+  const [ShowUserModel, setShowUserModel] = useState(false);
+  const showUserRegisterModel = () => {
+    setShowUserModel(!ShowUserModel);
+  };
+
+  const handleBlur = async (fieldName) => {
+    // const data = { [fieldName]: getValues(fieldName) };
+    // props.saveStepData(data);
+    setfirstname(getValues("mentor_firstname"));
+    setlastName(getValues("mentor_lastname"));
+    setphoneNumber(getValues("mentor_phone_number"));
+    setMentorPassword(getValues("mentor_password"));
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const email = getValues("mentor_email");
+
+    if (email) {
+      if (emailRegex.test(email)) {
+        setemailid(getValues("mentor_email"));
+      } else {
+        alert("please enter correct Email id ");
+      }
+    }
+  };
+  const [inputOn, setInputOn] = useState(false);
+
+  useEffect(() => {
+    if (firstname && lastName && phoneNumber && emailid && !mentorPassword) {
+      showUserRegisterModel();
+    }
+  }, [firstname, lastName, phoneNumber, emailid, mentorPassword]);
+
   return (
     <>
+      {ShowUserModel && (
+        <UserRegisterModel
+          showUserRegisterModel={showUserRegisterModel}
+          firstname={firstname}
+          lastName={lastName}
+          phoneNumber={phoneNumber}
+          emailid={emailid}
+          inputOn={inputOn}
+          setInputOn={setInputOn}
+        />
+      )}
       <div className="doiherner_wrapper ">
         <div className="row">
           <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
@@ -85,6 +129,7 @@ const MentorForm1 = (props) => {
               <p className="mb-0 d-flex align-items-center">
                 <b>Register Using :</b>
                 <button
+                  type="button"
                   // onClick={handleLinkedInLogin}
                   onClick={() => {
                     toast.error(
@@ -199,7 +244,7 @@ const MentorForm1 = (props) => {
                         onChange={(value, country, event, formattedValue) => {
                           onChange(formattedValue);
                         }}
-                        onBlur={onBlur}
+                        onBlur={() => handleBlur("mentor_firstname")}
                         inputProps={{
                           autoFocus: false,
                           name,
@@ -242,7 +287,7 @@ const MentorForm1 = (props) => {
                       message: "Must be a valid email address.",
                     },
                   })} //1
-                  onBlur={() => handleBlur("mentor_email")}
+                  onBlur={() => handleBlur("mentor_firstname")}
                 />
                 {errors.mentor_email && (
                   <p className="Error-meg-login-register">
@@ -263,11 +308,13 @@ const MentorForm1 = (props) => {
                   <b>Password</b>
                 </label>
                 <input
+                  onBlur={() => handleBlur("mentor_password")}
                   onKeyUp={() => {
                     trigger("mentor_password");
                   }}
                   className="form-control"
                   // id="exampleInputEmail1"
+                  disabled={!inputOn}
                   placeholder="Enter your password....."
                   aria-describedby="emailHelp"
                   type={showIcon ? "text" : "password"}
@@ -322,6 +369,7 @@ const MentorForm1 = (props) => {
                     trigger("mentor_confirm_password");
                   }}
                   className="form-control"
+                  disabled={!inputOn}
                   placeholder="Type your password again....."
                   aria-describedby="emailHelp"
                   type={showIcons ? "text" : "password"}
@@ -368,6 +416,7 @@ const MentorForm1 = (props) => {
                       onKeyUp={() => {
                         trigger("linkedin_photo");
                       }}
+                      disabled={!inputOn}
                       placeholder="Choose profile picture....."
                       type="file"
                       accept=".jpg ,.jpeg,.png"
@@ -397,6 +446,7 @@ const MentorForm1 = (props) => {
                   onKeyUp={() => {
                     trigger("social_media_profile");
                   }}
+                  disabled={!inputOn}
                   id="phone"
                   type="text"
                   name="phone"
@@ -434,6 +484,7 @@ const MentorForm1 = (props) => {
                         trigger("academic_qualification");
                       }}
                       type="radio"
+                      disabled={!inputOn}
                       id="check_11"
                       name="academic_qualification"
                       value="Post Graduate"
@@ -450,6 +501,7 @@ const MentorForm1 = (props) => {
                         trigger("academic_qualification");
                       }}
                       type="radio"
+                      disabled={!inputOn}
                       id="check_20"
                       name="academic_qualification"
                       value="Graduate"
@@ -466,6 +518,7 @@ const MentorForm1 = (props) => {
                         trigger("academic_qualification");
                       }}
                       type="radio"
+                      disabled={!inputOn}
                       id="check_30"
                       name="academic_qualification"
                       value="Doctorate"
@@ -495,6 +548,7 @@ const MentorForm1 = (props) => {
                     onKeyUp={() => {
                       trigger("mentor_InstituteName");
                     }}
+                    disabled={!inputOn}
                     type="text"
                     className="form-control"
                     placeholder="Choose/Search for a college..."
@@ -539,9 +593,11 @@ const MentorForm1 = (props) => {
                 </label>
                 <select
                   id="mentor_country"
+                  disabled={!inputOn}
                   onChange={(e) => {
                     trigger("mentor_country"); // Trigger validation
                     if (e.target.value) {
+                      console.log(e.target.value);
                       clearErrors("mentor_country"); // Clear errors if a country is selected
                     }
                   }}
@@ -577,6 +633,7 @@ const MentorForm1 = (props) => {
                     trigger("mentor_city");
                   }}
                   type="text"
+                  disabled={!inputOn}
                   className="form-control"
                   // id="exampleInputEmail1"
                   placeholder="Enter your city name....."
@@ -602,7 +659,6 @@ const MentorForm1 = (props) => {
           </div>
         </div>
       </div>
-
       <GoToTop />
     </>
   );

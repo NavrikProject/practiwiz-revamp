@@ -5,6 +5,8 @@ import ResetPassword from "../../../Components/Forms/ForgotPassword/ResetPasswor
 import GoToTop from "../../../Utils/GoToTop";
 
 const ResetPasswordPage = () => {
+  document.title = "Practywiz | Reset Password";
+
   return (
     <>
       <Navbar />

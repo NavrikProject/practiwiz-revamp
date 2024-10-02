@@ -6,6 +6,7 @@ import "./Navbar.css";
 // import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
   const user = useSelector((state) => state.user?.currentUser);
+  const [menutoggle, setmenutoggle] = useState(false);
   const [menuOn, setmenuOn] = useState(false);
 
   const [visible, setVisible] = useState(false);
@@ -69,7 +70,12 @@ const Navbar = () => {
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
                 >
-                  <ul className="navbar-nav">
+                  <ul
+                    className="navbar-nav"
+                    onMouseLeave={() => {
+                      setmenutoggle(false);
+                    }}
+                  >
                     {/* <li className="nav-item defdweregee">
                     <a className="nav-link" href="javascript:void(0)"
                       >IT Training
@@ -97,15 +103,56 @@ const Navbar = () => {
                       </a>
                     </li> */}
 
-                    <li className="nav-item">
-                      <a
-                        className="nav-link navMenuIconPosition"
-                        href="/mentor-club"
-                      >
+                    <li
+                      className="nav-item regmenuR"
+                      onMouseOver={() => {
+                        setmenutoggle(true);
+                      }}
+                    >
+                      <a className="nav-link" href="/mentor-club">
                         Mentor Connect{" "}
-                        <i className="fa-solid fa-plus navMenuIcon"></i>
+                        <i
+                          className="fa-solid fa-plus"
+                          style={{ color: "#1b63de" }}
+                        ></i>
                       </a>
                     </li>
+                    {menutoggle && (
+                      <div className="PositionAB">
+                        <div className="menushowbox">
+                          <div className="MenuBox-item2">
+                            <h7>Technology & Software Development</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Business & Management </h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7> Finance & Accounting</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Healthcare & Medical</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Creative & Media</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Education & Training</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Law & Legal Services</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Engineering</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Science & Research</h7>
+                          </div>
+                          <div className="MenuBox-item2">
+                            <h7>Marketing & Sales</h7>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {/* <li className="nav-item">
                       <svg
                         width="17"
@@ -123,7 +170,13 @@ const Navbar = () => {
                       </a>
                     </li> */}
                     <li className="nav-item">
-                      <a className="nav-link" href="/case-studies">
+                      <a
+                        className="nav-link"
+                        href="/case-studies"
+                        onMouseOver={() => {
+                          setmenutoggle(false);
+                        }}
+                      >
                         Case Studies
                         <span className="ai-button">
                           AI<i className="fas fa-bolt"></i>

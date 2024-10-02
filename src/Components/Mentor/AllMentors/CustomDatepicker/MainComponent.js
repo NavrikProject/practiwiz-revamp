@@ -4,7 +4,7 @@ import CustomDatePicker from "./CustomDatePicker";
 const MainComponent = () => {
   const timeslotList = JSON.parse(`[
     {
-      "mentor_timeslot_id":12,
+      "mentor_timeslot_id":1,
       "mentor_dtls_id":14,
       "mentor_timeslot_day":"Sat",
       "mentor_timeslot_from":"05:00PM",
@@ -15,35 +15,35 @@ const MainComponent = () => {
       "mentor_timeslot_booking_status":"No"
     },
     {
-      "mentor_timeslot_id":12,
+      "mentor_timeslot_id":2,
       "mentor_dtls_id":14,
       "mentor_timeslot_day":"Mon",
       "mentor_timeslot_from":"06:00PM",
       "mentor_timeslot_to":"06:30PM",
       "mentor_timeslot_rec_indicator":"Daily",
-      "mentor_timeslot_rec_end_timeframe":"2024-08-25",
+      "mentor_timeslot_rec_end_timeframe":"2024-11-25",
       "mentor_timeslot_rec_cr_date":"2024-08-08",
       "mentor_timeslot_booking_status":"Yes"
     },
     {
-      "mentor_timeslot_id":12,
+      "mentor_timeslot_id":3,
       "mentor_dtls_id":14,
       "mentor_timeslot_day":"Mon",
       "mentor_timeslot_from":"03:00PM",
       "mentor_timeslot_to":"03:30PM",
       "mentor_timeslot_rec_indicator":"Daily",
-      "mentor_timeslot_rec_end_timeframe":"2024-08-25",
+      "mentor_timeslot_rec_end_timeframe":"2024-11-25",
       "mentor_timeslot_rec_cr_date":"2024-08-08",
       "mentor_timeslot_booking_status":"No"
     },
     {
-      "mentor_timeslot_id":12,
+      "mentor_timeslot_id":4,
       "mentor_dtls_id":14,
       "mentor_timeslot_day":"Tue",
       "mentor_timeslot_from":"06:00PM",
       "mentor_timeslot_to":"06:30PM",
       "mentor_timeslot_rec_indicator":"Weekly",
-      "mentor_timeslot_rec_end_timeframe":"2024-09-17",
+      "mentor_timeslot_rec_end_timeframe":"2024-11-17",
       "mentor_timeslot_rec_cr_date":"2024-08-08",
       "mentor_timeslot_booking_status":"Yes"
     }
@@ -55,10 +55,12 @@ const MainComponent = () => {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedTimeslotId, setSelectedTimeslotId] = useState(null);
 
-  const handleDateSlotSelect = (date, slot) => {
+  const handleDateSlotSelect = (date, slot, timeslotId) => {
     setSelectedDate(date);
     setSelectedSlot(slot);
+    setSelectedTimeslotId(timeslotId); // Store the timeslot ID
   };
 
   return (
@@ -77,6 +79,7 @@ const MainComponent = () => {
             Time Slot: {selectedSlot.mentor_timeslot_from} -{" "}
             {selectedSlot.mentor_timeslot_to}
           </p>
+          <p>Time Slot ID: {selectedTimeslotId}</p>
         </div>
       )}
     </div>
