@@ -10,6 +10,7 @@ import Section6 from "../../Components/Home/Section6";
 import Section7 from "../../Components/Home/Section7";
 
 const Homepage = () => {
+  document.title = "Practywiz | Home";
   return (
     <>
       <Navbar />
@@ -18,7 +19,7 @@ const Homepage = () => {
       <Section3 />
       <Section4 />
       <Section5 />
-      {/* <Section6 /> */}
+      <Section6 />
       <Section7 />
       <Footer />
     </>

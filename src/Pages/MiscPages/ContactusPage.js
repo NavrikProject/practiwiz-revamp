@@ -9,6 +9,7 @@ import {
 import GoToTop from "../../Utils/GoToTop";
 
 const ContactusPage = () => {
+  document.title = "Practywiz | Contact Us";
   return (
     <>
       <Navbar />

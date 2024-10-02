@@ -4,29 +4,19 @@ import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
 import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
 import "./AllMentors.css";
+import "./Dropdown.css";
 const AllMentors = () => {
-  const [allMentors, setAllMentors] = useState([]);
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
-  const [showDropdown1, setShowDropdown1] = useState(false);
-  const [showDropdown2, setShowDropdown2] = useState(false);
-  const [showDropdown3, setShowDropdown3] = useState(false);
-  const [showDropdown4, setShowDropdown4] = useState(false);
+  const [allMentors, setAllMentors] = useState([]);
+  const [filteredMentors, setFilteredMentors] = useState([]);
 
-  const toggleDropdown1 = () => {
-    setShowDropdown1(!showDropdown1);
-  };
-
-  const toggleDropdown2 = () => {
-    setShowDropdown2(!showDropdown2);
-  };
-
-  const toggleDropdown3 = () => {
-    setShowDropdown3(!showDropdown3);
-  };
-  const toggleDropdown4 = () => {
-    setShowDropdown4(!showDropdown4);
-  };
+  const [filters, setFilters] = useState({
+    availability: "",
+    experience: "",
+    pricing: "",
+    rating: "",
+  });
 
   useEffect(() => {
     const fetchMentors = async () => {
@@ -34,16 +24,163 @@ const AllMentors = () => {
       const response = await axios.get(`${url}api/v1/mentor/fetch-details`);
       setLoading(false);
       if (response.data.success) {
-        setLoading(false);
-        setAllMentors(response.data.success);
-      }
-      if (response.data.error) {
-        setLoading(false);
+        // Parse JSON strings into JavaScript objects
+        const mentorsWithParsedData = response.data.success.map((mentor) => ({
+          ...mentor,
+          timeslot_list: JSON.parse(mentor.timeslot_list || "[]"),
+          booking_dtls_list: JSON.parse(mentor.booking_dtls_list || "[]"),
+        }));
+
+        setAllMentors(mentorsWithParsedData);
+        setFilteredMentors(mentorsWithParsedData);
+      } else {
         setAllMentors([]);
+        setFilteredMentors([]);
       }
     };
     fetchMentors();
   }, [url]);
+  const handleFilterChange = (filterType, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
+  };
+  const experienceOptions = [
+    { value: "5-8", label: "5-8 years" },
+    { value: "8-11", label: "8-11 years" },
+    { value: "11-14", label: "11-14 years" },
+    { value: "14-17", label: "14-17 years" },
+    { value: "17-20", label: "17-20 years" },
+    { value: "20-23", label: "20-23 years" },
+    { value: "23-26", label: "23-26 years" },
+    { value: "26-29", label: "26-29 years" },
+    { value: "30+", label: "30+ years" },
+  ];
+  const ratingOptions = [
+    { value: "0-1", label: "0-1 stars" },
+    { value: "1-2", label: "1-2 stars" },
+    { value: "2-3", label: "2-3 stars" },
+    { value: "3-4", label: "3-4 stars" },
+    { value: "4-5", label: "4-5 stars" },
+  ];
+  const pricingOptions = [
+    { value: "300-500", label: "₹300 - ₹500" },
+    { value: "500-800", label: "₹500 - ₹800" },
+    { value: "800-1100", label: "₹800 - ₹1100" },
+    { value: "1100-1400", label: "₹1100 - ₹1400" },
+    { value: "1400-1700", label: "₹1400 - ₹1700" },
+    { value: "1700-2000", label: "₹1700 - ₹2000" },
+    { value: "2000-2500", label: "₹2000 - ₹2500" },
+  ];
+
+  useEffect(() => {
+    const applyFilters = () => {
+      let updatedMentors = [...allMentors];
+
+      // Assuming 'filters.availabilityDays' contains the selected availability option (7, 14, 21, 30 days, etc.)
+
+      // Availability filtering
+      if (filters.availability) {
+        const today = new Date();
+        const daysToAdd = parseInt(filters.availability, 10);
+        const availabilityEndDate = new Date(today);
+        availabilityEndDate.setDate(today.getDate() + daysToAdd);
+
+        updatedMentors = updatedMentors.filter((mentor) => {
+          // Check if the mentor has any timeslot that is valid until the availability end date
+          return mentor.timeslot_list.some((timeslot) => {
+            const mentorEndDate = new Date(
+              timeslot.mentor_timeslot_rec_end_timeframe
+            ); // Get the mentor's end date
+            return mentorEndDate >= availabilityEndDate; // Check if mentor's end date is greater than or equal to availability end date
+          });
+        });
+      }
+
+      if (filters.experience) {
+        // Filter logic for experience
+        updatedMentors = updatedMentors.filter((mentor) => {
+          const experience = parseInt(mentor.mentor_years_of_experience, 10);
+          if (filters.experience === "5-8") {
+            return experience >= 5 && experience <= 8;
+          } else if (filters.experience === "8-11") {
+            return experience > 8 && experience <= 11;
+          } else if (filters.experience === "11-14") {
+            return experience > 11 && experience <= 14;
+          } else if (filters.experience === "14-17") {
+            return experience > 14 && experience <= 17;
+          } else if (filters.experience === "17-20") {
+            return experience > 17 && experience <= 20;
+          } else if (filters.experience === "20-23") {
+            return experience > 20 && experience <= 23;
+          } else if (filters.experience === "23-26") {
+            return experience > 23 && experience <= 26;
+          } else if (filters.experience === "26-29") {
+            return experience > 26 && experience <= 29;
+          } else if (filters.experience === "30+") {
+            return experience >= 30;
+          }
+          return true; // Default case
+        });
+      }
+      if (filters.pricing) {
+        // filter logic for price range
+        updatedMentors = updatedMentors.filter((mentor) => {
+          const price = parseInt(mentor.mentor_session_price, 10);
+          if (filters.pricing === "300-500") {
+            return price >= 300 && price <= 500;
+          } else if (filters.pricing === "500-800") {
+            return price > 500 && price <= 800;
+          } else if (filters.pricing === "800-1100") {
+            return price > 800 && price <= 1100;
+          } else if (filters.pricing === "1100-1400") {
+            return price > 1100 && price <= 1400;
+          } else if (filters.pricing === "1400-1700") {
+            return price > 1400 && price <= 1700;
+          } else if (filters.pricing === "1700-2000") {
+            return price > 1700 && price <= 2000;
+          } else if (filters.pricing === "2000-2500") {
+            return price > 2000 && price <= 2500;
+          }
+
+          return true; // Default case
+        });
+      }
+
+      if (filters.rating) {
+        // filter logic for rating
+        // filter logic for price range
+        updatedMentors = updatedMentors.filter((mentor) => {
+          const rating = parseInt(mentor.feedback_count, 10);
+          if (filters.rating === "0-1") {
+            return rating >= 0 && rating <= 1;
+          } else if (filters.rating === "1-2") {
+            return rating > 1 && rating <= 2;
+          } else if (filters.rating === "2-3") {
+            return rating > 2 && rating <= 3;
+          } else if (filters.rating === "3-4") {
+            return rating > 3 && rating <= 4;
+          } else if (filters.rating === "4-5") {
+            return rating > 4 && rating <= 5;
+          }
+
+          return true; // Default case
+        });
+      }
+
+      setFilteredMentors(updatedMentors);
+    };
+
+    applyFilters();
+  }, [filters, allMentors]);
+
+  const clearFilters = (filterType) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: filterType === "priceRange" ? { min: "", max: "" } : "",
+    }));
+  };
   return (
     <>
       <div className="adadadad mt-6">
@@ -72,257 +209,110 @@ const AllMentors = () => {
         <div className="ighefirr bg-white py-2">
           <div className="container-fluid px-5">
             <div className="uilhdier_filter_wrap d-flex slign-items-center justify-content-between">
-              <div className="dieirherr_btn bhduebbuger">
-                <span className="cjdsuibfsdf_btn position-relative">
-                  <button
-                    className="custom-select sfgrwwe_btn btn btn-main me-2"
-                    id="bmfltrbtn"
-                    onClick={toggleDropdown1}
+              <div class="filter-container">
+                <div class="filter-button">
+                  <span class="icon icon-availability"></span>
+                  <span class="filter-text">Mentor Availability</span>
+                  <select
+                    class="filter-dropdown"
+                    onChange={(e) =>
+                      handleFilterChange("availability", e.target.value)
+                    }
                   >
-                    <span>Mentor Availability</span>
-                  </button>
-                  {showDropdown1 && (
-                    <ul
-                      className="diugerbihr p-3 bg-white position-absolute text-left"
-                      id="bm-filter-drpdwn"
+                    <option value="">Select Availability</option>
+                    <option value="7">7 Days</option>
+                    <option value="14">14 Days</option>
+                    <option value="21">21 Days</option>
+                    <option value="30">30 Days</option>
+                    <option value="100">100 Days</option>
+                  </select>
+                  {filters.availability && (
+                    <button
+                      className="btn-clear-availability-unique"
+                      onClick={() => clearFilters("availability")}
                     >
-                      <h6>Mentors available within</h6>
-
-                      <div className="row dgeubr mt-3">
-                        <div className="col-lg-6 mb-2">
-                          <input type="radio" id="cat" name="animal" value="" />
-                          <label htmlFor="cat">7 Days</label>
-                        </div>
-
-                        <div className="col-lg-6 mb-2">
-                          <input type="radio" id="dog" name="animal" value="" />
-                          <label htmlFor="dog">14 Days</label>
-                        </div>
-
-                        <div className="col-lg-6 mb-2">
-                          <input type="radio" id="pig" name="animal" value="" />
-                          <label htmlFor="pig">21 Days</label>
-                        </div>
-
-                        <div className="col-lg-6">
-                          <input
-                            type="radio"
-                            id="vdsf"
-                            name="animal"
-                            value=""
-                          />
-                          <label htmlFor="vdsf">30 Days</label>
-                        </div>
-                      </div>
-                    </ul>
+                      Clear
+                    </button>
                   )}
-                </span>
+                </div>
 
-                <span className="cjdsuibfsdf_btn position-relative">
-                  <button
-                    className="custom-select sfgrwwe_btn btn btn-main mx-2"
-                    id="bmfltrbtn2"
-                    onClick={toggleDropdown2}
+                <div class="filter-button">
+                  <span class="icon icon-experience"></span>
+                  <span class="filter-text">Experience</span>
+                  <select
+                    class="filter-dropdown"
+                    onChange={(e) =>
+                      handleFilterChange("experience", e.target.value)
+                    }
                   >
-                    <span>Experience</span>
-                  </button>
-                  {showDropdown2 && (
-                    <ul
-                      className="diugerbihr p-3 bg-white position-absolute text-left"
-                      id="bm-filter-drpdwn2"
+                    <option value="">Select Experience</option>
+                    {experienceOptions?.map((experience) => {
+                      return (
+                        <option value={experience.value}>
+                          {experience.label}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {filters.experience && (
+                    <button
+                      className="btn-clear-availability-unique"
+                      onClick={() => clearFilters("experience")}
                     >
-                      <h6>Mentors with the experience (Yrs) of</h6>
-
-                      <div className="row dgeubr mt-3">
-                        <div className="col-lg-6 mb-2">
-                          <input
-                            type="radio"
-                            id="sdsd"
-                            name="csdfdwrtt"
-                            value=""
-                          />
-                          <label htmlFor="sdsd">3 - 5</label>
-                        </div>
-
-                        <div className="col-lg-6 mb-2">
-                          <input
-                            type="radio"
-                            id="sadf"
-                            name="csdfdwrtt"
-                            value=""
-                          />
-                          <label htmlFor="sadf">5 - 7</label>
-                        </div>
-
-                        <div className="col-lg-6 mb-2">
-                          <input
-                            type="radio"
-                            id="gdfg"
-                            name="csdfdwrtt"
-                            value=""
-                          />
-                          <label htmlFor="gdfg">7 - 9</label>
-                        </div>
-
-                        <div className="col-lg-6">
-                          <input
-                            type="radio"
-                            id="gftsr"
-                            name="csdfdwrtt"
-                            value=""
-                          />
-                          <label htmlFor="gftsr">9+</label>
-                        </div>
-                      </div>
-                    </ul>
+                      Clear
+                    </button>
                   )}
-                </span>
+                </div>
 
-                <span className="cjdsuibfsdf_btn position-relative">
-                  <button
-                    className="custom-select sfgrwwe_btn btn btn-main mx-2"
-                    id="bmfltrbtn3"
-                    onClick={toggleDropdown3}
+                <div class="filter-button">
+                  <span class="icon icon-price"></span>
+                  <span class="filter-text">Price Range (₹)</span>
+                  <select
+                    class="filter-dropdown"
+                    onChange={(e) =>
+                      handleFilterChange("pricing", e.target.value)
+                    }
                   >
-                    <span>
-                      Price Range (
-                      <i className="fa-solid fa-indian-rupee-sign"></i>)
-                    </span>
-                  </button>
-                  {showDropdown3 && (
-                    <ul
-                      className="diugerbihr p-3 bg-white position-absolute"
-                      id="bm-filter-drpdwn3"
+                    <option value="">Select Pricing</option>
+                    {pricingOptions?.map((price) => {
+                      return <option value={price.value}>{price.label}</option>;
+                    })}
+                  </select>
+                  {filters.pricing && (
+                    <button
+                      className="btn-clear-availability-unique"
+                      onClick={() => clearFilters("pricing")}
                     >
-                      <div className="wrapper">
-                        <div className="price-input">
-                          <div className="field">
-                            <span>Min</span>
-                            <input
-                              type="number"
-                              className="input-min"
-                              value="2500"
-                            />
-                          </div>
-
-                          <div className="separator">-</div>
-
-                          <div className="field">
-                            <span>Max</span>
-                            <input
-                              type="number"
-                              className="input-max"
-                              value="7500"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </ul>
+                      Clear
+                    </button>
                   )}
-                </span>
+                </div>
 
-                <span className="cjdsuibfsdf_btn position-relative">
-                  <button
-                    className="custom-select sfgrwwe_btn btn btn-main ms-2"
-                    id="bmfltrbtn4"
-                    onClick={toggleDropdown4}
+                <div class="filter-button">
+                  <span class="icon icon-rating"></span>
+                  <span class="filter-text">Rating</span>
+                  <select
+                    class="filter-dropdown"
+                    onChange={(e) =>
+                      handleFilterChange("rating", e.target.value)
+                    }
                   >
-                    <span>Rating</span>
-                  </button>
-                  {showDropdown4 && (
-                    <ul
-                      className="diugerbihr ohgiererr_list p-3 bg-white position-absolute"
-                      id="bm-filter-drpdwn4"
+                    <option value="">Select Rating</option>
+                    {ratingOptions?.map((rating) => {
+                      return (
+                        <option value={rating.value}>{rating.label}</option>
+                      );
+                    })}
+                  </select>
+                  {filters.rating && (
+                    <button
+                      className="btn-clear-availability-unique"
+                      onClick={() => clearFilters("rating")}
                     >
-                      <h6>Choose rating</h6>
-
-                      <div className="row dgeubr mt-3">
-                        <div className="col-lg-12 mb-2">
-                          <input
-                            type="radio"
-                            id="dsad"
-                            name="fcreter"
-                            value=""
-                          />
-                          <label htmlFor="dsad">
-                            1 (<i className="fa-solid fa-star"></i>)
-                          </label>
-                        </div>
-
-                        <div className="col-lg-12 mb-2">
-                          <input
-                            type="radio"
-                            id="sadsad"
-                            name="fcreter"
-                            value=""
-                          />
-                          <label htmlFor="sadsad">
-                            2 (<i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>)
-                          </label>
-                        </div>
-
-                        <div className="col-lg-12 mb-2">
-                          <input
-                            type="radio"
-                            id="hgffgh"
-                            name="fcreter"
-                            value=""
-                          />
-                          <label htmlFor="hgffgh">
-                            3 (<i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>)
-                          </label>
-                        </div>
-
-                        <div className="col-lg-12 mb-2">
-                          <input
-                            type="radio"
-                            id="kggfg"
-                            name="fcreter"
-                            value=""
-                          />
-                          <label htmlFor="kggfg">
-                            4 (<i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>)
-                          </label>
-                        </div>
-
-                        <div className="col-lg-12">
-                          <input
-                            type="radio"
-                            id="poirer"
-                            name="fcreter"
-                            value=""
-                          />
-                          <label htmlFor="poirer">
-                            5 (<i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>{" "}
-                            <i className="fa-solid fa-star"></i>)
-                          </label>
-                        </div>
-                      </div>
-                    </ul>
+                      Clear
+                    </button>
                   )}
-                </span>
-
-                <button
-                  className="custom-select sfgrwwe_btn oikahdbaed_filter btn btn-main d-none"
-                  id="fuygernert"
-                >
-                  <span>Filter</span>
-                </button>
-              </div>
-
-              <div className="ibhdiber_btn">
-                <button className="btn btn-main">
-                  Apply Filter <i className="fa-solid fa-arrow-right"></i>
-                </button>
+                </div>
               </div>
             </div>
           </div>
@@ -330,7 +320,13 @@ const AllMentors = () => {
       </div>
       <div className="kjgbhdfdfgfghfghfg">
         <div className="container-fluid px-5">
-          <div className="nfhjgbgf">
+          <div
+            className="nfhjgbgf"
+            style={{
+              alignItems: filteredMentors.length === 0 ? "center" : "",
+              justifyContent: filteredMentors.length === 0 ? "center" : "",
+            }}
+          >
             {loading ? (
               <>
                 <MentorCardSkelton />
@@ -346,9 +342,19 @@ const AllMentors = () => {
               </>
             ) : (
               <>
-                {allMentors?.map((mentor) => {
-                  return <AllMentorCard mentor={mentor} />;
-                })}
+                {filteredMentors.length > 0 ? (
+                  filteredMentors?.map((mentor) => {
+                    return <AllMentorCard mentor={mentor} />;
+                  })
+                ) : (
+                  <div className="options-container">
+                    <div className="main-option">
+                      <h4 className="noReviewsFound">
+                        No Mentor Found, Try with Different Filters
+                      </h4>
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>

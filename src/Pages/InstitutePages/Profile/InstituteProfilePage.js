@@ -5,6 +5,8 @@ import InstituteProfile from "../../../Components/Institute/InstituteProfile/Ins
 import GoToTop from "../../../Utils/GoToTop";
 
 const InstituteProfilePage = () => {
+  document.title = "Practywiz | Institute Profile";
+
   return (
     <>
       <Navbar />

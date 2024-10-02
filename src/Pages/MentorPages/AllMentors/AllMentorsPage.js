@@ -6,6 +6,8 @@ import { Section7 } from "../../../Components/Contactus/contact";
 import GoToTop from "../../../Utils/GoToTop";
 
 const AllMentorsPage = () => {
+  document.title = "Practywiz | Mentor Club";
+
   return (
     <>
       <Navbar />

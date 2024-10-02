@@ -5,6 +5,8 @@ import MenteeRegistration from "../../../Components/Forms/Register/Mentee/Mentee
 import GoToTop from "../../../Utils/GoToTop";
 
 const MenteeRegistrationPage = () => {
+  document.title = "Practywiz | Mentee Register";
+
   return (
     <>
       <Navbar />
