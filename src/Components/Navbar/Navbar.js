@@ -28,6 +28,58 @@ const Navbar = () => {
   const gotoMenteepage = () => {};
 
   window.addEventListener("scroll", toggleVisible);
+  const technologyOptions = [
+    {
+      id: 1,
+      value: "Technology-&-Software-Development",
+      label: "Technology & Software Development",
+    },
+    {
+      id: 2,
+      value: "Business-&-Management",
+      label: "Business & Management",
+    },
+    {
+      id: 3,
+      value: "Finance-&-Accounting",
+      label: "Finance & Accounting",
+    },
+    {
+      id: 4,
+      value: "Healthcare-&-Medical",
+      label: "Healthcare & Medical",
+    },
+    {
+      id: 5,
+      value: "Creative-&-Media",
+      label: "Creative & Media",
+    },
+    {
+      id: 6,
+      value: "Education-&-Training",
+      label: "Education & Training",
+    },
+    {
+      id: 7,
+      value: "Law-&-Legal-Services",
+      label: "Law & Legal Services",
+    },
+    {
+      id: 8,
+      value: "Engineering",
+      label: "Engineering",
+    },
+    {
+      id: 9,
+      value: "Science-&-Research",
+      label: "Science & Research",
+    },
+    {
+      id: 10,
+      value: "Marketing-&-Sales",
+      label: "Marketing & Sales",
+    },
+  ];
 
   return (
     <>
@@ -120,36 +172,21 @@ const Navbar = () => {
                     {menutoggle && (
                       <div className="PositionAB">
                         <div className="menushowbox">
-                          <div className="MenuBox-item2">
-                            <h7>Technology & Software Development</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Business & Management </h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7> Finance & Accounting</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Healthcare & Medical</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Creative & Media</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Education & Training</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Law & Legal Services</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Engineering</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Science & Research</h7>
-                          </div>
-                          <div className="MenuBox-item2">
-                            <h7>Marketing & Sales</h7>
-                          </div>
+                          {technologyOptions?.map((option, index) => {
+                            return (
+                              <div className="MenuBox-item2">
+                                <h6>
+                                  <Link
+                                    to={`/mentor-club/${option.value.toLowerCase()}/${
+                                      option.id
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </Link>
+                                </h6>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     )}

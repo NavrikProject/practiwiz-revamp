@@ -1,14 +1,71 @@
 import React from "react";
+import { useState } from "react";
 
 import { useFormContext } from "react-hook-form";
 import CurrencyData from "../../../data/Currency.json";
 import GoToTop from "../../../../Utils/GoToTop";
 
+const conversionRates = {
+  INR: 1, // Indian Rupee
+  USD: 83.0, // 1 USD = 83 INR
+  CAD: 61.0, // 1 CAD = 61 INR
+  GBP: 100.0, // 1 GBP = 100 INR
+  AUD: 53.0, // 1 AUD = 53 INR
+};
+
 const MentorForm4 = () => {
   const {
     register,
+    setValue,
     formState: { errors },
   } = useFormContext({});
+  const [currency, setCurrency] = useState("INR");
+  const [price, setPrice] = useState("");
+  const [convertedPriceINR, setConvertedPriceINR] = useState(null);
+  const [error, setError] = useState("");
+
+  // Min and max limit in INR
+  const minINR = 800;
+  const maxINR = 1600;
+
+  // Convert INR limits to the selected currency
+  const minCurrencyLimit = (minINR / conversionRates[currency]).toFixed(2);
+  const maxCurrencyLimit = (maxINR / conversionRates[currency]).toFixed(2);
+
+  const handlePriceChange = (e) => {
+    const enteredValue = parseFloat(e.target.value);
+    
+
+    if (isNaN(enteredValue)) {
+      setError("Please enter a valid number");
+      setPrice("");
+      setConvertedPriceINR(null);
+      return;
+    }
+
+    // Convert entered value to INR
+    const valueInINR = enteredValue * conversionRates[currency];
+
+    // Validate against INR limits
+    if (valueInINR < minINR) {
+      setError(
+        `Minimum allowed value is ${minCurrencyLimit} ${currency}`
+      );
+      setConvertedPriceINR(null);
+    } else if (valueInINR > maxINR) {
+      setError(
+        `Maximum allowed value is ${maxCurrencyLimit} ${currency}`
+      );
+      setConvertedPriceINR(null);
+    } else {
+      setError("");
+      setConvertedPriceINR(valueInINR); // Store the value in INR
+    }
+
+    setPrice(e.target.value);
+    
+
+  };
 
   const option_fro_timezone = [
     "UTC-12:00: Baker Island Time (BIT)",
@@ -112,9 +169,25 @@ const MentorForm4 = () => {
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  <b>Currency</b>
+                  <b>
+                    Currency <span className="RedColorStarMark">*</span>
+                  </b>
                 </label>
                 <select
+                  value={currency}
+                  className="form-select"
+                  {...register("Mentor_Currency", {
+                    required: "Please select you Currency ",
+                  })}
+                  onChange={(e) => setCurrency(e.target.value)}
+                >
+                  <option value="INR">INR - Indian Rupee</option>
+                  <option value="USD">USD - US Dollar</option>
+                  <option value="CAD">CAD - Canadian Dollar</option>
+                  <option value="GBP">GBP - British Pound</option>
+                  <option value="AUD">AUD - Australian Dollar</option>
+                </select>
+                {/* <select
                   className="form-select"
                   {...register("Mentor_Currency", {
                     required: "Please select you Currency ",
@@ -126,7 +199,7 @@ const MentorForm4 = () => {
                       {currency.name} ({currency.symbol})
                     </option>
                   ))}
-                </select>{" "}
+                </select>{" "} */}
                 {errors.Mentor_Currency && (
                   <p className="Error-meg-login-register">
                     {errors.Mentor_Currency.message}
@@ -137,9 +210,23 @@ const MentorForm4 = () => {
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  <b>Pricing</b>
+                  <b>
+                    Pricing <span className="RedColorStarMark">*</span>({currency})
+                  </b>
                 </label>
+
                 <input
+                  type="number"
+                  value={price}
+                  
+                  className="form-control"
+          
+                  {...register("pricing", {
+                    required: "Please mention the price below 1500",
+                  })} //1
+                  onChange={handlePriceChange}
+                />
+                {/* <input
                   type="number"
                   min={100}
                   max={1500}
@@ -148,12 +235,14 @@ const MentorForm4 = () => {
                   {...register("pricing", {
                     required: "Please mention the price below 1500",
                   })} //1
-                />
-                {errors.pricing && (
+                /> */}
+                {/* {errors.pricing && (
                   <p className="Error-meg-login-register">
                     {errors.pricing.message}
                   </p>
-                )}
+                )} */}
+                 {error && <p style={{ color: 'red' }}>{error}</p>}
+
               </div>
             </div>
             <div className="col-lg-6">
@@ -164,7 +253,7 @@ const MentorForm4 = () => {
                 <select
                   className="form-select"
                   {...register("guest_lectures_interest", {
-                    required: "Please select the guest lecture option",
+                    // required: "Please select the guest lecture option",
                   })} //1
                 >
                   <option value="">Choose An Option</option>
@@ -187,7 +276,7 @@ const MentorForm4 = () => {
                 <select
                   className="form-select"
                   {...register("curating_case_studies_interest", {
-                    required: "Please select the case study interest",
+                    // required: "Please select the case study interest",
                   })} //1
                 >
                   <option value="">Choose An Option</option>
@@ -206,13 +295,13 @@ const MentorForm4 = () => {
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>
                     For Your Alums Would You Be Fine to Do Sessions Free of
-                    Charge
+                    Charge <span className="RedColorStarMark">*</span>
                   </b>
                 </label>
                 <select
                   className="form-select"
                   {...register("sessions_free_of_charge", {
-                    required: "Please select the number of sessions to free",
+                    // required: "Please select the number of sessions to free",
                   })} //1
                 >
                   <option value="">Choose An Option</option>
@@ -229,7 +318,9 @@ const MentorForm4 = () => {
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  <b>Your Timezone</b>
+                  <b>
+                    Your Timezone <span className="RedColorStarMark">*</span>
+                  </b>
                 </label>
                 <select
                   className="form-select"
@@ -262,7 +353,9 @@ const MentorForm4 = () => {
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  <b>Language</b>
+                  <b>
+                    Language <span className="RedColorStarMark">*</span>
+                  </b>
                 </label>
                 <select
                   className="form-select"

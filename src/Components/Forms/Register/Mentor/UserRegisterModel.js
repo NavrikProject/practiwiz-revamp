@@ -11,6 +11,7 @@ import {
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux.js";
 import { ApiURL } from "../../../../Utils/ApiURL.js";
+import { useNavigate } from "react-router-dom";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -154,6 +155,7 @@ const BOX = styled.div`
   display: flex;
 `;
 const UserRegisterModel = (props) => {
+  const navigate =useNavigate()
   const dispatch = useDispatch();
   const url = ApiURL();
   const userFirstRegisterHandler = async (e) => {
@@ -182,6 +184,10 @@ const UserRegisterModel = (props) => {
           props.setInputOn(true)
         );
       } else if (res.data.error) {
+        if(res.data.error === "This email address is already in use, Please use another email address or Login in to update the mentor details in Dashboard."){
+          return toast.error(res.data.error), props.showUserRegisterModel(),navigate("/login")
+
+        }
         return toast.error(res.data.error), props.showUserRegisterModel();
       }
     } catch (error) {
