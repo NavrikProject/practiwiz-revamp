@@ -10,6 +10,7 @@ import collegeData from "../../../data/collegesname.json";
 import "./register.css";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import UserRegisterModel from "./UserRegisterModel";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
@@ -36,13 +37,17 @@ const MentorForm1 = (props) => {
   const [signedUsingLinkedin, setSignedUsingLinkedin] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
   // Function to handle input changeconst apiUrl = process.env.REACT_APP_API_URL;
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    setOptions(CountryData); // Directly setting options if importing the JSON file
+  }, []);
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     setValue("mentor_InstituteName", value);
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
   };
-
+  // console.log(profileData.picture);
   useEffect(() => {
     if (profileData !== null) {
       setSignedUsingLinkedin(true);
@@ -67,17 +72,64 @@ const MentorForm1 = (props) => {
     setValue("mentor_InstituteName", college["College Name"]);
   };
   const password = watch("mentor_password");
-  const handleBlur = async (fieldName) => {
-    const data = { [fieldName]: getValues(fieldName) };
-    props.saveStepData(data);
-  };
+  // const handleBlur = async (fieldName) => {
+  //   const data = { [fieldName]: getValues(fieldName) };
+  //   props.saveStepData(data);
+  // };
   const handleLinkedInLogin = () => {
     const authorizationUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}&scope=${SCOPE}`;
     window.location.href = authorizationUrl;
   };
-  console.log(REDIRECT_URI, CLIENT_ID, STATE, SCOPE);
+  const [firstname, setfirstname] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
+  const [emailid, setemailid] = useState("");
+  const [mentorPassword, setMentorPassword] = useState("");
+
+  const [ShowUserModel, setShowUserModel] = useState(false);
+  const showUserRegisterModel = () => {
+    setShowUserModel(!ShowUserModel);
+  };
+
+  const handleBlur = async (fieldName) => {
+    // const data = { [fieldName]: getValues(fieldName) };
+    // props.saveStepData(data);
+    setfirstname(getValues("mentor_firstname"));
+    setlastName(getValues("mentor_lastname"));
+    setMentorPassword(getValues("mentor_password"));
+    setphoneNumber(getValues("mentor_phone_number"));
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const email = getValues("mentor_email");
+
+    if (email) {
+      if (emailRegex.test(email)) {
+        setemailid(getValues("mentor_email"));
+      } else {
+        alert("please enter correct Email id ");
+      }
+    }
+  };
+  const [inputOn, setInputOn] = useState(false)
+
+  useEffect(() => {
+    if (firstname && lastName && phoneNumber && emailid && !mentorPassword) {
+      showUserRegisterModel();
+    }
+  }, [firstname, lastName, phoneNumber, emailid, mentorPassword]);
+
   return (
     <>
+      {ShowUserModel && (
+        <UserRegisterModel
+        showUserRegisterModel={showUserRegisterModel}
+        firstname={firstname}
+        lastName={lastName}
+        phoneNumber={phoneNumber}
+        emailid={emailid}
+        inputOn={inputOn}
+        setInputOn={setInputOn}
+        />
+      )}
       <div className="doiherner_wrapper ">
         <div className="row">
           <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
@@ -85,12 +137,12 @@ const MentorForm1 = (props) => {
               <p className="mb-0 d-flex align-items-center">
                 <b>Register Using :</b>
                 <button
-                  // onClick={handleLinkedInLogin}
-                  onClick={() => {
-                    toast.error(
-                      "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
-                    );
-                  }}
+                  onClick={handleLinkedInLogin}
+                  // onClick={() => {
+                  //   toast.error(
+                  //     "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
+                  //   );
+                  // }}
                   className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary"
                 >
                   <img src={LnIcon} className="me-2" alt="deeteewe" />
@@ -100,15 +152,20 @@ const MentorForm1 = (props) => {
             </div>
           </div>
         </div>
-        <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
+        <div className="ihduwfr_form_wrapper p-0 ghaddhdwhk" style={{ height: "auto" }}>
+
+        <div className="SignupStyleBox">
+        <div className="sign-up-btn">SignUp Details</div>
+   
           <div className="row">
+            
             <div className="col-lg-6">
               <div className="mb-4">
                 <label
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>First Name</b>
+                  <b>First Name <span className="RedColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
@@ -139,7 +196,7 @@ const MentorForm1 = (props) => {
             <div className="col-lg-6">
               <div className="mb-4">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  <b>Last Name</b>
+                  <b>Last Name <span className="RedColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
@@ -172,7 +229,7 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Mobile Number</b>
+                  <b>Mobile Number <span className="RedColorStarMark">*</span></b>
                 </label>
 
                 <Controller
@@ -199,7 +256,7 @@ const MentorForm1 = (props) => {
                         onChange={(value, country, event, formattedValue) => {
                           onChange(formattedValue);
                         }}
-                        onBlur={onBlur}
+                        onBlur={() => handleBlur("mentor_firstname")}
                         inputProps={{
                           autoFocus: false,
                           name,
@@ -223,7 +280,7 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Email</b>
+                  <b>Email <span className="RedColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
@@ -242,7 +299,7 @@ const MentorForm1 = (props) => {
                       message: "Must be a valid email address.",
                     },
                   })} //1
-                  onBlur={() => handleBlur("mentor_email")}
+                  onBlur={() => handleBlur("mentor_firstname")}
                 />
                 {errors.mentor_email && (
                   <p className="Error-meg-login-register">
@@ -260,7 +317,7 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Password</b>
+                  <b>Password <span className="RedColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
@@ -268,6 +325,7 @@ const MentorForm1 = (props) => {
                   }}
                   className="form-control"
                   // id="exampleInputEmail1"
+                  // disabled={!inputOn}
                   placeholder="Enter your password....."
                   aria-describedby="emailHelp"
                   type={showIcon ? "text" : "password"}
@@ -315,13 +373,14 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Confirm Password</b>
+                  <b>Confirm Password <span className="RedColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
                     trigger("mentor_confirm_password");
                   }}
                   className="form-control"
+                  disabled={!inputOn}
                   placeholder="Type your password again....."
                   aria-describedby="emailHelp"
                   type={showIcons ? "text" : "password"}
@@ -351,14 +410,19 @@ const MentorForm1 = (props) => {
                 {/* <i className="fa-solid fa-eye position-absolute"></i> */}
               </div>
             </div>
-
+            </div>
+            </div>
+           
+            <div className="SignupStyleBox">
+            <div className="sign-up-btn">Additional Details</div>
+            <div className="row">
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Profile Picture</b>
+                  <b>Profile Picture <span className="RedColorStarMark">*</span></b>
                 </label>
                 {signedUsingLinkedin === true ? (
                   <h6>We are using the Linkedin profile picture</h6>
@@ -368,6 +432,7 @@ const MentorForm1 = (props) => {
                       onKeyUp={() => {
                         trigger("linkedin_photo");
                       }}
+                      disabled={!inputOn}
                       placeholder="Choose profile picture....."
                       type="file"
                       accept=".jpg ,.jpeg,.png"
@@ -385,24 +450,26 @@ const MentorForm1 = (props) => {
                 )}
               </div>
             </div>
+
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>Linkedin Profile URL</b>
+                  <b>Linkedin Profile URL <span className="whiteColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
                     trigger("social_media_profile");
                   }}
+                  disabled={!inputOn}
                   id="phone"
                   type="text"
                   name="phone"
                   placeholder="LinkedIn profile URL"
                   {...register("social_media_profile", {
-                    required: "LinkedIn profile URL is required",
+                   
                     pattern: {
                       value:
                         /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/,
@@ -423,7 +490,7 @@ const MentorForm1 = (props) => {
 
             <div className="col-lg-6">
               <label htmlFor="exampleInputEmail1" className="form-label mb-0">
-                <b>Academic Qualification</b>
+                <b>Academic Qualification <span className="RedColorStarMark">*</span></b>
               </label>
 
               <div className="dkjiherer moideuirer_list hello">
@@ -434,6 +501,7 @@ const MentorForm1 = (props) => {
                         trigger("academic_qualification");
                       }}
                       type="radio"
+                      disabled={!inputOn}
                       id="check_11"
                       name="academic_qualification"
                       value="Post Graduate"
@@ -450,6 +518,7 @@ const MentorForm1 = (props) => {
                         trigger("academic_qualification");
                       }}
                       type="radio"
+                      disabled={!inputOn}
                       id="check_20"
                       name="academic_qualification"
                       value="Graduate"
@@ -466,6 +535,7 @@ const MentorForm1 = (props) => {
                         trigger("academic_qualification");
                       }}
                       type="radio"
+                      disabled={!inputOn}
                       id="check_30"
                       name="academic_qualification"
                       value="Doctorate"
@@ -487,7 +557,7 @@ const MentorForm1 = (props) => {
 
             <div className=" col-lg-6 ">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Institute/College name</b>
+                <b>Institute/College name <span className="RedColorStarMark">*</span></b>
               </label>
               <div className="dkjiherer moideuirer_list hello">
                 <div className="dropdown">
@@ -495,6 +565,7 @@ const MentorForm1 = (props) => {
                     onKeyUp={() => {
                       trigger("mentor_InstituteName");
                     }}
+                    disabled={!inputOn}
                     type="text"
                     className="form-control"
                     placeholder="Choose/Search for a college..."
@@ -534,35 +605,29 @@ const MentorForm1 = (props) => {
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
-                <label htmlFor="mentor_country" className="form-label">
-                  <b>Which Country do You Live in?</b>
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>Which Country You Live in? <span className="RedColorStarMark">*</span></b>
                 </label>
                 <select
-                  id="mentor_country"
-                  onChange={(e) => {
-                    trigger("mentor_country"); // Trigger validation
-                    if (e.target.value) {
-                      clearErrors("mentor_country"); // Clear errors if a country is selected
-                    }
-                  }}
                   className="form-select"
                   {...register("mentor_country", {
-                    required: "Country name is required",
-                  })}
+                    required: "required",
+                  })} //1
                 >
-                  <option value="">Please select a country</option>
-                  {CountryData.map((option) => (
+                  <option value="India">India</option>
+                  {options.map((option) => (
                     <option key={option.country_id} value={option.country_name}>
                       {option.country_name}
                     </option>
                   ))}
                 </select>
-                {errors.mentor_country && (
-                  <p className="Error-meg-login-register">
-                    {errors.mentor_country.message}
-                  </p>
-                )}
+               
               </div>
+              {errors.mentor_country && (
+                <p className="Error-meg-login-register">
+                  {errors.mentor_country.message}
+                </p>
+              )}
             </div>
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
@@ -570,19 +635,20 @@ const MentorForm1 = (props) => {
                   // htmlFor="exampleInputEmail1"
                   className="form-label"
                 >
-                  <b>City</b>
+                  <b>City <span className="whiteColorStarMark">*</span></b>
                 </label>
                 <input
                   onKeyUp={() => {
                     trigger("mentor_city");
                   }}
                   type="text"
+                  disabled={!inputOn}
                   className="form-control"
                   // id="exampleInputEmail1"
                   placeholder="Enter your city name....."
                   aria-describedby="emailHelp"
                   {...register("mentor_city", {
-                    required: "City name is required",
+                   
                     pattern: {
                       value: /^[a-zA-Z\s]+$/, // Allows letters and spaces
                       message: "City name should contain only letters",
@@ -599,9 +665,10 @@ const MentorForm1 = (props) => {
                 <i className="fa-solid fa-map-location-dot position-absolute"></i>
               </div>
             </div>
+          </div></div>
           </div>
         </div>
-      </div>
+     
 
       <GoToTop />
     </>

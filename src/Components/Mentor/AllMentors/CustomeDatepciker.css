@@ -14,11 +14,11 @@
 
 /* Style for the slot item */
 .slot-item {
-  margin: 5px 0;
+  margin: 5px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 200px;
+  /* width: 200px; */
   text-align: center;
   list-style-type: none;
   transition: background-color 0.3s, border-color 0.3s;
@@ -39,11 +39,12 @@
 }
 
 .unorderlist {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
-  padding: 0px;
-  margin: 0px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
 }
 .selected-timeslot {
   border-color: #007bff;
@@ -54,4 +55,3 @@
 .selected-timeslotP {
   margin-bottom: 0px !important;
 }
-

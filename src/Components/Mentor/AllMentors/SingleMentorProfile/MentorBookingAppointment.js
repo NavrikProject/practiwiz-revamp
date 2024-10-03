@@ -206,6 +206,7 @@ const MentorBookingAppointment = (props) => {
                   props.singleMentor[0].mentor_firstname +
                   " " +
                   props.singleMentor[0].mentor_lastname,
+                timeSlotId: props.selectedTimeSlotId,
               }
             );
             if (res.data.success) {

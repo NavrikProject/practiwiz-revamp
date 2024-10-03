@@ -169,6 +169,7 @@ const MentorForm3 = () => {
 
             <span className="line-3">
               Choose your preferred time slots for the selected day
+              <span className="RedColorStarMark">*</span>
             </span>
           </div>
           <div className="main">
@@ -231,6 +232,7 @@ const MentorForm3 = () => {
                                 }
                               />
                               <span style={styles.toLabel}>to</span>
+
                               <CustomTimePicker
                                 value={timeInputs[day].to}
                                 onChange={(value) =>

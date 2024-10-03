@@ -1,17 +1,16 @@
 import React from "react";
-import AllMentors from "../../../Components/Mentor/AllMentors/AllMentors";
+import MentorExpertList from "../../../Components/Mentor/NavbarMentors/MentorExpertList";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Footer from "../../../Components/Footer/Footer";
 import { Section7 } from "../../../Components/Contactus/contact";
 import GoToTop from "../../../Utils/GoToTop";
 
-const AllMentorsPage = () => {
+const MentorExpertListPage = () => {
   document.title = "Practywiz | Mentor Club";
-
   return (
     <>
       <Navbar />
-      <AllMentors />
+      <MentorExpertList />
       <Section7 />
       <Footer />
       <GoToTop />
@@ -19,4 +18,4 @@ const AllMentorsPage = () => {
   );
 };
 
-export default AllMentorsPage;
+export default MentorExpertListPage;

@@ -5,6 +5,8 @@ import InstituteRegister from "../../../Components/Forms/Register/Institute/Inst
 import GoToTop from "../../../Utils/GoToTop";
 
 const InstituteRegistrationPage = () => {
+  document.title = "Practywiz | Institute Register";
+
   return (
     <>
       <Navbar />

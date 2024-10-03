@@ -26,12 +26,14 @@ const SingleMentorProfile = () => {
   const [singleMentor, setSingleMentor] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedTimeSlotId, setSelectedTimeSlotId] = useState(null);
   const [loading, setLoading] = useState(false);
-  const handleDateSlotSelect = (date, slot) => {
+  const handleDateSlotSelect = (date, slot, timeSlotId) => {
     setSelectedDate(date);
     setSelectedSlot(slot);
+    setSelectedTimeSlotId(timeSlotId);
   };
-
+  console.log(selectedTimeSlotId);
   const [showAreaOfExpertise, setShowAreaOfExpertise] = useState(true);
   const RatingShowHandler = () => {
     return setShowRating(!showRating), setShowAreaOfExpertise(false);
@@ -65,6 +67,12 @@ const SingleMentorProfile = () => {
       setShowBookingModel(!showBookingModel);
     }
   };
+  useEffect(() => {
+    document.title = `Practywiz | ${
+      singleMentor[0]?.mentor_firstname + " " + singleMentor[0]?.mentor_lastname
+    }`;
+  }, [singleMentor]);
+  const [showLessText, setShowLessText] = useState(false);
   return (
     <>
       {loading ? (
@@ -75,6 +83,7 @@ const SingleMentorProfile = () => {
         <>
           {showBookingModel && (
             <MentorBookingAppointment
+              selectedTimeSlotId={selectedTimeSlotId}
               selectedDate={selectedDate}
               selectedSlot={selectedSlot}
               singleMentor={singleMentor}
@@ -176,8 +185,18 @@ const SingleMentorProfile = () => {
                               </div>
                               <div className="fdjdfg">
                                 <p>
-                                  {sMentor.mentor_headline + " "}
-                                  <span className="spnn45"> Show More</span>
+                                  {!showLessText
+                                    ? sMentor.mentor_headline.slice(0, 120) +
+                                      " "
+                                    : sMentor.mentor_headline}
+                                  <span
+                                    className="spnn45"
+                                    onClick={() =>
+                                      setShowLessText(!showLessText)
+                                    }
+                                  >
+                                    {!showLessText ? "Show More" : "Show Less"}
+                                  </span>
                                 </p>
                               </div>
                             </div>

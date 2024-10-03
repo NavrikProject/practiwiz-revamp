@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 import MentorForm3 from "./MentorForm3";
@@ -18,7 +18,6 @@ import {
 const MentorStepForm = () => {
   const url = ApiURL();
   const methods = useForm({});
-  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
@@ -32,25 +31,20 @@ const MentorStepForm = () => {
     "AVAILABILITY",
     "PREFERENCES",
   ];
-  const saveStepDataToServer = async (data1) => {
-    // console.log(data1);
+  const saveStepDataToServer = async (data) => {
+    setUserData((prevData) => ({
+      ...prevData, // Spread the previous data
+      firstname: data.mentor_firstname,
+      lastname: data.mentor_lastname,
+    }));
+    // try {
+    //   await axios.post('/saveStepData', data);
+    //   console.log('Step data saved:', data);
+    // } catch (error) {
+    //   console.error('Error saving step data:', error);
+    // }
   };
-  const data = getValues();
 
-  // if (
-  //   data?.mentor_firstname &&
-  //   data?.mentor_lastname &&
-  //   data?.mentor_phone_number &&
-  //   data?.mentor_email
-  // ) {
-  //   console.log(validateEmail(data?.mentor_email));
-  //   console.log(
-  //     data.mentor_firstname,
-  //     data.mentor_lastname,
-  //     data.mentor_phone_number,
-  //     data?.mentor_email
-  //   );
-  // }
   const [step, setStep] = useState(1);
   const PageDisplay = () => {
     if (page === 0) {
@@ -113,6 +107,7 @@ const MentorStepForm = () => {
       const result = await trigger(); // Validate form data
       if (result) {
         const specificValue = getValues("ForSkillValidation"); // Get value of the 'name' field
+        // console.log(specificValue);
         if (specificValue !== "ok") {
           // toast.error(
           //   "Please fill out all required fields: Core Skill, Sub-option, and Area of Expertise. Don't forget to save your changes using the 'Save' button."
@@ -152,6 +147,8 @@ const MentorStepForm = () => {
         setPageCount();
         setStep((prev) => prev + 1);
       }
+
+      // console.log(Fname, Lname, gmail, phone);
     }
   };
   const dispatch = useDispatch();
@@ -162,6 +159,7 @@ const MentorStepForm = () => {
         toast.error("Please fill all required fields!");
       }
     } else {
+      console.log(data);
       try {
         const newData = new FormData();
         newData.append("firstName", data.mentor_firstname);
@@ -218,10 +216,7 @@ const MentorStepForm = () => {
 
         dispatch(hideLoadingHandler());
         if (res.data.success) {
-          return (
-            toast.success("Thank you for applying for the mentor application."),
-            navigate(`/`)
-          );
+          toast.success("Thank you for applying for the mentor application.");
         } else if (res.data.error) {
           toast.error(
             "There is some error while applying for the mentor application."
@@ -248,7 +243,7 @@ const MentorStepForm = () => {
       <div className="regis_background" id="mentorRegisterBg">
         <div className="col-lg-12 "></div>
         <div className="jdoieoir_wrapper">
-          <div className="idneihrrr p-3">
+          <div className="idneihrrr p-3 jhjhjujh">
             <h5 className="mb-0">
               Hi, Let's Get You On-boarded. It Will Take Approx. 4 Mins For
               Sign-up And Total 8 For Complete Profile
@@ -306,7 +301,7 @@ const MentorStepForm = () => {
                 Mentee
               </label>
             </Link>
-            <input
+            {/* <input
               type="radio"
               id="rdo1"
               className="radio-input radio-label "
@@ -331,7 +326,7 @@ const MentorStepForm = () => {
                 ></i>
                 Job Seeker
               </label>
-            </Link>
+            </Link> */}
             <input
               type="radio"
               id="rdo1"
