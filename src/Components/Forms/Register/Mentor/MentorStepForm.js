@@ -159,6 +159,7 @@ const MentorStepForm = () => {
         toast.error("Please fill all required fields!");
       }
     } else {
+      console.log(data);
       try {
         const newData = new FormData();
         newData.append("firstName", data.mentor_firstname);
@@ -242,7 +243,7 @@ const MentorStepForm = () => {
       <div className="regis_background" id="mentorRegisterBg">
         <div className="col-lg-12 "></div>
         <div className="jdoieoir_wrapper">
-          <div className="idneihrrr p-3">
+          <div className="idneihrrr p-3 jhjhjujh">
             <h5 className="mb-0">
               Hi, Let's Get You On-boarded. It Will Take Approx. 4 Mins For
               Sign-up And Total 8 For Complete Profile
@@ -300,7 +301,7 @@ const MentorStepForm = () => {
                 Mentee
               </label>
             </Link>
-            <input
+            {/* <input
               type="radio"
               id="rdo1"
               className="radio-input radio-label "
@@ -325,7 +326,7 @@ const MentorStepForm = () => {
                 ></i>
                 Job Seeker
               </label>
-            </Link>
+            </Link> */}
             <input
               type="radio"
               id="rdo1"

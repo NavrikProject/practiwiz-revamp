@@ -51,6 +51,7 @@ import InternshipPages from "./Pages/InternshipPages/InternshipPages";
 import LinkedInCallback from "./Components/Linkedin/LinkedInCallback";
 import AdminMentorPrivateProfilePage from "./Pages/AdminPages/AdminMentorPrivateProfilePage";
 import MainComponent from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
+import MentorExpertListPage from "./Pages/MentorPages/AllMentors/MentorExpertListPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -91,6 +92,10 @@ function App() {
             element={<TechnologyMentorsPage />}
           />
           <Route path="/mentor-club" element={<AllMentorsPage />} />
+          <Route
+            path="/mentor-club/:expert/:expertId"
+            element={<MentorExpertListPage />}
+          />
           <Route
             path="/mentor-club/mentor-profile/:name/:id"
             element={<SingleMentorProfilePage />}

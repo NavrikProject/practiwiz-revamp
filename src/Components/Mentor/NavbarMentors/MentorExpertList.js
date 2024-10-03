@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import AllMentorCard from "./AllMentorCard";
+import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
+import AllMentorCard from "../AllMentors/AllMentorCard";
 import axios from "axios";
 import { ApiURL } from "../../../Utils/ApiURL";
-import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
-import "./AllMentors.css";
-import "./Dropdown.css";
-const AllMentors = () => {
+import { useParams } from "react-router-dom";
+
+const MentorExpertList = () => {
   const url = ApiURL();
+  const params = useParams();
   const [loading, setLoading] = useState(false);
-  const [allMentors, setAllMentors] = useState([]);
+  const [allMentors, setAllExpertMentors] = useState([]);
   const [filteredMentors, setFilteredMentors] = useState([]);
 
   const [filters, setFilters] = useState({
@@ -21,7 +22,9 @@ const AllMentors = () => {
   useEffect(() => {
     const fetchMentors = async () => {
       setLoading(true);
-      const response = await axios.get(`${url}api/v1/mentor/fetch-details`);
+      const response = await axios.post(`${url}api/v1/mentor/expert-list`, {
+        expertId: params.expertId,
+      });
       setLoading(false);
       if (response.data.success) {
         // Parse JSON strings into JavaScript objects
@@ -30,16 +33,15 @@ const AllMentors = () => {
           timeslot_list: JSON.parse(mentor.timeslot_list || "[]"),
           booking_dtls_list: JSON.parse(mentor.booking_dtls_list || "[]"),
         }));
-
-        setAllMentors(mentorsWithParsedData);
+        setAllExpertMentors(mentorsWithParsedData);
         setFilteredMentors(mentorsWithParsedData);
       } else {
-        setAllMentors([]);
+        setAllExpertMentors([]);
         setFilteredMentors([]);
       }
     };
     fetchMentors();
-  }, [url]);
+  }, [url, params.expertId]);
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -73,21 +75,7 @@ const AllMentors = () => {
     { value: "1700-2000", label: "₹1700 - ₹2000" },
     { value: "2000-2500", label: "₹2000 - ₹2500" },
   ];
-  const technologyOptions = [
-    {
-      value: "Technology & Software Development",
-      label: "Technology & Software Development",
-    },
-    { value: "Business & Management", label: "Business & Management" },
-    { value: "Finance & Accounting", label: "Finance & Accounting" },
-    { value: "Healthcare & Medical", label: "Healthcare & Medical" },
-    { value: "Creative & Media", label: "Creative & Media" },
-    { value: "Education & Training", label: "Education & Training" },
-    { value: "Law & Legal Services", label: "Law & Legal Services" },
-    { value: "Engineering", label: "Engineering" },
-    { value: "Science & Research", label: "Science & Research" },
-    { value: "Marketing & Sales", label: "Marketing & Sales" },
-  ];
+
   useEffect(() => {
     const applyFilters = () => {
       let updatedMentors = [...allMentors];
@@ -380,4 +368,4 @@ const AllMentors = () => {
   );
 };
 
-export default AllMentors;
+export default MentorExpertList;

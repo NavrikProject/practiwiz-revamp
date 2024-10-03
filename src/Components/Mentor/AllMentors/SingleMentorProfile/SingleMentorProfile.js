@@ -72,7 +72,7 @@ const SingleMentorProfile = () => {
       singleMentor[0]?.mentor_firstname + " " + singleMentor[0]?.mentor_lastname
     }`;
   }, [singleMentor]);
-
+  const [showLessText, setShowLessText] = useState(false);
   return (
     <>
       {loading ? (
@@ -185,8 +185,18 @@ const SingleMentorProfile = () => {
                               </div>
                               <div className="fdjdfg">
                                 <p>
-                                  {sMentor.mentor_headline + " "}
-                                  <span className="spnn45"> Show More</span>
+                                  {!showLessText
+                                    ? sMentor.mentor_headline.slice(0, 120) +
+                                      " "
+                                    : sMentor.mentor_headline}
+                                  <span
+                                    className="spnn45"
+                                    onClick={() =>
+                                      setShowLessText(!showLessText)
+                                    }
+                                  >
+                                    {!showLessText ? "Show More" : "Show Less"}
+                                  </span>
                                 </p>
                               </div>
                             </div>
