@@ -253,7 +253,6 @@ const MentorForm2 = () => {
                 }}
                 type="number"
                 className="form-control"
-            
                 placeholder="Your Experience"
                 {...register("years_of_experience", {
                   required: "Years of Experience is required",
@@ -437,13 +436,21 @@ const MentorForm2 = () => {
                       ))}
                   </ul>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-primary djssjbfe"
-                  onClick={handleSave}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    alignItems: "end",
+                  }}
                 >
-                  Save data
-                </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary djssjbfe"
+                    onClick={handleSave}
+                  >
+                    Save data
+                  </button>
+                </div>
               </div>
             )}
             {error && <p className="text-danger">{error}</p>}

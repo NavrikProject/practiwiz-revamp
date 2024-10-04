@@ -34,7 +34,6 @@ const MentorForm4 = () => {
 
   const handlePriceChange = (e) => {
     const enteredValue = parseFloat(e.target.value);
-    
 
     if (isNaN(enteredValue)) {
       setError("Please enter a valid number");
@@ -48,14 +47,10 @@ const MentorForm4 = () => {
 
     // Validate against INR limits
     if (valueInINR < minINR) {
-      setError(
-        `Minimum allowed value is ${minCurrencyLimit} ${currency}`
-      );
+      setError(`Minimum allowed value is ${minCurrencyLimit} ${currency}`);
       setConvertedPriceINR(null);
     } else if (valueInINR > maxINR) {
-      setError(
-        `Maximum allowed value is ${maxCurrencyLimit} ${currency}`
-      );
+      setError(`Maximum allowed value is ${maxCurrencyLimit} ${currency}`);
       setConvertedPriceINR(null);
     } else {
       setError("");
@@ -63,8 +58,6 @@ const MentorForm4 = () => {
     }
 
     setPrice(e.target.value);
-    
-
   };
 
   const option_fro_timezone = [
@@ -211,16 +204,15 @@ const MentorForm4 = () => {
               <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>
-                    Pricing <span className="RedColorStarMark">*</span>({currency})
+                    Pricing ({currency}){" "}
+                    <span className="RedColorStarMark">*</span>
                   </b>
                 </label>
 
                 <input
                   type="number"
                   value={price}
-                  
                   className="form-control"
-          
                   {...register("pricing", {
                     required: "Please mention the price below 1500",
                   })} //1
@@ -241,8 +233,7 @@ const MentorForm4 = () => {
                     {errors.pricing.message}
                   </p>
                 )} */}
-                 {error && <p style={{ color: 'red' }}>{error}</p>}
-
+                {error && <p style={{ color: "red" }}>{error}</p>}
               </div>
             </div>
             <div className="col-lg-6">
@@ -295,7 +286,7 @@ const MentorForm4 = () => {
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>
                     For Your Alums Would You Be Fine to Do Sessions Free of
-                    Charge <span className="RedColorStarMark">*</span>
+                    Charge
                   </b>
                 </label>
                 <select

@@ -67,7 +67,7 @@ function About() {
                       <div className="jgfbhfhgf">
                         <h4>Our Vision</h4>
                         <p>
-                          At Practiwiz we want to revolutionize training by
+                          At Practywiz we want to revolutionize training by
                           making it fun, practical & career oriented.
                         </p>
                       </div>
@@ -87,7 +87,7 @@ function About() {
                       <div className="jgfbhfhgf">
                         <h4>Our Mission</h4>
                         <p>
-                          At Practiwiz we want to revolutionize training by
+                          At Practywiz we want to revolutionize training by
                           making it fun, practical & career oriented.
                         </p>
                       </div>
@@ -116,14 +116,14 @@ function About() {
                 <div className="fgbfgfgfh">
                   <h2>Our Visionary Founder Tarun Goutam</h2>
                   <h6>
-                    Practiwiz is the brainchild of Tarun Gautam, a graduate from
+                    Practywiz is the brainchild of Tarun Gautam, a graduate from
                     Indian Institute of Management (IIM), Lucknow.
                   </h6>
                   <p>
                     After a successful career of 20 years that gave him a rich
                     experience of working with leading global brands and
                     traveling to over 22 countries, Tarun decided to found
-                    Practiwiz as a part of Navrik Software Solution.
+                    Practywiz as a part of Navrik Software Solution.
                   </p>
                   <p>
                     Navrik was born with the philosophy that is derived from two
@@ -132,7 +132,7 @@ function About() {
                     thinkers.
                   </p>
                   <button className="btn-main">
-                    Linkdin Profile <i className="fa-solid fa-circle-right"></i>
+                    Linkedin Profile <i className="fa-solid fa-circle-right"></i>
                   </button>
                 </div>
               </div>

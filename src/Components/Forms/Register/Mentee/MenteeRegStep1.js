@@ -49,7 +49,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               ></i>
               Mentee
             </label>
-            <input
+            {/* <input
               type="radio"
               id="rdo3"
               className="radio-input"
@@ -65,7 +65,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                 style={{ color: "#1B759A" }}
               ></i>
               Job Seeker
-            </label>
+            </label> */}
             <input
               type="radio"
               id="rdo4"

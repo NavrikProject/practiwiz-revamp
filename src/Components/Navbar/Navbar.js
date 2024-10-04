@@ -31,56 +31,40 @@ const Navbar = () => {
   const technologyOptions = [
     {
       id: 1,
-      value: "Technology-&-Software-Development",
-      label: "Technology & Software Development",
+      value: "CXOs",
+      label: "CXOs",
     },
     {
       id: 2,
-      value: "Business-&-Management",
-      label: "Business & Management",
+      value: "Business-leaders",
+      label: "Business leaders",
     },
     {
       id: 3,
-      value: "Finance-&-Accounting",
-      label: "Finance & Accounting",
+      value: "Technology-Leaders",
+      label: "Technology Leaders",
     },
     {
       id: 4,
-      value: "Healthcare-&-Medical",
-      label: "Healthcare & Medical",
+      value: "Start-Up-Leaders",
+      label: "Start-Up Leaders",
     },
     {
       id: 5,
-      value: "Creative-&-Media",
-      label: "Creative & Media",
+      value: "Technology-Experts",
+      label: "Technology Experts",
     },
     {
       id: 6,
-      value: "Education-&-Training",
-      label: "Education & Training",
+      value: "Domain-Experts",
+      label: "Domain Experts",
     },
     {
       id: 7,
-      value: "Law-&-Legal-Services",
-      label: "Law & Legal Services",
-    },
-    {
-      id: 8,
-      value: "Engineering",
-      label: "Engineering",
-    },
-    {
-      id: 9,
-      value: "Science-&-Research",
-      label: "Science & Research",
-    },
-    {
-      id: 10,
       value: "Marketing-&-Sales",
       label: "Marketing & Sales",
     },
   ];
-
   return (
     <>
       <header className={visible ? "headeractive" : ""}>
@@ -186,7 +170,10 @@ const Navbar = () => {
                                 </h6>
                               </div>
                             );
-                          })}
+                          })}{" "}
+                          <div className="MenuBox-item2">
+                            <h6></h6>
+                          </div>
                         </div>
                       </div>
                     )}
