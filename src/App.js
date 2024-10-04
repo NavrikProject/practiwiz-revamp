@@ -179,6 +179,8 @@ function App() {
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
           <Route path="/internships" element={<InternshipPages />} />
+          <Route path="/trainings" element={<InternshipPages />} />
+
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/user/activate/reset-password/:token"

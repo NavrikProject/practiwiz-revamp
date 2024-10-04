@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "./register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MentorForm1 from "./MentorForm1";
 import MentorForm2 from "./MentorForm2";
 import MentorForm3 from "./MentorForm3";
@@ -16,6 +16,8 @@ import {
 } from "../../../../Redux/loadingRedux";
 
 const MentorStepForm = () => {
+  const navigate = useNavigate();
+
   const url = ApiURL();
   const methods = useForm({});
   const [userData, setUserData] = useState({
@@ -90,7 +92,6 @@ const MentorStepForm = () => {
   const validateAvailabilityStep = () => {
     const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; // Adjust according to your days of the week setup
     const values = getValues();
-
     // Check if any day has time slots
     for (let day of days) {
       const slots = values[day];
@@ -216,7 +217,10 @@ const MentorStepForm = () => {
 
         dispatch(hideLoadingHandler());
         if (res.data.success) {
-          toast.success("Thank you for applying for the mentor application.");
+          return (
+            toast.success("Thank you for applying for the mentor application."),
+            navigate("/login")
+          );
         } else if (res.data.error) {
           toast.error(
             "There is some error while applying for the mentor application."
@@ -263,6 +267,7 @@ const MentorStepForm = () => {
               className="radio-input"
               name="apple"
               value="mentor"
+              checked
               // {...register("user_type", {
               //   required: "select this button",
               // })}
