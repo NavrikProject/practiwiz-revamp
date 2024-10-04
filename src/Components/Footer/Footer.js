@@ -74,7 +74,7 @@ const Footer = () => {
                         </a>
                       </div> */}
 
-                      <div className="nbffg position-relative mb-3">
+                      {/* <div className="nbffg position-relative mb-3">
                         <a href="/internships">
                           <i className="fa-solid fa-angle-right"></i> IT
                           Training
@@ -86,7 +86,7 @@ const Footer = () => {
                           <i className="fa-solid fa-angle-right"></i> Business
                           Training
                         </a>
-                      </div>
+                      </div> */}
 
                       <div className="nbffg position-relative mb-3">
                         <a href="/aboutus">
@@ -108,7 +108,7 @@ const Footer = () => {
                         <h4>Contact Us</h4>
                       </div>
 
-                      <div className="nbffg2 mb-3">
+                      {/* <div className="nbffg2 mb-3">
                         <a href="/" className="d-flex">
                           <i className="fa-solid pe-2 fa-location-arrow"></i>
 
@@ -117,7 +117,7 @@ const Footer = () => {
                             Pin-110029
                           </p>
                         </a>
-                      </div>
+                      </div> */}
 
                       <div className="nbffg2 mb-3">
                         <a href="/" className="d-flex">
@@ -131,7 +131,7 @@ const Footer = () => {
                         <a href="/" className="d-flex">
                           <i className="fa-solid pe-2 fa-envelope"></i>
 
-                          <p className="mb-0">wecare@practiwiz.com</p>
+                          <p className="mb-0">wecare@practywiz.com</p>
                         </a>
                       </div>
 
