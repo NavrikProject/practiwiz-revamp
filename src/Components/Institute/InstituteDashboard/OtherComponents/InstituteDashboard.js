@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./DashboardCSS/Institutedashboardnotification.css";
-import Logo from "../../../Images/logo.png";
+import Logo from "../../../Images/logo.jpg";
 import InstituteNotifications from "./OtherComponents/InstituteNotifications";
 import InstituteChangePwd from "./OtherComponents/InstituteChangePwd";
 import InstituteMessages from "./OtherComponents/InstituteMessages";
@@ -618,7 +618,7 @@ const InstituteDashboard = () => {
 
             <div className="Baseposition" onMouseLeave={toggleMenu2}>
               <button
-                className="btn btn-transparent text-center py-3 seeeett main-button menu-container"
+                className="btn btn-transparent text-center py-3 seeeett main-button "
                 onMouseOver={toggleMenu}
               >
                 <span className="d-block bg-white position-relative m-auto mb-3 ">

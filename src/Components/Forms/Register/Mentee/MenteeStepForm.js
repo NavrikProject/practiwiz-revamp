@@ -14,8 +14,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import { useNavigate } from "react-router-dom";
 const MenteeStepForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const url = ApiURL();
   const [instituteStatus, setInstituteStatus] = useState(false);
   const [selectedOption, setSelectedOption] = useState("mentee");
@@ -62,6 +64,7 @@ const MenteeStepForm = () => {
           "You have been successfully register. Please login again."
         );
         reset();
+        navigate("/login");
       }
       if (res.data.error) {
         dispatch(hideLoadingHandler());
@@ -84,8 +87,8 @@ const MenteeStepForm = () => {
         );
       case 2:
         return <MenteeRegStep2 />;
-      case 3:
-        return <MenteeRegStep3 />;
+      // case 3:
+      //   return <MenteeRegStep3 />;
       default:
         return <MenteeRegStep1 />;
     }
@@ -201,7 +204,7 @@ const MenteeStepForm = () => {
                                 Previous
                               </button>
                             )}
-                            {step === 3 ? (
+                            {step === 2 ? (
                               ""
                             ) : (
                               <button
@@ -213,7 +216,7 @@ const MenteeStepForm = () => {
                                 Next
                               </button>
                             )}
-                            {step === 3 && (
+                            {step === 2 && (
                               // <form
                               //   id="multi-step-form"
                               //   onSubmit={methods.handleSubmit(onSubmit)}

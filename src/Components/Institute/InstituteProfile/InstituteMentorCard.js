@@ -178,19 +178,22 @@ function CompletedMentorSessions() {
                               <li>
                                 <i className="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i className="fa-solid fa-flag-checkered"></i> 2:30
+                                <i className="fa-solid fa-flag-checkered"></i>{" "}
+                                2:30
                               </li>
 
                               <li>
                                 <i className="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i className="fa-solid fa-flag-checkered"></i> 2:30
+                                <i className="fa-solid fa-flag-checkered"></i>{" "}
+                                2:30
                               </li>
 
                               <li>
                                 <i className="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i className="fa-solid fa-flag-checkered"></i> 2:30
+                                <i className="fa-solid fa-flag-checkered"></i>{" "}
+                                2:30
                               </li>
                             </ul>
                           </div>
@@ -209,19 +212,22 @@ function CompletedMentorSessions() {
                               <li>
                                 <i className="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i className="fa-solid fa-flag-checkered"></i> 2:30
+                                <i className="fa-solid fa-flag-checkered"></i>{" "}
+                                2:30
                               </li>
 
                               <li>
                                 <i className="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i className="fa-solid fa-flag-checkered"></i> 2:30
+                                <i className="fa-solid fa-flag-checkered"></i>{" "}
+                                2:30
                               </li>
 
                               <li>
                                 <i className="fa-solid fa-hourglass-start"></i>{" "}
                                 01:00 -
-                                <i className="fa-solid fa-flag-checkered"></i> 2:30
+                                <i className="fa-solid fa-flag-checkered"></i>{" "}
+                                2:30
                               </li>
                             </ul>
                           </div>

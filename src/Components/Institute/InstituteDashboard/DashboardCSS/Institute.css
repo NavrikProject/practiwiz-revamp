@@ -1424,16 +1424,6 @@ caption {
   cursor: pointer;
 }
 
-.submenu {
-  position: absolute;
-  /* top: -37%; */
-  left: 54px;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
 .submenu-item {
   display: block;
   padding: 10px 20px;
@@ -1444,16 +1434,6 @@ caption {
 
 .submenu-item:hover {
   background-color: #f1f1f1;
-}
-
-.submenu1 {
-  position: absolute;
-  top: 50px;
-  left: 54px;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
 }
 
 .submenu-item1 {

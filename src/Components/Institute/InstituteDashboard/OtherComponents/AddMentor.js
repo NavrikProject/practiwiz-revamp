@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import File from "./Template.xlsx";
 
 const AddMentor = () => {
   const [columns, setColumns] = useState([]);
@@ -10,6 +11,7 @@ const AddMentor = () => {
 
   const requiredHeaders = ["S.No", "Name", "Email", "Phone Number"];
   const handleuploadfile = () => {
+    console.log(file);
   };
 
   const handleFileUpload = (e) => {
@@ -77,12 +79,22 @@ const AddMentor = () => {
         <div className="col-lg-8">
           <div className="gtyfdgfgf">
             <div className="csfvgdtrfs mb-4 position-relative">
-              <label
-                // htmlFor="exampleInputEmail1"
-                className="form-label"
-              >
-                <b>Please select the file ...</b>
-              </label>
+              <div style={{ display: "flex", gap: "5rem" }}>
+                <label
+                  // htmlFor="exampleInputEmail1"
+                  className="form-label"
+                >
+                  <b>Please select the file ...</b>
+                </label>
+                <label>
+                  <b>
+                    Click here for{" "}
+                    <a href={File} download="Template.xlsx">
+                      <u style={{ color: "#0255ca" }}>download template</u>{" "}
+                    </a>
+                  </b>
+                </label>
+              </div>
               <div className="gtgtgt">
                 <input
                   type="file"

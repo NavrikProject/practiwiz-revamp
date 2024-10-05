@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import ListsForGuestMentors from "./ListsForMentors";
+import { ListsForOtherMentors } from "./ListsForMentors";
 import "../DashboardCSS/InstituteguestlctSearch.css";
 import Data from "./demoDataMentors1.json";
 // import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import ListStatusSkeleton from "./ListStatusSkeleton";
 
-const SearchGuestLacture = () => {
+const AlumniMentor = () => {
   const [filters, setFilters] = useState({
     location: "",
     skill: "",
@@ -184,7 +184,7 @@ const SearchGuestLacture = () => {
                   <ListStatusSkeleton />
                 </>
               ) : (
-                <ListsForGuestMentors data={allMentors} />
+                <ListsForOtherMentors data={allMentors} />
               )}
             </div>
           </div>
@@ -194,4 +194,4 @@ const SearchGuestLacture = () => {
   );
 };
 
-export default SearchGuestLacture;
+export default AlumniMentor;

@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-
 import { useFormContext } from "react-hook-form";
 import collegeData from "../../../data/collegesname.json";
+
 const MenteeRegStep2 = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
-  const [ShowOption, setShowOption] = useState(true);
-  const handleoptionFasle = () => {
-    setShowOption(false);
-  };
-  const handleoptionTrue = () => {
-    setShowOption(true);
-  };
-  // Function to handle input change
+  const [selectedCollege, setSelectedCollege] = useState(null);
+  const [showOption, setShowOption] = useState(true);
+
+  const handleOptionFalse = () => setShowOption(false);
+  const handleOptionTrue = () => setShowOption(true);
+
+  const {
+    register,
+    setValue,
+    trigger,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
+
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -21,25 +26,18 @@ const MenteeRegStep2 = () => {
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
   };
 
-  // Filter colleges based on the search term
   const filteredColleges = collegeData.filter((item) =>
     item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Function to handle dropdown option click
   const handleOptionClick = (college) => {
     setSelectedCollege(college); // Set selected college
     setSearchTerm(college["College Name"]); // Update input with selected college name
     setDropdownVisible(false); // Hide dropdown after selection
-    setValue("mentee_InstituteName", college["College Name"]);
+    setValue("mentee_InstituteName", college["College Name"]); // Update the form value
+    clearErrors("mentee_InstituteName"); // Clear error when an option is selected
+    trigger("mentee_InstituteName"); // Optionally trigger validation if needed
   };
 
-  const {
-    register,
-    setValue,
-    trigger,
-    formState: { errors },
-  } = useFormContext();
   return (
     <div className="step" id="step2">
       <h4 className="text-center">
@@ -48,6 +46,7 @@ const MenteeRegStep2 = () => {
       </h4>
 
       <div className="ihduwfr_form_wrapper mt-4">
+        {/* Radio Buttons for Type Selection */}
         <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
           <label htmlFor="exampleInputEmail1" className="form-label">
             I Am A
@@ -56,17 +55,15 @@ const MenteeRegStep2 = () => {
           <input
             type="radio"
             id="rdo4"
-            defaultChecked
             className="radio-input"
-            onClick={handleoptionTrue}
-            // name="radio-group1"
             value={"student"}
+            defaultChecked
+            onClick={handleOptionTrue}
             {...register("mentee_type", {
-              required: "Please select the one of the option",
+              required: "Please select one of the options",
             })}
           />
-
-          <label htmlFor="rdo4" className="radio-label  pe-3">
+          <label htmlFor="rdo4" className="radio-label pe-3">
             <span className="radio-border"></span> Student
           </label>
 
@@ -74,108 +71,122 @@ const MenteeRegStep2 = () => {
             type="radio"
             id="rdo5"
             className="radio-input"
-            name="radio-group1"
             value={"workingprof"}
-            onClick={handleoptionFasle}
+            onClick={handleOptionFalse}
             {...register("mentee_type", {
-              required: "Please select the one of the option",
+              required: "Please select one of the options",
             })}
           />
-          <label htmlFor="rdo5" className="radio-label  pe-3">
+          <label htmlFor="rdo5" className="radio-label pe-3">
             <span className="radio-border"></span> Working Professional
           </label>
+
           <input
             type="radio"
             id="rdo6"
             className="radio-input"
-            name="radio-group1"
             value={"corporate"}
-            onClick={handleoptionFasle}
+            onClick={handleOptionFalse}
             {...register("mentee_type", {
-              required: "Please select the one of the option",
+              required: "Please select one of the options",
             })}
           />
-          <label htmlFor="rdo6" className="radio-label  pe-3">
+          <label htmlFor="rdo6" className="radio-label pe-3">
             <span className="radio-border"></span> Corporate
           </label>
+
           <input
             type="radio"
             id="rdo10"
             className="radio-input"
-            // name="radio-group1"
-            value={"freasher"}
-            onClick={handleoptionFasle}
+            value={"fresher"}
+            onClick={handleOptionFalse}
             {...register("mentee_type", {
-              required: "Please select the one of the option",
+              required: "Please select one of the options",
             })}
           />
-          <label htmlFor="rdo10" className="radio-label  pe-3">
+          <label htmlFor="rdo10" className="radio-label pe-3">
             <span className="radio-border"></span> Fresher
           </label>
+
+          {errors.mentee_type && (
+            <p className="Error-meg-login-register">
+              {errors.mentee_type.message}
+            </p>
+          )}
         </div>
-        {errors.mentee_type && (
-          <p className="Error-meg-login-register">
-            {errors.mentee_type.message} pe-3
-          </p>
-        )}
-        {ShowOption && (
+
+        {/* College Name Search with Dropdown */}
+        {showOption && (
           <>
-            {" "}
-            <label htmlFor="" className="form-label">
-              Institute/College name *
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              <b>
+                Institute/College name{" "}
+                <span className="RedColorStarMark">*</span>
+              </b>
             </label>
-            <div className="dropdown mb-3">
-              <input
-                onKeyUp={() => trigger("mentee_InstituteName")}
-                type="text"
-                className="form-control"
-                placeholder="Search for a college..."
-                value={searchTerm} // Ensure input value is controlled
-                {...register("mentee_InstituteName", {
-                  required: "Institute Name is required",
-                })}
-                onChange={handleInputChange}
-                onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
-              />
-              {dropdownVisible && filteredColleges.length > 0 && (
-                <div className="dropdown-content">
-                  {filteredColleges.slice(0, 10).map(
-                    (
-                      college,
-                      index // Limit to 10 results
-                    ) => (
-                      <div
-                        key={index}
-                        className="dropdown-item"
-                        onClick={() => handleOptionClick(college)}
-                      >
-                        {college["College Name"]}
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
+            <div className="dkjiherer moideuirer_list hello">
+              <div className="dropdown">
+                <input
+                  onKeyUp={() => {
+                    trigger("mentee_InstituteName");
+                  }}
+                  type="text"
+                  className="form-control"
+                  placeholder="Choose/Search for a college..."
+                  value={searchTerm} // Ensure input value is controlled
+                  {...register("mentee_InstituteName", {
+                    required: "College or Institute Name is required",
+                  })}
+                  onChange={handleInputChange}
+                  onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                />
+                {dropdownVisible && filteredColleges.length > 0 && (
+                  <div className="dropdown-content">
+                    {filteredColleges.slice(0, 50).map(
+                      (
+                        college,
+                        index // Limit to 10 results
+                      ) => (
+                        <div
+                          key={index}
+                          className="dropdown-item"
+                          onClick={() => handleOptionClick(college)}
+                        >
+                          {college["College Name"]}
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
+
+            {errors.mentor_InstituteName && (
+              <p className="Error-meg-login-register">
+                {errors.mentor_InstituteName.message}
+              </p>
+            )}
           </>
         )}
+
+        {/* Gender Selection */}
         <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
-          <label htmlFor="exampleInputEmail1" className="form-label  pe-3">
+          <label htmlFor="exampleInputEmail1" className="form-label pe-3">
             Gender
           </label>
-          {/* </br> */}
-
           <input
             type="radio"
             id="rdo7"
-            // checked
             className="radio-input"
             name="radio-group2"
             value={"Male"}
             {...register("mentee_gender", {
-              required: "Please select the one of the option",
+              required: "Please select a gender",
             })}
+            onClick={() => clearErrors("mentee_gender")} // Clear errors on click
           />
-          <label htmlFor="rdo7" className="radio-label  pe-3">
+          <label htmlFor="rdo7" className="radio-label pe-3">
             <span className="radio-border"></span> Male
           </label>
 
@@ -186,10 +197,11 @@ const MenteeRegStep2 = () => {
             name="radio-group2"
             value={"Female"}
             {...register("mentee_gender", {
-              required: "Please select the gender",
+              required: "Please select a gender",
             })}
+            onClick={() => clearErrors("mentee_gender")} // Clear errors on click
           />
-          <label htmlFor="rdo8" className="radio-label  pe-3">
+          <label htmlFor="rdo8" className="radio-label pe-3">
             <span className="radio-border"></span> Female
           </label>
 
@@ -200,10 +212,11 @@ const MenteeRegStep2 = () => {
             name="radio-group2"
             value={"Other"}
             {...register("mentee_gender", {
-              required: "Please select the gender",
+              required: "Please select a gender",
             })}
+            onClick={() => clearErrors("mentee_gender")} // Clear errors on click
           />
-          <label htmlFor="rdo9" className="radio-label  pe-3">
+          <label htmlFor="rdo9" className="radio-label pe-3">
             <span className="radio-border"></span> Other
           </label>
         </div>
@@ -213,19 +226,19 @@ const MenteeRegStep2 = () => {
           </p>
         )}
 
+        {/* Skills Input */}
         <div className="fiurhetit_tag_input mb-4">
           <label htmlFor="" className="form-label">
             Your Skill *
           </label>
-
           <input
             name="tags"
             className="form-control"
             placeholder="Eg., Business Analyst, Data Scientist..."
-            autoFocus
             {...register("mentee_Skills", {
-              required: "Please enter the your skills",
+              required: "Please enter your skills",
             })}
+            onChange={() => clearErrors("mentee_Skills")} // Clear errors when user enters skill
           />
           {errors.mentee_Skills && (
             <p className="Error-meg-login-register">
@@ -234,18 +247,18 @@ const MenteeRegStep2 = () => {
           )}
         </div>
 
+        {/* About Yourself */}
         <div className="mb-4">
           <label htmlFor="" className="form-label">
             About Yourself *
           </label>
-
           <textarea
-            type="text"
             className="form-control"
             placeholder="Write something about yourself"
             {...register("mentee_About", {
               required: "Write something about yourself",
             })}
+            onChange={() => clearErrors("mentee_About")} // Clear errors when user types
           ></textarea>
           {errors.mentee_About && (
             <p className="Error-meg-login-register">
@@ -253,9 +266,28 @@ const MenteeRegStep2 = () => {
             </p>
           )}
         </div>
-      </div>
 
-      <div className="d-flex justify-content-between pt-3"></div>
+        {/* Terms and Conditions */}
+        <div className="form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="termsConditions"
+            {...register("mentee_Agree", {
+              required: "You must agree before submitting.",
+            })}
+            onChange={() => clearErrors("mentee_Agree")} // Clear error when checkbox is clicked
+          />
+          <label className="form-check-label" htmlFor="termsConditions">
+            I agree to the Terms and Conditions
+          </label>
+          {errors.mentee_Agree && (
+            <p className="Error-meg-login-register">
+              {errors.mentee_Agree.message}
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
