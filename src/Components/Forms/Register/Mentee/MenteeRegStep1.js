@@ -107,6 +107,10 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
                       message: "First name should contain only letters",
                     },
+                    minLength: {
+                      value: 2,
+                      message: "Must be greater than 2 characters.",
+                    },
                   })}
                 />
                 {errors.mentee_firstname && (
@@ -132,7 +136,11 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                     required: "Last Name is required",
                     pattern: {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
-                      message: "First name should contain only letters",
+                      message: "Last name should contain only letters",
+                    },
+                    minLength: {
+                      value: 2,
+                      message: "Must be greater than 2 characters.",
                     },
                   })}
                 />
@@ -145,7 +153,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             </div>
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1 " className="form-label">
+            <label htmlFor="exampleInputEmail1" className="form-label">
               Phone Number
             </label>
             <div className="h-25">
@@ -157,7 +165,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                   required: "Phone number is required",
                   validate: {
                     minLength: (value) =>
-                      value.replace(/\D/g, "").length >= 10 ||
+                      value.replace(/\D/g, "").length >= 12 ||
                       "Enter a valid phone number",
                   },
                 }}
@@ -168,28 +176,26 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                       country="in"
                       countryCodeEditable={false}
                       onChange={(value, country, event, formattedValue) => {
-                        onChange(formattedValue);
+                        onChange(formattedValue); // Update the phone value
+                        trigger("mentee_phone"); // Trigger validation dynamically
                       }}
                       onBlur={onBlur}
                       inputProps={{
-                        autoFocus: false,
                         name,
                         ref,
                       }}
                     />
                     {errors.mentee_phone && (
-                      <p style={{ color: "red", marginTop: "8px" }}>
+                      <div
+                        className="Error-meg-login-register"
+                        style={{ display: "block" }}
+                      >
                         {errors.mentee_phone.message}
-                      </p>
+                      </div>
                     )}
                   </div>
                 )}
               />
-              {errors.mentee_phone_number && (
-                <p className="Error-meg-login-register">
-                  {errors.mentee_phone_number.message}
-                </p>
-              )}
             </div>
           </div>
 
@@ -206,6 +212,10 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               aria-describedby="emailHelp"
               {...register("mentee_Email", {
                 required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "Must be a valid email address.",
+                },
               })}
             />
             {errors.mentee_Email && (
@@ -232,9 +242,13 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                 required: "Password is Required",
                 pattern: {
                   value:
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                   message:
                     "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
+                },
+                minLength: {
+                  value: 8,
+                  message: "Must be greater than 8 characters.",
                 },
                 maxLength: {
                   value: 16,

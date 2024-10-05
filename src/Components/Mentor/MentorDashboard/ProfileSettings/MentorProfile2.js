@@ -13,6 +13,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 const MentorProfile2 = ({ profiledata, user, token }) => {
+  console.log(profiledata);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
@@ -36,7 +37,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   // Parse the passion_list JSON string into an array
   const parsedPassionList = JSON.parse(passionList);
   const convertBackendData = (backendData) => {
-    return backendData.map((item) => ({
+    return backendData?.map((item) => ({
       id: `draggable${item.id}`, // Create a unique id based on mentor_passion_id
       text: item.text.trim(), // Use mentor_passion and trim extra spaces
       inside: item.inside, // Set inside based on mentor_passion_boolean
@@ -64,7 +65,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     e.preventDefault();
     const id = e.dataTransfer.getData("text");
     setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: true } : item))
+      items?.map((item) => (item.id === id ? { ...item, inside: true } : item))
     );
     updateFormData1();
   };
@@ -73,14 +74,14 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     e.preventDefault();
     const id = e.dataTransfer.getData("text");
     setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+      items?.map((item) => (item.id === id ? { ...item, inside: false } : item))
     );
     updateFormData1();
   };
 
   const handleDelete = (id) => {
     setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
+      items?.map((item) => (item.id === id ? { ...item, inside: false } : item))
     );
     updateFormData1();
   };
@@ -95,40 +96,43 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   const [error, setError] = useState(""); // State to store error messages
   // Initialize the form with preselected data
   useEffect(() => {
-    const expertise = preSelectedData.map((preSelectedItem) => {
-      const expertiseData = CoreSkill.find(
-        (coreItem) => coreItem.id === preSelectedItem.id
-      );
-      return expertiseData || preSelectedItem;
-    });
+    if (profiledata.mentor_area_expertise !== null) {
+      console.log(profiledata.mentor_area_expertise);
+      const expertise = preSelectedData?.map((preSelectedItem) => {
+        const expertiseData = CoreSkill.find(
+          (coreItem) => coreItem.id === preSelectedItem.id
+        );
+        return expertiseData || preSelectedItem;
+      });
 
-    setSelectedExpertise(expertise);
+      setSelectedExpertise(expertise);
 
-    const subOptions = expertise.flatMap((exp) => {
-      return exp.sub_options.filter((subOption) =>
-        preSelectedData
-          .find((preSelectedItem) => preSelectedItem.id === exp.id)
-          .subOptions.some((preSubOption) => preSubOption.id === subOption.id)
-      );
-    });
+      const subOptions = expertise.flatMap((exp) => {
+        return exp.sub_options.filter((subOption) =>
+          preSelectedData
+            .find((preSelectedItem) => preSelectedItem.id === exp.id)
+            .subOptions.some((preSubOption) => preSubOption.id === subOption.id)
+        );
+      });
 
-    setSelectedSubOptions(subOptions);
+      setSelectedSubOptions(subOptions);
 
-    const skills = subOptions.flatMap((subOption) => {
-      const selectedExp = preSelectedData.find((preSelectedItem) =>
-        preSelectedItem.subOptions.some(
-          (preSubOption) => preSubOption.id === subOption.id
-        )
-      );
+      const skills = subOptions.flatMap((subOption) => {
+        const selectedExp = preSelectedData.find((preSelectedItem) =>
+          preSelectedItem.subOptions.some(
+            (preSubOption) => preSubOption.id === subOption.id
+          )
+        );
 
-      return subOption.skills.filter((skill) =>
-        selectedExp.subOptions
-          .flatMap((preSubOption) => preSubOption.skills)
-          .some((preSkill) => preSkill.id === skill.id)
-      );
-    });
+        return subOption.skills.filter((skill) =>
+          selectedExp.subOptions
+            .flatMap((preSubOption) => preSubOption.skills)
+            .some((preSkill) => preSkill.id === skill.id)
+        );
+      });
 
-    setSelectedSkills(skills);
+      setSelectedSkills(skills);
+    }
   }, []);
 
   const handleExpertiseChange = (e) => {
@@ -177,12 +181,12 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
 
   const updateFormData = () => {
     const selectedData = {
-      expertise: selectedExpertise.map((exp) => ({
+      expertise: selectedExpertise?.map((exp) => ({
         id: exp.id,
         name: exp.name,
         subOptions: exp.sub_options
           .filter((sub) => selectedSubOptions.includes(sub))
-          .map((sub) => ({
+          ?.map((sub) => ({
             id: sub.id,
             name: sub.name,
             skills: sub.skills.filter((skill) =>
@@ -269,12 +273,12 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
 
     // If validation passes, construct the selected data
     const selectedData = {
-      expertise: selectedExpertise.map((exp) => ({
+      expertise: selectedExpertise?.map((exp) => ({
         id: exp.id,
         name: exp.name,
         subOptions: exp.sub_options
           .filter((sub) => selectedSubOptions.includes(sub))
-          .map((sub) => ({
+          ?.map((sub) => ({
             id: sub.id,
             name: sub.name,
             skills: sub.skills.filter((skill) =>
@@ -455,7 +459,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               </label>
               {selectedExpertise.length > 0 && (
                 <div className="Optionshow">
-                  {selectedExpertise.map((expertise) => (
+                  {selectedExpertise?.map((expertise) => (
                     <span key={expertise.id} className="optionbox">
                       {expertise.name}
                       <button
@@ -478,7 +482,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 <option value="" disabled>
                   Select an Area
                 </option>
-                {CoreSkill.map((expertise) => (
+                {CoreSkill?.map((expertise) => (
                   <option key={expertise.id} value={expertise.id}>
                     {expertise.name}
                   </option>
@@ -493,7 +497,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               </label>
               {selectedSubOptions.length > 0 && (
                 <div className="Optionshow">
-                  {selectedSubOptions.map((subOption) => (
+                  {selectedSubOptions?.map((subOption) => (
                     <span key={subOption.id} className="optionbox">
                       {subOption.name}
                       <button
@@ -510,9 +514,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               <select
                 onChange={(e) =>
                   handleSubOptionChange(parseInt(e.target.value))
-                  
                 }
-                
                 defaultValue=""
                 className="form-select"
                 disabled={!isEditing}
@@ -524,7 +526,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 </option>
                 {selectedExpertise
                   .flatMap((exp) => exp.sub_options)
-                  .map((subOption) => (
+                  ?.map((subOption) => (
                     <option key={subOption.id} value={subOption.id}>
                       {subOption.name}
                     </option>
@@ -542,7 +544,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 <ul className="ps-0 mb-0">
                   {selectedSubOptions
                     .flatMap((subOption) => subOption.skills)
-                    .map((skill) => (
+                    ?.map((skill) => (
                       <li key={skill.id} className="ps-0">
                         <div className="form-check d-inline-block my-2">
                           <input
@@ -589,7 +591,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 >
                   {items
                     .filter((item) => item.inside)
-                    .map((item) => (
+                    ?.map((item) => (
                       <div
                         key={item.id}
                         id={item.id}
@@ -632,7 +634,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
                 >
                   {items
                     .filter((item) => !item.inside)
-                    .map((item) => (
+                    ?.map((item) => (
                       <div
                         key={item.id}
                         id={item.id}

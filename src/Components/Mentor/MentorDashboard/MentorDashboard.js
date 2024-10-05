@@ -18,6 +18,7 @@ import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
 import MentorCaseStudyInput from "./CaseStudy/MentorCaseStudyInput";
 import SingleMentorProfilePageSkelton from "../AllMentors/SingleMentorProfile/Skelton/SingleMentorProfilePageSkelton";
+import { toast } from "react-toastify";
 
 const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
@@ -32,10 +33,18 @@ const MentorDashboard = ({ user, token }) => {
         { userId: mentorDtlsId }
       );
       setLoading(false);
-
       if (response.data.success) {
+        // if (response.data.success[0]?.mentor_dtls_found === "No") {
+        //   return (
+        //     toast.error(
+        //       "Mentor details not found, Please update the details, to view the Dashboard"
+        //     ),
+        //     navigate("/mentor/dashboard/update-details")
+        //   );
+        // } else {
         // eslint-disable-next-line no-sequences
         return setSingleMentor(response.data.success), setLoading(false);
+        // }
       }
       if (response.data.error) {
         return setLoading(false), setSingleMentor(null);

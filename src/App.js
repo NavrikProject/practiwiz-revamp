@@ -52,6 +52,7 @@ import LinkedInCallback from "./Components/Linkedin/LinkedInCallback";
 import AdminMentorPrivateProfilePage from "./Pages/AdminPages/AdminMentorPrivateProfilePage";
 import MainComponent from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 import MentorExpertListPage from "./Pages/MentorPages/AllMentors/MentorExpertListPage";
+import MentorNotFoundDashboardPage from "./Pages/MentorPages/Dashboard/MentorNotFoundDashboardPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -115,6 +116,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MentorDashboardPage user={user} token={token} />
+                </ProtectedRoute>
+              }
+            />
+          )}
+          {user?.user_type === "mentor" && (
+            <Route
+              path="/mentor/dashboard/update-details"
+              element={
+                <ProtectedRoute>
+                  <MentorNotFoundDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />

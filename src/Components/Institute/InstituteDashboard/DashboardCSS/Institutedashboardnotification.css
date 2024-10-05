@@ -76,7 +76,6 @@
   padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
-
 }
 
 .btnhd22a {
@@ -87,7 +86,6 @@
   padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
-
 }
 
 .btnhd22b {
@@ -98,7 +96,6 @@
   padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
- 
 }
 
 .btnhd22c {
@@ -109,5 +106,63 @@
   padding: 7px 20px;
   border-radius: 4px;
   font-weight: 600;
- 
+}
+
+.downarrowsize {
+  font-size: 12px;
+  margin-left: 8px;
+}
+.col-lg-10 {
+  width: 100%;
+}
+
+.Baseposition {
+  position: relative;
+}
+
+.nfhgfg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 40px 0 0;
+}
+
+.submenu_sub {
+  position: absolute;
+  top: 4rem;
+  left: 7rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 2px;
+  border-radius: 8px;
+}
+
+.submenu_sub1 {
+  width: 100%;
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: white;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.submenu_sub1:hover {
+  background-color: #7fa5ff;
+  color: white;
+}
+
+.submenu_sub2 {
+  position: absolute;
+  top: 8rem;
+  left: 7rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 2px;
+  border-radius: 8px;
 }
