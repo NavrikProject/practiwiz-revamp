@@ -618,7 +618,7 @@ const InstituteDashboard = () => {
 
             <div className="Baseposition" onMouseLeave={toggleMenu2}>
               <button
-                className="btn btn-transparent text-center py-3 seeeett main-button menu-container"
+                className="btn btn-transparent text-center py-3 seeeett"
                 onMouseOver={toggleMenu}
               >
                 <span className="d-block bg-white position-relative m-auto mb-3 ">
