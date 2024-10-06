@@ -1,7 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-// import "../DashboardCSS/institute.css";
+import "../DashboardCSS/institute.css";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -15,7 +15,7 @@ const InstituteProfileDashboard = () => {
             <div className="gtyfdgfgf">
               <div className="col-lg-8">
                 <div className="ndfhjvdfv">
-                  <h2>Brainware Group Of Institution</h2>
+                  <h2> Indian Institute of Management (IIM) Lucknow</h2>
 
                   {/* <div className="fhghgdgg">
                     <h3>
@@ -28,17 +28,17 @@ const InstituteProfileDashboard = () => {
                 <div className="item_intdashboard bg-img bg1">
                   <i className="fa-solid fa-graduation-cap iconsize"></i>
                   <h3 className="text-1"> students Registered</h3>
-                  <div className="valuedash text-1">49,444</div>
+                  <div className="valuedash text-1">600</div>
                 </div>
                 <div className="item_intdashboard bg-img bg2">
                   <i className="fa-solid fa-list-check iconsize"></i>
                   <h3 className="text-1 "> Mentor sessions completed</h3>{" "}
-                  <div className="valuedash text-1">49,444</div>
+                  <div className="valuedash text-1">235</div>
                 </div>
                 <div className="item_intdashboard bg-img bg3">
                   <i className="fa-solid fa-calendar-week iconsize"></i>
                   <h3 className="text-1"> Upcoming sessions in next week</h3>
-                  <div className="valuedash text-1">49,444</div>
+                  <div className="valuedash text-1">37</div>
                 </div>
               </div>
 
