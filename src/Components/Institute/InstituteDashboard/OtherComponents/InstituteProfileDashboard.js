@@ -1,7 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import "../DashboardCSS/institute.css";
+// import "../DashboardCSS/institute.css";
 import "swiper/css";
 import "swiper/css/navigation";
 
