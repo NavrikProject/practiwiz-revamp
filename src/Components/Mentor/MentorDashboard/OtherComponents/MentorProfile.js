@@ -32,7 +32,8 @@ const MentorProfile = ({ data, user, token }) => {
                         <div className="iijieirr_left2 overflow-hidden">
                           <img
                             src={
-                              sMentor.mentor_dtls_found === "Yes"
+                              sMentor.mentor_dtls_found === "Yes" &&
+                              sMentor.mentor_profile_photo !== ""
                                 ? sMentor.mentor_profile_photo
                                 : "https://practiwizstorage.blob.core.windows.net/practiwizcontainer/blue-circle-with-white-user_78370-4707.webp"
                             }
@@ -73,7 +74,8 @@ const MentorProfile = ({ data, user, token }) => {
                                 <img src={Ee1} alt="" />
                               </div>
                               <p>
-                                {sMentor.mentor_dtls_found === "Yes"
+                                {sMentor.mentor_dtls_found === "Yes" &&
+                                sMentor.mentor_job_title !== ""
                                   ? sMentor.mentor_job_title?.toUpperCase()
                                   : "Please update your profile details"}
                               </p>
@@ -101,8 +103,8 @@ const MentorProfile = ({ data, user, token }) => {
                               <div className="gjfhg">
                                 <img src={Tickmark} alt="" />
                               </div>
-
-                              {sMentor.mentor_dtls_found === "Yes" ? (
+                              {sMentor.mentor_dtls_found === "Yes" &&
+                              sMentor?.mentor_headline !== "" ? (
                                 <p>
                                   {sMentor?.mentor_headline + " "}
                                   <span className="spnn45"> Show More</span>
@@ -133,7 +135,9 @@ const MentorProfile = ({ data, user, token }) => {
                                         <div className="djbghdrfgfgh">
                                           <h6>Professional Experience</h6>
                                           <p>
-                                            {sMentor.mentor_dtls_found === "Yes"
+                                            {sMentor.mentor_dtls_found ===
+                                              "Yes" &&
+                                            sMentor.mentor_headline !== ""
                                               ? sMentor.mentor_headline
                                               : "Please update your profile details"}
                                           </p>
@@ -153,7 +157,10 @@ const MentorProfile = ({ data, user, token }) => {
                                         <div className="djbghdrfgfgh">
                                           <h6>Expertise In</h6>
                                           <p>
-                                            {sMentor.mentor_dtls_found === "Yes"
+                                            {sMentor.mentor_dtls_found ===
+                                              "Yes" &&
+                                            sMentor?.mentor_recommended_area_of_mentorship !==
+                                              ""
                                               ? sMentor?.mentor_recommended_area_of_mentorship
                                               : "Please update your profile details"}
                                           </p>
@@ -194,7 +201,8 @@ const MentorProfile = ({ data, user, token }) => {
                               </ul>
                               {showAreaOfExpertise && (
                                 <div className="options-container">
-                                  {sMentor.mentor_dtls_found === "Yes" ? (
+                                  {sMentor.mentor_dtls_found === "Yes" &&
+                                  sMentor.mentor_area_expertise !== "[]" ? (
                                     JSON?.parse(
                                       sMentor.mentor_area_expertise
                                     )?.map((option) => (
@@ -263,7 +271,8 @@ const MentorProfile = ({ data, user, token }) => {
                             </h3>
                             <div className="fhfbfghg">
                               <button>
-                                {sMentor.mentor_dtls_found === "Yes"
+                                {sMentor.mentor_dtls_found === "Yes" &&
+                                sMentor.mentor_domain !== ""
                                   ? sMentor.mentor_domain
                                   : " Please update your profile details"}
                               </button>
@@ -272,7 +281,8 @@ const MentorProfile = ({ data, user, token }) => {
                               Additional Skills
                             </h3>
                             <div className="fhfbfghg">
-                              {sMentor.mentor_dtls_found === "Yes" ? (
+                              {sMentor.mentor_dtls_found === "Yes" &&
+                              sMentor.mentor_passion_dtls !== "[]" ? (
                                 JSON.parse(sMentor.mentor_passion_dtls)?.map(
                                   (passion) => {
                                     return (

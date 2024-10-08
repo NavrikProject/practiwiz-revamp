@@ -121,7 +121,9 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             `${url}api/v1/mentor/dashboard/update/profile-1`,
             {
               formData,
-              userDtlsId: user.user_id,
+              mentorUserDtlsId: user.user_id,
+              mentor_email: profiledata?.mentor_email,
+              mentorPhoneNumber: profiledata?.mentor_phone_number,
             },
             {
               headers: { authorization: "Bearer " + token },
@@ -154,54 +156,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     }
   };
   const [file, setFile] = useState(null);
-  const UpdateMentorProfilePhotoHandler = async (e) => {
-    e.preventDefault();
-    if (!file) {
-      alert("Please select a file.");
-      return;
-    }
-    const fileUrl = URL.createObjectURL(file);
-    setFormData({
-      ...formData,
-      mentee_profile_photo: fileUrl, // Store file URL for preview
-    });
-    const formData1 = new FormData();
-    formData1.append("image", file);
-    formData1.append("mentorUserDtlsId", user?.user_id);
-    formData1.append("mentorDtlsId", profiledata?.mentor_dtls_id); // Append user ID to the
-    // Append user ID to the
-    try {
-      dispatch(showLoadingHandler());
-      const response = await Promise.race([
-        axios.post(
-          `${url}api/v1/mentor/dashboard/update/profile-picture`,
-          formData1,
-          {
-            headers: {
-              authorization: "Bearer " + token,
-              // No need to set "Content-Type" header explicitly; Axios does this automatically
-            },
-          }
-        ),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), 45000)
-        ),
-      ]);
-      if (response.data.success) {
-        dispatch(hideLoadingHandler());
-        toast.success("Profile picture updated successfully.");
-      } else if (response.data.error) {
-        dispatch(hideLoadingHandler());
-        toast.error("Error updating profile picture. Please try again.");
-      }
-    } catch (error) {
-      toast.error("An error occurred while updating the profile picture.");
-      dispatch(hideLoadingHandler());
-    } finally {
-      dispatch(hideLoadingHandler());
-      setIsEditing(false);
-    }
-  };
   return (
     <main>
       {!isEditing && (
