@@ -59,7 +59,7 @@ const Mentorprofile5 = ({ profiledata, user, token }) => {
       formData1.append("mentorPhoneNumber", profiledata?.mentor_phone_number);
 
       try {
-        // dispatch(showLoadingHandler());
+        dispatch(showLoadingHandler());
         const response = await axios.post(
           `${url}api/v1/mentor/dashboard/update/profile-picture`,
           formData1,

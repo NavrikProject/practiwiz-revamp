@@ -12,8 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import PassionSkill from "../../../data/PassionSkills.json";
+
 const MentorProfile2 = ({ profiledata, user, token }) => {
-  console.log(profiledata);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
@@ -97,7 +98,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   // Initialize the form with preselected data
   useEffect(() => {
     if (profiledata.mentor_area_expertise !== null) {
-      console.log(profiledata.mentor_area_expertise);
       const expertise = preSelectedData?.map((preSelectedItem) => {
         const expertiseData = CoreSkill.find(
           (coreItem) => coreItem.id === preSelectedItem.id
@@ -232,7 +232,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   };
   // Function to handle the "Save" button click
   const handleSave = () => {
-    console.log(selectedExpertise);
     // Clear any previous errors
     setError("");
     // Validation: Check if at least one Core Skill is selected
@@ -289,7 +288,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     };
 
     // Log the selected data to the console
-    console.log("Saved Data:", selectedData);
     return selectedData;
   };
 
@@ -331,9 +329,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
   // Handle form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log("Saved Data:", selectedData);
     const data = handleSave();
-    console.log(data);
     if (validateForm()) {
       try {
         dispatch(showLoadingHandler());
@@ -342,8 +338,10 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
             `${url}api/v1/mentor/dashboard/update/profile-2`,
             {
               formData,
-              userDtlsId: user.user_id,
               expertiseList: JSON.stringify(data.expertise),
+              mentorUserDtlsId: user.user_id,
+              mentor_email: profiledata?.mentor_email,
+              mentorPhoneNumber: profiledata?.mentor_phone_number,
             },
             {
               headers: { authorization: "Bearer " + token },

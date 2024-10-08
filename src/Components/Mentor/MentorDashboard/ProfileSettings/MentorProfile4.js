@@ -25,8 +25,9 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
     mentor_timezone: profiledata.mentor_timezone,
     mentor_language: profiledata.mentor_language,
     mentor_currency_type: profiledata.mentor_currency_type,
+    mentor_session_price: profiledata.mentor_session_price,
   });
-
+  console.log(formData);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -62,7 +63,6 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
   // Handle form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (validateForm()) {
       try {
         dispatch(showLoadingHandler());
@@ -71,7 +71,9 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
             `${url}api/v1/mentor/dashboard/update/profile-4`,
             {
               formData,
-              userDtlsId: user.user_id,
+              mentorUserDtlsId: user.user_id,
+              mentor_email: profiledata?.mentor_email,
+              mentorPhoneNumber: profiledata?.mentor_phone_number,
             },
             {
               headers: { authorization: "Bearer " + token },
@@ -127,7 +129,12 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 <b>Currency</b>
               </label>
 
-              <select className="form-select" disabled={true}>
+              <select
+                name="mentor_currency_type"
+                onChange={handleInputChange}
+                className="form-select"
+                disabled={!isEditing}
+              >
                 <option value={formData.mentor_currency_type}>
                   {formData.mentor_currency_type}{" "}
                 </option>
@@ -145,9 +152,10 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 <b>Pricing</b>
               </label>
               <input
+                onChange={handleInputChange}
                 type="number"
-                name=""
-                value={profiledata.mentor_session_price}
+                name="mentor_session_price"
+                value={formData.mentor_session_price}
                 min={0}
                 className="form-control"
                 placeholder=" Enter Your Amount..."
@@ -163,27 +171,33 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                   For Your Alums Would You Be Fine to Do Sessions Free of Charge
                 </b>
               </label>
-
               <select
                 className="form-select"
                 onChange={handleInputChange}
                 disabled={!isEditing}
                 name="mentor_sessions_free_of_charge"
               >
+                {formData.mentor_sessions_free_of_charge === "" && (
+                  <>
+                    <option Value="">Choose an option</option>
+                    <option Value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </>
+                )}
                 {formData.mentor_sessions_free_of_charge === "Yes" && (
                   <>
                     <option value={formData.mentor_sessions_free_of_charge}>
                       {formData.mentor_sessions_free_of_charge}
-                    </option>{" "}
-                    <option>No</option>
+                    </option>
+                    <option value="No">No</option>
                   </>
                 )}
-                {formData.mentor_sessions_free_of_charge !== "Yes" && (
+                {formData.mentor_sessions_free_of_charge === "No" && (
                   <>
                     <option value={formData.mentor_sessions_free_of_charge}>
                       {formData.mentor_sessions_free_of_charge}
-                    </option>{" "}
-                    <option>Yes</option>
+                    </option>
+                    <option value="Yes">Yes</option>
                   </>
                 )}
               </select>
@@ -202,20 +216,27 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 disabled={!isEditing}
                 name="mentor_guest_lectures_interest"
               >
+                {formData.mentor_guest_lectures_interest === "" && (
+                  <>
+                    <option Value="">Choose an option</option>
+                    <option Value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </>
+                )}
                 {formData.mentor_guest_lectures_interest === "Yes" && (
                   <>
                     <option value={formData.mentor_guest_lectures_interest}>
                       {formData.mentor_guest_lectures_interest}
-                    </option>{" "}
-                    <option>No</option>
+                    </option>
+                    <option value="No">No</option>
                   </>
                 )}
-                {formData.mentor_guest_lectures_interest !== "Yes" && (
+                {formData.mentor_guest_lectures_interest === "No" && (
                   <>
                     <option value={formData.mentor_guest_lectures_interest}>
                       {formData.mentor_guest_lectures_interest}
                     </option>{" "}
-                    <option>Yes</option>
+                    <option value="Yes">Yes</option>
                   </>
                 )}
               </select>
@@ -234,6 +255,15 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 disabled={!isEditing}
                 name="mentor_curating_case_studies_interest"
               >
+                {formData.mentor_curating_case_studies_interest === "" && (
+                  <>
+                    <>
+                      <option Value="">Choose an option</option>
+                      <option Value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </>
+                  </>
+                )}
                 {formData.mentor_curating_case_studies_interest === "Yes" && (
                   <>
                     <option
@@ -241,17 +271,17 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                     >
                       {formData.mentor_curating_case_studies_interest}
                     </option>{" "}
-                    <option>No</option>
+                    <option value="No">No</option>
                   </>
                 )}
-                {formData.mentor_curating_case_studies_interest !== "Yes" && (
+                {formData.mentor_curating_case_studies_interest === "No" && (
                   <>
                     <option
                       value={formData.mentor_curating_case_studies_interest}
                     >
                       {formData.mentor_curating_case_studies_interest}
                     </option>{" "}
-                    <option>Yes</option>
+                    <option value="Yes">Yes</option>
                   </>
                 )}
               </select>
