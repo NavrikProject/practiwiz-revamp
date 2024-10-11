@@ -3457,7 +3457,9 @@ fieldset:disabled .btn {
   padding-right: 3rem !important;
   padding-left: 3rem !important;
 }
-
+.px80 {
+  padding: 20px 80px !important;
+}
 .py-0 {
   padding-top: 0 !important;
   padding-bottom: 0 !important;

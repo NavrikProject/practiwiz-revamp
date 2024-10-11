@@ -26,6 +26,14 @@ const Navbar = () => {
   };
 
   const gotoMenteepage = () => {};
+  const [BurgerMenu, SetBurgerMenu] = useState(false);
+  const handleBurgerMenu = () => {
+    SetBurgerMenu(!BurgerMenu);
+  };
+  const [SignUpMenu, setSignUpMenu] = useState(false);
+  const handleSignUpMenu = () => {
+    setSignUpMenu(!SignUpMenu);
+  };
 
   window.addEventListener("scroll", toggleVisible);
   const technologyOptions = [
@@ -93,52 +101,86 @@ const Navbar = () => {
                   id="nav-toggler"
                   data-bs-toggle="collapse"
                   data-bs-target="#navbarSupportedContent"
+                  onClick={handleBurgerMenu}
                 >
-                  <span id="bar-icon" className="navbar-toggler-icon"></span>
+                  <span
+                    id="bar-icon"
+                    className="navbar-toggler-icon hrncenhjbf"
+                  ></span>
 
                   <i
                     id="close-mark-icon"
                     className="fa-solid fa-xmark d-none"
                   ></i>
                 </button>
+                {BurgerMenu && (
+                  <div className="dbwudgw">
+                    <div className="djgjefgndke">
+                      <Link to={"/mentor-club"}>Mentor Connect</Link>{" "}
+                    </div>
+                    <div className="djgjefgndke">
+                      <Link to={"/login"}>Login</Link>
+                    </div>
+
+                    <div className="djgjefgndke" onClick={handleSignUpMenu}>
+                      Sign-Up
+                    </div>
+                    {SignUpMenu && (
+                      <ul className="ulMobile">
+                        <li
+                          className="djgjefgndke"
+                          // className="MenuBox-item1"
+                          // onClick={gotoMenteepage}
+                        >
+                          <a
+                            // className="inOneLine"
+                            href="/mentee-registration"
+                          >
+                            {/* <i className="fa-solid fa-chalkboard-user"></i>{" "} */}
+                            <h5>Mentee</h5>
+                          </a>
+                        </li>
+                        <li
+                          className="djgjefgndke"
+                          // className="MenuBox-item1"
+                          // onClick={gotoMentorpage}
+                        >
+                          <a
+                            // className="inOneLine"
+                            href="mentor-registration"
+                          >
+                            {/* <i className="fa-solid fa-graduation-cap"></i>{" "} */}
+                            <h5>Mentor</h5>
+                          </a>
+                        </li>
+                        <li
+                          className="djgjefgndke"
+                          // className="MenuBox-item1"
+                          // onClick={gotoInstitute}
+                        >
+                          <a
+                            // className="inOneLine"
+                            href="/institute-registration"
+                          >
+                            {/* <i className="fa-solid fa-building-columns"></i>{" "} */}
+                            <h5>Institute</h5>
+                          </a>
+                        </li>
+                      </ul>
+                    )}
+                  </div>
+                )}
 
                 <div
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
                 >
                   <ul
-                    className="navbar-nav"
+                    className="navbar-nav "
                     onMouseLeave={() => {
                       setmenutoggle(false);
                     }}
                   >
-                    {/* <li className="nav-item defdweregee">
-                    <a className="nav-link" href="javascript:void(0)"
-                      >IT Training
-                      <i className="fa-solid fa-angle-down"></i>
-
-                      <div className="duiehrr_dropdwn">
-                          <ul className="edfrerteee_list bg-white p-3 d-none">
-                              <li>IT TRAINING</li>
-
-                              <li>BUSINESS TRAINING</li>
-                          </ul>
-                      </div>
-                    </a>
-                  </li> */}
-
-                    {/* <li className="nav-item">
-                      <a className="nav-link" href="ad">
-                        Business Training
-                      </a>
-                    </li> */}
-
-                    {/* <li className="nav-item">
-                      <a className="nav-link" href="asd">
-                        Methodology
-                      </a>
-                    </li> */}
-
                     <li
                       className="nav-item regmenuR"
                       onMouseOver={() => {
@@ -266,7 +308,10 @@ const Navbar = () => {
                                 className="MenuBox-item1"
                                 // onClick={gotoMentorpage}
                               >
-                                <a className="inOneLine" href="register">
+                                <a
+                                  className="inOneLine"
+                                  href="mentor-registration"
+                                >
                                   <i className="fa-solid fa-graduation-cap"></i>{" "}
                                   <h5>Mentor</h5>
                                 </a>

@@ -160,7 +160,6 @@ const MentorStepForm = () => {
         toast.error("Please fill all required fields!");
       }
     } else {
-      console.log(data);
       try {
         const newData = new FormData();
         newData.append("firstName", data.mentor_firstname);

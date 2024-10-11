@@ -43,7 +43,7 @@ const HomePageBanner = () => {
                     ></ReactTyped> */}
                   </p>
                   <button className="btn mt-5 btn-main">
-                    <Link target="_blank" to="/register">
+                    <Link target="_blank" to="/mentor-registration">
                       Register
                     </Link>
                   </button>

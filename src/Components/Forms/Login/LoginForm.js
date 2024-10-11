@@ -11,7 +11,7 @@ import {
 } from "../../../Redux/loadingRedux.js";
 import { toast } from "react-toastify";
 import { ApiURL } from "../../../Utils/ApiURL.js";
-const LoginForm = () => {
+const LoginForm = ({ user, token }) => {
   const {
     register,
     handleSubmit,
@@ -60,8 +60,8 @@ const LoginForm = () => {
         localStorage.setItem("token", JSON.stringify(token));
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
         dispatch(loginSuccess(userData));
-        toast.success("Logged in successfully");
-        navigate(`/`);
+        toast.success("Logged in successfully, Redirecting to the Dashboard");
+        navigate(`/redirect`);
       } else if (res.data.error) {
         dispatch(loginFailure(res.data.error));
         toast.error(res.data.error);
@@ -85,7 +85,7 @@ const LoginForm = () => {
       <div className="regis_background " id="loginBg">
         <div className="container">
           <div className="row">
-            <div className="col-lg-6 mb-4">
+            <div className="col-lg-6 mb-4 doneed">
               <div className="iuhieiuihaw_left sticky-top">
                 <h3>
                   Grow Your Professional Career with{" "}
@@ -145,7 +145,7 @@ const LoginForm = () => {
                       <i className="fa-solid fa-circle-check"></i>
 
                       <p className="mb-0">
-                        <a href="/register">Sign Up Now!</a>
+                        <a href="/mentor-registration">Sign Up Now!</a>
                       </p>
                     </div>
                   </li>
@@ -159,7 +159,8 @@ const LoginForm = () => {
                   <h4>Log in</h4>
 
                   <p className="mb-0">
-                    Do Not Have An Account? <a href="/register">Sign Up</a>
+                    Do Not Have An Account?{" "}
+                    <a href="/mentor-registration">Sign Up</a>
                   </p>
                 </div>
 

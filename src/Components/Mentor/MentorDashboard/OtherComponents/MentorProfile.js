@@ -22,35 +22,8 @@ const MentorProfile = ({ data, user, token }) => {
           <>
             <div className="col-lg-10 ps-0">
               <div className="difuhtre_content">
-                <div
-                  className="duiegrer_bck position-relative mb-3"
-                  id="MentorCoverPicture"
-                >
-                  <div className="container">
-                    <div className="csdpeijf d-flex justify-content-between">
-                      <div className="ihuerorktrt position-relative">
-                        <div className="iijieirr_left2 overflow-hidden">
-                          <img
-                            src={
-                              sMentor.mentor_dtls_found === "Yes" &&
-                              sMentor.mentor_profile_photo !== ""
-                                ? sMentor.mentor_profile_photo
-                                : "https://practiwizstorage.blob.core.windows.net/practiwizcontainer/blue-circle-with-white-user_78370-4707.webp"
-                            }
-                            width="100%"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-
-                      <div className="ljrfhf">
-                        {/* <i className="fa-solid fa-upload"></i> */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="lndfhjfvgdvbfgfghgf py-5">
-                  <div className="container">
+                <div className="lndfhjfvgdvbfgfghgf py-4">
+                  <div className="container" style={{ width: "81%" }}>
                     <div className="skhfdfdfg">
                       <div className="row justify-content-between">
                         <div className="col-lg-6">
@@ -116,13 +89,16 @@ const MentorProfile = ({ data, user, token }) => {
                             <div className="fkjhgdfbghh">
                               <ul className="tabs">
                                 <li
-                                  className="tab-link current"
+                                  className="tab-link current2"
                                   data-tab="tab-9"
                                 >
                                   Overview
                                 </li>
                               </ul>
-                              <div id="tab-9" className="tab-content current">
+                              <div
+                                id="tab-9"
+                                className="tab-content current sdfasdfasdfasdf"
+                              >
                                 <div className="dfgbfgd">
                                   <div className="dfkjhgufgfgh">
                                     <div className="row">
@@ -179,7 +155,7 @@ const MentorProfile = ({ data, user, token }) => {
                                 <li
                                   className={
                                     showAreaOfExpertise
-                                      ? "tab-link current"
+                                      ? "tab-link current2"
                                       : "tab-link "
                                   }
                                   data-tab="tab-9"
@@ -190,7 +166,7 @@ const MentorProfile = ({ data, user, token }) => {
                                 <li
                                   className={
                                     showRating
-                                      ? "tab-link current"
+                                      ? "tab-link current2"
                                       : "tab-link "
                                   }
                                   data-tab="tab-10"
@@ -265,17 +241,42 @@ const MentorProfile = ({ data, user, token }) => {
                         </div>
 
                         <div className="col-lg-4">
-                          <div className="hgkfgkjfgfghgfg sticky-top">
+                          <div
+                            className="hgkfgkjfgfghgfg sticky-top "
+                            id="stickytopTop"
+                          >
+                            <div className="iijieirr_left2 overflow-hidden mentorImageFlex">
+                              <img
+                                src={
+                                  sMentor.mentor_dtls_found === "Yes" &&
+                                  sMentor.mentor_profile_photo !== ""
+                                    ? sMentor.mentor_profile_photo
+                                    : "https://practiwizstorage.blob.core.windows.net/practiwizcontainer/blue-circle-with-white-user_78370-4707.webp"
+                                }
+                                width="100%"
+                                alt=""
+                              />
+                            </div>
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
                               Domain
                             </h3>
                             <div className="fhfbfghg">
-                              <button>
-                                {sMentor.mentor_dtls_found === "Yes" &&
-                                sMentor.mentor_domain !== ""
-                                  ? sMentor.mentor_domain
-                                  : " Please update your profile details"}
-                              </button>
+                              {sMentor.mentor_dtls_found === "Yes" &&
+                              sMentor.mentor_domain !== "[]" ? (
+                                JSON.parse(sMentor?.mentor_domain)?.map(
+                                  (domain) => {
+                                    return (
+                                      <>
+                                        <button>{domain.label}</button>
+                                      </>
+                                    );
+                                  }
+                                )
+                              ) : (
+                                <button>
+                                  Please update your profile details
+                                </button>
+                              )}
                             </div>
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
                               Additional Skills

@@ -30,7 +30,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
       profiledata?.mentor_recommended_area_of_mentorship,
     mentor_headline: profiledata?.mentor_headline,
     mentor_passion_dtls: profiledata?.mentor_passion_dtls,
-    mentor_domain: profiledata?.mentor_domain,
+    mentor_domain: JSON.parse(profiledata?.mentor_domain),
   });
 
   const passionList = profiledata.mentor_passion_dtls;
@@ -425,15 +425,20 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               <label htmlFor="mentor_domain" className="form-label">
                 <b>Domain</b>
               </label>
-              <input
-                type="text"
-                className="form-control"
-                name="mentor_domain"
-                placeholder="eg: Banking, Manufacturing, IT, Telecom ..."
-                value={formData.mentor_domain}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-              />
+
+              {isEditing ? (
+                <input
+                  type="text"
+                  className="form-control"
+                  name="mentor_domain"
+                  placeholder="eg: Banking, Manufacturing, IT, Telecom ..."
+                  onChange={handleInputChange}
+                />
+              ) : (
+                formData.mentor_domain.map((domain) => {
+                  return <p>{domain.label}</p>;
+                })
+              )}
             </div>
             <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
