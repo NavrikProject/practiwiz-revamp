@@ -15,7 +15,7 @@ const MentorRegFrom = () => {
         >
           <div className="container">
             <div className="row">
-              <div className="col-lg-6 mb-4">
+              <div className="col-lg-6 mb-4 doneed">
                 <div className="iuhieiuihaw_left sticky-top">
                   <img
                     style={{ width: "-webkit-fill-available" }}

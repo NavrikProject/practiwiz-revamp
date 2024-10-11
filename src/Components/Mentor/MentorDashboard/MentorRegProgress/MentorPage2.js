@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
 import CoreSkill from "../../../data/CoreSkill.json";
@@ -12,10 +12,49 @@ const MentorPage2 = () => {
     register,
     control,
     setValue,
+    getValues,
+    watch,
     trigger,
     clearErrors,
     formState: { errors },
   } = useFormContext();
+
+  const formValues = getValues();
+
+  console.log(formValues);
+
+  const loadStoredData = () => {
+    const storedData = localStorage.getItem("formData1");
+    if (storedData) {
+      try {
+        return JSON.parse(storedData);
+      } catch (error) {
+        console.error("Error parsing stored data:", error);
+      }
+    }
+    return {};
+  };
+
+  const saveDataToStorage = (formValues) => {
+    localStorage.setItem("formData1", JSON.stringify(formValues));
+    localStorage.setItem("formData1", JSON.stringify(watch()));
+  };
+
+  const [update, setupdate] = useState({});
+  useEffect(() => {
+    const storedData = loadStoredData();
+    if (storedData) {
+      Object.keys(storedData).forEach((key) => {
+        setValue(key, storedData[key]);
+      });
+      setupdate([]);
+    }
+  }, [setValue]);
+
+  useEffect(() => {
+    saveDataToStorage(formValues);
+  }, [formValues, register]);
+
   const [statefordata, setstatefordata] = useState();
 
   const [items, setItems] = useState(PassionSkill);
@@ -65,6 +104,46 @@ const MentorPage2 = () => {
   const [selectedExpertise, setSelectedExpertise] = useState([]);
   const [selectedSubOptions, setSelectedSubOptions] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [error, setError] = useState(""); // State to store error messages
+
+  // Load saved data from local storage and initialize the form
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("mentorData"));
+    if (savedData?.expertise) {
+      const expertise = savedData.expertise.map((preSelectedItem) => {
+        const expertiseData = CoreSkill.find(
+          (coreItem) => coreItem.id === preSelectedItem.id
+        );
+        return expertiseData || preSelectedItem;
+      });
+      setSelectedExpertise(expertise);
+
+      const subOptions = expertise.flatMap((exp) =>
+        exp.sub_options?.filter((subOption) =>
+          savedData.expertise
+            .find((preSelectedItem) => preSelectedItem.id === exp.id)
+            ?.subOptions.some(
+              (preSubOption) => preSubOption.id === subOption.id
+            )
+        )
+      );
+      setSelectedSubOptions(subOptions);
+
+      const skills = subOptions.flatMap((subOption) =>
+        subOption.skills.filter((skill) =>
+          savedData.expertise
+            .find((preSelectedItem) =>
+              preSelectedItem.subOptions.some(
+                (preSubOption) => preSubOption.id === subOption.id
+              )
+            )
+            ?.subOptions.flatMap((preSubOption) => preSubOption.skills)
+            .some((preSkill) => preSkill.id === skill.id)
+        )
+      );
+      setSelectedSkills(skills);
+    }
+  }, []);
 
   const handleExpertiseChange = (e) => {
     const expertiseId = parseInt(e.target.value);
@@ -83,7 +162,6 @@ const MentorPage2 = () => {
     const subOption = selectedExpertise
       .flatMap((exp) => exp.sub_options)
       .find((option) => option.id === subOptionId);
-
     if (subOption) {
       setSelectedSubOptions((prev) =>
         prev.includes(subOption)
@@ -98,7 +176,6 @@ const MentorPage2 = () => {
     const skill = selectedSubOptions
       .flatMap((subOption) => subOption.skills)
       .find((s) => s.id === skillId);
-
     if (skill) {
       setSelectedSkills((prev) =>
         prev.includes(skill)
@@ -109,7 +186,6 @@ const MentorPage2 = () => {
     }
   };
 
-  const [error, setError] = useState(""); // State to store error messages
   const updateFormData = () => {
     const selectedData = {
       expertise: selectedExpertise.map((exp) => ({
@@ -126,9 +202,7 @@ const MentorPage2 = () => {
           })),
       })),
     };
-    setstatefordata(selectedData);
-
-    // setValue("Core_Skills", selectedData);
+    setValue("Core_Skills", selectedData);
   };
 
   const handleDeleteExpertise = (expertiseToDelete) => {
@@ -137,8 +211,14 @@ const MentorPage2 = () => {
         (expertise) => expertise.id !== expertiseToDelete.id
       )
     );
-    setSelectedSubOptions([]); // Clear sub-options when expertise is removed
-    setSelectedSkills([]); // Clear skills when expertise is removed
+    setSelectedSubOptions(
+      selectedExpertise.filter(
+        (subOption) => subOption.id !== expertiseToDelete.id
+      )
+    );
+    setSelectedSkills(
+      selectedExpertise.filter((skill) => skill.id !== expertiseToDelete.id)
+    );
     updateFormData();
   };
 
@@ -152,28 +232,29 @@ const MentorPage2 = () => {
       selectedSkills.filter(
         (skill) => skill.subOptionId !== subOptionToDelete.id
       )
-    ); // Clear skills associated with the removed sub-option
+    );
+    updateFormData();
+  };
+
+  const handleDeleteSkill = (skillToDelete) => {
+    setSelectedSkills(
+      selectedSkills.filter((skill) => skill.id !== skillToDelete.id)
+    );
     updateFormData();
   };
 
   const handleSave = () => {
-    // Clear any previous errors
     setError("");
-
-    // Validation: Check if at least one Core Skill is selected
     if (selectedExpertise.length === 0) {
       setError("Please select at least one Core Skill.");
       return;
     }
 
-    // Validation: Check if for every selected Core Skill, at least one Sub-option is selected
-    const coreSkillsWithoutSubOptions = selectedExpertise.filter((exp) => {
-      const subOptionsForExp = exp.sub_options.filter((subOption) =>
-        selectedSubOptions.includes(subOption)
-      );
-      return subOptionsForExp.length === 0; // Return true if no sub-options are selected for this core skill
-    });
-
+    const coreSkillsWithoutSubOptions = selectedExpertise.filter((exp) =>
+      exp.sub_options.every(
+        (subOption) => !selectedSubOptions.includes(subOption)
+      )
+    );
     if (coreSkillsWithoutSubOptions.length > 0) {
       setError(
         "Please select at least one Sub-option for each selected Core Skill."
@@ -181,14 +262,9 @@ const MentorPage2 = () => {
       return;
     }
 
-    // Check if for each selected Sub-option, at least one Skill is selected
-    const subOptionsWithoutSkills = selectedSubOptions.filter((subOption) => {
-      const skillsForSubOption = subOption.skills.filter((skill) =>
-        selectedSkills.includes(skill)
-      );
-      return skillsForSubOption.length === 0; // Return true if no skills are selected for this sub-option
-    });
-
+    const subOptionsWithoutSkills = selectedSubOptions.filter((subOption) =>
+      subOption.skills.every((skill) => !selectedSkills.includes(skill))
+    );
     if (subOptionsWithoutSkills.length > 0) {
       setError(
         "Please select at least one Skill for each selected Sub-option."
@@ -196,13 +272,33 @@ const MentorPage2 = () => {
       return;
     }
 
+    const selectedData = {
+      expertise: selectedExpertise.map((exp) => ({
+        id: exp.id,
+        name: exp.name,
+        subOptions: exp.sub_options
+          .filter((sub) => selectedSubOptions.includes(sub))
+          .map((sub) => ({
+            id: sub.id,
+            name: sub.name,
+            skills: sub.skills.filter((skill) =>
+              selectedSkills.includes(skill)
+            ),
+          })),
+      })),
+    };
     toast.success("😊 Success! Your Field Saved.", {
       position: "top-right", // Directly specifying the position
     });
-
-    // console.log(statefordata);
-    setValue("Core_Skills", statefordata);
+    localStorage.setItem("mentorData", JSON.stringify(selectedData));
+    console.log("Saved Data:", selectedData);
+    setValue("Core_Skills", selectedData);
     setValue("ForSkillValidation", "ok");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    handleSave();
   };
 
   return (
@@ -343,6 +439,7 @@ const MentorPage2 = () => {
               )}
             </div>
 
+            {/* Expertise Selection */}
             <div className="col-lg-6 mb-4">
               <label htmlFor="core_skill" className="form-label">
                 <b>
@@ -365,7 +462,6 @@ const MentorPage2 = () => {
                 </div>
               )}
               <select
-                required
                 onChange={handleExpertiseChange}
                 defaultValue=""
                 className="form-select"
@@ -381,10 +477,11 @@ const MentorPage2 = () => {
               </select>
             </div>
 
+            {/* Sub-option Selection */}
             <div className="col-lg-6 mb-4">
               <label htmlFor="sub_options" className="form-label">
                 <b>
-                  Sub-options: <span className="RedColorStarMark">*</span>
+                  Sub-Skills: <span className="RedColorStarMark">*</span>
                 </b>
               </label>
               {selectedSubOptions.length > 0 && (
@@ -408,7 +505,6 @@ const MentorPage2 = () => {
                 }
                 defaultValue=""
                 className="form-select"
-                disabled={selectedExpertise.length === 0}
               >
                 <option value="" disabled>
                   {selectedExpertise.length === 0
@@ -425,51 +521,59 @@ const MentorPage2 = () => {
               </select>
             </div>
 
-            {selectedSubOptions.length > 0 && (
-              <div className="row">
-                <label htmlFor="exampleInputEmail1" className="form-label mb-0">
-                  <b>
-                    Areas of Expertise{" "}
-                    <span className="RedColorStarMark">*</span>
-                  </b>
-                </label>
-                <div className="col-lg-12 mb-4 moideuirer_list areaofint">
-                  <ul className="ps-0 mb-0">
-                    {selectedSubOptions
-                      .flatMap((subOption) => subOption.skills)
-                      .map((skill) => (
-                        <li key={skill.id}>
+            {/* Error Message */}
+            {error && <p className="text-danger">{error}</p>}
+
+            {/* Skill Selection */}
+
+            <div className="row">
+              <label htmlFor="skills" className="form-label mb-0">
+                <b>
+                  Areas of Expertise <span className="RedColorStarMark">*</span>
+                </b>
+              </label>
+              <div className="col-lg-12 mb-4 moideuirer_list areaofint">
+                <ul className="ps-0 mb-0">
+                  {selectedSubOptions
+                    .flatMap((subOption) => subOption.skills)
+                    ?.map((skill) => (
+                      <li key={skill.id} className="ps-0">
+                        <div className="form-check d-inline-block my-2">
                           <input
                             type="checkbox"
-                            id={`skill-${skill.id}`}
+                            value={skill.id}
+                            id={skill.id}
                             checked={selectedSkills.includes(skill)}
                             onChange={() => handleSkillChange(skill.id)}
                           />
-                          <label htmlFor={`skill-${skill.id}`}>
+                          <label
+                            className="form-check-label"
+                            htmlFor={skill.id}
+                          >
                             {skill.name}
                           </label>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    alignItems: "end",
-                  }}
-                >
-                  <button
-                    type="button"
-                    className="btn btn-primary djssjbfe"
-                    onClick={handleSave}
-                  >
-                    Save data
-                  </button>
-                </div>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
               </div>
-            )}
-            {error && <p className="text-danger">{error}</p>}
+            </div>
+
+            {/* Save Button */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                alignItems: "end",
+              }}
+            >
+              <button
+                onClick={handleSubmit}
+                className="btn btn-primary djssjbfe"
+              >
+                Save
+              </button>
+            </div>
 
             <div className="row align-items-center">
               <div className="col-lg-6 mb-4">

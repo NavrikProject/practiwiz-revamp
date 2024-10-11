@@ -83,7 +83,11 @@ function App() {
             path="/redirect"
             element={<RedirectHandler user={user} token={token} />}
           />
-          <Route path="/register" exact element={<RegisterFormPage />} />
+          <Route
+            path="/register"
+            exact
+            element={<Navigate to="/mentor-registration" />}
+          />
           <Route
             path="/mentor-registration"
             exact

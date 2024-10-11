@@ -155,7 +155,7 @@ const MentorUpdatedForm = () => {
           </h4>
           <div className="ihduwfr_form_wrapper aasdfasfa2 mt-3">
             <div className="row">
-              <div className="row">
+              {/* <div className="row">
                 <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
                   <div className="col-lg-12 mt-2">
                     <p className="mb-0 d-flex align-items-center">
@@ -183,7 +183,7 @@ const MentorUpdatedForm = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="col-lg-12">
                 <div className="mb-3">
                   <label htmlFor="contacPersonFirstName" className="form-label">

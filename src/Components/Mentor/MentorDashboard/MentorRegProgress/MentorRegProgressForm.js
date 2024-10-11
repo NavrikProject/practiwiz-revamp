@@ -45,9 +45,9 @@ const MentorRegProgressForm = ({
   const tab1 = () => {
     setPage(0);
   };
-  const tab2 = () => {
-    setPage(1);
-  };
+  // const tab2 = () => {
+  //   setPage(1);
+  // };
 
   const validateAvailabilityStep = () => {
     const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; // Adjust according to your days of the week setup
@@ -223,7 +223,7 @@ const MentorRegProgressForm = ({
               <button
                 className="btn btn-primary tablinks "
                 data-tab="form2"
-                onClick={tab2}
+                // onClick={tab2}
               >
                 <i class="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
