@@ -133,7 +133,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 name="mentor_currency_type"
                 onChange={handleInputChange}
                 className="form-select"
-                disabled={!isEditing}
+                disabled={true}
               >
                 <option value={formData.mentor_currency_type}>
                   {formData.mentor_currency_type}{" "}
@@ -159,7 +159,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 min={0}
                 className="form-control"
                 placeholder=" Enter Your Amount..."
-                disabled={!isEditing}
+                disabled={true}
               />
             </div>
           </div>

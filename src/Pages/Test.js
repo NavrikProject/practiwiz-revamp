@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
-
+import "./Test.css";
 const CircularImageUploader = () => {
   const [image, setImage] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
@@ -52,62 +52,44 @@ const CircularImageUploader = () => {
       }
     }
   };
+  const ProgressBar = ({ progress }) => {
+    const progressBarStyles = {
+      height: "20px",
+      width: "100%",
+      backgroundColor: "#e0e0de",
+      borderRadius: "5px",
+      overflow: "hidden",
+      margin: "20px 0",
+    };
 
+    const fillerStyles = {
+      height: "100%",
+      width: `${progress}%`,
+      backgroundColor: progress < 50 ? "#f44336" : "#4caf50", // Red if < 50, Green if >= 50
+      borderRadius: "inherit",
+      textAlign: "right",
+      transition: "width 0.5s ease-in-out",
+    };
+
+    const labelStyles = {
+      padding: "5px",
+      color: "white",
+      fontWeight: "bold",
+    };
+
+    return (
+      <div style={progressBarStyles}>
+        <div style={fillerStyles}>
+          <span style={labelStyles}>{`${progress}%`}</span>
+        </div>
+      </div>
+    );
+  };
   return (
-    <div>
-      <h2>Upload and Crop Circular Image</h2>
-
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-
-      {image && (
-        <div>
-          <h3>Adjust your image:</h3>
-          <Cropper
-            src={image}
-            style={{
-              height: 400,
-              width: 400,
-              borderRadius: "50%",
-              overflow: "hidden",
-            }}
-            // Cropper.js options
-            aspectRatio={1} // Keep a square cropper to simulate a circular crop
-            guides={false}
-            viewMode={1}
-            ref={cropperRef}
-            background={false} // Remove background to focus on the image
-            zoomable={true}
-          />
-          <button onClick={handleCrop}>Crop Image</button>
-        </div>
-      )}
-
-      {croppedImage && (
-        <div>
-          <h3>Cropped Circular Image Preview:</h3>
-          {/* Show the cropped image as a circle */}
-          <div
-            style={{
-              width: 300,
-              height: 300,
-              borderRadius: "50%",
-              overflow: "hidden",
-            }}
-          >
-            <img
-              src={croppedImage}
-              alt="Cropped"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
-          </div>
-          <button onClick={handleSubmit}>Submit to Backend</button>
-        </div>
-      )}
-    </div>
+    <>
+      <h2>Progress Bar Example</h2>
+      <ProgressBar progress={40} />{" "}
+    </>
   );
 };
 

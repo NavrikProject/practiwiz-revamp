@@ -4,12 +4,12 @@ import Footer from "../../../Components/Footer/Footer";
 import LoginForm from "../../../Components/Forms/Login/LoginForm";
 import GoToTop from "../../../Utils/GoToTop";
 
-const LoginFormPage = () => {
+const LoginFormPage = ({ user, token }) => {
   document.title = "Practywiz | Login";
   return (
     <>
       <Navbar />
-      <LoginForm />
+      <LoginForm user={user} token={token} />
       <Footer />
       <GoToTop />
     </>

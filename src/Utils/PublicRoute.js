@@ -4,8 +4,15 @@ import { Navigate, useLocation } from "react-router-dom";
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, currentUser } = useSelector((state) => state.user);
   let location = useLocation();
+  console.log(currentUser);
   if (isAuthenticated === true && currentUser) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to={`${currentUser.user_type}/dashboard`}
+        state={{ from: location }}
+        replace
+      />
+    );
   }
   return children;
 };

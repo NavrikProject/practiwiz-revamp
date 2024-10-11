@@ -230,8 +230,8 @@ const Navbar = () => {
                     <div className="udgehrr">
                       <button className="btn fvjhdf_btn btn-main mt-0">
                         <Link to={`${user.user_type}/dashboard`}>
-                          {user.user_firstname.charAt(0).toUpperCase() +
-                            user.user_lastname.charAt(0).toUpperCase()}
+                          {user?.user_firstname?.charAt(0).toUpperCase() +
+                            user?.user_lastname?.charAt(0).toUpperCase()}
                         </Link>
                       </button>
                     </div>
@@ -266,7 +266,10 @@ const Navbar = () => {
                                 className="MenuBox-item1"
                                 // onClick={gotoMentorpage}
                               >
-                                <a className="inOneLine" href="register">
+                                <a
+                                  className="inOneLine"
+                                  href="mentor-registration"
+                                >
                                   <i className="fa-solid fa-graduation-cap"></i>{" "}
                                   <h5>Mentor</h5>
                                 </a>

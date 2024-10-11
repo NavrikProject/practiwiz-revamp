@@ -11,7 +11,7 @@ import {
 } from "../../../Redux/loadingRedux.js";
 import { toast } from "react-toastify";
 import { ApiURL } from "../../../Utils/ApiURL.js";
-const LoginForm = () => {
+const LoginForm = ({ user, token }) => {
   const {
     register,
     handleSubmit,
@@ -60,8 +60,8 @@ const LoginForm = () => {
         localStorage.setItem("token", JSON.stringify(token));
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
         dispatch(loginSuccess(userData));
-        toast.success("Logged in successfully");
-        navigate(`/`);
+        toast.success("Logged in successfully, Redirecting to the Dashboard");
+        navigate(`/redirect`);
       } else if (res.data.error) {
         dispatch(loginFailure(res.data.error));
         toast.error(res.data.error);

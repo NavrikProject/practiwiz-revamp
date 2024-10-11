@@ -4,7 +4,44 @@
   overflow-y: initial;
   overflow-x: initial;
 }
-
+#stickytopTop {
+  top: 0% !important;
+}
+.jhjhjujhhh {
+  background: #ebf5ff;
+  border-radius: 10px;
+  text-align: center;
+}
+.progressbarContainer {
+  margin: 0px auto;
+  width: 80%;
+}
+.jhjhjujhhh h5 {
+  color: #063880;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.sdfasdfasdfasdf {
+  background: none !important;
+}
+.sadlfjsldfjoi {
+  width: 75% !important;
+  padding-top: 30px !important;
+}
+.mentorNameSpan {
+  text-transform: capitalize;
+}
+.errorNoteText {
+  text-align: center;
+  color: rgb(244, 47, 47);
+}
+.mentorImageFlex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
 .section5 {
   background: url("../../../../Images/mentorbclk.png") no-repeat;
   width: 100%;
@@ -714,14 +751,6 @@
   padding: 10px 15px;
   cursor: pointer;
   font-size: 1.2rem;
-}
-
-.fkjhgdfbghh ul.tabs li.current {
-  background: #ffffff;
-  color: #222;
-  color: #000;
-  font-weight: 600;
-  border-bottom: 2px solid var(--main-orange-color);
 }
 
 .fkjhgdfbghh .tab-content {
