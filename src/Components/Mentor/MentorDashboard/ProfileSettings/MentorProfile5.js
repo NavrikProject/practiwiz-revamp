@@ -16,20 +16,6 @@ const Mentorprofile5 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
-
-  const [formData, setFormData] = useState({
-    mentor_firstname: profiledata?.mentor_firstname,
-    mentor_lastname: profiledata?.mentor_lastname,
-    mentor_phone_number: profiledata?.mentor_phone_number,
-    mentor_email: profiledata?.mentor_email,
-    social_media_profile: profiledata?.mentor_social_media_profile,
-    mentor_country: profiledata?.mentor_country,
-    mentor_city: profiledata?.mentor_city,
-    mentor_institute: profiledata?.mentor_institute,
-    mentor_academic_qualification: profiledata?.mentor_academic_qualification,
-    mentor_profile_photo: profiledata?.mentor_profile_photo,
-  });
-
   const [file, setFile] = useState(null);
   const [image, setImage] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
@@ -69,7 +55,9 @@ const Mentorprofile5 = ({ profiledata, user, token }) => {
       const formData1 = new FormData();
       formData1.append("image", blob);
       formData1.append("mentorUserDtlsId", user?.user_id);
-      formData1.append("mentorDtlsId", profiledata?.mentor_dtls_id); // Append user ID to the formData
+      formData1.append("mentorEmail", profiledata?.mentor_email);
+      formData1.append("mentorPhoneNumber", profiledata?.mentor_phone_number);
+
       try {
         dispatch(showLoadingHandler());
         const response = await axios.post(
@@ -225,10 +213,7 @@ const Mentorprofile5 = ({ profiledata, user, token }) => {
           <div className="position-relative overflow-hidden">
             <h4>Update your profile picture</h4>
             <img
-              src={
-                formData.mentor_profile_photo ||
-                profiledata.mentor_profile_photo
-              }
+              src={profiledata?.mentor_profile_photo}
               alt="Profile"
               style={{
                 width: "300px",

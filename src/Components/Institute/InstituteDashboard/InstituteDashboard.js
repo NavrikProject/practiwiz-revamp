@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./DashboardCSS/Institutedashboardnotification.css";
-import "./DashboardCSS/Institute.css";
-// import "./DashboardCSS/teststyle.css";
 import Logo from "../../../Images/logo.png";
 import InstituteNotifications from "./OtherComponents/InstituteNotifications";
 import InstituteChangePwd from "./OtherComponents/InstituteChangePwd";
@@ -16,9 +14,16 @@ import CommunicationTemplate from "./OtherComponents/CommunicationTemplate";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../Redux/userRedux";
+import AlumniMentor from "./OtherComponents/AlumniMentor";
+import NonAlumniMentor from "./OtherComponents/NonAlumniMentor";
+import AlumniList from "./OtherComponents/AlumniList";
+import InstituteProfileSetting from "./OtherComponents/InstituteProfileSetting";
+import InstituteUserList from "./OtherComponents/InstituteUserList";
 
 const InstituteDashboard = () => {
   const user = useSelector((state) => state.user?.currentUser);
+  const [showUserList, setShowUserList] = useState(false);
+  const [showProfileSettings, setShowProfileSettings] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
   const [showInstituteMessage, setShowInstituteMessage] = useState(false);
@@ -29,23 +34,59 @@ const InstituteDashboard = () => {
   const [ShowRequestGuest, setShowRequestGuest] = useState(false);
   const [ShowRegisterGuest, setShowRegisterGuest] = useState(false);
   const [ShowHistory, setShowHistory] = useState(false);
+  const [ShowAlumniMentor, setShowAlumniMentor] = useState(false);
+  const [ShowNonAlumniMentor, setShowNonAlumniMentor] = useState(false);
+  const [AlumniListMentor, setAlumniListMentor] = useState(false);
+
   const [Communication, setCommunication] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
+  const [mentormenu, setmentormenu] = useState(false);
+  const [sub_sub1, setsub_sub1] = useState(false);
+  const [sub_sub2, setsub_sub2] = useState(false);
   const toggleMenu = () => {
     setIsOpen(true);
+    setsub_sub2(false);
+    setsub_sub1(false);
   };
   const toggleMenu2 = () => {
     setIsOpen(false);
   };
   const toggleMenu1 = () => {
     setprofilemenu(true);
+    setsub_sub2(false);
+    setsub_sub1(false);
   };
   const toggleMenu3 = () => {
     setprofilemenu(false);
   };
-  const InstituteProfileHandler = () => {
-    if (!showInstituteProfile) {
-      setshowInstituteProfile(true);
+  const toggleMenu4 = () => {
+    setmentormenu(true);
+  };
+  const toggleMenu5 = () => {
+    setmentormenu(false);
+  };
+  const toggleMenu6 = () => {
+    setsub_sub1(true);
+    setsub_sub2(false);
+  };
+  const toggleMenu7 = () => {
+    setsub_sub1(false);
+    setsub_sub2(true);
+  };
+  const toggleMenu8 = () => {
+    setsub_sub1(false);
+    setsub_sub2(false);
+  };
+  // const toggleMenu9 = () => {};
+  const SubmenuAllOff = () => {
+    setsub_sub2(false);
+    setsub_sub1(false);
+    setmentormenu(false);
+  };
+
+  const InstituteUsersListHandler = () => {
+    if (!showProfileSettings) {
+      setShowUserList(true);
     }
     return (
       setShowNotification(false),
@@ -56,7 +97,55 @@ const InstituteDashboard = () => {
       setShowRegisterGuest(false),
       setShowHistory(false),
       setshowAddMentor(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowProfileSettings(false),
+      setshowInstituteProfile(false)
+    );
+  };
+  const InstituteProfileSettingHandler = () => {
+    if (!showProfileSettings) {
+      setShowProfileSettings(true);
+    }
+    return (
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowInstituteMessage(false),
+      setshowsearchguest(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowHistory(false),
+      setshowAddMentor(false),
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setshowInstituteProfile(false),
+      setShowUserList(false)
+    );
+  };
+
+  const InstituteProfileHandler = () => {
+    if (!showInstituteProfile) {
+      setshowInstituteProfile(true);
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowInstituteMessage(false),
+      setshowsearchguest(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowHistory(false),
+      setshowAddMentor(false),
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
 
@@ -65,6 +154,7 @@ const InstituteDashboard = () => {
       setshowAddMentor(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowNotification(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
@@ -73,7 +163,11 @@ const InstituteDashboard = () => {
       setShowRequestGuest(false),
       setShowRegisterGuest(false),
       setShowHistory(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
 
@@ -82,6 +176,7 @@ const InstituteDashboard = () => {
       setShowNotification(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
@@ -90,7 +185,11 @@ const InstituteDashboard = () => {
       setShowRegisterGuest(false),
       setShowHistory(false),
       setshowAddMentor(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
 
@@ -99,6 +198,7 @@ const InstituteDashboard = () => {
       setshowsearchguest(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
@@ -107,7 +207,11 @@ const InstituteDashboard = () => {
       setShowHistory(false),
       setshowAddMentor(false),
       setShowNotification(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
 
@@ -116,6 +220,7 @@ const InstituteDashboard = () => {
       setShowRequestGuest(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
@@ -124,7 +229,11 @@ const InstituteDashboard = () => {
       setShowHistory(false),
       setShowNotification(false),
       setshowAddMentor(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
   const InstituteRegiterGuest = () => {
@@ -132,6 +241,7 @@ const InstituteDashboard = () => {
       setShowRegisterGuest(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
@@ -140,7 +250,11 @@ const InstituteDashboard = () => {
       setShowHistory(false),
       setShowNotification(false),
       setshowAddMentor(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
   const InstituteHistoryGuest = () => {
@@ -148,6 +262,7 @@ const InstituteDashboard = () => {
       setShowHistory(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
@@ -156,7 +271,11 @@ const InstituteDashboard = () => {
       setShowRegisterGuest(false),
       setShowNotification(false),
       setshowAddMentor(false),
-      setCommunication(false)
+      setCommunication(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
 
@@ -165,6 +284,7 @@ const InstituteDashboard = () => {
       setCommunication(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowChangePwd(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
@@ -173,15 +293,20 @@ const InstituteDashboard = () => {
       setShowRegisterGuest(false),
       setShowNotification(false),
       setshowAddMentor(false),
-      setShowHistory(false)
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
 
-  const InstituteChangePwdHandler = () => {
-    if (!showChangePwd) {
-      setShowChangePwd(true);
+  const InstituteAlumniMentor = () => {
+    if (!ShowAlumniMentor) {
+      setShowAlumniMentor(true);
     }
     return (
+      setShowProfileSettings(false),
       setShowInstituteMessage(false),
       setshowInstituteProfile(false),
       setshowsearchguest(false),
@@ -190,7 +315,76 @@ const InstituteDashboard = () => {
       setShowRegisterGuest(false),
       setShowNotification(false),
       setshowAddMentor(false),
-      setShowHistory(false)
+      setShowHistory(false),
+      setShowChangePwd(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
+    );
+  };
+
+  const InstituteNonAlumniMentor = () => {
+    if (!ShowNonAlumniMentor) {
+      setShowNonAlumniMentor(true);
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowChangePwd(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
+    );
+  };
+  const InstituteAlumniListMentor = () => {
+    if (!AlumniListMentor) {
+      setAlumniListMentor(true);
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowNonAlumniMentor(false),
+      setShowChangePwd(false),
+      setShowAlumniMentor(false),
+      setShowUserList(false)
+    );
+  };
+
+  const InstituteChangePwdHandler = () => {
+    if (!showChangePwd) {
+      setShowChangePwd(true);
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false)
     );
   };
   const dispatch = useDispatch();
@@ -306,29 +500,35 @@ const InstituteDashboard = () => {
 
               <h5>Dashboard</h5>
             </button>
+            <div className="Baseposition" onMouseLeave={toggleMenu3}>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                // onClick={InstituteProfilesettings}
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett"
-              // onClick={InstituteProfilesettings}
+                onMouseOver={toggleMenu1}
 
-              onMouseOver={toggleMenu1}
-              onMouseLeave={toggleMenu3}
-              // onBlur={toggleMenu1}
-            >
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-bars"></i>
-              </span>
+                // onBlur={toggleMenu1}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-bars"></i>
+                </span>
 
-              <h5>
-                Profile Settings{" "}
-                <i className="fa-solid fa-chevron-down downarrowsize"></i>
-              </h5>
-
+                <h5>
+                  Profile Settings{" "}
+                  <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
+              </button>
               {profilemenu && (
                 <div className="submenu1">
                   <button
                     className="submenu-item1"
-                    // onClick={InstituteSearchGuestLacture}
+                    onClick={InstituteProfileSettingHandler}
+                  >
+                    <h5> Profile Settings </h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={InstituteUsersListHandler}
                   >
                     <h5> Users List</h5>
                   </button>
@@ -340,34 +540,97 @@ const InstituteDashboard = () => {
                   </button>
                 </div>
               )}
-            </button>
+            </div>
 
-            <button
-              className="btn btn-transparent text-center py-3 seeeett "
-              onClick={InstituteAddmentorShowingHandler}
-            >
-              <span className="d-block bg-white position-relative m-auto ">
-                {/* <img src={Pic1} alt="pic1" width={"44px"} /> */}
-                <i className="fa-solid fa-user-plus"></i>
-              </span>
+            <div className="Baseposition" onMouseLeave={toggleMenu5}>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett "
+                onMouseOver={toggleMenu4}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-user-plus"></i>
+                </span>
 
-              <h5>Alumni Upload</h5>
-            </button>
-            <button
-              className="btn btn-transparent text-center py-3 seeeett main-button menu-container"
-              onMouseOver={toggleMenu}
-              onMouseLeave={toggleMenu2}
-            >
-              <span className="d-block bg-white position-relative m-auto  ">
-                {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
-                <i className="fa-solid fa-chalkboard-user"></i>
-              </span>
+                <h5>
+                  Mentorship{" "}
+                  <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
+              </button>
 
-              <h5>
-                Guest Lectures{" "}
-                <i className="fa-solid fa-chevron-down downarrowsize"></i>
-              </h5>
+              {mentormenu && (
+                <div className="submenu1">
+                  <span className="submenu-item1" onMouseOver={toggleMenu6}>
+                    <h5>
+                      Alumni{" "}
+                      <i
+                        className="fa-solid fa-chevron-right "
+                        style={{ fontSize: "10px" }}
+                      ></i>{" "}
+                    </h5>
+                  </span>
+                  <span className="submenu-item1" onMouseOver={toggleMenu7}>
+                    <h5>
+                      {" "}
+                      Mentor{" "}
+                      <i
+                        className="fa-solid fa-chevron-right "
+                        style={{ fontSize: "10px" }}
+                      ></i>
+                    </h5>
+                  </span>
+                </div>
+              )}
+              {sub_sub1 && (
+                <div className="submenu_sub" onMouseLeave={toggleMenu8}>
+                  {" "}
+                  <span
+                    className="submenu_sub1"
+                    onClick={InstituteAddmentorShowingHandler}
+                  >
+                    <h5>Alumni Upload</h5>
+                  </span>
+                  <span
+                    className="submenu_sub1"
+                    onClick={InstituteAlumniListMentor}
+                  >
+                    <h5>Alumni List</h5>
+                  </span>
+                </div>
+              )}
+              {sub_sub2 && (
+                <div className="submenu_sub2" onMouseLeave={toggleMenu8}>
+                  {" "}
+                  <span
+                    className="submenu_sub1"
+                    onClick={InstituteAlumniMentor}
+                  >
+                    <h5>Alumni Mentor</h5>
+                  </span>
+                  <span
+                    className="submenu_sub1"
+                    onClick={InstituteNonAlumniMentor}
+                  >
+                    <h5>Non Alumni Mentor</h5>
+                  </span>
+                </div>
+              )}
+            </div>
 
+            <div className="Baseposition" onMouseLeave={toggleMenu2}>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onMouseOver={toggleMenu}
+              >
+                <span className="d-block bg-white position-relative m-auto  ">
+                  {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
+                  <i className="fa-solid fa-chalkboard-user"></i>
+                </span>
+
+                <h5>
+                  Guest Lectures{" "}
+                  <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
+              </button>
               {isOpen && (
                 <div className="submenu">
                   <button
@@ -396,7 +659,7 @@ const InstituteDashboard = () => {
                   </button>
                 </div>
               )}
-            </button>
+            </div>
 
             <button
               className="btn btn-transparent text-center py-3 seeeett"
@@ -418,28 +681,10 @@ const InstituteDashboard = () => {
 
               <h5>Notifications</h5>
             </button>
-
-            {/* <button
-                  className="btn btn-transparent text-center py-3"
-                  onClick={InstituteChangePwdHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-arrow-right-arrow-left"></i>
-                  </span>
-
-                  <h5>CHANGE PASSWORD</h5>
-                </button> */}
-
-            {/* <button className="btn btn-transparent text-center py-3">
-                  <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-right-from-bracket"></i>
-                  </span>
-
-                  <h5>LOG OUT</h5>
-                </button> */}
-            {/* </div> */}
           </div>
-          <div className="maincontent">
+          <div className="maincontent" onMouseOver={SubmenuAllOff}>
+            {showUserList ? <InstituteUserList /> : ""}
+            {showProfileSettings ? <InstituteProfileSetting /> : ""}
             {showNotification ? <InstituteNotifications /> : ""}
             {showInstituteProfile ? <InstituteProfileDashboard /> : ""}
             {showChangePwd ? <InstituteChangePwd /> : ""}
@@ -450,9 +695,11 @@ const InstituteDashboard = () => {
             {ShowRegisterGuest ? <RegisterGuestlacture /> : ""}
             {ShowHistory ? <HistoryGuestlacture /> : ""}
             {Communication ? <CommunicationTemplate /> : ""}
+            {ShowAlumniMentor ? <AlumniMentor /> : ""}
+            {ShowNonAlumniMentor ? <NonAlumniMentor /> : ""}
+            {AlumniListMentor ? <AlumniList /> : ""}
           </div>
         </div>
-        {/* </div> */}
       </div>
       <div className="res-db-sidebar">
         <div className="md-header ugenhuhrtniu" id="res-db-side-bar">

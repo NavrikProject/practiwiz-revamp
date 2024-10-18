@@ -6,7 +6,7 @@ import Qw1 from "../../../../Images/Mentors/qw1 (1).png";
 import Qw2 from "../../../../Images/Mentors/qw1 (2).png";
 import DCdc1 from "../../../../Images/Mentors/Mentor_session.jpg";
 import "../AllMentors.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import MentorBookingAppointment from "./MentorBookingAppointment";
@@ -22,6 +22,7 @@ const SingleMentorProfile = () => {
   const url = ApiURL();
   const params = useParams();
   const mentorDtlsId = params.id;
+  const navigate = useNavigate();
   const [showRating, setShowRating] = useState(null);
   const [singleMentor, setSingleMentor] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -54,8 +55,14 @@ const SingleMentorProfile = () => {
         setSingleMentor(response.data.success);
       }
       if (response.data.error) {
-        setLoading(false);
-        setSingleMentor(null);
+        return (
+          toast.error(
+            "Public profile will be available after mentor application is approved"
+          ),
+          navigate("/redirect"),
+          setLoading(false),
+          setSingleMentor(null)
+        );
       }
     };
     fetchMentors();
@@ -335,7 +342,16 @@ const SingleMentorProfile = () => {
                           <div className="hgkfgkjfgfghgfg sticky-top">
                             <h3 style={{ width: "auto" }}>Domain</h3>
                             <div className="fhfbfghg">
-                              <button>{sMentor.mentor_domain}</button>
+                              {sMentor.mentor_domain !== "[]" &&
+                                JSON.parse(sMentor?.mentor_domain)?.map(
+                                  (domain) => {
+                                    return (
+                                      <>
+                                        <button>{domain.label}</button>
+                                      </>
+                                    );
+                                  }
+                                )}
                             </div>
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
                               Skills

@@ -52,6 +52,10 @@ import LinkedInCallback from "./Components/Linkedin/LinkedInCallback";
 import AdminMentorPrivateProfilePage from "./Pages/AdminPages/AdminMentorPrivateProfilePage";
 import MainComponent from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 import MentorExpertListPage from "./Pages/MentorPages/AllMentors/MentorExpertListPage";
+import MentorNotFoundDashboardPage from "./Pages/MentorPages/Dashboard/MentorNotFoundDashboardPage";
+import MentorUpdatedRegistrationPage from "./Pages/FormPages/RegisterPages/MentorUpdatedRegistrationPage";
+import { useEffect } from "react";
+import RedirectHandler from "./Utils/RedirectHandler";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
@@ -73,13 +77,22 @@ function App() {
           <Route
             path="/login"
             exact
-            element={
-              <PublicRoute>
-                <LoginFormPage />
-              </PublicRoute>
-            }
+            element={<LoginFormPage user={user} token={token} />}
           />
-          <Route path="/register" exact element={<RegisterFormPage />} />
+          <Route
+            path="/redirect"
+            element={<RedirectHandler user={user} token={token} />}
+          />
+          <Route
+            path="/register"
+            exact
+            element={<Navigate to="/mentor-registration" />}
+          />
+          <Route
+            path="/mentor-registration"
+            exact
+            element={<MentorUpdatedRegistrationPage />}
+          />
           <Route path="/courses" exact element={<AllCoursePage />} />
           {/* Mentor Links starts */}
           <Route path="/mentor-club" element={<AllMentorsPage />} />
@@ -115,6 +128,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MentorDashboardPage user={user} token={token} />
+                </ProtectedRoute>
+              }
+            />
+          )}
+          {user?.user_type === "mentor" && (
+            <Route
+              path="/mentor/dashboard/update-details"
+              element={
+                <ProtectedRoute>
+                  <MentorNotFoundDashboardPage user={user} token={token} />
                 </ProtectedRoute>
               }
             />

@@ -341,7 +341,13 @@ const MenteeDashboard = ({ user, token }) => {
                             View Public Profile
                           </Link>
                         </li>
-
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
                         <li onClick={LogoutHandler}>Log Out</li>
                       </ul>
                     </div>

@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import ListForGuest from "./listForGuest";
-// import "./institutemessage.css";
+import React, { useState, useEffect } from "react";
+import ListsForGuestMentors from "./ListsForMentors";
 import "../DashboardCSS/InstituteguestlctSearch.css";
+import Data from "./demoDataMentors1.json";
+// import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
+import ListStatusSkeleton from "./ListStatusSkeleton";
 
 const SearchGuestLacture = () => {
   const [filters, setFilters] = useState({
@@ -13,6 +16,34 @@ const SearchGuestLacture = () => {
     experience: "",
   });
 
+  const url = ApiURL;
+
+  const [allMentors, setAllMentors] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchMentors = async () => {
+  //     const response = await axios.get(`${url}api/v1/institute/guest-lectures`);
+  //     if (response.data.success) {
+  //       setAllMentors(response.data.success);
+  //     } else {
+  //       setAllMentors([]);
+  //     }
+  //   };
+  //   fetchMentors();
+  // }, [url]);
+
+  useEffect(() => {
+    // Check if DataJson is an array
+    if (Array.isArray(Data)) {
+      setAllMentors(Data);
+    } else if (Data.success && Array.isArray(Data.success)) {
+      // Handle case where mentors are nested inside "success"
+      setAllMentors(Data.success);
+    } else {
+      console.error("Data format is unexpected", Data);
+    }
+  }, [url]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters({
@@ -21,11 +52,49 @@ const SearchGuestLacture = () => {
     });
   };
 
-  const [appliedFilters, setAppliedFilters] = useState(filters);
+  const filterMentors = () => {
+    let filtered = allMentors;
+
+    if (filters.location) {
+      filtered = filtered.filter(
+        (mentor) => mentor.mentor_country === filters.location
+      );
+    }
+    if (filters.skill) {
+      filtered = filtered.filter((mentor) =>
+        JSON.parse(mentor.expertise_list || "[]").some(
+          (expertise) => expertise.mentor_expertise === filters.skill
+        )
+      );
+    }
+    if (filters.institute) {
+      filtered = filtered.filter(
+        (mentor) => mentor.institute === filters.institute
+      );
+    }
+    if (filters.qualification) {
+      filtered = filtered.filter(
+        (mentor) => mentor.qualification === filters.qualification
+      );
+    }
+    if (filters.areaOfMentorship) {
+      filtered = filtered.filter(
+        (mentor) => mentor.area_of_mentorship === filters.areaOfMentorship
+      );
+    }
+    if (filters.experience) {
+      filtered = filtered.filter(
+        (mentor) => mentor.experience === filters.experience
+      );
+    }
+
+    setAllMentors(filtered);
+  };
 
   const handleApplyFilter = () => {
-    setAppliedFilters(filters);
+    filterMentors();
   };
+
   return (
     <div className="col-lg-10 ps-0">
       <div className="mentor_dash_msge">
@@ -105,7 +174,18 @@ const SearchGuestLacture = () => {
               <button onClick={handleApplyFilter}>Apply Filter</button>
             </div>
             <div className="containerOfCard">
-              <ListForGuest filters={appliedFilters} />
+              {allMentors.length === 0 ? (
+                <>
+                  <ListStatusSkeleton />
+                  <ListStatusSkeleton />
+                  <ListStatusSkeleton />
+                  <ListStatusSkeleton />
+                  <ListStatusSkeleton />
+                  <ListStatusSkeleton />
+                </>
+              ) : (
+                <ListsForGuestMentors data={allMentors} />
+              )}
             </div>
           </div>
         </div>

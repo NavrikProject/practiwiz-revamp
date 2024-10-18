@@ -1,4 +1,3 @@
-
 .uigbhuyguberer .kmg {
   width: 100%;
   text-align: center;
@@ -662,34 +661,31 @@
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
-.container_intdashboard{
+.container_intdashboard {
   display: flex;
   justify-content: space-around;
   margin-top: 2rem;
   flex-wrap: wrap;
   object-fit: contain;
-
-
 }
 
-.item_intdashboard{
+.item_intdashboard {
   border: 1px solid black;
   width: 16rem;
   height: 12rem;
   border-radius: 5px;
   padding: 1rem;
   padding-top: 3rem;
-  box-shadow: 4px 4px 15px 2px rgba(0, 0, 255, .2);
+  box-shadow: 4px 4px 15px 2px rgba(0, 0, 255, 0.2);
   border-radius: 30px;
-
 }
-.valuedash{
+.valuedash {
   margin-top: 2rem;
   font-size: 21px;
 }
 
-.bg-img{
-  background-image: url("../InstituteDashboard/OtherComponents/download\ \(1\).jpg");
+.bg-img {
+  background-image: url("../InstituteDashboard/download\ \(1\).jpg");
   background-position: center;
   background-size: contain;
   /* background-color: #3498db; */
@@ -698,24 +694,29 @@
   align-items: stretch;
   flex-direction: column;
   justify-content: center;
-
 }
 
-.text-1{
-  text-shadow:  2px 5px 12px rgb(245 245 245 / 44%);
-  color:white;
+.text-1 {
+  text-shadow: 2px 5px 12px rgb(245 245 245 / 44%);
+  color: white;
   margin-top: 10px;
 }
 
-.animation{
+.text-2 {
+  text-shadow: 2px 5px 12px rgb(245 245 245 / 44%);
+  color: white;
+  margin-top: 5px;
+}
+
+.animation {
   border-radius: 5px;
   border: 1px solid #ebdddd;
- 
+
   width: 95%;
   padding: 1rem;
   margin: 1rem auto;
 }
-.iconsize{
+.iconsize {
   font-size: 5rem;
   text-align: center;
   color: white;

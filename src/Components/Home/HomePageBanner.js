@@ -5,15 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Link } from "react-router-dom";
-import img1 from "./images/img1.png";
-import img2 from "./images/img2.png";
-import img3 from "./images/img3.png";
-import img4 from "./images/img4.png";
-import img5 from "./images/img5.png";
-import img6 from "./images/img6.png";
-import img7 from "./images/img7.png";
-import img8 from "./images/img8.png";
-
 const HomePageBanner = () => {
   return (
     <>
@@ -43,7 +34,7 @@ const HomePageBanner = () => {
                     ></ReactTyped> */}
                   </p>
                   <button className="btn mt-5 btn-main">
-                    <Link target="_blank" to="/register">
+                    <Link target="_blank" to="/mentor-registration">
                       Register
                     </Link>
                   </button>
@@ -51,34 +42,6 @@ const HomePageBanner = () => {
               </div>
               <div className="col-lg-4 mb-4 testbackg">
                 <div className="iduherr_right">
-                  {/* <div className="diehjrrr_intern position-relative">
-                    <div className="uidgher_circle position-absolute">
-                      <img src={Wdrtjh} alt="wdrth" style={{ width: "100%" }} />
-                    </div>
-
-                    <div>
-                      <img
-                        src={Csdfsfgdf}
-                        className="position-absolute"
-                        alt="csdfs"
-                        style={{ width: "56%" }}
-                      />
-                    </div>
-                  </div>
-                  <div className="diehjsdrrr_intern position-relative">
-                    <div className="uidgher_circle position-absolute">
-                      <img src={Dfsh} alt="dfsh" style={{ width: "100%" }} />
-                    </div>
-
-                    <div>
-                      <img
-                        src={Mkwef}
-                        className="position-absolute"
-                        alt="mkwef"
-                        style={{ width: "56%" }}
-                      />
-                    </div>
-                  </div> */}
                   <div className="owl-carousel udguafr_slider owl-theme carousel-react">
                     <Swiper
                       spaceBetween={50}
@@ -91,90 +54,104 @@ const HomePageBanner = () => {
                       className="mySwiper "
                     >
                       <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
+                        <div>
+                          <div className=" text-center swiper-img-home">
                             <img
-                              src={img1}
+                              src="https://practiwizstorage.blob.core.windows.net/practiwizcontainer/mentorprofilepictures/1728050519561-rituraj.jfif"
                               alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
-                        </div>
-                      </SwiperSlide>
-                      <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
-                            <img
-                              src={img2}
-                              alt="Mentor"
-                              style={{ width: "100%" }}
-                            />
+                          <div className="doiuher_content text-center">
+                            <h4 className="mb-0 gdgdght">
+                              Rituraj Chaturmohta
+                            </h4>
+                            <p className="profession mb-0 gdgdght">
+                              Growth Lead
+                            </p>
                           </div>
                         </div>
                       </SwiperSlide>
                       <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
+                        <div>
+                          <div className=" text-center swiper-img-home">
                             <img
-                              src={img3}
+                              src="https://practiwizstorage.blob.core.windows.net/practiwizcontainer/mentorprofilepictures/1727617085477-PDPic.png"
                               alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
-                        </div>
-                      </SwiperSlide>
-                      <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
-                            <img
-                              src={img4}
-                              alt="Mentor"
-                              style={{ width: "100%" }}
-                            />
+                          <div className="doiuher_content text-center my-0">
+                            <h4 className="mb-0 gdgdght">Puneet Dhawan</h4>
+                            <p className="profession mb-0 gdgdght">
+                              Executive Director
+                            </p>
                           </div>
                         </div>
                       </SwiperSlide>
                       <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
+                        <div>
+                          <div className=" text-center swiper-img-home">
                             <img
-                              src={img5}
+                              src="https://practiwizstorage.blob.core.windows.net/practiwizcontainer/mentorprofilepictures/1728067572082-jhdihdd.jpg"
                               alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
-                        </div>
-                      </SwiperSlide>
-                      <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
-                            <img
-                              src={img6}
-                              alt="Mentor"
-                              style={{ width: "100%" }}
-                            />
+                          <div className="doiuher_content text-center my-0">
+                            <h4 className="mb-0 gdgdght">Gaurav Jalote</h4>
+                            <p className="profession mb-0 gdgdght">
+                              Real Estate
+                            </p>
                           </div>
                         </div>
                       </SwiperSlide>
                       <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
+                        <div>
+                          <div className=" text-center swiper-img-home">
                             <img
-                              src={img7}
+                              src="https://practiwizstorage.blob.core.windows.net/practiwizcontainer/mentorprofilepictures/1728534661839-Rajeev%20Profile%20Pic.jpg"
                               alt="Mentor"
                               style={{ width: "100%" }}
                             />
                           </div>
+                          <div className="doiuher_content text-center my-0">
+                            <h4 className="mb-0 gdgdght">RAJEEV SONI</h4>
+                            <p className="profession mb-0 gdgdght">
+                              PRODUCT HEAD
+                            </p>
+                          </div>
                         </div>
                       </SwiperSlide>
                       <SwiperSlide>
-                        <div className="item">
-                          <div className="uihderr_slider text-center swiper-img-home">
+                        <div>
+                          <div className=" text-center swiper-img-home">
                             <img
-                              src={img8}
+                              src="https://practiwizstorage.blob.core.windows.net/practiwizcontainer/mentorprofilepictures/1728291881552-Ritendra.jfif"
                               alt="Mentor"
                               style={{ width: "100%" }}
                             />
+                          </div>
+                          <div className="doiuher_content text-center my-0">
+                            <h4 className="mb-0 gdgdght">Ritendra Banerjee</h4>
+                            <p className="profession mb-0 gdgdght">
+                              Entrepreneur and C level Advisory
+                            </p>
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide>
+                        <div>
+                          <div className=" text-center swiper-img-home">
+                            <img
+                              src="https://practiwizstorage.blob.core.windows.net/practiwizcontainer/mentorprofilepictures/1728224940276-1605063794631.jpeg"
+                              alt="Mentor"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                          <div className="doiuher_content text-center my-0">
+                            <h4 className="mb-0 gdgdght">Santosh Rout</h4>
+                            <p className="profession mb-0 gdgdght">Founder</p>
                           </div>
                         </div>
                       </SwiperSlide>
