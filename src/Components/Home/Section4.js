@@ -9,7 +9,7 @@ import "./Home.css";
 const Section4 = () => {
   return (
     <>
-      <div className="section4 section-hor-gap py-5">
+      <div className="section4 section-hor-gap">
         <div className="container py-5">
           <div className="bghfdg">
             <h2>HOW MENTOR CONNECT MAKES A DIFFERENCE</h2>

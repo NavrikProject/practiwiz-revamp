@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Logo from "../../Images/logo.png";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import { logOut } from "../../Redux/userRedux";
 // import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
   const user = useSelector((state) => state.user?.currentUser);
@@ -72,7 +73,17 @@ const Navbar = () => {
       value: "Marketing-&-Sales",
       label: "Marketing & Sales",
     },
+    {
+      id: 8,
+      value: "All-Mentors",
+      label: "All Mentors",
+    },
   ];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userLogoutHandler = () => {
+    return dispatch(logOut()), navigate("/login");
+  };
   return (
     <>
       <header className={visible ? "headeractive" : ""}>
@@ -94,83 +105,133 @@ const Navbar = () => {
                     id="dbgheuirbr-image-b"
                   />
                 </a>
-
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  id="nav-toggler"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                  onClick={handleBurgerMenu}
-                >
-                  <span
-                    id="bar-icon"
-                    className="navbar-toggler-icon hrncenhjbf"
-                  ></span>
-
-                  <i
-                    id="close-mark-icon"
-                    className="fa-solid fa-xmark d-none"
-                  ></i>
-                </button>
-                {BurgerMenu && (
-                  <div className="dbwudgw">
-                    <div className="djgjefgndke">
-                      <Link to={"/mentor-club"}>Mentor Connect</Link>{" "}
-                    </div>
-                    <div className="djgjefgndke">
-                      <Link to={"/login"}>Login</Link>
-                    </div>
-
-                    <div className="djgjefgndke" onClick={handleSignUpMenu}>
-                      Sign-Up
-                    </div>
-                    {SignUpMenu && (
-                      <ul className="ulMobile">
-                        <li
-                          className="djgjefgndke"
-                          // className="MenuBox-item1"
-                          // onClick={gotoMenteepage}
-                        >
-                          <a
-                            // className="inOneLine"
-                            href="/mentee-registration"
-                          >
-                            {/* <i className="fa-solid fa-chalkboard-user"></i>{" "} */}
-                            <h5>Mentee</h5>
-                          </a>
+                {user ? (
+                  <div className="udgehrr position-relative ps-3 menubarUserIconDnone">
+                    <button
+                      onClick={handleBurgerMenu}
+                      className="btn btn-main mt-0"
+                      type="button"
+                    >
+                      <i className="fa-solid ps-0 fa-user"></i>
+                    </button>
+                    {BurgerMenu && (
+                      <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
+                        <li>
+                          <Link to={"/mentor-club"}>
+                            Mentor Connect{" "}
+                            <i
+                              className="fa-solid fa-plus"
+                              style={{ color: "#1b63de" }}
+                            ></i>
+                          </Link>
+                        </li>{" "}
+                        <li className="nav-item">
+                          <Link to="/case-studies">
+                            Case Studies
+                            <span className="ai-button">
+                              AI<i className="fas fa-bolt"></i>
+                            </span>
+                          </Link>
                         </li>
-                        <li
-                          className="djgjefgndke"
-                          // className="MenuBox-item1"
-                          // onClick={gotoMentorpage}
-                        >
-                          <a
-                            // className="inOneLine"
-                            href="mentor-registration"
+                        <li>
+                          <Link
+                            target="_blanks"
+                            to={`/mentor-club/mentor-profile/${
+                              user?.user_firstname +
+                              "-" +
+                              user.user_lastname.replace(" ", "-").toLowerCase()
+                            }/${user?.user_id}`}
                           >
-                            {/* <i className="fa-solid fa-graduation-cap"></i>{" "} */}
-                            <h5>Mentor</h5>
-                          </a>
+                            View Public Profile
+                          </Link>
                         </li>
-                        <li
-                          className="djgjefgndke"
-                          // className="MenuBox-item1"
-                          // onClick={gotoInstitute}
-                        >
-                          <a
-                            // className="inOneLine"
-                            href="/institute-registration"
-                          >
-                            {/* <i className="fa-solid fa-building-columns"></i>{" "} */}
-                            <h5>Institute</h5>
-                          </a>
+                        <li>
+                          <Link to={`${user.user_type}/dashboard`}>
+                            {user?.user_type + " Dashboard"}
+                          </Link>
                         </li>
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
+                        <li onClick={userLogoutHandler}>Log Out</li>
+                      </ul>
+                    )}
+                  </div>
+                ) : (
+                  <div className="udgehrr position-relative ps-3">
+                    <button
+                      className="navbar-toggler"
+                      type="button"
+                      id="nav-toggler"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarSupportedContent"
+                      onClick={handleBurgerMenu}
+                    >
+                      <span
+                        id="bar-icon"
+                        className="navbar-toggler-icon hrncenhjbf"
+                      ></span>
+
+                      <i
+                        id="close-mark-icon"
+                        className="fa-solid fa-xmark d-none"
+                      ></i>
+                    </button>
+                    {BurgerMenu && (
+                      <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
+                        <li>
+                          <Link to={"/mentor-club"}>
+                            Mentor Connect{" "}
+                            <i
+                              className="fa-solid fa-plus"
+                              style={{ color: "#1b63de" }}
+                            ></i>
+                          </Link>
+                        </li>{" "}
+                        <li className="nav-item">
+                          <Link to="/case-studies">
+                            Case Studies
+                            <span className="ai-button">
+                              AI<i className="fas fa-bolt"></i>
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to={"/login"}>Login</Link>
+                        </li>
+                        <li onClick={handleSignUpMenu}>Sign Up </li>
+                        {SignUpMenu && (
+                          <>
+                            <li className="djgjefgndke">
+                              <Link to="/mentee-registration">
+                                {" "}
+                                <i className="fa-solid fa-chalkboard-user menubarUsersIcons"></i>
+                                Mentee
+                              </Link>
+                            </li>
+                            <li className="djgjefgndke">
+                              <Link to="mentor-registration">
+                                {" "}
+                                <i className="fa-solid fa-graduation-cap menubarUsersIcons"></i>
+                                Mentor
+                              </Link>
+                            </li>
+                            <li className="djgjefgndke">
+                              <Link to="/institute-registration">
+                                <i className="fa-solid fa-building-columns menubarUsersIcons"></i>{" "}
+                                Institute
+                              </Link>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     )}
                   </div>
                 )}
-
                 <div
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
@@ -188,7 +249,7 @@ const Navbar = () => {
                       }}
                     >
                       <a className="nav-link" href="/mentor-club">
-                        Mentor Connect{" "}
+                        Mentor Connect
                         <i
                           className="fa-solid fa-plus"
                           style={{ color: "#1b63de" }}
@@ -203,19 +264,14 @@ const Navbar = () => {
                               <div className="MenuBox-item2">
                                 <h6>
                                   <Link
-                                    to={`/mentor-club/${option.value.toLowerCase()}/${
-                                      option.id
-                                    }`}
+                                    to={`/mentor-club/${option.value.toLowerCase()}`}
                                   >
                                     {option.label}
                                   </Link>
                                 </h6>
                               </div>
                             );
-                          })}{" "}
-                          <div className="MenuBox-item2">
-                            <h6></h6>
-                          </div>
+                          })}
                         </div>
                       </div>
                     )}
@@ -269,13 +325,37 @@ const Navbar = () => {
                     </li> */}
                   </ul>
                   {user ? (
-                    <div className="udgehrr">
-                      <button className="btn fvjhdf_btn btn-main mt-0">
-                        <Link to={`${user.user_type}/dashboard`}>
-                          {user.user_firstname.charAt(0).toUpperCase() +
-                            user.user_lastname.charAt(0).toUpperCase()}
-                        </Link>
+                    <div className="udgehrr position-relative ps-3">
+                      <button className="btn btn-main mt-0" type="button">
+                        <i className="fa-solid ps-0 fa-user"></i>
                       </button>
+                      <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
+                        <li>
+                          <Link
+                            target="_blanks"
+                            to={`/mentor-club/mentor-profile/${
+                              user?.user_firstname +
+                              "-" +
+                              user.user_lastname.replace(" ", "-").toLowerCase()
+                            }/${user?.user_id}`}
+                          >
+                            View Public Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to={`${user.user_type}/dashboard`}>
+                            {user?.user_type + " Dashboard"}
+                          </Link>
+                        </li>
+                        {user?.user_role === 1 && (
+                          <li>
+                            <Link target="_blanks" to={`/user/admin/dashboard`}>
+                              Admin Dashboard
+                            </Link>
+                          </li>
+                        )}
+                        <li onClick={userLogoutHandler}>Log Out</li>
+                      </ul>
                     </div>
                   ) : (
                     <div className="udgehrr" onMouseLeave={registermenuOff}>
@@ -300,7 +380,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="/mentee-registration"
                                 >
-                                  <i className="fa-solid fa-chalkboard-user"></i>{" "}
+                                  <i className="fa-solid fa-chalkboard-user"></i>
                                   <h5>Mentee</h5>
                                 </a>
                               </button>
@@ -312,7 +392,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="mentor-registration"
                                 >
-                                  <i className="fa-solid fa-graduation-cap"></i>{" "}
+                                  <i className="fa-solid fa-graduation-cap"></i>
                                   <h5>Mentor</h5>
                                 </a>
                               </button>
@@ -324,7 +404,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="/institute-registration"
                                 >
-                                  <i className="fa-solid fa-building-columns"></i>{" "}
+                                  <i className="fa-solid fa-building-columns"></i>
                                   <h5>Institute</h5>
                                 </a>
                               </button>

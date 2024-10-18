@@ -342,6 +342,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                   value={formData.social_media_profile}
                   onChange={handleInputChange}
                   disabled={!isEditing}
+                  pattern="/^https?:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/"
                 />
               </div>
             </div>

@@ -55,7 +55,7 @@ const MentorNotifications = ({ data, mentorDtlsId, token }) => {
     <div className="col-lg-10 ps-0">
       <div className="difuhtre_content">
         <div className="huygggfhf">
-          <div className="container-fluid px80">
+          <div className="container-fluid px80 px81">
             <div className="nfhgfg">
               <h4>NOTIFICATION</h4>
               <p onClick={MarkAllAsReadNotHandler}>Mark all as Read</p>

@@ -1,7 +1,3 @@
-/* eslint-disable no-sequences */
-import "./DashboardCSS/mentordashboardnotification.css";
-import "./DashboardCSS/Mentor.css";
-import Logo from "../../../Images/logo.png";
 import MentorNotifications from "./OtherComponents/MentorNotifications";
 import MentorSessionSetup from "./OtherComponents/MentorSessionSetup";
 import MentorChangePwd from "./OtherComponents/MentorChangePwd";
@@ -18,9 +14,13 @@ import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
 import MentorCaseStudyInput from "./CaseStudy/MentorCaseStudyInput";
 import SingleMentorProfilePageSkelton from "../AllMentors/SingleMentorProfile/Skelton/SingleMentorProfilePageSkelton";
-import { toast } from "react-toastify";
 import MentorRegProgressForm from "./MentorRegProgress/MentorRegProgressForm";
-
+/* eslint-disable no-sequences */
+import "./DashboardCSS/mentordashboardnotification.css";
+import "./DashboardCSS/Mentor.css";
+import "./DashboardCSS/MobileMentorDashboard.css";
+import Logo from "../../../Images/logo.png";
+import MentorDashboardSidebar from "./OtherComponents/MentorDashboardSidebar";
 const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
   const [singleMentor, setSingleMentor] = useState([]);
@@ -101,6 +101,7 @@ const MentorDashboard = ({ user, token }) => {
   const [profilemenu, setprofilemenu] = useState(false);
   const [Sessionmenu, setSessionmenu] = useState(false);
   const [caseStudies, setCaseStudies] = useState(false);
+  const [showSidebarList, setShowSidebarList] = useState(false);
   const toggleNoProfile = () => {
     setprofilemenu(true);
   };
@@ -126,7 +127,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorUpcomingSessions(false),
       setShowMentorCompletedSessions(false),
       setShowMentorMessage(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
 
@@ -141,7 +143,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
       setShowMentorCompletedSessions(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
 
@@ -157,7 +160,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorPsettings(false),
       setShowMentorProfile(false),
       setShowMentorMessage(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
 
@@ -173,7 +177,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(false),
       setShowMentorMessage(false),
       setShowMentorProfile(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
   const ShowMentorCompletedHandler = () => {
@@ -186,7 +191,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorPsettings(false),
       setShowMentorProfile(false),
       setshowMentorUpcomingSessions(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
 
@@ -204,7 +210,8 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorUpcomingSessions(false),
       setShowMentorMessage(false),
       setCaseStudies(false),
-      setShowMentorUpDetailsForm(false)
+      setShowMentorUpDetailsForm(false),
+      setShowSidebarList(false)
     );
   };
   const MentorSessionSetupHandler = () => {
@@ -219,16 +226,17 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
       setShowMentorMessage(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
   const showMentorApplicationHandler = () => {
     if (!showMentorUpDetailsForm) {
       setShowMentorUpDetailsForm(true);
     }
-    return setShowNotification(false);
+    return setShowNotification(false), setShowSidebarList(false);
   };
-  const MentorMsgShowingHandler = () => {
+  const MentorBankingShowingHandler = () => {
     if (!showMentorMessage) {
       setShowMentorMessage(true);
     }
@@ -240,7 +248,8 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
       setShowMentorProfile(false),
-      setCaseStudies(false)
+      setCaseStudies(false),
+      setShowSidebarList(false)
     );
   };
 
@@ -256,9 +265,11 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
       setShowMentorProfile(false),
-      setShowMentorMessage(false)
+      setShowMentorMessage(false),
+      setShowSidebarList(false)
     );
   };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLogoutHandler = () => {
@@ -388,31 +399,6 @@ const MentorDashboard = ({ user, token }) => {
                     </div>
                   </form>
                 </div>
-
-                <div className="odejr_res d-none">
-                  <div className="d-flex align-items-center">
-                    <div className="udgehrr position-relative me-3 ps-3">
-                      <button className="btn btn-main mt-0" type="button">
-                        <i className="fa-solid ps-0 fa-user"></i>
-                      </button>
-
-                      <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
-                        <li>Account Settings</li>
-
-                        <li>View Public Profile</li>
-
-                        <li>Log Out</li>
-                      </ul>
-                    </div>
-
-                    <div
-                      className="dashboard-side-bar"
-                      id="responsive-side-bar"
-                    >
-                      <i className="fa-solid fa-2x fa-bars-staggered"></i>
-                    </div>
-                  </div>
-                </div>
               </div>
             </nav>
           </div>
@@ -420,54 +406,73 @@ const MentorDashboard = ({ user, token }) => {
 
         <div className="mentor_dashboard" id="mentorRegisterBg">
           {/* <div className="row"> */}
-          <div className="  ">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                margin: "0 40px 0",
-              }}
-            >
+          <div className="">
+            <div className="col-md-flex-center">
+              <div
+                className="mobileMenuIconMentorDashboard"
+                onClick={() => {
+                  return setShowSidebarList(!showSidebarList);
+                }}
+              >
+                <i className="fa-solid fa-2x fa-bars-staggered"></i>
+              </div>
+              {showSidebarList && (
+                <MentorDashboardSidebar
+                  showSidebarList={showSidebarList}
+                  setShowSidebarList={setShowSidebarList}
+                  MentorNotificationHandler={MentorNotificationHandler}
+                  MentorProfileShowingHandler={MentorProfileShowingHandler}
+                  MentorBankingShowingHandler={MentorBankingShowingHandler}
+                  MentorCaseStudiesShowingHandler={
+                    MentorCaseStudiesShowingHandler
+                  }
+                  ShowMentorUpcomingHandler={ShowMentorUpcomingHandler}
+                  ShowMentorCompletedHandler={ShowMentorCompletedHandler}
+                  MentorChangePwdHandler={MentorChangePwdHandler}
+                  MentorPsettingsHandler={MentorPsettingsHandler}
+                />
+              )}
               {mentorTotalProgress < 80 ? (
-                <div className="  display-raw">
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    onClick={showMentorApplicationHandler}
-                  >
-                    <span className="d-block bg-white position-relative m-auto">
-                      {/* <i className="fa-solid fa-user"> */}
-                      <i className="fa-solid fa-house-circle-check"></i>
-                    </span>
+                <>
+                  <div className={"display-raw"}>
+                    <button
+                      className="btn btn-transparent text-center py-3 seeeett"
+                      onClick={showMentorApplicationHandler}
+                    >
+                      <span className="d-block bg-white position-relative m-auto">
+                        {/* <i className="fa-solid fa-user"> */}
+                        <i className="fa-solid fa-house-circle-check"></i>
+                      </span>
 
-                    <h5>Mentor Application</h5>
-                  </button>
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    onClick={MentorNotificationHandler}
-                  >
-                    <span className="d-block bg-white position-relative m-auto">
-                      <i className="fa-solid fa-bell"></i>
-                      {hasUnreadNotifications && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "-3px",
-                            right: "-5px",
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: "red",
-                            borderRadius: "50%",
-                            border: "2px solid white",
-                          }}
-                        />
-                      )}
-                    </span>
-                    <h5>Notifications</h5>
-                  </button>
-                </div>
+                      <h5>Mentor Application</h5>
+                    </button>
+                    <button
+                      className="btn btn-transparent text-center py-3 seeeett"
+                      onClick={MentorNotificationHandler}
+                    >
+                      <span className="d-block bg-white position-relative m-auto">
+                        <i className="fa-solid fa-bell"></i>
+                        {hasUnreadNotifications && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "-3px",
+                              right: "-5px",
+                              width: "12px",
+                              height: "12px",
+                              backgroundColor: "red",
+                              borderRadius: "50%",
+                              border: "2px solid white",
+                            }}
+                          />
+                        )}
+                      </span>
+                      <h5>Notifications</h5>
+                    </button>
+                  </div>
+                </>
               ) : (
-                <div className="  display-raw">
+                <div className="display-raw">
                   <button
                     className="btn btn-transparent text-center py-3 seeeett"
                     onClick={MentorProfileShowingHandler}
@@ -488,9 +493,9 @@ const MentorDashboard = ({ user, token }) => {
                         <i className="fa-solid fa-bars"></i>
                       </span>
                       <h5>
-                        Profile Settings{" "}
+                        Profile Settings
                         <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                      </h5>{" "}
+                      </h5>
                     </button>
                     {profilemenu && (
                       <div className="submenu1">
@@ -519,9 +524,9 @@ const MentorDashboard = ({ user, token }) => {
                         <i className="fa-solid fa-tv"></i>
                       </span>
                       <h5>
-                        Session Info{" "}
+                        Session Info
                         <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                      </h5>{" "}
+                      </h5>
                     </button>
                     {Sessionmenu && (
                       <div className="submenu1">
@@ -543,7 +548,7 @@ const MentorDashboard = ({ user, token }) => {
 
                   <button
                     className="btn btn-transparent text-center py-3 seeeett"
-                    onClick={MentorMsgShowingHandler}
+                    onClick={MentorBankingShowingHandler}
                   >
                     <span className="d-block bg-white position-relative m-auto">
                       {/* <i className="fa-brands fa-rocketchat"></i> */}
@@ -587,24 +592,6 @@ const MentorDashboard = ({ user, token }) => {
 
                     <h5>Case Studies</h5>
                   </button>
-
-                  {/* <button
-                  className="btn btn-transparent text-center py-3 seeeett"
-                  onClick={MentorSessionSetupHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto">
-                    <i className="fa-solid fa-folder"></i>
-                  </span>
-
-                  <h5>Session Setup</h5>
-                </button> */}
-                  {/* <button className="btn btn-transparent text-center py-3">
-                  <span className="d-block bg-white position-relative m-auto">
-                    <i className="fa-solid fa-right-from-bracket"></i>
-                  </span>
-
-                  <h5>LOG OUT</h5>
-                </button> */}
                 </div>
               )}
 
@@ -649,7 +636,7 @@ const MentorDashboard = ({ user, token }) => {
                     <p className="errorNoteText">
                       (A minimum of 80% is needed to approve the mentor
                       application!)
-                    </p>{" "}
+                    </p>
                     <ProgressBar progress={mentorTotalProgress} />
                   </>
                 )}
@@ -664,11 +651,10 @@ const MentorDashboard = ({ user, token }) => {
                       }}
                     >
                       <h5 className="mb-0">
-                        Hi{" "}
+                        Hi
                         <span className="mentorNameSpan">
-                          {" "}
-                          {" " + user?.user_firstname}{" "}
-                        </span>{" "}
+                          {" " + user?.user_firstname}
+                        </span>
                         , congratulations! Your mentor application has been
                         approved. We're excited to have you on board. Welcome to
                         the mentor community!
@@ -686,11 +672,10 @@ const MentorDashboard = ({ user, token }) => {
                       }}
                     >
                       <h5 className="mb-0">
-                        Hi{" "}
+                        Hi
                         <span className="mentorNameSpan">
-                          {" "}
-                          {" " + user?.user_firstname}{" "}
-                        </span>{" "}
+                          {" " + user?.user_firstname}
+                        </span>
                         , congratulations on completing the mentor application.
                         We are currently reviewing your submission. Please wait
                         for our approval.
@@ -713,11 +698,10 @@ const MentorDashboard = ({ user, token }) => {
                       }}
                     >
                       <h5 className="mb-0">
-                        Hi{" "}
+                        Hi
                         <span className="mentorNameSpan">
-                          {" "}
-                          {" " + user?.user_firstname}{" "}
-                        </span>{" "}
+                          {" " + user?.user_firstname}
+                        </span>
                         , congratulations on completing the mentor application.
                         We are currently reviewing your submission. Please wait
                         for our approval.
@@ -727,7 +711,12 @@ const MentorDashboard = ({ user, token }) => {
                   </>
                 )}
             </div>
-            <div className="maincontent">
+            <div
+              className="maincontent"
+              onClick={() => {
+                return setShowSidebarList(false);
+              }}
+            >
               {loading && <SingleMentorProfilePageSkelton />}
               {showNotification && (
                 <MentorNotifications

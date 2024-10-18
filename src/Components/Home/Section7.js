@@ -7,10 +7,10 @@ const Section7 = () => {
       <div className="section7">
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-lg-10">
+            <div className="col-lg-10 asdfasdfaqwetoui">
               <div className="uiherr_wrapper">
                 <div className="row align-items-center">
-                  <div className="col-lg-6 mb-3">
+                  <div className="col-lg-6 mb-3 sdfalsfdjlk">
                     <div className="diehrer_inner">
                       <h2>Unlock Your Potential Register as a Mentee!</h2>
 

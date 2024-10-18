@@ -1092,7 +1092,11 @@
   right: 0;
   line-height: 1.8;
 }
-
+.mentorDescription {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+}
 .section7 {
   position: relative;
   background: #00ced7;

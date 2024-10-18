@@ -1,4 +1,3 @@
-// MentorPage3.js
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,6 +5,7 @@ import "./MentorForm3.css";
 import { Controller, useFormContext } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
 import { toast } from "react-toastify";
+import { option_fro_timezone } from "../../../data/Timezones";
 
 // Custom Time Picker Component
 const CustomTimePicker = ({ value, onChange }) => {
@@ -60,7 +60,7 @@ const CustomTimePicker = ({ value, onChange }) => {
   );
 };
 
-// Mentor Page 3 Component
+// Main Mentor Page 3 Component
 const MentorPage3 = () => {
   const {
     control,
@@ -71,12 +71,6 @@ const MentorPage3 = () => {
 
   const [condition, setCondition] = useState(true);
 
-  const defaultShow = () => {
-    if (condition) {
-      setCondition(false);
-    }
-  };
-
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const initialTime = {
@@ -86,7 +80,8 @@ const MentorPage3 = () => {
   };
 
   const initialDate = {
-    // Mentor_timeslot_rec_end_date: "",
+    Mentor_timeslot_rec_end_date: null,
+    Mentor_timeslot_rec_indicator: null,
   };
 
   const [selectedDays, setSelectedDays] = useState(
@@ -101,7 +96,6 @@ const MentorPage3 = () => {
           from: initialTime,
           to: initialTime,
           date: initialDate,
-          recurring: initialDate,
         },
       }),
       {}
@@ -111,7 +105,12 @@ const MentorPage3 = () => {
   const [timeSlotTags, setTimeSlotTags] = useState(
     daysOfWeek.reduce((acc, day) => ({ ...acc, [day]: [] }), {})
   );
-
+  const defaultShow = () => {
+    if (condition) {
+      setCondition(false);
+    }
+  };
+  // Load saved data from localStorage on component mount
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("mentorPageData"));
     if (savedData) {
@@ -125,6 +124,7 @@ const MentorPage3 = () => {
     }
   }, [setValue]);
 
+  // Save data to localStorage on state change
   useEffect(() => {
     const dataToSave = {
       selectedDays,
@@ -152,7 +152,7 @@ const MentorPage3 = () => {
 
       if (toMinutes >= 60) {
         toHours = (toHours + 1) % 12 || 12;
-        toAmPm = toHours === 12 ? (toAmPm === "AM" ? "PM" : "AM") : toAmPm;
+        toAmPm = toHours === 12 ? (toAmPm === "AM" ? "PM" : toAmPm) : toAmPm;
       }
 
       const toTime = {
@@ -174,8 +174,9 @@ const MentorPage3 = () => {
   };
 
   const handleOkClick = (day) => {
-    const { from, to, date, recurring } = timeInputs[day];
+    const { from, to, date } = timeInputs[day];
 
+    // Check if all fields are filled
     if (
       !from.hours ||
       !from.minutes ||
@@ -184,7 +185,7 @@ const MentorPage3 = () => {
       !to.minutes ||
       !to.ampm ||
       !date.Mentor_timeslot_rec_end_date ||
-      !recurring.Mentor_timeslot_rec_indicator
+      !date.Mentor_timeslot_rec_indicator
     ) {
       return toast.error(
         "Please fill in all the fields before adding the slot.",
@@ -194,17 +195,41 @@ const MentorPage3 = () => {
       );
     }
 
-    const timeSlot = { from, to, date, recurring };
+    // Create the time slot object
+    const timeSlot = {
+      date: {
+        Mentor_timeslot_rec_end_date: date.Mentor_timeslot_rec_end_date,
+      },
+      from: {
+        hours: from.hours,
+        minutes: from.minutes,
+        ampm: from.ampm,
+      },
+      to: {
+        hours: to.hours,
+        minutes: to.minutes,
+        ampm: to.ampm,
+      },
+      recurring: {
+        Mentor_timeslot_rec_indicator: date.Mentor_timeslot_rec_indicator,
+      },
+    };
+
+    // Update the timeSlotTags state for the selected day
     const updatedTags = [...timeSlotTags[day], timeSlot];
     setTimeSlotTags((prev) => ({ ...prev, [day]: updatedTags }));
     setValue(day, updatedTags);
+
+    // Reset input fields after adding slot
     setTimeInputs((prev) => ({
       ...prev,
       [day]: {
         from: initialTime,
         to: initialTime,
-        date: initialDate,
-        recurring: initialDate,
+        date: {
+          Mentor_timeslot_rec_end_date: null,
+          Mentor_timeslot_rec_indicator: "", // Reset recurrence
+        },
       },
     }));
   };
@@ -224,50 +249,9 @@ const MentorPage3 = () => {
 
     return [year, month.padStart(2, "0"), day.padStart(2, "0")].join("-");
   };
-  const option_fro_timezone = [
-    "UTC-12:00: Baker Island Time (BIT)",
-    "UTC-11:00: Niue Time (NUT), Samoa Standard Time (ST)",
-    "UTC-10:00: Hawaii-Aleutian Standard Time (HAST), Tahiti Time (TAHT)",
-    "UTC-09:00: Alaska Standard Time (AKST)",
-    "UTC-08:00: Pacific Standard Time (PST)",
-    "UTC-07:00: Mountain Standard Time (MST)",
-    "UTC-06:00: Central Standard Time (CST)",
-    "UTC-05:00: Eastern Standard Time (EST)",
-    "UTC-04:00: Atlantic Standard Time (AST), Eastern Caribbean Time (ECT)",
-    "UTC-03:00: Argentina Time (ART), Brasília Time (BRT)",
-    "UTC-02:00: South Georgia Time (GST)",
-    " UTC-01:00: Cape Verde Time (CVT)",
-    "UTC±00:00: Coordinated Universal Time (UTC), Greenwich Mean Time (GMT)",
-    "UTC+01:00: Central European Time (CET), West Africa Time (WAT)",
-    "UTC+03:00: Moscow Time (MSK), East Africa Time (EAT)",
-    "UTC+04:00: Azerbaijan Time (AZT), Gulf Standard Time (GST)",
-    "UTC+05:00: Pakistan Standard Time (PKT), Yekaterinburg Time (YEKT)",
-    "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)",
-    " UTC+05:45: Nepal Time (NPT)  ",
-    " UTC+06:00: Bangladesh Standard Time (BST), Omsk Time (OMST)",
-    " UTC+06:30: Cocos Islands Time (CCT)",
-    " UTC+07:00: Indochina Time (ICT), Krasnoyarsk Time (KRAT)",
-    "UTC+08:00: China Standard Time (CST), Australian Western Standard Time (AWST)",
-    "UTC+09:00: Japan Standard Time (JST), Korea Standard Time (KST)",
-    "UTC+09:30: Australian Central Standard Time (ACST)",
-    " UTC+10:00: Australian Eastern Standard Time (AEST), Papua New Guinea Time (PGT)",
-    "UTC+10:30: Lord Howe Standard Time (LHST)",
-    "   UTC+11:00: Solomon Islands Time (SBT), Vanuatu Time (VUT)",
-    " UTC+12:00: Fiji Time (FJT), New Zealand Standard Time (NZST)",
-    " UTC+13:00: Tonga Time (TOT), Phoenix Island Time (PHOT)",
-    " UTC+14:00: Line Islands Time (LINT)",
-    "UTC+03:30: Iran Standard Time (IRST)",
-    "UTC+04:30: Afghanistan Time (AFT)",
-
-    "UTC+06:30: Cocos Islands Time (CCT)",
-    "UTC+03:45: Nepal Time (NPT)",
-    "UTC+05:45: Nepal Time (NPT)",
-    "UTC+09:45: Australian Central Standard Time (ACST)",
-    "UTC+12:45: Chatham Islands Time (CHAST)",
-  ];
 
   return (
-    <div>
+    <div className="MentorForm3-container">
       <GoToTop />
       <div className="whole">
         <div className="doiherner_wrapper">
@@ -314,20 +298,21 @@ const MentorPage3 = () => {
               <span className="RedColorStarMark">*</span>
             </span>
           </div>
+
           <div className="main">
             <div className="dayColumn">
               {daysOfWeek.map((day) => (
-                <div style={styles.dayRow} className="daycolumns" key={day}>
+                <div key={day} className="daycolumns" style={styles.dayRow}>
                   <label htmlFor={day} style={styles.dayLabel}>
                     {day}
                   </label>
+
                   <label className="switch">
                     <input
                       type="checkbox"
-                      id={day}
                       checked={selectedDays[day]}
-                      onChange={(e) => handleDaySwitch(day, e.target.checked)}
                       onClick={defaultShow}
+                      onChange={(e) => handleDaySwitch(day, e.target.checked)}
                     />
                     <span className="slider round"></span>
                   </label>
@@ -368,37 +353,36 @@ const MentorPage3 = () => {
                         <div key={day} className="innertimeslot">
                           <div className="slotrow">
                             <h6>{day}</h6>
-
                             <div className="timeslots">
-                              {/* <label>From</label> */}
+                              {/* <label>From:</label> */}
                               <CustomTimePicker
-                                label="From"
                                 value={timeInputs[day].from}
-                                onChange={(newValue) =>
-                                  handleTimeChange(day, "from", newValue)
+                                onChange={(value) =>
+                                  handleTimeChange(day, "from", value)
                                 }
                               />
+
                               <span style={styles.toLabel}>to</span>
-                              <div>
-                                <CustomTimePicker
-                                  label="To"
-                                  value={timeInputs[day].to}
-                                  onChange={(newValue) =>
-                                    handleTimeChange(day, "to", newValue)
-                                  }
-                                />
-                              </div>
+                              <CustomTimePicker
+                                value={timeInputs[day].to}
+                                onChange={(value) =>
+                                  handleTimeChange(day, "to", value)
+                                }
+                              />
                             </div>
                             <div className="label-input">
-                              <label>Recurring</label>
+                              <label>Recurrence:</label>
                               <select
+                                {...register(
+                                  `date.${day}.Mentor_timeslot_rec_indicator`
+                                )}
                                 value={
-                                  timeInputs[day].recurring
+                                  timeInputs[day].date
                                     .Mentor_timeslot_rec_indicator
-                                }
+                                } // Bind value to state
                                 onChange={(e) =>
-                                  handleTimeChange(day, "recurring", {
-                                    ...timeInputs[day].recurring,
+                                  handleTimeChange(day, "date", {
+                                    ...timeInputs[day].date,
                                     Mentor_timeslot_rec_indicator:
                                       e.target.value,
                                   })
@@ -412,27 +396,34 @@ const MentorPage3 = () => {
                             </div>
 
                             <div className="label-input">
-                              <label>End date</label>
-                              <DatePicker
-                                selected={
-                                  timeInputs[day].date
-                                    .Mentor_timeslot_rec_end_date
-                                }
-                                onChange={(date) =>
-                                  handleTimeChange(day, "date", {
-                                    ...timeInputs[day].date,
-                                    Mentor_timeslot_rec_end_date:
-                                      formatDate(date),
-                                  })
-                                }
-                                dateFormat="MM/dd/yyyy"
-                                placeholderText="End Date"
-                                minDate={new Date()} // Prevent past dates
-                                style={styles.datePicker}
+                              <label>End Date:</label>
+                              <Controller
+                                control={control}
+                                name={`date.${day}.Mentor_timeslot_rec_end_date`}
+                                render={({ field }) => (
+                                  <DatePicker
+                                    selected={
+                                      timeInputs[day].date
+                                        .Mentor_timeslot_rec_end_date
+                                    }
+                                    onChange={(date) =>
+                                      handleTimeChange(day, "date", {
+                                        ...timeInputs[day].date,
+                                        Mentor_timeslot_rec_end_date:
+                                          formatDate(date),
+                                      })
+                                    }
+                                    dateFormat="MM/dd/yyyy"
+                                    placeholderText="End Date"
+                                    minDate={new Date()} // Prevent past dates
+                                    style={styles.datePicker}
+                                  />
+                                )}
                               />
                             </div>
 
                             <button
+                              type="button"
                               onClick={() => handleOkClick(day)}
                               style={styles.okButton}
                             >
@@ -440,20 +431,21 @@ const MentorPage3 = () => {
                             </button>
                           </div>
 
-                          {timeSlotTags[day].map((slot, index) => (
-                            <div className="time-slot-tags">
-                              {timeSlotTags[day].map((slot, index) => (
+                          <div className="time-slot-tags">
+                            {timeSlotTags[day].length === 0 ? (
+                              <p>No time slots available for this day.</p>
+                            ) : (
+                              timeSlotTags[day].map((slot, index) => (
                                 <div key={index} className="tag">
-                                  <span>{`${slot.from.hours}:${
-                                    slot.from.minutes
-                                  } ${slot.from.ampm} - ${slot.to.hours}:${
-                                    slot.to.minutes
-                                  } ${slot.to.ampm}, Recurring: ${
+                                  {`${slot.from.hours}:${slot.from.minutes} ${
+                                    slot.from.ampm
+                                  } - ${slot.to.hours}:${slot.to.minutes} ${
+                                    slot.to.ampm
+                                  } | Recurring:${
                                     slot.recurring.Mentor_timeslot_rec_indicator
-                                  }, End Date: ${
-                                    slot.date.Mentor_timeslot_rec_end_date ||
-                                    "N/A"
-                                  }`}</span>
+                                  } | End Date:${formatDate(
+                                    slot.date.Mentor_timeslot_rec_end_date
+                                  )}`}
                                   <button
                                     type="button"
                                     onClick={() => handleRemoveTag(day, index)}
@@ -462,9 +454,9 @@ const MentorPage3 = () => {
                                     Remove
                                   </button>
                                 </div>
-                              ))}
-                            </div>
-                          ))}
+                              ))
+                            )}
+                          </div>
                         </div>
                       )
                   )}
@@ -521,5 +513,4 @@ const styles = {
     cursor: "pointer",
   },
 };
-
 export default MentorPage3;

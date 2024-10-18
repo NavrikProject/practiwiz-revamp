@@ -145,6 +145,7 @@
   border-radius: 20px;
   padding: 3px 5px;
   font-size: 12px;
+  margin-left: 4px;
 }
 
 .ai-button i {
@@ -158,13 +159,13 @@
 .PositionAB {
   position: absolute;
   top: 3rem;
-  left: 44rem;
-  width: 35%;
+  right: 15rem;
+  width: 33%;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  padding: 8px 0;
+  padding: 8px;
   border-radius: 8px;
 }
 
@@ -178,23 +179,37 @@
 }
 
 .MenuBox-item2 {
-  width: 45%;
+  width: 47%;
   display: block;
-  padding: 10px 20px;
+  padding: 10px 10px 0px 10px;
   cursor: pointer;
   white-space: normal; /* Allow wrapping */
   border: 1px solid white;
   border-radius: 5px;
-  background-color: #f1f1f1; /* Lighter background for visibility */
   overflow-wrap: break-word; /* Break long words */
+  text-transform: capitalize !important;
+  border-bottom: 1px solid #1111;
 }
 
 .MenuBox-item2:hover {
-  background-color: #7fa5ff;
-  color: white;
+  background-color: #f0f0f0; /* Light gray hover color */
 }
 
-.MenuBox-item2 h7 {
+.MenuBox-item2 h6 {
   font-family: var(--font-family-lato);
   font-size: 0.9rem; /* Adjust font size for better fitting */
+  text-transform: uppercase !important;
+  font-weight: 600;
+  color: #404040;
+}
+.menubarUserIconDnone {
+  display: none;
+}
+@media screen and (max-width: 575px) {
+  .menubarUserIconDnone {
+    display: block;
+  }
+  .menubarUsersIcons {
+    margin-right: 5px;
+  }
 }

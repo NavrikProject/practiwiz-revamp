@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import SingleMentorProfilePageSkelton from "./Skelton/SingleMentorProfilePageSkelton";
 import MentorRatingCard from "./MentorRatingCard";
 import StarRating from "../../../../Utils/StartRating";
+import "../AllMentorsMobile.css";
+
 const SingleMentorProfile = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [showBookingModel, setShowBookingModel] = useState(false);
@@ -105,7 +107,7 @@ const SingleMentorProfile = () => {
                   className="duiegrer_bck position-relative mb-3"
                   id="singleMentorCoverPicture"
                 >
-                  <div className="container">
+                  <div className="container mob-center">
                     <div className="csdpeijf d-flex justify-content-between">
                       <div className="ihuerorktrt position-relative">
                         <div className="iijieirr_left2 overflow-hidden">
@@ -120,7 +122,7 @@ const SingleMentorProfile = () => {
                           />
                         </div>
                       </div>
-                      <div className="ihurtf_btn">
+                      <div className="ihurtf_btn hide">
                         <button className="btn btn-main">
                           <i className="fa-solid pe-2 fa-envelope-open-text"></i>
                           Message
@@ -160,7 +162,16 @@ const SingleMentorProfile = () => {
                               <div className="gjfhg">
                                 <img src={Ee1} alt="" />
                               </div>
-                              <p>{sMentor.mentor_job_title.toUpperCase()}</p>
+                              <p>
+                                <b>
+                                  {sMentor.mentor_job_title.toUpperCase() + " "}
+                                </b>
+                                at
+                                <b>
+                                  {" " +
+                                    sMentor.mentor_company_name.toUpperCase()}
+                                </b>
+                              </p>
                             </div>
 
                             <div className="hfuydfgftgh">
@@ -339,7 +350,7 @@ const SingleMentorProfile = () => {
                         </div>
 
                         <div className="col-lg-4">
-                          <div className="hgkfgkjfgfghgfg sticky-top">
+                          <div className="hgkfgkjfgfghgfg sticky-top mob-t0">
                             <h3 style={{ width: "auto" }}>Domain</h3>
                             <div className="fhfbfghg">
                               {sMentor.mentor_domain !== "[]" &&

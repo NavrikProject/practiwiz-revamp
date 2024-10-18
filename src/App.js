@@ -106,7 +106,7 @@ function App() {
           />
           <Route path="/mentor-club" element={<AllMentorsPage />} />
           <Route
-            path="/mentor-club/:expert/:expertId"
+            path="/mentor-club/:expert"
             element={<MentorExpertListPage />}
           />
           <Route
