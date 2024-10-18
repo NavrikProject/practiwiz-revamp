@@ -15,27 +15,17 @@ const HomePageBanner = () => {
             <div className="container-homepage">
               <div className="col-lg-8 mb-4">
                 <div className="iduherr_left">
-                  <h1>Share Your Superpower</h1>
+                  <h1>Share Your Superpower,</h1>
                   {/* <h2 style={{ color: "white" }}>Become a Mentor</h2> */}
                   <h1>Become a Mentor</h1>
-                  <p
-                    id="typing"
-                    className="mb-0 mt-3"
-                    style={{ borderRight: "0" }}
-                  >
-                    {/* Learn From The Corporate, Step Into Corporate World! */}
-                    {/* <ReactTyped
-                      strings={[
-                        "Learn From The Corporate, Step Into Corporate World!",
-                      ]}
-                      typeSpeed={40}
-                      backSpeed={50}
-                      loop
-                    ></ReactTyped> */}
+                  <p className="mentorDescription">
+                    Turn your skills into someone else's success story and make
+                    a difference!
                   </p>
-                  <button className="btn mt-5 btn-main">
+
+                  <button className="btn mt-5 btn-main mobbtn">
                     <Link target="_blank" to="/mentor-registration">
-                      Register
+                      Register Now
                     </Link>
                   </button>
                 </div>

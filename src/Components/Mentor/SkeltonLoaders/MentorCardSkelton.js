@@ -3,7 +3,7 @@ import "./SkeltonLoadingStyles.css";
 const MentorCardSkelton = () => {
   return (
     <>
-      <div className="mentorDiv">
+      <div className="mentorDiv " style={{ width: "250px" }}>
         <div className="mentorDownDiv">
           <img
             className="mentorImage skeleton"
@@ -40,9 +40,7 @@ const MentorCardSkelton = () => {
               className="mentorName skeleton"
               style={{ width: "50%", margin: "auto" }}
             >
-              <div
-                className="skelton-text"
-              ></div>
+              <div className="skelton-text"></div>
             </div>
           </div>
         </div>

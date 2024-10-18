@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
+import "../DashboardCSS/mobileMenteeProfile.css";
 
 const Menteeprofile3 = ({ singleMentee, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -120,7 +121,7 @@ const Menteeprofile3 = ({ singleMentee, user, token }) => {
           <div>
             <h4>Update your profile picture</h4>
             <input type="file" accept="image/*" onChange={handleImageChange} />
-            <div className="d-flex py-4 align-items-center justify-content space-evenly">
+            <div className="d-flex py-4 align-items-center justify-content space-evenly mob-column">
               {image ? (
                 <div>
                   <h3>Adjust your image:</h3>

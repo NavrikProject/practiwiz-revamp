@@ -21,10 +21,13 @@ const MentorExpertList = () => {
 
   useEffect(() => {
     const fetchMentors = async () => {
-      setLoading(true);
-      const response = await axios.post(`${url}api/v1/mentor/expert-list`, {
-        expertId: params.expertId,
-      });
+      if (params.expert === "all-mentors") {
+        var response = await axios.get(`${url}api/v1/mentor/fetch-details`);
+      } else {
+        response = await axios.post(`${url}api/v1/mentor/expert-list`, {
+          expert: params.expert,
+        });
+      }
       setLoading(false);
       if (response.data.success) {
         // Parse JSON strings into JavaScript objects
@@ -41,7 +44,7 @@ const MentorExpertList = () => {
       }
     };
     fetchMentors();
-  }, [url, params.expertId]);
+  }, [url, params.expert]);
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,

@@ -9,23 +9,19 @@ import GoToTop from "../../Utils/GoToTop";
 const Section3 = () => {
   return (
     <>
-      <div className="section3 section-hor-gap overflow-hidden py-5">
+      <div className="section3 section-hor-gap overflow-hidden">
         <div className="container py-5">
           <div className="diuehrr_wrapper">
-            <div className="row align-items-center">
+            <div className="row align-items-center asdfasdfasdfafs">
               <div className="col-lg-7 mb-3">
                 <div className="idheirr_content">
                   <h2 className="mb-0">
-                    Industry Interaction Should be a
-                    <br />
-                    <span>Culture</span>
-                    <br />
-                    Not a Transaction
+                    Industry Interaction Should be a Culture Not a Transaction
                   </h2>
 
                   <p>Learn From The Corporate, Step Into Corporate World!</p>
 
-                  <button className="btn me-2 btn-main">
+                  <button className="btn me-2 btn-main mobbtn">
                     <Link to="/institute-registration">
                       Register Your Institute
                     </Link>

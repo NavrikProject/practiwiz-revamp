@@ -17,10 +17,8 @@ const Homepage = () => {
       <HomePageBanner />
       <Section2 />
       <Section3 />
-      <div className="doneed">
-        <Section4 />
-        <Section5 />
-      </div>
+      <Section4 />
+      <Section5 />
       {/* / <Section6 /> */}
       <Section7 />
       <Footer />

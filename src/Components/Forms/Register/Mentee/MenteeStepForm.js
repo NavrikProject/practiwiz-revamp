@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import menteeRegPage from "../../../../Images/Mentee/MenteeRegR.jpeg";
 import "./menteeregistration.css";
 import "./MenteeReg.css";
 import InstituteForm from "./InstituteForm";
@@ -107,24 +108,13 @@ const MenteeStepForm = () => {
         <div className="regis_background " id="menteeRegBackground">
           <div className="container">
             <div className="row">
-              <div className="col-lg-6 mb-4">
+              <div className="col-lg-6 mb-4 dooneed">
                 <div className="iuhieiuihaw_left sticky-top">
-                  <h3>
-                    Grow Your Professional Career with
-                    <span className="span222">Top-Rated</span> Mentors
-                  </h3>
-
-                  <p>
-                    Join us to upgrade your professional career with our
-                    mentor’s guidance. We provide a personalised training
-                    approach to improve your project management skills. Master
-                    the skill to work under pressure on various projects within
-                    tight deadlines. At Practiwiz we have courses for working
-                    professionals, MBA students, and aspiring IT business
-                    analysts. Hurry up and reserve your mentorship className
-                    today.
-                  </p>
-
+                  <img
+                    style={{ width: "-webkit-fill-available" }}
+                    src={menteeRegPage}
+                    alt="img"
+                  />
                   <h5 className="mt-4">Benefits of Our Mentorship Course:</h5>
 
                   <ul className="ps-0 mt-3">
