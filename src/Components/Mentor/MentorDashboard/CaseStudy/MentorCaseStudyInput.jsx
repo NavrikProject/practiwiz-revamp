@@ -9,19 +9,47 @@ import {
 } from "../../../../Redux/loadingRedux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { useDispatch } from "react-redux";
+import caseCategories from "./caseCategories.json";
 
 function MentorCaseStudyInput({ user, token, data }) {
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
+  console.log(data);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [filteredCaseCategories, setFilteredCaseCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+
+    setSearchTerm(value);
+    setDropdownVisible(value !== "");
+    setFilteredCaseCategories(
+      caseCategories.caseCategories.filter((category) =>
+        category.label.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  };
+
+  const handleOptionClick = (category) => {
+    setSelectedCategory(category);
+    setSearchTerm(category.label);
+    setDropdownVisible(false);
+    setValue("caseTopic", category.label);
+  };
+
   const [numRoles, setNumRoles] = useState(0);
   const [roleObject, setRoleObject] = useState({});
   const [loading, setLoading] = useState(false);
   const url = ApiURL();
   const dispatch = useDispatch();
+
   const handleNumRolesChange = (e) => {
     const num = parseInt(e.target.value, 10);
     setNumRoles(num);
@@ -60,13 +88,13 @@ function MentorCaseStudyInput({ user, token, data }) {
       if (response.data.success) {
         dispatch(hideLoadingHandler());
         toast.success("Thanks for submitting the case study");
-      }
-      if (response.data.error) {
+        handleClear();
+      } else if (response.data.error) {
         dispatch(hideLoadingHandler());
         toast.error("There is some error while submitting the case study");
       }
     } catch (error) {
-      toast.error("There is some error while submitting the case study"); // Stop loading
+      toast.error("There is some error while submitting the case study");
       dispatch(hideLoadingHandler());
     } finally {
       dispatch(hideLoadingHandler());
@@ -75,7 +103,6 @@ function MentorCaseStudyInput({ user, token, data }) {
 
   const handleRoleChange = (e) => {
     const { name, value } = e.target;
-
     setRoleObject((prevRoles) => ({
       ...prevRoles,
       [name]: value,
@@ -85,109 +112,143 @@ function MentorCaseStudyInput({ user, token, data }) {
   const handleClear = () => {
     reset({
       caseTopic: "",
-      lesson: "",
-      futureSkills: "",
+      caseTitle: "",
+      caseSummary: "",
+      caseBackground: "",
       characters: "",
-      roles: [],
       roleOfMainCharacter: "",
       challenge: "",
+      lesson: "",
+      futureSkills: "",
+      resource: "",
     });
     setNumRoles(0);
     setRoleObject({});
+    setSearchTerm("");
+    setDropdownVisible(false);
+    setSelectedCategory(null);
   };
 
   return (
-    <div id="CaseStudyBg">
+    <div id="CaseStudyB">
       <div className="container-of-case-study">
-        <div
-          style={{
-            textAlign: "center",
-            marginBottom: "10px",
-            fontSize: "36px",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "36px",
-            }}
-          >
-            Input form for Case study
-          </h1>
-        </div>{" "}
+        <div style={{ textAlign: "center", marginBottom: "10px" }}>
+          <h1 style={{ fontSize: "36px" }}>Input form for Case Study</h1>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {" "}
-          <label className="space-between label-case-input">
-            <h5>Choose the Case Topic Category</h5>
-            <select
-              className="label-case-input-fields"
-              {...register("caseTopic", { required: "Case topic is required" })}
-            >
-              <option value="">Select case Topic</option>
-              <option value="option1">Topic 1</option>
-              <option value="option2">Topic 2</option>
-              <option value="option3">Topic 3</option>
-              <option value="option4">Topic 4</option>
-              <option value="option4">Topic 5</option>
-              <option value="option4">Topic 6</option>
-              <option value="option4">Topic 7</option>
-              <option value="option4">Topic 8</option>
-              <option value="option4">Topic 9</option>
-              <option value="option4">Topic 10</option>
-            </select>
-            {errors.caseTopic && (
-              <p className="Error-meg-login-register">
-                {errors.caseTopic.message}
-              </p>
-            )}{" "}
-          </label>
-          <label className="space-between label-case-input">
-            <h5>Title for Case Topic</h5>
+          <label className="space-between label-case-input posrelativ">
+            <h5>
+              Choose the Case Category{" "}
+              <span className="RedColorStarMark">*</span>
+            </h5>
+
             <input
-              className="input-border-radius label-case-input-fields"
-              {...register("caseTopicTitle", {
-                required: "Main character's role is required",
-              })}
               type="text"
-              placeholder="Enter main character's role"
+              className="input-border-radius label-case-input-fields"
+              placeholder="Start typing to choose category"
+              value={searchTerm}
+              {...register("caseCategory", {
+                required: "Case Category is required",
+              })}
+              onChange={handleInputChange}
             />
-            {errors.caseTopicTitle && (
+            {dropdownVisible && filteredCaseCategories.length > 0 && (
+              <div className="dropdown-content">
+                {filteredCaseCategories.slice(0, 50).map((category, index) => (
+                  <div
+                    key={index}
+                    className="dropdown-item"
+                    onClick={() => handleOptionClick(category)}
+                  >
+                    {category.label}
+                  </div>
+                ))}
+              </div>
+            )}
+            {errors.caseCategory && (
               <p className="Error-meg-login-register">
-                {errors.caseTopicTitles.message}
+                {errors.caseCategory.message}
               </p>
-            )}{" "}
+            )}
           </label>
-          <label className="space-between label-case-input">
-            <h5>What is the lesson you want the user to learn</h5>
-            <textarea
-              className="label-case-input-fields"
-              {...register("lesson", { required: "Lesson is required" })}
-              placeholder="Enter text here..."
-            />
-            {errors.lesson && (
-              <p className="Error-meg-login-register">
-                {errors.lesson.message}
-              </p>
-            )}{" "}
-          </label>
+
           <label className="space-between label-case-input">
             <h5>
-              What skill do you want people to have after they read the case?
+              Title of Case <span className="RedColorStarMark">*</span>
+            </h5>
+            <input
+              className="input-border-radius label-case-input-fields"
+              {...register("caseTitle", {
+                required: "Case title is required",
+              })}
+              type="text"
+              placeholder="Enter case title"
+            />
+            {errors.caseTitle && (
+              <p className="Error-meg-login-register">
+                {errors.caseTitle.message}
+              </p>
+            )}
+          </label>
+
+          <label className="space-between label-case-input">
+            <h5>
+              Case Summary <span className="RedColorStarMark">*</span>
             </h5>
             <textarea
               className="label-case-input-fields"
-              {...register("futureSkills", {
-                required: "Future skill is required",
-              })} // Add required rule
-              placeholder="Enter text here..."
+              {...register("caseSummary", {
+                required: "Case summary is required",
+              })}
+              placeholder="Enter summary here..."
             />
-            {errors.futureSkills && (
+            {errors.caseSummary && (
               <p className="Error-meg-login-register">
-                {errors.futureSkills.message}
+                {errors.caseSummary.message}
               </p>
-            )}{" "}
+            )}
           </label>
+
           <label className="space-between label-case-input">
-            <h5>How many characters are there in the case?</h5>
+            <h5>
+              Case Background <span className="RedColorStarMark">*</span>
+            </h5>
+            <textarea
+              className="label-case-input-fields"
+              {...register("caseBackground", {
+                required: "Case background is required",
+              })}
+              placeholder="Enter background here..."
+            />
+            {errors.caseBackground && (
+              <p className="Error-meg-login-register">
+                {errors.caseBackground.message}
+              </p>
+            )}
+          </label>
+
+          <label className="space-between label-case-input">
+            <h5>
+              Main Challenge <span className="RedColorStarMark">*</span>
+            </h5>
+            <textarea
+              className="label-case-input-fields"
+              {...register("challenge", {
+                required: "Main challenge is required",
+              })}
+              placeholder="Enter main challenge..."
+            />
+            {errors.challenge && (
+              <p className="Error-meg-login-register">
+                {errors.challenge.message}
+              </p>
+            )}
+          </label>
+
+          <label className="space-between label-case-input">
+            <h5>
+              Number of Characters <span className="RedColorStarMark">*</span>
+            </h5>
             <input
               className="label-case-input-fields"
               type="number"
@@ -201,11 +262,15 @@ function MentorCaseStudyInput({ user, token, data }) {
               <p className="Error-meg-login-register">
                 {errors.characters.message}
               </p>
-            )}{" "}
+            )}
           </label>
+
           {numRoles > 0 && (
             <div>
-              <h5>Add the role of each character</h5>
+              <h5>
+                Role of Each Character{" "}
+                <span className="RedColorStarMark">*</span>
+              </h5>
               {Array.from({ length: numRoles }).map((_, i) => {
                 const roleKey = `role${i + 1}`;
                 return (
@@ -228,8 +293,11 @@ function MentorCaseStudyInput({ user, token, data }) {
               })}
             </div>
           )}
+
           <label className="space-between label-case-input">
-            <h5>Role of Main Character</h5>
+            <h5>
+              Role of Main Character <span className="RedColorStarMark">*</span>
+            </h5>
             <input
               className="input-border-radius label-case-input-fields"
               {...register("roleOfMainCharacter", {
@@ -242,23 +310,53 @@ function MentorCaseStudyInput({ user, token, data }) {
               <p className="Error-meg-login-register">
                 {errors.roleOfMainCharacter.message}
               </p>
-            )}{" "}
+            )}
           </label>
+
           <label className="space-between label-case-input">
-            <h5>What is the main challenge you want to put there?</h5>
+            <h5>
+              Lesson to Learn <span className="RedColorStarMark">*</span>
+            </h5>
             <textarea
               className="label-case-input-fields"
-              {...register("challenge", {
-                required: "The main challenge field is required",
-              })}
-              placeholder="Enter text here..."
+              {...register("lesson", { required: "Lesson is required" })}
+              placeholder="Enter lesson..."
             />
-            {errors.challenge && (
+            {errors.lesson && (
               <p className="Error-meg-login-register">
-                {errors.challenge.message}
+                {errors.lesson.message}
               </p>
-            )}{" "}
+            )}
           </label>
+
+          <label className="space-between label-case-input">
+            <h5>
+              Future Skills to Develop{" "}
+              <span className="RedColorStarMark">*</span>
+            </h5>
+            <textarea
+              className="label-case-input-fields"
+              {...register("futureSkills", {
+                required: "Future skills are required",
+              })}
+              placeholder="Enter future skills..."
+            />
+            {errors.futureSkills && (
+              <p className="Error-meg-login-register">
+                {errors.futureSkills.message}
+              </p>
+            )}
+          </label>
+
+          <label className="space-between label-case-input">
+            <h5>Resources (optional)</h5>
+            <textarea
+              className="label-case-input-fields"
+              {...register("resource")}
+              placeholder="Enter resources..."
+            />
+          </label>
+
           <div className="button-container-case-input">
             <button type="submit" disabled={loading}>
               {loading ? "Saving..." : "Save"}

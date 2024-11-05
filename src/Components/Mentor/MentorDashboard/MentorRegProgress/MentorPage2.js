@@ -20,9 +20,6 @@ const MentorPage2 = () => {
   } = useFormContext();
 
   const formValues = getValues();
-
-  console.log(formValues);
-
   const loadStoredData = () => {
     const storedData = localStorage.getItem("formData1");
     if (storedData) {
@@ -291,7 +288,6 @@ const MentorPage2 = () => {
       position: "top-right", // Directly specifying the position
     });
     localStorage.setItem("mentorData", JSON.stringify(selectedData));
-    console.log("Saved Data:", selectedData);
     setValue("Core_Skills", selectedData);
     setValue("ForSkillValidation", "ok");
   };

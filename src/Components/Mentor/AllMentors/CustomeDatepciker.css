@@ -30,12 +30,12 @@
 }
 
 .slot-item:hover {
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
 }
 
 .selected-slot {
-  border-color: #007bff;
-  background-color: #e6f0ff;
+  color: #fff;
+  background-color: rgb(27, 99, 222);
 }
 
 .unorderlist {

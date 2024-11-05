@@ -5,6 +5,7 @@ import { ApiURL } from "../../../Utils/ApiURL";
 import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
 import "./AllMentors.css";
 import "./Dropdown.css";
+import { Link } from "react-router-dom";
 const AllMentors = () => {
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
@@ -197,18 +198,9 @@ const AllMentors = () => {
   };
   return (
     <>
-      <div className="adadadad mt-6">
-        <p>
-          Home{" "}
-          <i
-            className="fa-solid fa-angles-right"
-            style={{ fontSize: "14px" }}
-          ></i>{" "}
-          Mentor Connect
-        </p>
-
+      <div className="adadadad mt-8">
         <h2 style={{ textAlign: "center" }} className="kukuddd">
-          Mentor Connect{" "}
+          Mentor Connect
           <i
             className="fa-solid fa-plus fa-2xl fgtrbdhefg"
             style={{ color: "#1b63de" }}
@@ -221,6 +213,17 @@ const AllMentors = () => {
 
       <div className="kghfbgfgbhfg pb-0 " style={{ paddingTop: "2rem" }}>
         <div className="ighefirr bg-white py-2">
+          <p style={{ paddingLeft: "50px" }}>
+            <Link to={"/"}>
+              <i className="fa fa-home" style={{ fontSize: "14px" }}></i>
+              Home
+            </Link>
+            <i
+              className="fa-solid fa-angles-right"
+              style={{ fontSize: "14px" }}
+            ></i>
+            Mentor Connect
+          </p>
           <div className="container-fluid px-5">
             <div className="uilhdier_filter_wrap d-flex slign-items-center justify-content-between">
               <div class="filter-container">

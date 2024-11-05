@@ -11,7 +11,7 @@ import {
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux.js";
 import { ApiURL } from "../../../../Utils/ApiURL.js";
-
+import { MentorFormOptions } from "../../../data/MentorFormOptions.js";
 const Backdrop = styled.div`
   position: fixed;
   top: 0;
@@ -99,17 +99,17 @@ const ConfirmButton = styled.button`
   transition: all 0.5s ease-in-out;
   cursor: pointer;
   border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+  background-color: #2dbedb;
   &:hover {
-    background-color: lightgreen;
-    transition: all 0.5s ease-in-out;
+    background-color: #0255ca;
   }
 `;
 const FormSelect = styled.select`
-  height: 30px;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 5px;
-  padding-bottom: 10px;
+  padding: 5px 10px;
   &:focus {
     border-color: #fc83bb;
   }
@@ -126,7 +126,7 @@ const LabelTitle = styled.p`
 `;
 const TextArea = styled.textarea`
   width: 100%;
-  padding-bottom: 10px;
+  padding: 5px 10px;
   border: 1px solid #111;
   border-radius: 5px;
   ::placeholder {
@@ -162,6 +162,7 @@ const MentorBookingAppointment = (props) => {
             mentorId: props.singleMentor[0].mentor_dtls_id,
             menteeEmail: user?.user_email,
             userId: user?.user_id,
+            mentorTimeSlotDuration: props.mentorTimeSlotDuration,
           }
         );
         if (result.data.error) {
@@ -201,7 +202,7 @@ const MentorBookingAppointment = (props) => {
                 to: props.selectedSlot.mentor_timeslot_to,
                 data: data,
                 username: username,
-                mentorUserDtlsId: props.singleMentor[0].mentor_user_dtls_id,
+                mentorUserDtlsId: props.singleMentor[0].user_dtls_id,
                 mentorName:
                   props.singleMentor[0].mentor_firstname +
                   " " +
@@ -300,13 +301,11 @@ const MentorBookingAppointment = (props) => {
               name="selected"
             >
               <FormOption value=""></FormOption>
-              <FormOption value="Need help n building apps">
-                Need help in building apps
-              </FormOption>
-              <FormOption value="Struggling in IT">Struggling in IT</FormOption>
-              <FormOption value="Building the career in IT">
-                Building the career in IT
-              </FormOption>
+              {MentorFormOptions.map((option) => {
+                return (
+                  <FormOption value={option.value}>{option.label}</FormOption>
+                );
+              })}
             </FormSelect>
             {errors.selected && (
               <ErrorMessage>{errors.selected.message}</ErrorMessage>

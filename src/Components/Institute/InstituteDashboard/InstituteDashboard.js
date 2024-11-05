@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./DashboardCSS/Institutedashboardnotification.css";
 import Logo from "../../../Images/logo.png";
 import InstituteNotifications from "./OtherComponents/InstituteNotifications";
@@ -19,9 +19,11 @@ import NonAlumniMentor from "./OtherComponents/NonAlumniMentor";
 import AlumniList from "./OtherComponents/AlumniList";
 import InstituteProfileSetting from "./OtherComponents/InstituteProfileSetting";
 import InstituteUserList from "./OtherComponents/InstituteUserList";
+import { ApiURL } from "../../../Utils/ApiURL";
+import axios from "axios";
 
-const InstituteDashboard = () => {
-  const user = useSelector((state) => state.user?.currentUser);
+const InstituteDashboard = ({ user, token }) => {
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
   const [showUserList, setShowUserList] = useState(false);
   const [showProfileSettings, setShowProfileSettings] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
@@ -392,7 +394,62 @@ const InstituteDashboard = () => {
   const userLogoutHandler = () => {
     return dispatch(logOut()), navigate("/login");
   };
+  const [instituteDashboardDetails, setInstituteDashboardDetails] = useState(
+    []
+  );
+  const url = ApiURL();
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/institute/dashboard/get-details`, {
+            instituteUserId: user?.user_id,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
 
+        if (response.data.success) {
+          setInstituteDashboardDetails(response.data.success);
+        } else if (response.data.error) {
+          setInstituteDashboardDetails([]);
+        }
+      } catch (error) {
+        setInstituteDashboardDetails([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+    fetchMentors();
+  }, [url, user?.user_id]);
+  useEffect(() => {
+    const notifications = instituteDashboardDetails?.map((item) => {
+      if (item?.notification_list) {
+        try {
+          return JSON.parse(item.notification_list);
+        } catch (error) {
+          console.error("Failed to parse notification_list:", error);
+          return []; // Return an empty array if parsing fails
+        }
+      }
+      return []; // Return an empty array if notification_list is undefined or null
+    });
+    const allNotifications = notifications?.flat();
+    const unreadExists = allNotifications?.some(
+      (notification) => !notification.notification_is_read
+    );
+    // Delay the state update slightly
+    setTimeout(() => {
+      setHasUnreadNotifications(unreadExists);
+    }, 0);
+  }, [instituteDashboardDetails]);
   return (
     <>
       <div className="md-header">
@@ -677,109 +734,160 @@ const InstituteDashboard = () => {
             >
               <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-bell"></i>
+                {hasUnreadNotifications && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "-3px",
+                      right: "-5px",
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: "red",
+                      borderRadius: "50%",
+                      border: "2px solid white",
+                    }}
+                  />
+                )}
               </span>
-
               <h5>Notifications</h5>
             </button>
           </div>
           <div className="maincontent" onMouseOver={SubmenuAllOff}>
-            {showUserList ? <InstituteUserList /> : ""}
-            {showProfileSettings ? <InstituteProfileSetting /> : ""}
-            {showNotification ? <InstituteNotifications /> : ""}
-            {showInstituteProfile ? <InstituteProfileDashboard /> : ""}
-            {showChangePwd ? <InstituteChangePwd /> : ""}
-            {showInstituteMessage ? <InstituteMessages /> : ""}
-            {showAddMentor ? <AddMentor /> : ""}
-            {showsearchguest ? <SearchGuestLacture /> : ""}
-            {ShowRequestGuest ? <RequestGuestlacture /> : ""}
-            {ShowRegisterGuest ? <RegisterGuestlacture /> : ""}
-            {ShowHistory ? <HistoryGuestlacture /> : ""}
-            {Communication ? <CommunicationTemplate /> : ""}
-            {ShowAlumniMentor ? <AlumniMentor /> : ""}
-            {ShowNonAlumniMentor ? <NonAlumniMentor /> : ""}
-            {AlumniListMentor ? <AlumniList /> : ""}
-          </div>
-        </div>
-      </div>
-      <div className="res-db-sidebar">
-        <div className="md-header ugenhuhrtniu" id="res-db-side-bar">
-          <div className="difuhtre_nav" style={{ display: "none" }}>
-            <div className="huirebff_close">
-              <i
-                className="fa-solid fa-circle-arrow-left"
-                id="close-filter"
-              ></i>
-            </div>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-user"></i>
-              </span>
-
-              <h5>Dashboard</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-bars"></i>
-              </span>
-
-              <h5>PROFILE SETTINGS</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-brands fa-rocketchat"></i>
-              </span>
-
-              <h5>ADD MENTOR</h5>
-            </button>
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-brands fa-rocketchat"></i>
-              </span>
-
-              <h5>ADD MENTEE</h5>
-            </button>
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-brands fa-rocketchat"></i>
-              </span>
-
-              <h5>MESSAGES</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-bell"></i>
-              </span>
-
-              <h5>NOTIFICATIONS</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-arrow-right-arrow-left"></i>
-              </span>
-
-              <h5>CHANGE PASSWORD</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-folder"></i>
-              </span>
-
-              <h5>SESSION SETUP</h5>
-            </button>
-
-            <button className="btn btn-transparent text-center py-3">
-              <span className="d-block bg-white position-relative m-auto ">
-                <i className="fa-solid fa-right-from-bracket"></i>
-              </span>
-
-              <h5>LOG OUT</h5>
-            </button>
+            {showUserList ? (
+              <InstituteUserList
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showProfileSettings ? (
+              <InstituteProfileSetting
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showNotification ? (
+              <InstituteNotifications
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showInstituteProfile ? (
+              <InstituteProfileDashboard
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showChangePwd ? (
+              <InstituteChangePwd
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showInstituteMessage ? (
+              <InstituteMessages
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showAddMentor ? (
+              <AddMentor
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {showsearchguest ? (
+              <SearchGuestLacture
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {ShowRequestGuest ? (
+              <RequestGuestlacture
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {ShowRegisterGuest ? (
+              <RegisterGuestlacture
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {ShowHistory ? (
+              <HistoryGuestlacture
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {Communication ? (
+              <CommunicationTemplate
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {ShowAlumniMentor ? (
+              <AlumniMentor
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {ShowNonAlumniMentor ? (
+              <NonAlumniMentor
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {AlumniListMentor ? (
+              <AlumniList
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

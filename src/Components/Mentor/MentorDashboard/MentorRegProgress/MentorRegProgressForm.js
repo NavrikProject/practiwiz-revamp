@@ -217,7 +217,7 @@ const MentorRegProgressForm = ({
                 className="btn btn-primary tablinks active"
                 data-tab="form2"
               >
-                <i class="fa-solid fa-calendar-check"></i> AVAILABILITY
+                <i className="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
             ) : (
               <button
@@ -225,7 +225,7 @@ const MentorRegProgressForm = ({
                 data-tab="form2"
                 // onClick={tab2}
               >
-                <i class="fa-solid fa-calendar-check"></i> AVAILABILITY
+                <i className="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>
             )}
           </div>
