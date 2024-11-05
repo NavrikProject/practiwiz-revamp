@@ -13,6 +13,7 @@ import { ApiURL } from "../../../Utils/ApiURL";
 import MentorUpcomingSessions from "./OtherComponents/MentorUpcomingSessions";
 import MentorCompletedSessions from "./OtherComponents/MentorCompletedSessions";
 import MentorCaseStudyInput from "./CaseStudy/MentorCaseStudyInput";
+import MentorCaseStudySubmited from "./CaseStudy/MentorCaseStudySubmited";
 import SingleMentorProfilePageSkelton from "../AllMentors/SingleMentorProfile/Skelton/SingleMentorProfilePageSkelton";
 import MentorRegProgressForm from "./MentorRegProgress/MentorRegProgressForm";
 /* eslint-disable no-sequences */
@@ -21,6 +22,7 @@ import "./DashboardCSS/Mentor.css";
 import "./DashboardCSS/MobileMentorDashboard.css";
 import Logo from "../../../Images/logo.png";
 import MentorDashboardSidebar from "./OtherComponents/MentorDashboardSidebar";
+import MentorCaseStudyPurchased from "./CaseStudy/MentorCaseStudyPurchased";
 const MentorDashboard = ({ user, token }) => {
   const url = ApiURL();
   const [singleMentor, setSingleMentor] = useState([]);
@@ -100,13 +102,22 @@ const MentorDashboard = ({ user, token }) => {
     useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
   const [Sessionmenu, setSessionmenu] = useState(false);
+  const [CaseMenu, setCaseMenu] = useState(false);
   const [caseStudies, setCaseStudies] = useState(false);
+  const [caseStudiesSubmited, setCaseStudiesSubmited] = useState(false);
+  const [caseStudiesPurchased, setcaseStudiesPurchased] = useState(false);
   const [showSidebarList, setShowSidebarList] = useState(false);
   const toggleNoProfile = () => {
     setprofilemenu(true);
   };
   const toggleOffProfile = () => {
     setprofilemenu(false);
+  };
+  const toggleOnCase = () => {
+    setCaseMenu(true);
+  };
+  const toggleOfCase = () => {
+    setCaseMenu(false);
   };
   const toggleNosession = () => {
     setSessionmenu(true);
@@ -128,7 +139,9 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(false),
       setShowMentorMessage(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
 
@@ -142,9 +155,12 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorProfile(false),
       setShowMentorCompletedSessions(false),
       setshowMentorUpcomingSessions(false),
+      setShowMentorMessage(false),
       setShowMentorCompletedSessions(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
 
@@ -161,7 +177,9 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorProfile(false),
       setShowMentorMessage(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
 
@@ -178,7 +196,9 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorMessage(false),
       setShowMentorProfile(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
   const ShowMentorCompletedHandler = () => {
@@ -186,13 +206,16 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorCompletedSessions(true);
     }
     return (
+      setShowMentorMessage(false),
       setShowNotification(false),
       setShowChangePwd(false),
       setshowMentorPsettings(false),
       setShowMentorProfile(false),
       setshowMentorUpcomingSessions(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
 
@@ -211,7 +234,9 @@ const MentorDashboard = ({ user, token }) => {
       setShowMentorMessage(false),
       setCaseStudies(false),
       setShowMentorUpDetailsForm(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
   const MentorSessionSetupHandler = () => {
@@ -227,14 +252,21 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorUpcomingSessions(false),
       setShowMentorMessage(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
   const showMentorApplicationHandler = () => {
     if (!showMentorUpDetailsForm) {
       setShowMentorUpDetailsForm(true);
     }
-    return setShowNotification(false), setShowSidebarList(false);
+    return (
+      setShowNotification(false),
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
+    );
   };
   const MentorBankingShowingHandler = () => {
     if (!showMentorMessage) {
@@ -249,7 +281,9 @@ const MentorDashboard = ({ user, token }) => {
       setshowMentorUpcomingSessions(false),
       setShowMentorProfile(false),
       setCaseStudies(false),
-      setShowSidebarList(false)
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
     );
   };
 
@@ -258,6 +292,42 @@ const MentorDashboard = ({ user, token }) => {
       setCaseStudies(true);
     }
     return (
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setshowMentorPsettings(false),
+      setShowMentorCompletedSessions(false),
+      setshowMentorUpcomingSessions(false),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false),
+      setShowSidebarList(false),
+      setCaseStudiesSubmited(false),
+      setcaseStudiesPurchased(false)
+    );
+  };
+  const MentorCaseStudiesSubmitedShowingHandler = () => {
+    setCaseStudiesSubmited(true);
+
+    return (
+      setCaseStudies(false),
+      setShowSessionSetup(false),
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setshowMentorPsettings(false),
+      setShowMentorCompletedSessions(false),
+      setshowMentorUpcomingSessions(false),
+      setShowMentorProfile(false),
+      setShowMentorMessage(false),
+      setShowSidebarList(false),
+      setcaseStudiesPurchased(false)
+    );
+  };
+  const MentorCaseStudiesPurchasedShowingHandler = () => {
+    setcaseStudiesPurchased(true);
+
+    return (
+      setCaseStudiesSubmited(false),
+      setCaseStudies(false),
       setShowSessionSetup(false),
       setShowNotification(false),
       setShowChangePwd(false),
@@ -582,16 +652,48 @@ const MentorDashboard = ({ user, token }) => {
                     <h5>Notifications</h5>
                   </button>
 
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    onClick={MentorCaseStudiesShowingHandler}
-                  >
-                    <span className="d-block bg-white position-relative m-auto">
-                      <i className="fa-solid fa-folder"></i>
-                    </span>
+                  {/* ************************************************************************ */}
 
-                    <h5>Case Studies</h5>
-                  </button>
+                  {singleMentor[0]?.mentor_curating_case_studies_interest ===
+                    "Yes" && (
+                    <div className="Baseposition" onMouseLeave={toggleOfCase}>
+                      <button
+                        className="btn btn-transparent text-center py-3 seeeett"
+                        onMouseOver={toggleOnCase}
+                      >
+                        <span className="d-block bg-white position-relative m-auto">
+                          <i className="fa-solid fa-folder"></i>
+                        </span>
+                        <h5>
+                          Case Studies
+                          <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                        </h5>
+                      </button>
+                      {CaseMenu && (
+                        <div className="submenu1">
+                          <button
+                            className="submenu-item1"
+                            onClick={MentorCaseStudiesShowingHandler}
+                          >
+                            <h5>Create Case Study</h5>
+                          </button>
+                          <button
+                            className="submenu-item1"
+                            onClick={MentorCaseStudiesSubmitedShowingHandler}
+                          >
+                            <h5>Submitted Case Study</h5>
+                          </button>
+                          <button
+                            className="submenu-item1"
+                            onClick={MentorCaseStudiesPurchasedShowingHandler}
+                          >
+                            <h5>Purchased Case Studies</h5>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {/* ************************************************************************ */}
                 </div>
               )}
 
@@ -780,6 +882,20 @@ const MentorDashboard = ({ user, token }) => {
               )}
               {caseStudies && (
                 <MentorCaseStudyInput
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
+              )}
+              {caseStudiesSubmited && (
+                <MentorCaseStudySubmited
+                  user={user}
+                  token={token}
+                  data={singleMentor}
+                />
+              )}
+              {caseStudiesPurchased && (
+                <MentorCaseStudyPurchased
                   user={user}
                   token={token}
                   data={singleMentor}

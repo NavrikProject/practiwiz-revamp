@@ -3,6 +3,7 @@
   background: linear-gradient(45deg, #0074d9, #00aeef);
   background-clip: text;
   text-rendering: geometricPrecision;
+  font-size: 32px;
 }
 
 .case-study-display-container {
@@ -12,7 +13,7 @@
 }
 
 .case-study-display-container > h1 {
-  margin: 2rem auto;
+  margin: 1.2rem auto;
   text-align: center;
 }
 
@@ -28,10 +29,6 @@
 .bright-border {
   padding: 20px;
   transition: box-shadow 0.3s ease;
-  &:hover {
-    /* border: 2px solid #85c4fa; */
-    box-shadow: 0 2px 4px rgb(0 136 255 / 80%);
-  }
 }
 
 .case-study-content {
@@ -47,7 +44,7 @@
 }
 
 .case-study-text > p > strong {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
 }
 
 .case-study-text > p {
@@ -68,6 +65,13 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.case-btn-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
 .see-case-btn {
   background-color: #0074d9;
   color: white;
@@ -80,4 +84,51 @@
   &:hover {
     background-color: #2896f6;
   }
+}
+
+.add-to-cart,
+.go-to-cart {
+  background-color: #121212;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #414141;
+  }
+}
+
+.buy-now {
+  background-color: #0ac800;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #1d9a16;
+  }
+}
+
+/* Star Icon Styles */
+.full-star {
+  color: #f5c518; /* Gold color for full stars */
+}
+
+.half-star {
+  color: #f5c518; /* Gold color for half stars */
+}
+
+.empty-star {
+  color: #ddd; /* Light color for empty stars */
+}
+
+.star-icon {
+  margin-right: 2px;
+  font-size: 1rem;
 }

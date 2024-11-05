@@ -7,6 +7,7 @@ const CustomDatePicker = ({
   timeslotList,
   bookingDetails,
   onDateSlotSelect,
+  mentorTimeSlotDuration,
 }) => {
   const [startDate, setStartDate] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
@@ -43,22 +44,19 @@ const CustomDatePicker = ({
       const slotDay = getDayIndex(slot.mentor_timeslot_day);
       const endDate = new Date(slot.mentor_timeslot_rec_end_timeframe);
       endDate.setHours(0, 0, 0, 0);
-      return date.getDay() === slotDay && date <= endDate;
+      return (
+        date.getDay() === slotDay && date <= endDate // Ensure duration matches
+      );
     });
 
-    if (daySlots.length === 0) return false;
-
-    const allBooked = daySlots.every((slot) => isSlotBooked(date, slot));
-    return (
-      !allBooked ||
-      date <= new Date(daySlots[0].mentor_timeslot_rec_end_timeframe)
-    );
+    return daySlots.length > 0;
   };
 
   const getSlotsForDate = (date) => {
     const selectedDay = date.toLocaleDateString("en-US", { weekday: "short" });
     return timeslotList?.filter(
       (slot) =>
+        slot.mentor_timeslot_duration === mentorTimeSlotDuration && // Filter by selected duration
         slot.mentor_timeslot_day === selectedDay &&
         new Date(slot.mentor_timeslot_rec_end_timeframe) >= date
     );
@@ -95,6 +93,14 @@ const CustomDatePicker = ({
       onDateSlotSelect(startDate, slot, slot.mentor_timeslot_id);
     }
   };
+
+  // Use effect to reset date and available slots when the duration changes
+  useEffect(() => {
+    setStartDate(null);
+    setAvailableSlots([]);
+    setSelectedSlot(null);
+    onDateSlotSelect(null, null); // Resetting the selection
+  }, [mentorTimeSlotDuration]);
 
   return (
     <div>
@@ -142,7 +148,18 @@ const CustomDatePicker = ({
           </ul>
         </div>
       )}
-      {selectedSlot ? (
+      {startDate && availableSlots.length === 0 && (
+        <p className="selected-timeslotP">
+          No Slots available for the <b>{mentorTimeSlotDuration + " "}</b>
+          minutes duration. <br /> Please select another date.
+        </p>
+      )}
+      {!startDate && (
+        <div>
+          <p className="selected-timeslotP">Please select the date</p>
+        </div>
+      )}
+      {selectedSlot && (
         <div>
           <p className="selected-timeslotP">You have chosen this slot :</p>
           <p className="selected-timeslot">
@@ -152,10 +169,6 @@ const CustomDatePicker = ({
               "-" +
               selectedSlot.mentor_timeslot_to}
           </p>
-        </div>
-      ) : (
-        <div>
-          <p>Please select the date and timeslot</p>
         </div>
       )}
     </div>
