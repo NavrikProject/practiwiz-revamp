@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useState, useEffect } from "react";
 import "../../../Forms/Register/Mentor/input-radio.css";
 import CoreSkill from "../../../data/CoreSkill.json";
@@ -13,13 +13,16 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import PassionSkill from "../../../data/PassionSkills.json";
-
+import Select from "react-select";
+import { options, experienceOptions } from "../../../data/DomainData.js";
 const MentorProfile2 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
   const {
     setValue,
+    control,
+    trigger,
     formState: { errors },
   } = useForm();
   const [formData, setFormData] = useState({
@@ -291,12 +294,44 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     return selectedData;
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value, // Update formData dynamically for any input field
-    });
+
+    // Check if the input field is 'mentor_years_of_experience'
+    if (name === "mentor_years_of_experience") {
+      const selectedExperience = experienceOptions.find(
+        (option) => option.value === value
+      );
+
+      if (selectedExperience) {
+        // Update the formData state with the selected experience
+        setFormData((prevData) => ({
+          ...prevData,
+          mentor_years_of_experience: selectedExperience.value, // or use selectedExperience.label if you prefer
+        }));
+      }
+    } else {
+      // For other inputs, just update the formData as usual
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value, // Update formData dynamically for any input field
+      }));
+
+      if (name === "mentor_domain") {
+        const updatedDomains = [...formData.mentor_domain]; // Copy the array
+
+        // Check if the index exists in the array
+        if (updatedDomains[index]) {
+          updatedDomains[index].label = value; // Update the specific domain
+          setFormData((prevData) => ({
+            ...prevData,
+            mentor_domain: updatedDomains, // Update formData state
+          }));
+        } else {
+          console.error(`No domain found at index ${index}`);
+        }
+      }
+    }
   };
 
   const handleEditClick = () => {
@@ -338,6 +373,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
             `${url}api/v1/mentor/dashboard/update/profile-2`,
             {
               formData,
+              mentor_domain: JSON.stringify(formData.mentor_domain),
               expertiseList: JSON.stringify(data.expertise),
               mentorUserDtlsId: user.user_id,
               mentor_email: profiledata?.mentor_email,
@@ -411,35 +447,81 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
               <label htmlFor="exampleInputPassword1" className="form-label">
                 <b>Years of Experience</b>
               </label>
-              <input
-                type="text"
-                name="mentor_years_of_experience"
-                className="form-control"
-                placeholder="Years of experience"
-                value={formData.mentor_years_of_experience}
+              <select
+                className="form-control form-select"
                 onChange={handleInputChange}
                 disabled={!isEditing}
-              />
+                name="mentor_years_of_experience" // The name must match the form field
+                value={formData.mentor_years_of_experience || ""} // Ensure the correct value is reflected
+              >
+                {/* Default option or placeholder */}
+                <option value="" disabled>
+                  {formData.mentor_years_of_experience
+                    ? `Selected: ${formData.mentor_years_of_experience}`
+                    : "Select your experience"}
+                </option>
+
+                {/* Mapping over your experienceOptions array */}
+                {experienceOptions?.map((experience) => (
+                  <option key={experience.value} value={experience.value}>
+                    {experience.label}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="col-lg-6 mb-4">
               <label htmlFor="mentor_domain" className="form-label">
-                <b>Domain</b>
+                <b>
+                  Domain <span className="RedColorStarMark">*</span>
+                </b>
               </label>
 
               {isEditing ? (
-                <input
-                  type="text"
-                  className="form-control"
+                <Controller
                   name="mentor_domain"
-                  placeholder="eg: Banking, Manufacturing, IT, Telecom ..."
-                  onChange={handleInputChange}
+                  control={control}
+                  defaultValue={formData.mentor_domain} // Set the current selected domains as default
+                  rules={{ required: "Please select your Domain" }} // Validation rule
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={options} // Your available options for the select menu
+                      isMulti={true} // Allow multiple selections
+                      value={field.value} // Sync value with form state
+                      onChange={(selectedOptions) => {
+                        field.onChange(selectedOptions); // Update form state with selected options
+                        setFormData({
+                          ...formData,
+                          mentor_domain: selectedOptions,
+                        }); // Update formData with selected options
+                      }}
+                    />
+                  )}
                 />
               ) : (
-                formData.mentor_domain.map((domain) => {
-                  return <p>{domain.label}</p>;
-                })
+                // Display selected domains as plain text when not editing
+                formData.mentor_domain && (
+                  <div className="djesj">
+                    {formData.mentor_domain.map((domain, index) => (
+                      <p key={index} className="DomainOption">
+                        {domain.label}
+                      </p>
+                    ))}
+                  </div>
+                )
+              )}
+
+              {/* Toggle button for editing mode */}
+
+              {/* Error message */}
+              {errors.mentor_domain && (
+                <p style={{ color: "red", marginTop: "8px" }}>
+                  {errors.mentor_domain.message}
+                </p>
               )}
             </div>
+
             <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Company</b>

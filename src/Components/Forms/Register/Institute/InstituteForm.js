@@ -315,16 +315,12 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
                   aria-describedby="emailHelp"
                   type={showIcon ? "text" : "password"}
                   {...register("institute_password", {
-                    required: "Password is Required",
+                    required: "password is required",
                     pattern: {
                       value:
-                        /^(?=.[A-Za-z])(?=.\d)(?=.[@$!%?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                       message:
                         "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
-                    },
-                    minLength: {
-                      value: 8,
-                      message: "Must be greater than 8 characters.",
                     },
                     maxLength: {
                       value: 16,

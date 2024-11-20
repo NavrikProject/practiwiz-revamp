@@ -37,7 +37,7 @@ import MenteeProfilePage from "./Pages/MenteePages/MenteeProfilePage";
 import PaymentCancPage from "./Pages/MiscPages/PaymentCancPage";
 import MenteeRegistrationPage from "./Pages/FormPages/RegisterPages/MenteeRegistrationPage";
 import ProtectedRoute from "./Utils/ProtectedRoutes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Spinner from "./Utils/Spinner"; // Your spinner component
 import Test from "./Pages/Test";
 import MenteeFeedbackForm from "./Components/Mentee/MenteeFeedback/MenteeFeedbackForm";
@@ -56,13 +56,35 @@ import MentorNotFoundDashboardPage from "./Pages/MentorPages/Dashboard/MentorNot
 import MentorUpdatedRegistrationPage from "./Pages/FormPages/RegisterPages/MentorUpdatedRegistrationPage";
 import { useEffect } from "react";
 import RedirectHandler from "./Utils/RedirectHandler";
+import Cart from "./Pages/CartPages/CartPage";
+import { setPurchasedItems } from "./Redux/purchasedSlice";
+import axios from "axios";
+import { ApiURL } from "./Utils/ApiURL";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
+  const url = ApiURL();
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
   const token = localStorage.getItem("accessToken");
-
+  const dispatch = useDispatch();
+  const fetchPurchasedItems = async (userId, dispatch) => {
+    try {
+      const response = await axios.get(
+        `${url}api/v1/case-studies/cart/purchased-items/${userId}`
+      );
+      if (response.data.success) {
+        dispatch(setPurchasedItems(response.data.success));
+      }
+    } catch (error) {
+      console.error("Error fetching purchased items:", error);
+    }
+  };
+  useEffect(() => {
+    if (user) {
+      fetchPurchasedItems(user?.user_id, dispatch);
+    }
+  }, [user, dispatch]);
   return (
     <>
       {isLoading && <Spinner />}
@@ -106,7 +128,7 @@ function App() {
           />
           <Route path="/mentor-club" element={<AllMentorsPage />} />
           <Route
-            path="/mentor-club/:expert/:expertId"
+            path="/mentor-club/:expert"
             element={<MentorExpertListPage />}
           />
           <Route
@@ -203,7 +225,6 @@ function App() {
           <Route path="/payment-error" element={<PaymentCancPage />} />
           <Route path="/internships" element={<InternshipPages />} />
           <Route path="/trainings" element={<InternshipPages />} />
-
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/user/activate/reset-password/:token"
@@ -221,6 +242,7 @@ function App() {
             path="/auth/linkedin/callback"
             element={<LinkedInCallback />}
           />
+          <Route path="/cart" element={<Cart user={user} token={token} />} />s
         </Routes>
       </Router>
       <ScrollButton />

@@ -1,4 +1,3 @@
-// MentorPage3.js
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,6 +5,7 @@ import "./MentorForm3.css";
 import { Controller, useFormContext } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
 import { toast } from "react-toastify";
+import { option_fro_timezone } from "../../../data/Timezones";
 
 // Custom Time Picker Component
 const CustomTimePicker = ({ value, onChange }) => {
@@ -60,7 +60,7 @@ const CustomTimePicker = ({ value, onChange }) => {
   );
 };
 
-// Mentor Page 3 Component
+// Main Mentor Page 3 Component
 const MentorPage3 = () => {
   const {
     control,
@@ -68,14 +68,8 @@ const MentorPage3 = () => {
     register,
     formState: { errors },
   } = useFormContext();
-
+  const [HideFromTime, setHideFromTime] = useState(false);
   const [condition, setCondition] = useState(true);
-
-  const defaultShow = () => {
-    if (condition) {
-      setCondition(false);
-    }
-  };
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -84,10 +78,9 @@ const MentorPage3 = () => {
     minutes: "00",
     ampm: "PM",
   };
+  const initialSlot = {};
 
-  const initialDate = {
-    // Mentor_timeslot_rec_end_date: "",
-  };
+  const initialDate = {};
 
   const [selectedDays, setSelectedDays] = useState(
     daysOfWeek.reduce((acc, day) => ({ ...acc, [day]: false }), {})
@@ -102,6 +95,7 @@ const MentorPage3 = () => {
           to: initialTime,
           date: initialDate,
           recurring: initialDate,
+          TimeslotDuration: 30,
         },
       }),
       {}
@@ -111,7 +105,12 @@ const MentorPage3 = () => {
   const [timeSlotTags, setTimeSlotTags] = useState(
     daysOfWeek.reduce((acc, day) => ({ ...acc, [day]: [] }), {})
   );
-
+  const defaultShow = () => {
+    if (condition) {
+      setCondition(false);
+    }
+  };
+  // Load saved data from localStorage on component mount
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("mentorPageData"));
     if (savedData) {
@@ -125,6 +124,7 @@ const MentorPage3 = () => {
     }
   }, [setValue]);
 
+  // Save data to localStorage on state change
   useEffect(() => {
     const dataToSave = {
       selectedDays,
@@ -141,41 +141,172 @@ const MentorPage3 = () => {
       setTimeSlotTags((prev) => ({ ...prev, [day]: [] }));
     }
   };
+  const [SlotDuration, setSlotDuration] = useState(30); // Default slot duration is 30 minutes
 
   const handleTimeChange = (day, type, value) => {
     if (type === "from") {
       const fromTime = value;
       const fromHours = parseInt(fromTime.hours, 10);
-      const toMinutes = parseInt(fromTime.minutes, 10) + 30;
-      let toHours = fromHours;
-      let toAmPm = fromTime.ampm;
+      const fromMinutes = parseInt(fromTime.minutes, 10);
 
-      if (toMinutes >= 60) {
-        toHours = (toHours + 1) % 12 || 12;
-        toAmPm = toHours === 12 ? (toAmPm === "AM" ? "PM" : "AM") : toAmPm;
+      // Determine slot duration; assuming SlotDuration can be either 30 or 60
+      const slotDuration = SlotDuration; // SlotDuration should be defined (30 or 60)
+      if (slotDuration == 30) {
+        if (fromMinutes === 30) {
+          // Calculate 'to' time based on the slot duration
+          let toMinutes = fromMinutes;
+          let toHours = fromHours + 1;
+          let toAmPm = fromTime.ampm;
+          // Handle minutes exceeding 60
+
+          // Handle 12-hour format and AM/PM switch
+          if (toHours > 12) {
+            toHours = toHours - 12; // Wrap hours to 12-hour format
+            toAmPm = toAmPm === "AM" ? "PM" : "AM"; // Switch AM/PM if crossing 12
+          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
+            // Special case for transitioning at 12 PM
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          }
+          // Format hours and minutes to ensure two-digit representation
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          // Update the timeInputs state with the new 'from' and 'to' times
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        }
+        if (fromMinutes === 0) {
+          // Calculate 'to' time based on the slot duration
+          let toMinutes = slotDuration;
+          let toHours = fromHours;
+          let toAmPm = fromTime.ampm;
+          // Handle minutes exceeding 60
+          // Handle 12-hour format and AM/PM switch
+          if (toHours > 12) {
+            toHours = toHours - 12; // Wrap hours to 12-hour format
+            toAmPm = toAmPm === "AM" ? "PM" : "AM"; // Switch AM/PM if crossing 12
+          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
+            // Special case for transitioning at 12 PM
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          }
+
+          // Format hours and minutes to ensure two-digit representation
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          // Update the timeInputs state with the new 'from' and 'to' times
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        }
       }
+      // Handle minutes exceeding 60
+      if (slotDuration == 60) {
+        // Calculate 'to' time based on the slot duration
+        let toMinutes = fromMinutes;
+        let toHours = fromHours + 1;
+        let toAmPm = fromTime.ampm;
 
-      const toTime = {
-        hours: toHours.toString().padStart(2, "0"),
-        minutes: (toMinutes % 60).toString().padStart(2, "0"),
-        ampm: toAmPm,
-      };
+        // Handle 12-hour format and AM/PM switch
+        if (toHours > 12) {
+          toHours = toHours - 12; // Wrap hours to 12-hour format
+          toAmPm = toAmPm === "AM" ? "PM" : "AM"; // Switch AM/PM if crossing 12
+        } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
+          // Special case for transitioning at 12 PM
+          toAmPm = toAmPm === "AM" ? "PM" : "AM";
+        }
 
-      setTimeInputs((prev) => ({
-        ...prev,
-        [day]: { ...prev[day], from: fromTime, to: toTime },
-      }));
+        // Format hours and minutes to ensure two-digit representation
+        const toTime = {
+          hours: toHours.toString().padStart(2, "0"),
+          minutes: toMinutes.toString().padStart(2, "0"),
+          ampm: toAmPm,
+        };
+
+        // Update the timeInputs state with the new 'from' and 'to' times
+        setTimeInputs((prev) => ({
+          ...prev,
+          [day]: { ...prev[day], from: fromTime, to: toTime },
+        }));
+      }
     } else {
+      // Handle updating other times, like 'to', directly
       setTimeInputs((prev) => ({
         ...prev,
         [day]: { ...prev[day], [type]: value },
       }));
     }
   };
+  const calculateMinutesDifference = (from, to, endDate) => {
+    const fromHours = parseInt(from.hours, 10);
+    const toHours = parseInt(to.hours, 10);
+
+    let fromMinutes = parseInt(from.minutes, 10);
+    let toMinutes = parseInt(to.minutes, 10);
+
+    // Convert from 'AM/PM' to total minutes from midnight
+    fromMinutes +=
+      from.ampm === "PM" && fromHours !== 12
+        ? (fromHours + 12) * 60
+        : fromHours === 12
+        ? 0
+        : fromHours * 60;
+    toMinutes +=
+      to.ampm === "PM" && toHours !== 12
+        ? (toHours + 12) * 60
+        : toHours === 12
+        ? 0
+        : toHours * 60;
+
+    // Calculate the difference
+    let minutesDifference = toMinutes - fromMinutes;
+
+    // Handle the case where the 'to' time is on the next day
+    // if (minutesDifference < 0) {
+    //     // Check if the end date is greater than the current date
+    //     const today = new Date().toISOString().split("T")[0]; // Get today's date in 'YYYY-MM-DD' format
+    //     if (endDate > today) {
+    //         // Add 24 hours worth of minutes (1440) to account for next day
+    //         minutesDifference += 1440; // 24 hours * 60 minutes
+    //     } else {
+    //         // If the end date is today or past, it's an invalid time slot
+    //         throw new Error("Invalid time slot: 'to' time cannot be earlier than 'from' time.");
+    //     }
+    // }
+
+    return minutesDifference;
+  };
+
+  const checkDuplicateTimeSlot = (day, newSlot) => {
+    const existingSlots = timeSlotTags[day] || [];
+
+    // Check if the new slot matches any existing slot's from and to times
+    return existingSlots.some(
+      (slot) =>
+        slot.from.hours === newSlot.from.hours &&
+        slot.from.minutes === newSlot.from.minutes &&
+        slot.from.ampm === newSlot.from.ampm
+    );
+  };
 
   const handleOkClick = (day) => {
-    const { from, to, date, recurring } = timeInputs[day];
+    console.log(timeInputs);
+    const { from, to, date, recurring, slotDuration } = timeInputs[day];
+    if (from.hours == 0 && from.ampm == "PM") {
+      console.log("hello");
+      return toast.error("Please Enter valide slot.");
+    }
 
+    // Check if all fields are filled before adding the slot
     if (
       !from.hours ||
       !from.minutes ||
@@ -184,29 +315,50 @@ const MentorPage3 = () => {
       !to.minutes ||
       !to.ampm ||
       !date.Mentor_timeslot_rec_end_date ||
-      !recurring.Mentor_timeslot_rec_indicator
+      !recurring.mentor_timeslot_rec_indicator
     ) {
       return toast.error(
-        "Please fill in all the fields before adding the slot.",
-        {
-          position: "top-right",
-        }
+        "Please fill in all the fields before adding the slot."
+      );
+    }
+    const minutesDiff = calculateMinutesDifference(from, to);
+
+    if (minutesDiff !== 30 && minutesDiff !== 60) {
+      return toast.error(
+        "Please select a time slot of either 30 or 60 minutes."
       );
     }
 
-    const timeSlot = { from, to, date, recurring };
-    const updatedTags = [...timeSlotTags[day], timeSlot];
+    const timeSlot = { from, to, date, recurring, slotDuration };
+
+    // Log the selected slot duration
+
+    // Check for duplicate time slot
+    if (checkDuplicateTimeSlot(day, timeSlot)) {
+      return toast.error("This time slot already exists for the selected day.");
+    }
+
+    // Initialize timeSlotTags[day] as an array if it's undefined
+    const updatedTags = [...(timeSlotTags[day] || []), timeSlot];
+
+    // Update timeSlotTags with the new array
     setTimeSlotTags((prev) => ({ ...prev, [day]: updatedTags }));
+
+    // Set the value in react-hook-form
     setValue(day, updatedTags);
+
+    // Reset the time inputs for the day
     setTimeInputs((prev) => ({
       ...prev,
       [day]: {
         from: initialTime,
         to: initialTime,
-        date: initialDate,
-        recurring: initialDate,
+        date: { Mentor_timeslot_rec_end_date: "" },
+        recurring: { mentor_timeslot_rec_indicator: "" },
+        slotDuration: { slotDuration: "" },
       },
     }));
+    setHideFromTime(false);
   };
 
   const handleRemoveTag = (day, index) => {
@@ -224,50 +376,9 @@ const MentorPage3 = () => {
 
     return [year, month.padStart(2, "0"), day.padStart(2, "0")].join("-");
   };
-  const option_fro_timezone = [
-    "UTC-12:00: Baker Island Time (BIT)",
-    "UTC-11:00: Niue Time (NUT), Samoa Standard Time (ST)",
-    "UTC-10:00: Hawaii-Aleutian Standard Time (HAST), Tahiti Time (TAHT)",
-    "UTC-09:00: Alaska Standard Time (AKST)",
-    "UTC-08:00: Pacific Standard Time (PST)",
-    "UTC-07:00: Mountain Standard Time (MST)",
-    "UTC-06:00: Central Standard Time (CST)",
-    "UTC-05:00: Eastern Standard Time (EST)",
-    "UTC-04:00: Atlantic Standard Time (AST), Eastern Caribbean Time (ECT)",
-    "UTC-03:00: Argentina Time (ART), Brasília Time (BRT)",
-    "UTC-02:00: South Georgia Time (GST)",
-    " UTC-01:00: Cape Verde Time (CVT)",
-    "UTC±00:00: Coordinated Universal Time (UTC), Greenwich Mean Time (GMT)",
-    "UTC+01:00: Central European Time (CET), West Africa Time (WAT)",
-    "UTC+03:00: Moscow Time (MSK), East Africa Time (EAT)",
-    "UTC+04:00: Azerbaijan Time (AZT), Gulf Standard Time (GST)",
-    "UTC+05:00: Pakistan Standard Time (PKT), Yekaterinburg Time (YEKT)",
-    "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)",
-    " UTC+05:45: Nepal Time (NPT)  ",
-    " UTC+06:00: Bangladesh Standard Time (BST), Omsk Time (OMST)",
-    " UTC+06:30: Cocos Islands Time (CCT)",
-    " UTC+07:00: Indochina Time (ICT), Krasnoyarsk Time (KRAT)",
-    "UTC+08:00: China Standard Time (CST), Australian Western Standard Time (AWST)",
-    "UTC+09:00: Japan Standard Time (JST), Korea Standard Time (KST)",
-    "UTC+09:30: Australian Central Standard Time (ACST)",
-    " UTC+10:00: Australian Eastern Standard Time (AEST), Papua New Guinea Time (PGT)",
-    "UTC+10:30: Lord Howe Standard Time (LHST)",
-    "   UTC+11:00: Solomon Islands Time (SBT), Vanuatu Time (VUT)",
-    " UTC+12:00: Fiji Time (FJT), New Zealand Standard Time (NZST)",
-    " UTC+13:00: Tonga Time (TOT), Phoenix Island Time (PHOT)",
-    " UTC+14:00: Line Islands Time (LINT)",
-    "UTC+03:30: Iran Standard Time (IRST)",
-    "UTC+04:30: Afghanistan Time (AFT)",
-
-    "UTC+06:30: Cocos Islands Time (CCT)",
-    "UTC+03:45: Nepal Time (NPT)",
-    "UTC+05:45: Nepal Time (NPT)",
-    "UTC+09:45: Australian Central Standard Time (ACST)",
-    "UTC+12:45: Chatham Islands Time (CHAST)",
-  ];
 
   return (
-    <div>
+    <div className="MentorForm3-container">
       <GoToTop />
       <div className="whole">
         <div className="doiherner_wrapper">
@@ -314,20 +425,21 @@ const MentorPage3 = () => {
               <span className="RedColorStarMark">*</span>
             </span>
           </div>
+
           <div className="main">
             <div className="dayColumn">
               {daysOfWeek.map((day) => (
-                <div style={styles.dayRow} className="daycolumns" key={day}>
+                <div key={day} className="daycolumns" style={styles.dayRow}>
                   <label htmlFor={day} style={styles.dayLabel}>
                     {day}
                   </label>
+
                   <label className="switch">
                     <input
                       type="checkbox"
-                      id={day}
                       checked={selectedDays[day]}
-                      onChange={(e) => handleDaySwitch(day, e.target.checked)}
                       onClick={defaultShow}
+                      onChange={(e) => handleDaySwitch(day, e.target.checked)}
                     />
                     <span className="slider round"></span>
                   </label>
@@ -368,71 +480,176 @@ const MentorPage3 = () => {
                         <div key={day} className="innertimeslot">
                           <div className="slotrow">
                             <h6>{day}</h6>
-
                             <div className="timeslots">
-                              {/* <label>From</label> */}
-                              <CustomTimePicker
-                                label="From"
-                                value={timeInputs[day].from}
-                                onChange={(newValue) =>
-                                  handleTimeChange(day, "from", newValue)
-                                }
+                              <Controller
+                                control={control}
+                                name={`${day}.slotDuration`}
+                                render={({ field }) => (
+                                  <select
+                                    {...field}
+                                    value={
+                                      timeInputs[day]?.slotDuration
+                                        ?.slotDuration || ""
+                                    } // Ensure correct value access with optional chaining
+                                    onChange={(e) => {
+                                      const newDuration = e.target.value;
+
+                                      // Update the slot duration state
+                                      setSlotDuration(newDuration);
+
+                                      // Update the timeInputs state for the specific day
+                                      handleTimeChange(day, "slotDuration", {
+                                        ...timeInputs[day]?.slotDuration,
+                                        slotDuration: newDuration,
+                                      });
+
+                                      // Reset other values for the selected day and update timeInputs
+                                      setTimeInputs((prev) => ({
+                                        ...prev,
+                                        [day]: {
+                                          ...prev[day], // Keep existing values intact
+                                          from: initialTime,
+                                          to: initialTime,
+                                          date: {
+                                            Mentor_timeslot_rec_end_date: "", // Reset to initial values
+                                          },
+                                          recurring: {
+                                            mentor_timeslot_rec_indicator: "", // Reset to initial values
+                                          },
+                                        },
+                                      }));
+
+                                      // Optionally hide the 'From Time' field
+                                      setHideFromTime(true);
+                                    }}
+                                  >
+                                    <option value="">
+                                      Select slot Duration
+                                    </option>
+                                    <option value={30}>30 Min</option>
+                                    <option value={60}>60 Min</option>
+                                  </select>
+                                )}
                               />
-                              <span style={styles.toLabel}>to</span>
-                              <div>
+
+                              {/* <Controller
+                                control={control}
+                                name={`${day}.slotDuration`}
+                                render={({ field }) => (
+                                  <select
+                                    {...field}
+                                    value={
+                                      timeInputs[day].slotDuration
+                                        .SlotDuration 
+                                    } // Ensure correct value access with optional chaining
+                                    onChange={(e) => {
+                                      const newDuration = e.target.value;
+
+                                      // Update the slot duration state
+                                      setSlotDuration(newDuration);
+
+                                      // Update the timeInputs state for the specific day
+                                      handleTimeChange(day, "slotDuration", {
+                                        ...timeInputs[day]?.slotDuration,
+                                        TimeslotDuration: newDuration,
+                                      });
+
+                                      // Reset other values for the selected day and update timeInputs
+                                      setTimeInputs((prev) => ({
+                                        ...prev,
+                                        [day]: {
+                                          ...prev[day], // Keep existing values intact
+                                          from: initialTime,
+                                          to: initialTime,
+                                          date: {
+                                            Mentor_timeslot_rec_end_date: "", // Reset to initial values
+                                          },
+                                          recurring: {
+                                            mentor_timeslot_rec_indicator: "", // Reset to initial values
+                                          },
+                                        },
+                                      }));
+
+                                      // Optionally hide the 'From Time' field
+                                      setHideFromTime(true);
+                                    }}
+                                  >
+                                    <option value="">
+                                      Select slot Duration
+                                    </option>
+                                    <option value={30}>30 Min</option>
+                                    <option value={60}>60 Min</option>
+                                  </select>
+                                )}
+                              /> */}
+
+                              {HideFromTime && (
                                 <CustomTimePicker
-                                  label="To"
-                                  value={timeInputs[day].to}
-                                  onChange={(newValue) =>
-                                    handleTimeChange(day, "to", newValue)
+                                  value={timeInputs[day].from}
+                                  onChange={(value) =>
+                                    handleTimeChange(day, "from", value)
                                   }
                                 />
-                              </div>
+                              )}
                             </div>
                             <div className="label-input">
                               <label>Recurring</label>
-                              <select
-                                value={
-                                  timeInputs[day].recurring
-                                    .Mentor_timeslot_rec_indicator
-                                }
-                                onChange={(e) =>
-                                  handleTimeChange(day, "recurring", {
-                                    ...timeInputs[day].recurring,
-                                    Mentor_timeslot_rec_indicator:
-                                      e.target.value,
-                                  })
-                                }
-                              >
-                                <option value="">None</option>
-                                <option value="Daily">Daily</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Monthly">Monthly</option>
-                              </select>
+                              <Controller
+                                control={control}
+                                name={`${day}.recurring`}
+                                render={({ field }) => (
+                                  <select
+                                    {...field}
+                                    value={
+                                      timeInputs[day].recurring
+                                        .mentor_timeslot_rec_indicator
+                                    }
+                                    onChange={(e) =>
+                                      handleTimeChange(day, "recurring", {
+                                        ...timeInputs[day].recurring,
+                                        mentor_timeslot_rec_indicator:
+                                          e.target.value,
+                                      })
+                                    }
+                                  >
+                                    <option value="">None</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                  </select>
+                                )}
+                              />
                             </div>
 
                             <div className="label-input">
-                              <label>End date</label>
-                              <DatePicker
-                                selected={
-                                  timeInputs[day].date
-                                    .Mentor_timeslot_rec_end_date
-                                }
-                                onChange={(date) =>
-                                  handleTimeChange(day, "date", {
-                                    ...timeInputs[day].date,
-                                    Mentor_timeslot_rec_end_date:
-                                      formatDate(date),
-                                  })
-                                }
-                                dateFormat="MM/dd/yyyy"
-                                placeholderText="End Date"
-                                minDate={new Date()} // Prevent past dates
-                                style={styles.datePicker}
+                              <label>End Date:</label>
+                              <Controller
+                                control={control}
+                                name={`date.${day}.Mentor_timeslot_rec_end_date`}
+                                render={({ field }) => (
+                                  <DatePicker
+                                    selected={
+                                      timeInputs[day].date
+                                        .Mentor_timeslot_rec_end_date
+                                    }
+                                    onChange={(date) =>
+                                      handleTimeChange(day, "date", {
+                                        ...timeInputs[day].date,
+                                        Mentor_timeslot_rec_end_date:
+                                          formatDate(date),
+                                      })
+                                    }
+                                    dateFormat="MM/dd/yyyy"
+                                    placeholderText="End Date"
+                                    minDate={new Date()} // Prevent past dates
+                                    style={styles.datePicker}
+                                  />
+                                )}
                               />
                             </div>
 
                             <button
+                              type="button"
                               onClick={() => handleOkClick(day)}
                               style={styles.okButton}
                             >
@@ -440,16 +657,19 @@ const MentorPage3 = () => {
                             </button>
                           </div>
 
-                          {timeSlotTags[day].map((slot, index) => (
-                            <div className="time-slot-tags">
-                              {timeSlotTags[day].map((slot, index) => (
+                          <div className="time-slot-tags">
+                            {timeSlotTags[day].length === 0 ? (
+                              <p>No time slots available for this day.</p>
+                            ) : (
+                              timeSlotTags[day] &&
+                              timeSlotTags[day].map((slot, index) => (
                                 <div key={index} className="tag">
                                   <span>{`${slot.from.hours}:${
                                     slot.from.minutes
                                   } ${slot.from.ampm} - ${slot.to.hours}:${
                                     slot.to.minutes
                                   } ${slot.to.ampm}, Recurring: ${
-                                    slot.recurring.Mentor_timeslot_rec_indicator
+                                    slot.recurring.mentor_timeslot_rec_indicator
                                   }, End Date: ${
                                     slot.date.Mentor_timeslot_rec_end_date ||
                                     "N/A"
@@ -457,14 +677,15 @@ const MentorPage3 = () => {
                                   <button
                                     type="button"
                                     onClick={() => handleRemoveTag(day, index)}
+                                    className="removeButton"
                                     style={styles.removeButton}
                                   >
                                     Remove
                                   </button>
                                 </div>
-                              ))}
-                            </div>
-                          ))}
+                              ))
+                            )}
+                          </div>
                         </div>
                       )
                   )}
@@ -521,5 +742,4 @@ const styles = {
     cursor: "pointer",
   },
 };
-
 export default MentorPage3;

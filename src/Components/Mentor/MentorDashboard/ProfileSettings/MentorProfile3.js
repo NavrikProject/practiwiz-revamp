@@ -166,8 +166,7 @@ const CustomTimePicker = ({ value, onChange }) => {
   );
 };
 
-const daysOfWeek = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
-
+const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 // const initialTime = { hours: "09", minutes: "00", ampm: "AM" };
 // const initialDate = { Mentor_timeslot_rec_end_date: "2024-12-31" };
 const initialTime = {
@@ -175,6 +174,7 @@ const initialTime = {
   minutes: "00",
   ampm: "PM",
 };
+const TimeSlotDuration = { slotDuration: "" };
 const initialDate = {};
 
 const MentorProfile3 = ({ profiledata, user, token }) => {
@@ -202,13 +202,15 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
           to: initialTime,
           date: initialDate,
           recurring: initialDate,
+          TimeslotDuration: 30,
         },
       }),
       {}
     )
   );
-
+  const [SlotDuration, setSlotDuration] = useState(30);
   const [timeSlotTags, setTimeSlotTags] = useState({});
+  const [HideFromTime, setHideFromTime] = useState(false);
 
   useEffect(() => {
     if (profiledata?.timeslot_list) {
@@ -247,6 +249,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
             Mentor_timeslot_rec_end_date:
               slot.mentor_timeslot_rec_end_timeframe,
           },
+          slotDuration: { slotDuration: slot.mentor_timeslot_duration },
         });
       });
 
@@ -263,34 +266,206 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
     }
   };
 
+  // useEffect(() => {
+  //   handleTimeChange();
+  // }, [SlotDuration]);
   const handleTimeChange = (day, type, value) => {
     if (type === "from") {
       const fromTime = value;
       const fromHours = parseInt(fromTime.hours, 10);
-      const toMinutes = parseInt(fromTime.minutes, 10) + 30;
-      let toHours = fromHours;
-      let toAmPm = fromTime.ampm;
+      const fromMinutes = parseInt(fromTime.minutes, 10);
 
-      if (toMinutes >= 60) {
-        toHours = (toHours + 1) % 12 || 12;
-        toAmPm = toHours === 12 ? (toAmPm === "AM" ? "PM" : "AM") : toAmPm;
+      const slotDuration = SlotDuration;
+
+      if (slotDuration == 30) {
+        if (fromHours === 11 && fromMinutes === 30 && fromTime.ampm === "AM") {
+          let toMinutes = 0;
+          let toHours = 12;
+          let toAmPm = "PM";
+
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        } else if (
+          fromHours === 11 &&
+          fromMinutes === 30 &&
+          fromTime.ampm === "PM"
+        ) {
+          let toMinutes = 0;
+          let toHours = 12;
+          let toAmPm = "AM";
+          // Handle minutes exceeding 60
+
+          // Format hours and minutes to ensure two-digit representation
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          // Update the timeInputs state with the new 'from' and 'to' times
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        }
+        if (fromMinutes === 30) {
+          // Calculate 'to' time based on the slot duration
+          let toMinutes = 0;
+          let toHours = fromHours + 1;
+          let toAmPm = fromTime.ampm;
+          // Handle minutes exceeding 60
+
+          // Handle 12-hour format and AM/PM switch
+          if (toHours > 12) {
+            toHours = toHours - 12; // Wrap hours to 12-hour format
+            toAmPm = toAmPm === "AM" ? "PM" : "AM"; // Switch AM/PM if crossing 12
+          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
+            // Special case for transitioning at 12 PM
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          }
+          // Format hours and minutes to ensure two-digit representation
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          // Update the timeInputs state with the new 'from' and 'to' times
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        }
+        if (fromMinutes === 0) {
+          let toMinutes = slotDuration;
+          let toHours = fromHours;
+          let toAmPm = fromTime.ampm;
+          if (toHours > 12) {
+            toHours = toHours - 12;
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          }
+
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        }
       }
 
-      const toTime = {
-        hours: toHours.toString().padStart(2, "0"),
-        minutes: (toMinutes % 60).toString().padStart(2, "0"),
-        ampm: toAmPm,
-      };
+      if (slotDuration == 60) {
+        if (fromHours === 11 && fromMinutes == "00" && fromTime.ampm === "AM") {
+          let toHours = 12;
+          let toMinutes = 0;
+          let toAmPm = "PM";
+          console.log(toAmPm);
 
-      setTimeInputs((prev) => ({
-        ...prev,
-        [day]: { ...prev[day], from: fromTime, to: toTime },
-      }));
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        } else if (
+          fromHours === 11 &&
+          fromMinutes == "00" &&
+          fromTime.ampm === "PM"
+        ) {
+          let toHours = 12;
+          let toMinutes = 0;
+          let toAmPm = "AM";
+          console.log(toAmPm);
+
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        } else {
+          let toMinutes = fromMinutes;
+          let toHours = fromHours + 1;
+          let toAmPm = fromTime.ampm;
+
+          if (toHours > 12) {
+            toHours = toHours - 12;
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
+            toAmPm = toAmPm === "AM" ? "PM" : "AM";
+          }
+
+          const toTime = {
+            hours: toHours.toString().padStart(2, "0"),
+            minutes: toMinutes.toString().padStart(2, "0"),
+            ampm: toAmPm,
+          };
+
+          setTimeInputs((prev) => ({
+            ...prev,
+            [day]: { ...prev[day], from: fromTime, to: toTime },
+          }));
+        }
+      }
     } else {
       setTimeInputs((prev) => ({
         ...prev,
         [day]: { ...prev[day], [type]: value },
       }));
+    }
+  };
+  const calculateMinutesDifference = (from, to, endDate) => {
+    const fromHours = parseInt(from.hours, 10);
+    const toHours = parseInt(to.hours, 10);
+
+    let fromMinutes = parseInt(from.minutes, 10);
+    let toMinutes = parseInt(to.minutes, 10);
+    if (fromHours === 11 && toHours === 12) {
+      console.log("To min", toMinutes);
+      console.log("from min", fromMinutes);
+      let minutesDifference = 30;
+      return minutesDifference;
+    } else {
+      fromMinutes +=
+        from.ampm === "PM" && fromHours !== 12
+          ? (fromHours + 12) * 60
+          : fromHours === 12
+          ? 0
+          : fromHours * 60;
+      toMinutes +=
+        to.ampm === "PM" && toHours !== 12
+          ? (toHours + 12) * 60
+          : toHours === 12
+          ? 0
+          : toHours * 60;
+      console.log("To min", toMinutes);
+      console.log("from min", fromMinutes);
+
+      // Calculate the difference
+      let minutesDifference = toMinutes - fromMinutes;
+      return minutesDifference;
     }
   };
 
@@ -302,17 +477,18 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
       (slot) =>
         slot.from.hours === newSlot.from.hours &&
         slot.from.minutes === newSlot.from.minutes &&
-        slot.from.ampm === newSlot.from.ampm &&
-        slot.to.hours === newSlot.to.hours &&
-        slot.to.minutes === newSlot.to.minutes &&
-        slot.to.ampm === newSlot.to.ampm
+        slot.from.ampm === newSlot.from.ampm
     );
   };
 
   const handleOkClick = (day) => {
-    const { from, to, date, recurring } = timeInputs[day];
+    console.log(timeInputs);
+    const { from, to, date, recurring, slotDuration } = timeInputs[day];
+    if (from.hours == 0 && from.ampm == "PM") {
+      console.log("hello");
+      return toast.error("Please Enter valide slot.");
+    }
 
-    // Check if all fields are filled before adding the slot
     if (
       !from.hours ||
       !from.minutes ||
@@ -327,24 +503,26 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
         "Please fill in all the fields before adding the slot."
       );
     }
+    const minutesDiff = calculateMinutesDifference(from, to);
 
-    const timeSlot = { from, to, date, recurring };
+    if (minutesDiff !== 30 && minutesDiff !== 60) {
+      return toast.error(
+        "Please select a time slot of either 30 or 60 minutes."
+      );
+    }
 
-    // Check for duplicate time slot
+    const timeSlot = { from, to, date, recurring, slotDuration };
+
     if (checkDuplicateTimeSlot(day, timeSlot)) {
       return toast.error("This time slot already exists for the selected day.");
     }
 
-    // Initialize timeSlotTags[day] as an array if it's undefined
     const updatedTags = [...(timeSlotTags[day] || []), timeSlot];
 
-    // Update timeSlotTags with the new array
     setTimeSlotTags((prev) => ({ ...prev, [day]: updatedTags }));
 
-    // Set the value in react-hook-form
     setValue(day, updatedTags);
 
-    // Reset the time inputs for the day
     setTimeInputs((prev) => ({
       ...prev,
       [day]: {
@@ -352,8 +530,10 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
         to: initialTime,
         date: { Mentor_timeslot_rec_end_date: "" },
         recurring: { mentor_timeslot_rec_indicator: "" },
+        slotDuration: { slotDuration: "" },
       },
     }));
+    setHideFromTime(false);
   };
 
   const handleRemoveTag = (day, index) => {
@@ -383,6 +563,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
     }
 
     try {
+      console.log(nonEmptyTimeSlots);
       dispatch(showLoadingHandler());
       const res = await Promise.race([
         axios.post(
@@ -406,7 +587,6 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
             setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
         ),
       ]);
-
       if (res.data.success) {
         toast.success("Time slots Details updated successfully");
       } else if (res.data.error) {
@@ -479,19 +659,67 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
                         <h6>{day}</h6>
 
                         <div className="timeslots">
-                          <CustomTimePicker
-                            value={timeInputs[day].from}
-                            onChange={(value) =>
-                              handleTimeChange(day, "from", value)
-                            }
+                          <Controller
+                            control={control}
+                            name={`${day}.slotDuration`}
+                            render={({ field }) => (
+                              <select
+                                {...field}
+                                value={
+                                  timeInputs[day]?.slotDuration?.slotDuration ||
+                                  ""
+                                }
+                                onChange={(e) => {
+                                  const newDuration = e.target.value;
+
+                                  setSlotDuration(newDuration);
+
+                                  handleTimeChange(day, "slotDuration", {
+                                    ...timeInputs[day]?.slotDuration,
+                                    slotDuration: newDuration,
+                                  });
+
+                                  setTimeInputs((prev) => ({
+                                    ...prev,
+                                    [day]: {
+                                      ...prev[day],
+                                      from: initialTime,
+                                      to: initialTime,
+                                      date: {
+                                        Mentor_timeslot_rec_end_date: "",
+                                      },
+                                      recurring: {
+                                        mentor_timeslot_rec_indicator: "",
+                                      },
+                                    },
+                                  }));
+
+                                  setHideFromTime(true);
+                                }}
+                              >
+                                <option value="">Select slot Duration</option>
+                                <option value={30}>30 Min</option>
+                                <option value={60}>60 Min</option>
+                              </select>
+                            )}
                           />
-                          <span style={styles.toLabel}>to</span>
+
+                          {HideFromTime && (
+                            <CustomTimePicker
+                              value={timeInputs[day].from}
+                              onChange={(value) =>
+                                handleTimeChange(day, "from", value)
+                              }
+                            />
+                          )}
+
+                          {/* <span style={styles.toLabel}>to</span>
                           <CustomTimePicker
                             value={timeInputs[day].to}
                             onChange={(value) =>
                               handleTimeChange(day, "to", value)
                             }
-                          />
+                          /> */}
                         </div>
                         <div className="label-input">
                           <label>Recurring</label>

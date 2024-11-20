@@ -14,7 +14,6 @@
 }
 #CaseStudyBg {
   background: url("../../../../Images/mentorbclk.png") no-repeat;
-
   background-size: "cover";
   background-position: "center";
 }
@@ -151,4 +150,35 @@
     justify-content: center;
     gap: 10px;
   }
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  top: 5.5rem;
+  width: 70%;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-item:active {
+  background-color: #e0e0e0;
+}
+
+.posrelativ {
+  position: relative;
 }

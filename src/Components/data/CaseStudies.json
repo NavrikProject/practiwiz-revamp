@@ -13,7 +13,9 @@
     ],
     "roleOfMainCharacter": "CEO",
     "challenge": "Navigating the company through a major financial downturn.",
-    "videoLink": "https://www.example.com/video1.mp4"
+    "videoLink": "https://www.example.com/video1.mp4",
+    "price": "1500",
+    "rating": "4"
   },
   {
     "id": 2,
@@ -30,7 +32,9 @@
     ],
     "roleOfMainCharacter": "Software Architect",
     "challenge": "Balancing new feature development while reducing technical debt.",
-    "videoLink": "https://www.example.com/video2.mp4"
+    "videoLink": "https://www.example.com/video2.mp4",
+    "price": "1000",
+    "rating": "3"
   },
   {
     "id": 3,
@@ -48,7 +52,9 @@
     ],
     "roleOfMainCharacter": "Scrum Master",
     "challenge": "Managing a complex cross-functional Agile team.",
-    "videoLink": "https://www.example.com/video3.mp4"
+    "videoLink": "https://www.example.com/video3.mp4",
+    "price": "800",
+    "rating": "3.5"
   },
   {
     "id": 4,
@@ -64,7 +70,9 @@
     ],
     "roleOfMainCharacter": "Team Lead",
     "challenge": "Maintaining team productivity while working remotely.",
-    "videoLink": "https://www.example.com/video1.mp4"
+    "videoLink": "https://www.example.com/video1.mp4",
+    "price": "500",
+    "rating": "5"
   },
   {
     "id": 5,
@@ -81,7 +89,9 @@
     ],
     "roleOfMainCharacter": "Full-Stack Developer",
     "challenge": "Handling full-stack complexities and API integration.",
-    "videoLink": "https://www.example.com/video2.mp4"
+    "videoLink": "https://www.example.com/video2.mp4",
+    "price": "700",
+    "rating": "4.5"
   },
   {
     "id": 6,
@@ -99,7 +109,9 @@
     ],
     "roleOfMainCharacter": "Scrum Master",
     "challenge": "Coordinating work across multiple Agile teams.",
-    "videoLink": "https://www.example.com/video3.mp4"
+    "videoLink": "https://www.example.com/video3.mp4",
+    "price": "1500",
+    "rating": "1.7"
   },
   {
     "id": 7,
@@ -115,7 +127,9 @@
     ],
     "roleOfMainCharacter": "CEO",
     "challenge": "Managing public relations during a company scandal.",
-    "videoLink": "https://www.example.com/video1.mp4"
+    "videoLink": "https://www.example.com/video1.mp4",
+    "price": "600",
+    "rating": "5"
   },
   {
     "id": 8,
@@ -132,7 +146,9 @@
     ],
     "roleOfMainCharacter": "Project Manager",
     "challenge": "Dealing with conflicting client requirements and tight deadlines.",
-    "videoLink": "https://www.example.com/video2.mp4"
+    "videoLink": "https://www.example.com/video2.mp4",
+    "price": "1500",
+    "rating": "0"
   },
   {
     "id": 9,
@@ -150,6 +166,8 @@
     ],
     "roleOfMainCharacter": "Agile Coach",
     "challenge": "Scaling Agile methodologies across multiple teams and departments.",
-    "videoLink": "https://www.example.com/video3.mp4"
+    "videoLink": "https://www.example.com/video3.mp4",
+    "price": "1500",
+    "rating": "2"
   }
 ]

@@ -23,10 +23,22 @@ const MentorProfile = ({ data, user, token }) => {
             <div className="col-lg-10 ps-0">
               <div className="difuhtre_content">
                 <div className="lndfhjfvgdvbfgfghgf py-4">
-                  <div className="container" style={{ width: "81%" }}>
+                  <div className="container widthlajsdlf">
                     <div className="skhfdfdfg">
                       <div className="row justify-content-between">
                         <div className="col-lg-6">
+                          <div className="iijieirr_left2 overflow-hidden mentorImageFlex mbMentorDashboardProfilePictureBlock">
+                            <img
+                              src={
+                                sMentor.mentor_dtls_found === "Yes" &&
+                                sMentor.mentor_profile_photo !== ""
+                                  ? sMentor.mentor_profile_photo
+                                  : "https://practiwizstorage.blob.core.windows.net/practiwizcontainer/blue-circle-with-white-user_78370-4707.webp"
+                              }
+                              width="100%"
+                              alt=""
+                            />
+                          </div>
                           <div className="dfnjghjggh">
                             <div className="ghvfvdfgg">
                               <div className="gjnjfghg">
@@ -103,7 +115,7 @@ const MentorProfile = ({ data, user, token }) => {
                                   <div className="dfkjhgufgfgh">
                                     <div className="row">
                                       <div className="col-lg-1">
-                                        <div className="lgkgg">
+                                        <div className="lgkgg mbgjfhg">
                                           <img src={Qw1} alt="" />
                                         </div>
                                       </div>
@@ -125,7 +137,7 @@ const MentorProfile = ({ data, user, token }) => {
                                   <div className="dfkjhgufgfgh">
                                     <div className="row">
                                       <div className="col-lg-1">
-                                        <div className="lgkgg">
+                                        <div className="lgkgg mbgjfhg">
                                           <img src={Qw2} alt="" />
                                         </div>
                                       </div>
@@ -245,7 +257,7 @@ const MentorProfile = ({ data, user, token }) => {
                             className="hgkfgkjfgfghgfg sticky-top "
                             id="stickytopTop"
                           >
-                            <div className="iijieirr_left2 overflow-hidden mentorImageFlex">
+                            <div className="iijieirr_left2 overflow-hidden mentorImageFlex mbMentorDashboardProfilePicture">
                               <img
                                 src={
                                   sMentor.mentor_dtls_found === "Yes" &&

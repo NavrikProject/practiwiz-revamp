@@ -29,7 +29,6 @@ const Section5 = () => {
             >
               <Swiper
                 spaceBetween={50}
-                slidesPerView={3}
                 autoplay={{
                   delay: 3000,
                   disableOnInteraction: false,
@@ -40,6 +39,20 @@ const Section5 = () => {
                 navigation={true}
                 modules={[Autoplay, Pagination, Navigation]}
                 className="mySwiper"
+                breakpoints={{
+                  // when the viewport is >= 1024px (large screens)
+                  1024: {
+                    slidesPerView: 3,
+                  },
+                  // when the viewport is >= 768px (tablets)
+                  768: {
+                    slidesPerView: 2,
+                  },
+                  // when the viewport is <= 767px (mobile devices)
+                  0: {
+                    slidesPerView: 1,
+                  },
+                }}
               >
                 <SwiperSlide>
                   <div className="item">

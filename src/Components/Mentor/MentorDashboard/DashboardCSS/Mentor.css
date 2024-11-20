@@ -1444,3 +1444,12 @@ caption {
   height: 100vh;
   overflow-x: scroll;
 }
+.DomainOption {
+  border: 1px solid #4064ac;
+  color: #ffffff;
+  background-color: #b1d6fd;
+  display: inline-block;
+  padding: 5px 25px;
+  font-weight: 600;
+  border-radius: 10px;
+}

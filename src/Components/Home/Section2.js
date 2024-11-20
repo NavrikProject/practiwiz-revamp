@@ -47,7 +47,7 @@ const Section2 = () => {
   return (
     <>
       <div className="section2 py-5 section-hor-gap">
-        <div className="container py-5">
+        <div className="container ">
           <div className="hjfgdfgfg">
             <h2>Our Featured Mentors</h2>
           </div>
@@ -71,7 +71,20 @@ const Section2 = () => {
                 )}
                 <Swiper
                   spaceBetween={50}
-                  slidesPerView={3}
+                  breakpoints={{
+                    // when the viewport is >= 1024px (large screens)
+                    1024: {
+                      slidesPerView: 3,
+                    },
+                    // when the viewport is >= 768px (tablets)
+                    768: {
+                      slidesPerView: 2,
+                    },
+                    // when the viewport is <= 767px (mobile devices)
+                    0: {
+                      slidesPerView: 1,
+                    },
+                  }}
                   autoplay={{
                     delay: 3000,
                     disableOnInteraction: false,
@@ -79,8 +92,7 @@ const Section2 = () => {
                   pagination={{
                     clickable: true,
                   }}
-                  navigation={true}
-                  modules={[Autoplay, Pagination, Navigation]}
+                  modules={[Autoplay]}
                   className="mySwiper"
                 >
                   {!loading &&

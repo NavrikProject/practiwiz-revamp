@@ -145,7 +145,9 @@ a {
   background: var(--main-orange-color);
   transition: 0.3s ease-in-out;
 }
-
+.mt-8 {
+  padding-top: 6.5rem;
+}
 .btn:focus,
 .form-control:focus {
   box-shadow: none !important;
@@ -317,6 +319,8 @@ header .suggestion:hover {
 }
 .banner .banner_content .iduherr_left h1 span {
   color: var(--main-orange-color);
+}
+.mentorTagline {
 }
 .banner .banner_content .iduherr_left #typing {
   height: 2rem;
@@ -2224,6 +2228,7 @@ header .suggestion:hover {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   z-index: 9;
+  top: 45px;
 }
 
 .djioerr_dpdwn li {
@@ -2232,8 +2237,11 @@ header .suggestion:hover {
   border-bottom: 1px solid var(--light-grey-border);
   padding: 5px 0;
   font-weight: 600;
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
-
+.djioerr_dpdwn li:hover {
+  background-color: #f0f0f0; /* Light gray hover color */
+}
 .djioerr_dpdwn li:last-child {
   border-bottom: 0;
   padding-bottom: 0;

@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import StarRating from "../../../Utils/StartRating";
+import "./AllMentorsMobile.css";
 const AllMentorCard = ({ mentor }) => {
   let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
   return (
-    <div className="ghfghgfhg">
+    <div className="ghfghgfhg mob-allmentor-container">
       <div className="jghdfrg">
         <div className="kmg">
           <img
+            style={{ aspectRatio: "1 / 1" }}
             src={mentor.mentor_profile_photo}
             alt={mentor.user_firstname + " " + mentor.user_lastname}
           />
@@ -40,7 +42,7 @@ const AllMentorCard = ({ mentor }) => {
                   .replace(" ", "-")
                   .toLowerCase()}/${mentor.user_dtls_id}`}
               >
-                BOOK NOW
+                VIEW PROFILE
               </Link>
             </button>
           </div>

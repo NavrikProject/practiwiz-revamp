@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import Ee1 from "../../../../Images/Mentors/ee1.png";
 import Ee2 from "../../../../Images/Mentors/ee2.png";
 import Tickmark from "../../../../Images/Mentors/tick-mark (1).png";
-import Qw1 from "../../../../Images/Mentors/qw1 (1).png";
 import Qw2 from "../../../../Images/Mentors/qw1 (2).png";
-import DCdc1 from "../../../../Images/Mentors/Mentor_session.jpg";
 import "../AllMentors.css";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import MentorBookingAppointment from "./MentorBookingAppointment";
@@ -16,7 +14,13 @@ import { toast } from "react-toastify";
 import SingleMentorProfilePageSkelton from "./Skelton/SingleMentorProfilePageSkelton";
 import MentorRatingCard from "./MentorRatingCard";
 import StarRating from "../../../../Utils/StartRating";
+import "../AllMentorsMobile.css";
+
 const SingleMentorProfile = () => {
+  const MentorTimeSlotDurationHandler = (e) => {
+    setMentorTimeSlotDuration(e.target.value);
+  };
+
   const user = useSelector((state) => state.user?.currentUser);
   const [showBookingModel, setShowBookingModel] = useState(false);
   const url = ApiURL();
@@ -25,16 +29,18 @@ const SingleMentorProfile = () => {
   const navigate = useNavigate();
   const [showRating, setShowRating] = useState(null);
   const [singleMentor, setSingleMentor] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [mentorTimeSlotDuration, setMentorTimeSlotDuration] = useState("30");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedTimeSlotId, setSelectedTimeSlotId] = useState(null);
   const [loading, setLoading] = useState(false);
+  // Default value can be set here
   const handleDateSlotSelect = (date, slot, timeSlotId) => {
     setSelectedDate(date);
     setSelectedSlot(slot);
     setSelectedTimeSlotId(timeSlotId);
   };
-  console.log(selectedTimeSlotId);
   const [showAreaOfExpertise, setShowAreaOfExpertise] = useState(true);
   const RatingShowHandler = () => {
     return setShowRating(!showRating), setShowAreaOfExpertise(false);
@@ -52,8 +58,13 @@ const SingleMentorProfile = () => {
       setLoading(false);
       if (response.data.success) {
         setLoading(false);
-        setSingleMentor(response.data.success);
+        // Set the mentor data in state
+        const mentorData = response.data.success;
+        setSingleMentor(mentorData); // Set the mentor data
+        // Access the mentor session price directly from the response data
+        setSelectedPrice(mentorData[0].mentor_session_price / 2);
       }
+
       if (response.data.error) {
         return (
           toast.error(
@@ -68,6 +79,7 @@ const SingleMentorProfile = () => {
     fetchMentors();
   }, [mentorDtlsId, url]);
   const CreateBookingAppointment = () => {
+    console.log(selectedPrice);
     if (selectedDate === null || selectedSlot === null) {
       toast.error("Please select the Date and Time slot details");
     } else {
@@ -80,6 +92,7 @@ const SingleMentorProfile = () => {
     }`;
   }, [singleMentor]);
   const [showLessText, setShowLessText] = useState(false);
+
   return (
     <>
       {loading ? (
@@ -90,6 +103,7 @@ const SingleMentorProfile = () => {
         <>
           {showBookingModel && (
             <MentorBookingAppointment
+              mentorTimeSlotDuration={mentorTimeSlotDuration}
               selectedTimeSlotId={selectedTimeSlotId}
               selectedDate={selectedDate}
               selectedSlot={selectedSlot}
@@ -105,7 +119,7 @@ const SingleMentorProfile = () => {
                   className="duiegrer_bck position-relative mb-3"
                   id="singleMentorCoverPicture"
                 >
-                  <div className="container">
+                  <div className="container mob-center">
                     <div className="csdpeijf d-flex justify-content-between">
                       <div className="ihuerorktrt position-relative">
                         <div className="iijieirr_left2 overflow-hidden">
@@ -120,7 +134,7 @@ const SingleMentorProfile = () => {
                           />
                         </div>
                       </div>
-                      <div className="ihurtf_btn">
+                      <div className="ihurtf_btn hide">
                         <button className="btn btn-main">
                           <i className="fa-solid pe-2 fa-envelope-open-text"></i>
                           Message
@@ -160,7 +174,16 @@ const SingleMentorProfile = () => {
                               <div className="gjfhg">
                                 <img src={Ee1} alt="" />
                               </div>
-                              <p>{sMentor.mentor_job_title.toUpperCase()}</p>
+                              <p>
+                                <b>
+                                  {sMentor.mentor_job_title.toUpperCase() + " "}
+                                </b>
+                                at
+                                <b>
+                                  {" " +
+                                    sMentor.mentor_company_name.toUpperCase()}
+                                </b>
+                              </p>
                             </div>
 
                             <div className="hfuydfgftgh">
@@ -338,43 +361,104 @@ const SingleMentorProfile = () => {
                           </div>
                         </div>
 
-                        <div className="col-lg-4">
-                          <div className="hgkfgkjfgfghgfg sticky-top">
+                        <div className="col-lg-4 ColSize">
+                          <div className="hgkfgkjfgfghgfg sticky-top mob-t0">
                             <h3 style={{ width: "auto" }}>Domain</h3>
                             <div className="fhfbfghg">
-                              {sMentor.mentor_domain !== "[]" &&
-                                JSON.parse(sMentor?.mentor_domain)?.map(
-                                  (domain) => {
-                                    return (
-                                      <>
-                                        <button>{domain.label}</button>
-                                      </>
-                                    );
-                                  }
-                                )}
+                              <div className="mentorSkillFlex">
+                                {sMentor.mentor_domain !== "[]" &&
+                                  JSON.parse(sMentor?.mentor_domain)?.map(
+                                    (domain) => {
+                                      return (
+                                        <>
+                                          <button>{domain.label}</button>
+                                        </>
+                                      );
+                                    }
+                                  )}
+                              </div>
                             </div>
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
                               Skills
                             </h3>
                             <div className="fhfbfghg">
-                              {JSON.parse(sMentor.mentor_passion_dtls).map(
-                                (passion) => {
-                                  return (
-                                    <>
-                                      {passion.inside === true && (
-                                        <button>{passion.text}</button>
-                                      )}
-                                    </>
-                                  );
-                                }
-                              )}
+                              <div className="mentorSkillFlex">
+                                {JSON.parse(sMentor.mentor_passion_dtls).map(
+                                  (passion) => {
+                                    return (
+                                      <>
+                                        {passion.inside === true && (
+                                          <button>{passion.text}</button>
+                                        )}
+                                      </>
+                                    );
+                                  }
+                                )}
+                              </div>
                             </div>
                             <div className="fkjbghdfgfghghjygh p-4">
+                              <div className="heightofdiv">
+                                <span>
+                                  <div className="dkjiherer moideuirer_list hello">
+                                    <ul className="ps-0 mb-0">
+                                      <li>
+                                        <input
+                                          value={"30"}
+                                          type="radio"
+                                          name="MentorPrice_Min"
+                                          id="check_11"
+                                          defaultChecked
+                                          className="d-none"
+                                          onChange={
+                                            MentorTimeSlotDurationHandler
+                                          }
+                                        />
+                                        <label htmlFor="check_11">
+                                          <span className="MarginR">
+                                            30 Minutes
+                                          </span>
+                                          <span>
+                                            ₹
+                                            {" " +
+                                              sMentor.mentor_session_price / 2}
+                                          </span>
+                                        </label>
+                                      </li>
+
+                                      <li>
+                                        <input
+                                          type="radio"
+                                          id="check_30"
+                                          name="MentorPrice_Min"
+                                          value={"60"}
+                                          className="d-none"
+                                          onChange={
+                                            MentorTimeSlotDurationHandler
+                                          }
+                                        />
+                                        <label htmlFor="check_30">
+                                          <span className="MarginR">
+                                            60 Minutes
+                                          </span>
+                                          <span>
+                                            ₹
+                                            {" " + sMentor.mentor_session_price}
+                                          </span>
+                                        </label>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </span>
+                              </div>
                               <div className="fjbgfg">
                                 <h4 className="mt-3 mb-4">
                                   Mentor Availability
                                 </h4>
+
                                 <CustomDatePicker
+                                  mentorTimeSlotDuration={
+                                    mentorTimeSlotDuration
+                                  }
                                   onDateSlotSelect={handleDateSlotSelect}
                                   timeslotList={JSON.parse(
                                     sMentor.timeslot_list
