@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 import { loginFailure, loginSuccess } from "../../../Redux/userRedux.js";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -80,6 +81,54 @@ const LoginForm = ({ user, token }) => {
   const showPwdHandler = () => {
     setShowIcon(!showIcon);
   };
+  const onSuccess = async (credentialResponse) => {
+    try {
+      const { credential } = credentialResponse;
+      dispatch(showLoadingHandler());
+      const res = await Promise.race([
+        axios.post(`${url}api/v1/auth/google-login`, {
+          token: credential,
+        }),
+        new Promise(
+          (_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+        ),
+      ]);
+
+      if (res.data.success) {
+        const token = res.data.token;
+        const accessToken = res.data.accessToken;
+        const userData = parseJwt(token);
+        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        dispatch(loginSuccess(userData));
+        toast.success("Logged in successfully, Redirecting to the Dashboard");
+        navigate(`/redirect`);
+      } else if (res.data.error) {
+        dispatch(loginFailure(res.data.error));
+        toast.error(res.data.error);
+      }
+    } catch (error) {
+      dispatch(loginFailure(error.message));
+      if (error.message === "Request timed out") {
+        toast.error("Login failed due to a timeout. Please try again.");
+      } else {
+        toast.error("Login failed, please try again!");
+      }
+    } finally {
+      dispatch(hideLoadingHandler());
+    }
+  };
+
+  const onFailure = (error) => {
+    return (
+      dispatch(hideLoadingHandler()),
+      toast.error(
+        "Login failed, please try again!, sign in using the username and password"
+      )
+    );
+  };
+  const REACT_APP_GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   return (
     <main>
       <div className="regis_background " id="loginBg">
@@ -230,13 +279,15 @@ const LoginForm = ({ user, token }) => {
                       Log in
                     </button>
                   </form>
-                  {/* <div className="digheirer text-center pt-3 pb-2">
+                  <div className="digheirer text-center pt-3 pb-2">
                     <h4 className="mb-0" style={{ fontSize: "1.2rem" }}>
                       <b>OR</b>
                     </h4>
                   </div>
-
-                  <div className="dieyhr_iuhfiderr mt-2">
+                  <GoogleOAuthProvider clientId={REACT_APP_GOOGLE_CLIENT_ID}>
+                    <GoogleLogin onSuccess={onSuccess} onError={onFailure} />
+                  </GoogleOAuthProvider>
+                  {/*    <div className="dieyhr_iuhfiderr mt-2">
                     <div className="d-flex align-items-center">
                       <div className="btn btn-main">
                         <img

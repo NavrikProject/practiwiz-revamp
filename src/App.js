@@ -54,37 +54,15 @@ import MainComponent from "./Components/Mentor/AllMentors/CustomDatepicker/MainC
 import MentorExpertListPage from "./Pages/MentorPages/AllMentors/MentorExpertListPage";
 import MentorNotFoundDashboardPage from "./Pages/MentorPages/Dashboard/MentorNotFoundDashboardPage";
 import MentorUpdatedRegistrationPage from "./Pages/FormPages/RegisterPages/MentorUpdatedRegistrationPage";
-import { useEffect } from "react";
 import RedirectHandler from "./Utils/RedirectHandler";
 import Cart from "./Pages/CartPages/CartPage";
-import { setPurchasedItems } from "./Redux/purchasedSlice";
-import axios from "axios";
-import { ApiURL } from "./Utils/ApiURL";
+
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 
 function App() {
-  const url = ApiURL();
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
   const token = localStorage.getItem("accessToken");
-  const dispatch = useDispatch();
-  const fetchPurchasedItems = async (userId, dispatch) => {
-    try {
-      const response = await axios.get(
-        `${url}api/v1/case-studies/cart/purchased-items/${userId}`
-      );
-      if (response.data.success) {
-        dispatch(setPurchasedItems(response.data.success));
-      }
-    } catch (error) {
-      console.error("Error fetching purchased items:", error);
-    }
-  };
-  useEffect(() => {
-    if (user) {
-      fetchPurchasedItems(user?.user_id, dispatch);
-    }
-  }, [user, dispatch]);
   return (
     <>
       {isLoading && <Spinner />}
