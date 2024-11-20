@@ -9,7 +9,6 @@ const AllMentorCard = ({ mentor }) => {
       <div className="jghdfrg">
         <div className="kmg">
           <img
-            style={{ aspectRatio: "1 / 1" }}
             src={mentor.mentor_profile_photo}
             alt={mentor.user_firstname + " " + mentor.user_lastname}
           />

@@ -90,13 +90,13 @@ const MentorNotifications = ({ data, mentorDtlsId, token }) => {
                             {notification.notification_type === "Warning" && (
                               <i
                                 className="fa-solid fa-circle-exclamation"
-                                style={{ color: "#f00f0f" }}
+                                style={{ color: "#f00f0f", fontSize: "40px" }}
                               ></i>
                             )}
                             {notification.notification_type === "Error" && (
                               <i
                                 className="fa-solid fa-circle-exclamation"
-                                color={{ color: "#f92f2f" }}
+                                color={{ color: "#f92f2f", fontSize: "40px" }}
                               ></i>
                             )}
                           </div>

@@ -26,6 +26,9 @@ const MentorPrivateProfile = ({ user, token }) => {
   const dispatch = useDispatch();
   const [showRating, setShowRating] = useState(null);
   const [singleMentor, setSingleMentor] = useState([]);
+  const [mentorTimeSlotDuration, setMentorTimeSlotDuration] = useState("30");
+  const [showLessText, setShowLessText] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [showAreaOfExpertise, setShowAreaOfExpertise] = useState(true);
   const RatingShowHandler = () => {
@@ -119,6 +122,10 @@ const MentorPrivateProfile = ({ user, token }) => {
       );
     }
   };
+  const MentorTimeSlotDurationHandler = (e) => {
+    setMentorTimeSlotDuration(e.target.value);
+  };
+  const handleDateSlotSelect = (date, slot, timeSlotId) => {};
   return (
     <>
       {loading ? (
@@ -220,8 +227,18 @@ const MentorPrivateProfile = ({ user, token }) => {
                               <div className="gjfhg">
                                 <img src={Ee1} alt="" />
                               </div>
-                              <p>{sMentor.mentor_job_title.toUpperCase()}</p>
+                              <p>
+                                <b>
+                                  {sMentor.mentor_job_title.toUpperCase() + " "}
+                                </b>
+                                at
+                                <b>
+                                  {" " +
+                                    sMentor.mentor_company_name.toUpperCase()}
+                                </b>
+                              </p>
                             </div>
+
                             <div className="hfuydfgftgh">
                               <div className="gjfhg">
                                 <img src={Ee2} alt="" />
@@ -251,8 +268,18 @@ const MentorPrivateProfile = ({ user, token }) => {
                               </div>
                               <div className="fdjdfg">
                                 <p>
-                                  {sMentor.mentor_headline + " "}
-                                  <span className="spnn45"> Show More</span>
+                                  {!showLessText
+                                    ? sMentor.mentor_headline.slice(0, 120) +
+                                      " "
+                                    : sMentor.mentor_headline}
+                                  <span
+                                    className="spnn45"
+                                    onClick={() =>
+                                      setShowLessText(!showLessText)
+                                    }
+                                  >
+                                    {!showLessText ? "Show More" : "Show Less"}
+                                  </span>
                                 </p>
                               </div>
                             </div>
@@ -387,34 +414,104 @@ const MentorPrivateProfile = ({ user, token }) => {
                           </div>
                         </div>
 
-                        <div className="col-lg-4">
-                          <div className="hgkfgkjfgfghgfg sticky-top">
+                        <div className="col-lg-4 ColSize">
+                          <div className="hgkfgkjfgfghgfg sticky-top mob-t0">
                             <h3 style={{ width: "auto" }}>Domain</h3>
                             <div className="fhfbfghg">
-                              <button>{sMentor.mentor_domain}</button>
+                              <div className="mentorSkillFlex">
+                                {sMentor.mentor_domain !== "[]" &&
+                                  JSON.parse(sMentor?.mentor_domain)?.map(
+                                    (domain) => {
+                                      return (
+                                        <>
+                                          <button>{domain.label}</button>
+                                        </>
+                                      );
+                                    }
+                                  )}
+                              </div>
                             </div>
                             <h3 style={{ width: "auto", marginTop: "20px" }}>
-                              Additional Skills
+                              Skills
                             </h3>
                             <div className="fhfbfghg">
-                              {JSON.parse(sMentor.mentor_passion_dtls).map(
-                                (passion) => {
-                                  return (
-                                    <>
-                                      {passion.inside === true && (
-                                        <button>{passion.text}</button>
-                                      )}
-                                    </>
-                                  );
-                                }
-                              )}
+                              <div className="mentorSkillFlex">
+                                {JSON.parse(sMentor.mentor_passion_dtls).map(
+                                  (passion) => {
+                                    return (
+                                      <>
+                                        {passion.inside === true && (
+                                          <button>{passion.text}</button>
+                                        )}
+                                      </>
+                                    );
+                                  }
+                                )}
+                              </div>
                             </div>
                             <div className="fkjbghdfgfghghjygh p-4">
+                              <div className="heightofdiv">
+                                <span>
+                                  <div className="dkjiherer moideuirer_list hello">
+                                    <ul className="ps-0 mb-0">
+                                      <li>
+                                        <input
+                                          value={"30"}
+                                          type="radio"
+                                          name="MentorPrice_Min"
+                                          id="check_11"
+                                          defaultChecked
+                                          className="d-none"
+                                          onChange={
+                                            MentorTimeSlotDurationHandler
+                                          }
+                                        />
+                                        <label htmlFor="check_11">
+                                          <span className="MarginR">
+                                            30 Minutes
+                                          </span>
+                                          <span>
+                                            ₹
+                                            {" " +
+                                              sMentor.mentor_session_price / 2}
+                                          </span>
+                                        </label>
+                                      </li>
+
+                                      <li>
+                                        <input
+                                          type="radio"
+                                          id="check_30"
+                                          name="MentorPrice_Min"
+                                          value={"60"}
+                                          className="d-none"
+                                          onChange={
+                                            MentorTimeSlotDurationHandler
+                                          }
+                                        />
+                                        <label htmlFor="check_30">
+                                          <span className="MarginR">
+                                            60 Minutes
+                                          </span>
+                                          <span>
+                                            ₹
+                                            {" " + sMentor.mentor_session_price}
+                                          </span>
+                                        </label>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </span>
+                              </div>
                               <div className="fjbgfg">
                                 <h4 className="mt-3 mb-4">
                                   Mentor Availability
                                 </h4>
                                 <CustomDatePicker
+                                  onDateSlotSelect={handleDateSlotSelect}
+                                  mentorTimeSlotDuration={
+                                    mentorTimeSlotDuration
+                                  }
                                   timeslotList={JSON.parse(
                                     sMentor.timeslot_list
                                   )}
@@ -422,21 +519,6 @@ const MentorPrivateProfile = ({ user, token }) => {
                                     sMentor?.booking_dtls_list
                                   )}
                                 />
-                                {/* <div className="dfghjffg mt-3">
-                                  {user && user?.user_type !== "mentor" && (
-                                    <button
-                                      className="btn btn-main"
-                                      onClick={CreateBookingAppointment}
-                                    >
-                                      BOOK NOW
-                                    </button>
-                                  )}
-                                  {!user && (
-                                    <button className="btn btn-main">
-                                      <Link to="/login">LOGIN</Link>
-                                    </button>
-                                  )}
-                                </div> */}
                               </div>
                             </div>
                           </div>

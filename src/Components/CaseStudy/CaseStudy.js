@@ -15,6 +15,7 @@ import {
   showLoadingHandler,
 } from "../../Redux/loadingRedux";
 import { toast } from "react-toastify";
+import { setPurchasedItems } from "../../Redux/purchasedSlice";
 
 const CaseStudy = ({ user, token }) => {
   const dispatch = useDispatch();
@@ -182,6 +183,23 @@ const CaseStudy = ({ user, token }) => {
     };
     fetchMentors();
   }, [url]);
+  const fetchPurchasedItems = async (userId, dispatch) => {
+    try {
+      const response = await axios.get(
+        `${url}api/v1/case-studies/cart/purchased-items/${userId}`
+      );
+      if (response.data.success) {
+        dispatch(setPurchasedItems(response.data.success));
+      }
+    } catch (error) {
+      console.error("Error fetching purchased items:", error);
+    }
+  };
+  useEffect(() => {
+    if (user) {
+      fetchPurchasedItems(user?.user_id, dispatch);
+    }
+  }, [user, dispatch]);
   return (
     <>
       <CaseNavBar />

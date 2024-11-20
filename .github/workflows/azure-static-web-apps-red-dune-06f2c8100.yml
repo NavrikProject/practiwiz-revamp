@@ -39,7 +39,6 @@ jobs:
           REACT_APP_SCOPE: ${{ secrets.REACT_APP_SCOPE }} # Move your environment variable here
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }} # Move your environment variable here
 
-
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
