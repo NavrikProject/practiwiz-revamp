@@ -16,10 +16,17 @@ import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../../../Redux/userRedux";
 import web96 from "../../../../Images/icons8-account-96.webp";
 import GoogleIcon from "../../../../Images/googlelog.webp";
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  useGoogleLogin,
+} from "@react-oauth/google";
+
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const STATE = process.env.REACT_APP_STATE;
 const SCOPE = process.env.REACT_APP_SCOPE;
+const REACT_APP_GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const MentorUpdatedForm = () => {
   const {
@@ -144,7 +151,19 @@ const MentorUpdatedForm = () => {
       dispatch(hideLoadingHandler());
     }
   };
-
+  const onSuccess = async (credentialResponse) => {};
+  const onFailure = (error) => {
+    return (
+      dispatch(hideLoadingHandler()),
+      toast.error(
+        "Login failed, please try again!, sign in using the username and password"
+      )
+    );
+  };
+  const googleLogin = useGoogleLogin({
+    onSuccess: onSuccess,
+    onError: onFailure,
+  });
   return (
     <>
       <form onSubmit={handleSubmit(UserRegisterSubmitHandler)}>
@@ -155,7 +174,7 @@ const MentorUpdatedForm = () => {
           </h4>
           <div className="ihduwfr_form_wrapper aasdfasfa2 mt-3">
             <div className="row">
-              {/* <div className="row">
+              <div className="row">
                 <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
                   <div className="col-lg-12 mt-2">
                     <p className="mb-0 d-flex align-items-center">
@@ -172,18 +191,25 @@ const MentorUpdatedForm = () => {
                         <img src={LnIcon} className="me-2" alt="deeteewe" />
                         LinkedIn
                       </button>
-                      <div className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary googleIconBorder">
-                        <img
-                          className="me-1 googleIcon"
-                          src={GoogleIcon}
-                          alt=""
-                        />
-                        Google
-                      </div>
+                      <GoogleOAuthProvider
+                        clientId={REACT_APP_GOOGLE_CLIENT_ID}
+                      >
+                        <div
+                          className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary googleIconBorder"
+                          onClick={() => googleLogin()}
+                        >
+                          <img
+                            className="me-1 googleIcon"
+                            src={GoogleIcon}
+                            alt=""
+                          />
+                          Google
+                        </div>
+                      </GoogleOAuthProvider>
                     </p>
                   </div>
                 </div>
-              </div> */}
+              </div>
               <div className="col-lg-12">
                 <div className="mb-3">
                   <label htmlFor="contacPersonFirstName" className="form-label">
