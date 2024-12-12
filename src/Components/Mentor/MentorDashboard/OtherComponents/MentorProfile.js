@@ -188,50 +188,26 @@ const MentorProfile = ({ data, user, token }) => {
                                 </li>
                               </ul>
                               {showAreaOfExpertise && (
-                                <div className="options-container">
-                                  {sMentor.mentor_dtls_found === "Yes" &&
-                                  sMentor.mentor_area_expertise !== "[]" ? (
-                                    JSON?.parse(
-                                      sMentor.mentor_area_expertise
-                                    )?.map((option) => (
-                                      <div
-                                        key={option.id}
-                                        className="main-option box"
-                                      >
-                                        <h2 className="optionH2">
-                                          {option.name}
-                                        </h2>
-                                        {option.subOptions.length > 0 &&
-                                          option.subOptions.map((subOption) => (
-                                            <div
-                                              key={subOption.id}
-                                              className="sub-option"
-                                            >
-                                              <h3>{subOption.name}</h3>
-                                              {subOption.skills.length > 0 && (
-                                                <div className="fhfbfghg">
-                                                  {subOption.skills.map(
-                                                    (skill) => (
-                                                      <button key={skill.id}>
-                                                        {skill.name}
-                                                      </button>
-                                                    )
-                                                  )}
-                                                </div>
-                                              )}
-                                            </div>
-                                          ))}
+                                <div className="main-option box">
+                                  {" "}
+                                  <div className="fhfbfghg">
+                                    {sMentor.mentor_dtls_found === "Yes" &&
+                                    sMentor.mentor_area_expertise !== "[]" ? (
+                                      JSON?.parse(
+                                        sMentor.mentor_area_expertise
+                                      )?.map((option) => (
+                                        <button>{option}</button>
+                                      ))
+                                    ) : (
+                                      <div className="options-container">
+                                        <div className="main-option">
+                                          <h4 className="noReviewsFound">
+                                            Please update your profile details
+                                          </h4>
+                                        </div>
                                       </div>
-                                    ))
-                                  ) : (
-                                    <div className="options-container">
-                                      <div className="main-option">
-                                        <h4 className="noReviewsFound">
-                                          Please update your profile details
-                                        </h4>
-                                      </div>
-                                    </div>
-                                  )}
+                                    )}{" "}
+                                  </div>
                                 </div>
                               )}
                               {showRating && (
@@ -279,7 +255,7 @@ const MentorProfile = ({ data, user, token }) => {
                                   (domain) => {
                                     return (
                                       <>
-                                        <button>{domain.label}</button>
+                                        <button>{domain}</button>
                                       </>
                                     );
                                   }
@@ -294,7 +270,7 @@ const MentorProfile = ({ data, user, token }) => {
                               Additional Skills
                             </h3>
                             <div className="fhfbfghg">
-                              {sMentor.mentor_dtls_found === "Yes" &&
+                              {/* {sMentor.mentor_dtls_found === "Yes" &&
                               sMentor.mentor_passion_dtls !== "[]" ? (
                                 JSON.parse(sMentor.mentor_passion_dtls)?.map(
                                   (passion) => {
@@ -311,7 +287,7 @@ const MentorProfile = ({ data, user, token }) => {
                                 <button>
                                   Please update your profile details
                                 </button>
-                              )}
+                              )} */}
                             </div>
                           </div>
                         </div>

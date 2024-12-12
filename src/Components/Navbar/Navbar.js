@@ -306,11 +306,11 @@ const Navbar = () => {
                       </a>
                     </li>
 
-                    {/* <li className="nav-item">
-                      <a className="nav-link" href="/jobs">
-                        Jobs
+                    <li className="nav-item">
+                      <a className="nav-link" href="/internships">
+                        Internships
                       </a>
-                    </li> */}
+                    </li>
 
                     {/* <li className="nav-item">
                       <a className="nav-link" href="/aboutus">
@@ -406,6 +406,18 @@ const Navbar = () => {
                                 >
                                   <i className="fa-solid fa-building-columns"></i>
                                   <h5>Institute</h5>
+                                </a>
+                              </button>
+                              <button
+                                className="MenuBox-item1"
+                                // onClick={gotoInstitute}
+                              >
+                                <a
+                                  className="inOneLine"
+                                  href="/employer-registration"
+                                >
+                                  <i className="fa-solid fa-building-columns"></i>
+                                  <h5>Employer</h5>
                                 </a>
                               </button>
                             </div>

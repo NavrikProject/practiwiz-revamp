@@ -79,7 +79,6 @@ const SingleMentorProfile = () => {
     fetchMentors();
   }, [mentorDtlsId, url]);
   const CreateBookingAppointment = () => {
-    console.log(selectedPrice);
     if (selectedDate === null || selectedSlot === null) {
       toast.error("Please select the Date and Time slot details");
     } else {
@@ -92,7 +91,7 @@ const SingleMentorProfile = () => {
     }`;
   }, [singleMentor]);
   const [showLessText, setShowLessText] = useState(false);
-
+  console.log(selectedTimeSlotId);
   return (
     <>
       {loading ? (
@@ -308,39 +307,16 @@ const SingleMentorProfile = () => {
                                 </li>
                               </ul>
                               {showAreaOfExpertise && (
-                                <div className="options-container">
-                                  {JSON.parse(
-                                    sMentor.mentor_area_expertise
-                                  ).map((option) => (
-                                    <div
-                                      key={option.id}
-                                      className="main-option box"
-                                    >
-                                      <h2 className="optionH2">
-                                        {option.name}
-                                      </h2>
-                                      {option.subOptions.length > 0 &&
-                                        option.subOptions.map((subOption) => (
-                                          <div
-                                            key={subOption.id}
-                                            className="sub-option"
-                                          >
-                                            <h3>{subOption.name}</h3>
-                                            {subOption.skills.length > 0 && (
-                                              <div className="fhfbfghg">
-                                                {subOption.skills.map(
-                                                  (skill) => (
-                                                    <button key={skill.id}>
-                                                      {skill.name}
-                                                    </button>
-                                                  )
-                                                )}
-                                              </div>
-                                            )}
-                                          </div>
-                                        ))}
-                                    </div>
-                                  ))}
+                                <div className="main-option box">
+                                  <div className="jhdfgfjgg">
+                                    {JSON.parse(
+                                      sMentor.mentor_area_expertise
+                                    ).map((option) => (
+                                      <button className="skillsButton">
+                                        {option}
+                                      </button>
+                                    ))}
+                                  </div>{" "}
                                 </div>
                               )}
                               {showRating && (
@@ -371,14 +347,14 @@ const SingleMentorProfile = () => {
                                     (domain) => {
                                       return (
                                         <>
-                                          <button>{domain.label}</button>
+                                          <button>{domain}</button>
                                         </>
                                       );
                                     }
                                   )}
                               </div>
                             </div>
-                            <h3 style={{ width: "auto", marginTop: "20px" }}>
+                            {/* <h3 style={{ width: "auto", marginTop: "20px" }}>
                               Skills
                             </h3>
                             <div className="fhfbfghg">
@@ -395,7 +371,7 @@ const SingleMentorProfile = () => {
                                   }
                                 )}
                               </div>
-                            </div>
+                            </div> */}
                             <div className="fkjbghdfgfghghjygh p-4">
                               <div className="heightofdiv">
                                 <span>

@@ -1,286 +1,224 @@
-/* Base styles for larger screens */
-.whole {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 20px; */
-}
-
-.doiherner_wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.linesepration {
-  display: flex;
-  gap: 10rem;
-  width: max-content;
+.AvailabilityMainContainer {
+  border: 1px solid gray;
+  position: relative;
+  border-radius: 10px;
+  padding: 20px;
   margin-bottom: 20px;
-  align-items: center;
-}
-
-.main {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 100% !important;
-}
-
-.dayColumn {
-  flex: 1;
-  display: flex;
-  gap: 6px;
-  margin-right: 24px;
-  flex-direction: column;
-}
-
-.daycolumns {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  padding: 2px 30px;
-  background: rgba(217, 217, 217, 0.05);
-  border-radius: 7px;
-  border: 1px solid #afafaf;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  margin-bottom: 10px;
-}
-
-.Timecolumn {
-  flex: 4;
-
-  flex-direction: column;
-  gap: 10px;
-  align-items: baseline;
-  overflow: auto;
-  justify-content: center;
-}
-
-.innertimeslot {
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  justify-content: space-evenly;
-  padding: 10px;
+  height: 200px;
   background: rgba(217, 217, 217, 0.05);
   border: 0.5px solid #afafaf;
   border-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  margin-bottom: 20px;
-  gap: 15px;
 }
-
-.timeslots {
-  margin-top: auto;
+.Availability-container {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
-  height: 40px;
-  border-radius: 10px;
-  align-items: center;
-}
-
-.tag {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: fit-content;
-  margin-bottom: 10px;
-  background-color: rgb(233, 236, 239);
-  padding: 5px 10px;
-  border-radius: 4px;
 }
-
-.label-input {
+.slot-container1 {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 8px;
+  gap: 40px;
 }
-
-h6 {
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
+.slot-container2 {
   display: flex;
-  align-items: center;
-  letter-spacing: 0.12em;
-  color: #000000;
-  margin: 5px;
 }
 
-.line-1 {
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 41px;
-  line-height: 49px;
-  text-align: center;
-  letter-spacing: 0.12em;
-  color: #444444;
-  margin-bottom: 25px;
-}
-
-.line-2 {
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 23px;
-  text-align: center;
-  letter-spacing: 0.12em;
-  color: #444444;
-  margin-left: 3rem;
-}
-
-.line-3 {
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 23px;
-  line-height: 30px;
-  text-align: center;
-  color: #444444;
-  width: 543px;
-  margin-right: 100px;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 55px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.daycolumns .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  height: 27px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  top: 4px;
-  left: 4px;
-  background-color: white;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-  .main {
-    flex-direction: column;
-  }
-
-  .dayColumn,
-  .Timecolumn {
-    flex: 1;
-    width: 100%;
-  }
-
-  .timeslots {
-    display: flex;
-
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .daycolumns {
-    justify-content: space-between;
-  }
-  .innertimeslot {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    justify-content: space-evenly;
-    padding: 7px;
-    background: rgba(217, 217, 217, 0.05);
-    border: 0.5px solid #afafaf;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin-bottom: 20px;
-    gap: 15px;
-
-    width: fit-content;
-  }
-}
-
-@media (max-width: 480px) {
-  .line-1 {
-    font-size: 1.5rem;
-  }
-
-  .line-2 {
-    font-size: 1.2rem;
-  }
-
-  .line-3 {
-    font-size: 1rem;
-  }
-
-  .dayLabel {
-    font-size: 1rem;
-  }
-
-  .toLabel {
-    margin: 10px 0;
-  }
-
-  .label-input {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .datePicker {
-    width: 100%;
-  }
-
-  .okButton {
-    width: 100%;
-  }
-}
-
-.slotrow {
+.timeslot {
   display: flex;
-  flex-wrap: wrap;
   gap: 5px;
 }
-
-.TimecolumnDisplay {
+.date-availability {
+  width: min-content;
+}
+.availability-duration {
   display: flex;
   flex-direction: column;
+}
+.availability-day {
+  display: flex;
+  flex-direction: column;
+}
+
+.availability-saveDiv {
+  display: flex;
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+  justify-content: flex-end;
+}
+
+/* Save Button Styles */
+.save-btn {
+  background-color: #28a745; /* Primary green color */
+  color: #fff; /* White text */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Button padding */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Hover state */
+.save-btn:hover {
+  background-color: #218838; /* Darker green */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Active state */
+.save-btn:active {
+  background-color: #1e7e34; /* Even darker green */
+  transform: translateY(1px); /* Pressed down effect */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow */
+}
+
+/* Disabled state */
+.save-btn:disabled {
+  background-color: #c3e6cb; /* Light green */
+  color: #6c757d; /* Grayish text */
+  cursor: not-allowed; /* Not-allowed cursor */
+  box-shadow: none; /* Remove shadow */
+}
+
+/* Add Slot Button Styles */
+.add-slot-btn {
+  background-color: #0255ca; /* Primary blue shade */
+  color: #fff; /* White text */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Button padding */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  margin-top: 10px; /* Add space at the top */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Hover state */
+.add-slot-btn:hover {
+  background-color: #0147a8; /* Slightly darker blue for hover */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Active state */
+.add-slot-btn:active {
+  background-color: #013a87; /* Even darker blue for active state */
+  transform: translateY(1px); /* Pressed down effect */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow */
+}
+
+/* Disabled state */
+.add-slot-btn:disabled {
+  background-color: #b8d4f7; /* Muted light blue */
+  color: #6c757d; /* Grayish text */
+  cursor: not-allowed; /* Not-allowed cursor */
+  box-shadow: none; /* Remove shadow */
+}
+.addBtnAvailability {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Hover state */
+.cross-btn:hover {
+  color: #c9302c; /* Darker red for hover */
+  background-color: none;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow */
+  transform: scale(2.1); /* Slightly enlarge the button */
+}
+.errorfont {
+  font-size: 14px;
+}
+.dropdownDay {
+  position: absolute;
+  background-color: #f9f9f9;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 12%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.custom-dropdown {
+  /* height: 23px; */
+  background-color: white;
+  border: 0.5px solid black;
+  width: 8rem;
+  padding-top: 2px;
+  padding-left: 5px;
+}
+.dropdownDayOption {
+  width: 100%;
+}
+.dropdownDayBox {
+  display: flex;
+  gap: 20px;
   align-items: center;
+}
+/* -------------------------------------------------------------------------------- */
+
+/* Custom styles for the date picker container */
+/* .react-datepicker {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+} */
+
+/* Custom styles for the date input field */
+.react-datepicker__input-container input {
+  /* padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px; */
+  width: 70%;
+}
+
+/* Custom styles for the calendar dropdown */
+/* .react-datepicker__triangle {
+  border-top-color: #2e7d32;
+} */
+
+/* Custom styles for the days in the calendar */
+/* .react-datepicker__day {
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+} */
+
+/* Style for the selected date */
+/* .react-datepicker__day--selected {
+  background-color: #2e7d32;
+  color: white;
+  border-radius: 50%;
+} */
+
+/* Style for today’s date */
+/* .react-datepicker__day--today {
+  background-color: #ff9800;
+  color: white;
+  border-radius: 50%;
+} */
+.react-datepicker-wrapper {
+  width: 130px;
+}
+.dateAvialbility {
+  width: 100px;
+}
+
+.btnDays{
+  padding: 5px;
+  border: none;
+}
+.checkbox-item{
+  padding-left: 20px;
+  display: flex;
+  gap: 5px;
 }

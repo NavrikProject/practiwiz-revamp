@@ -14,7 +14,7 @@
   border: 1.55px solid #7272ec; /* Green border */
   border-radius: 10px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   background-color: #ffffff;
 }
 .marginRight {
@@ -50,4 +50,14 @@ li {
 p {
   font-size: 16px;
   color: #7f8c8d;
+}
+
+.skillsButton {
+  padding: 6px 10px;
+  margin: 5px 3px;
+  border: 1px solid rgb(216, 214, 214);
+  border-radius: 6px;
+  font-family: var(--font-family-lato);
+  color: #444444;
+  font-weight: 600;
 }
