@@ -10,6 +10,8 @@ const RedirectHandler = ({ user }) => {
         navigate("/mentor/dashboard");
       } else if (user?.user_type === "mentee") {
         navigate("/mentee/dashboard");
+      } else if (user?.user_type === "employer") {
+        navigate("/employer/dashboard");
       } else {
         navigate("/");
       }

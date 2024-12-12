@@ -135,9 +135,7 @@ const MentorUpdatedForm = () => {
           navigate(`/redirect`)
         );
       } else if (res.data.error) {
-        toast.error(
-          "There is some error while applying for the mentor application."
-        );
+        toast.error(res.data.error);
       }
     } catch (error) {
       if (error.message === "Request timed out") {
@@ -160,10 +158,7 @@ const MentorUpdatedForm = () => {
       )
     );
   };
-  const googleLogin = useGoogleLogin({
-    onSuccess: onSuccess,
-    onError: onFailure,
-  });
+
   return (
     <>
       <form onSubmit={handleSubmit(UserRegisterSubmitHandler)}>
@@ -191,21 +186,15 @@ const MentorUpdatedForm = () => {
                         <img src={LnIcon} className="me-2" alt="deeteewe" />
                         LinkedIn
                       </button>
-                      <GoogleOAuthProvider
-                        clientId={REACT_APP_GOOGLE_CLIENT_ID}
-                      >
-                        <div
-                          className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary googleIconBorder"
-                          onClick={() => googleLogin()}
-                        >
-                          <img
-                            className="me-1 googleIcon"
-                            src={GoogleIcon}
-                            alt=""
-                          />
-                          Google
-                        </div>
-                      </GoogleOAuthProvider>
+
+                      <div className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary googleIconBorder">
+                        <img
+                          className="me-1 googleIcon"
+                          src={GoogleIcon}
+                          alt=""
+                        />
+                        Google
+                      </div>
                     </p>
                   </div>
                 </div>

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useFormContext, Controller } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
-import CoreSkill from "../../../data/CoreSkill.json";
-import PassionSkill from "../../../data/PassionSkills.json";
-import { toast } from "react-toastify";
-import Select from "react-select";
-import { options, experienceOptions } from "../../../data/DomainData.js";
+import { experienceOptions } from "../../../data/DomainData.js";
+import collegeData from "../../../data/collegesname.json";
+import "./MentorPage2.css";
 
 const MentorPage2 = () => {
   const {
@@ -19,7 +17,300 @@ const MentorPage2 = () => {
     formState: { errors },
   } = useFormContext();
 
+  // ---------------------------------------------------------------------------------------
+  // State for country, selected currency, price range, and user price
+  const [country, setCountry] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
+  const [userPrice, setUserPrice] = useState("");
+
+  // Country-to-currency mapping with price ranges
+  const countryCurrencyData = {
+    US: { currency: "USD", range: { min: 0, max: 100 } },
+    IN: { currency: "INR", range: { min: 500, max: 5000 } },
+    DE: { currency: "EUR", range: { min: 10, max: 200 } },
+    JP: { currency: "JPY", range: { min: 1000, max: 10000 } },
+  };
+
+  // List of all currencies
+  const allCurrencies = ["USD", "INR", "EUR", "JPY", "GBP"];
+
+  // Handle currency change
+  const handleCurrencyChange = (event) => {
+    const newCurrency = event.target.value;
+    setSelectedCurrency(newCurrency);
+    setValue("mentorCurrency", newCurrency);
+
+    // Dynamically update price range based on new currency
+    const currencyRange = Object.values(countryCurrencyData).find(
+      (data) => data.currency === newCurrency
+    )?.range;
+
+    if (currencyRange) {
+      setPriceRange(currencyRange);
+    } else {
+      setPriceRange({ min: 0, max: 0 }); // Default if currency not found
+    }
+    setUserPrice(""); // Reset user price on currency change
+  };
+
+  const API_KEY = "d255e8678f5e63"; // Replace with your actual API key
+
+  // Function to fetch the user's location data including the IP address
+  const fetchLocationData = async () => {
+    try {
+      const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
+      const data = await response.json();
+
+      setCountry(data.country);
+
+      // Automatically set currency and price range based on the user's country
+      const countryShort = data.country;
+      if (countryCurrencyData[countryShort]) {
+        const { currency, range } = countryCurrencyData[countryShort];
+        setSelectedCurrency(currency);
+
+        setValue("mentorCurrency", currency);
+        setValue("mentorCountryName", countryShort);
+        setValue("mentorCityName", data.city);
+        setPriceRange(range);
+      }
+    } catch (error) {
+      console.error("Error fetching location data:", error);
+      const countryShort = "IN";
+      if (countryCurrencyData[countryShort]) {
+        const { currency, range } = countryCurrencyData[countryShort];
+        setSelectedCurrency(currency);
+        setValue("mentorCurrency", currency);
+        setPriceRange(range);
+      }
+    }
+  };
+
+  // Fetch the location data when the component mounts
+  useEffect(() => {
+    fetchLocationData();
+  }, []);
+
+  // ______________________________________________________________________________________________
+
+  const [skills, setSkills] = useState(""); // For the input field
+  const [skillList, setSkillList] = useState([]); // For added skills
+  const [suggestions, setSuggestions] = useState([]); // For suggestions
+  const [message, setMessage] = useState(""); // For displaying messages
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
+  // Filter colleges based on the search term
+  const handleInputCollagename = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setValue("mentorInstituteName", value);
+    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
+  };
+  // Filter colleges based on the search term
+  const filteredColleges = collegeData.filter((item) =>
+    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Function to handle dropdown option click
+  const handleOptionClick = (college) => {
+    setSelectedCollege(college); // Set selected college
+    setSearchTerm(college["College Name"]); // Update input with selected college name
+    setDropdownVisible(false); // Hide dropdown after selection
+    setValue("mentorInstituteName", college["College Name"]);
+  };
+  // Example skill suggestions
+  const allSkills = [
+    "React",
+    "Node.js",
+    "JavaScript",
+    "CSS",
+    "HTML",
+    "Python",
+    "Django",
+    "Machine Learning",
+    "Data Science",
+    "SQL",
+  ];
+
+  const handleInputChange = (e) => {
+    const input = e.target.value.trimStart(); // Trim leading spaces
+    setSkills(input);
+
+    if (input.length > 3) {
+      // Suggest the input and filter suggestions from `allSkills`
+      setSuggestions([
+        input,
+        ...allSkills.filter(
+          (skill) =>
+            skill.toLowerCase().includes(input.toLowerCase()) &&
+            !skillList?.some(
+              (existingSkill) =>
+                existingSkill.toLowerCase() === skill.toLowerCase()
+            )
+        ),
+      ]);
+    } else if (input) {
+      // Filter suggestions if input is not empty
+      const filteredSuggestions = allSkills.filter(
+        (skill) =>
+          skill.toLowerCase().includes(input.toLowerCase()) &&
+          !skillList?.some(
+            (existingSkill) =>
+              existingSkill.toLowerCase() === skill.toLowerCase()
+          )
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      // Clear suggestions if input is empty
+      setSuggestions([]);
+    }
+  };
+
+  const handleAddSkill = (newSkill) => {
+    const trimmedSkill = newSkill.trim();
+
+    // Prevent adding empty or duplicate skills
+    if (!trimmedSkill) {
+      setMessage("Skill cannot be empty");
+      setTimeout(() => setMessage(""), 2000);
+      return;
+    }
+
+    // Check if the skill already exists (case-insensitive)
+    const exists = (skillList || []).some(
+      (existingSkill) =>
+        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
+    );
+
+    if (!exists) {
+      setSkillList([...(skillList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setMessage(""); // Clear any previous message
+    } else {
+      setMessage("Skill already added");
+      setTimeout(() => setMessage(""), 2000);
+    }
+
+    setSkills(""); // Clear input
+    setSuggestions([]); // Clear suggestions
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddSkill(skills);
+    }
+  };
+
+  const removeSkill = (index) => {
+    setSkillList(skillList.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    if (skillList?.length > 0) {
+      setValue("mentorSkill", skillList);
+    }
+  }, [skillList]);
+
+  const [Domain, setDomain] = useState(""); // For the input field
+  const [DomainList, setDomainList] = useState([]); // For added skills
+  const [Domainsuggestions, setDomainSuggestions] = useState([]); // For suggestions
+  const [messageDomain, setMessageDomain] = useState(""); // For displaying messages
+
+  // Example skill suggestions
+  const allDomain = [
+    "React",
+    "Node.js",
+    "JavaScript",
+    "CSS",
+    "HTML",
+    "Python",
+    "Django",
+    "Machine Learning",
+    "Data Science",
+    "SQL",
+  ];
+
+  const handleDomainInputChange = (e) => {
+    const input = e.target.value.trimStart(); // Trim leading spaces
+    setDomain(input);
+
+    if (input.length > 3) {
+      // Suggest the input and filter suggestions from `allSkills`
+      setDomainSuggestions([
+        input,
+        ...allDomain.filter(
+          (skill) =>
+            skill.toLowerCase().includes(input.toLowerCase()) &&
+            !DomainList?.some(
+              (existingSkill) =>
+                existingSkill.toLowerCase() === skill.toLowerCase()
+            )
+        ),
+      ]);
+    } else if (input) {
+      // Filter suggestions if input is not empty
+      const filteredSuggestions = allSkills.filter(
+        (skill) =>
+          skill.toLowerCase().includes(input.toLowerCase()) &&
+          !DomainList?.some(
+            (existingSkill) =>
+              existingSkill.toLowerCase() === skill.toLowerCase()
+          )
+      );
+      setDomainSuggestions(filteredSuggestions);
+    } else {
+      // Clear suggestions if input is empty
+      setDomainSuggestions([]);
+    }
+  };
+
+  const handleAddDomain = (newSkill) => {
+    const trimmedSkill = newSkill.trim();
+
+    // Prevent adding empty or duplicate skills
+    if (!trimmedSkill) {
+      setMessageDomain("Domain cannot be empty");
+      setTimeout(() => setMessageDomain(""), 2000);
+      return;
+    }
+
+    // Check if the skill already exists (case-insensitive)
+    const exists = (DomainList || []).some(
+      (existingSkill) =>
+        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
+    );
+
+    if (!exists) {
+      setDomainList([...(DomainList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setMessageDomain(""); // Clear any previous message
+    } else {
+      setMessageDomain("Skill already added");
+      setTimeout(() => setMessageDomain(""), 2000);
+    }
+
+    setDomain(""); // Clear input
+    setDomainSuggestions([]); // Clear suggestions
+  };
+
+  const handleDomainKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddSkill(Domain);
+    }
+  };
+
+  const removeDomain = (index) => {
+    setDomainList(DomainList.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    if (DomainList?.length > 0) {
+      setValue("mentorDomain", DomainList);
+    }
+  }, [DomainList]);
+
   const formValues = getValues();
+
   const loadStoredData = () => {
     const storedData = localStorage.getItem("formData1");
     if (storedData) {
@@ -43,6 +334,17 @@ const MentorPage2 = () => {
     if (storedData) {
       Object.keys(storedData).forEach((key) => {
         setValue(key, storedData[key]);
+        setSkillList(storedData.mentorSkill);
+      });
+      setupdate([]);
+    }
+  }, [setValue]);
+  useEffect(() => {
+    const storedData = loadStoredData();
+    if (storedData) {
+      Object.keys(storedData).forEach((key) => {
+        setValue(key, storedData[key]);
+        setDomainList(storedData.mentorDomain);
       });
       setupdate([]);
     }
@@ -52,270 +354,31 @@ const MentorPage2 = () => {
     saveDataToStorage(formValues);
   }, [formValues, register]);
 
-  const [statefordata, setstatefordata] = useState();
-
-  const [items, setItems] = useState(PassionSkill);
-  const handleDragStart = (e, id) => {
-    e.dataTransfer.setData("text/plain", id);
-    setTimeout(() => {
-      e.target.classList.add("hide");
-    }, 0);
-  };
-
-  const handleDragEnd = (e) => {
-    e.target.classList.remove("hide");
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDropInContainer = (e) => {
-    e.preventDefault();
-    const id = e.dataTransfer.getData("text");
-    setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: true } : item))
-    );
-    updateFormData1();
-  };
-
-  const handleDropOutside = (e) => {
-    e.preventDefault();
-    const id = e.dataTransfer.getData("text");
-    setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
-    );
-    updateFormData1();
-  };
-
-  const handleDelete = (id) => {
-    setItems(
-      items.map((item) => (item.id === id ? { ...item, inside: false } : item))
-    );
-    updateFormData1();
-  };
-  const updateFormData1 = () => {
-    setValue("passionate_about", items);
-  };
-
-  const [selectedExpertise, setSelectedExpertise] = useState([]);
-  const [selectedSubOptions, setSelectedSubOptions] = useState([]);
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [error, setError] = useState(""); // State to store error messages
-
-  // Load saved data from local storage and initialize the form
-  useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("mentorData"));
-    if (savedData?.expertise) {
-      const expertise = savedData.expertise.map((preSelectedItem) => {
-        const expertiseData = CoreSkill.find(
-          (coreItem) => coreItem.id === preSelectedItem.id
-        );
-        return expertiseData || preSelectedItem;
-      });
-      setSelectedExpertise(expertise);
-
-      const subOptions = expertise.flatMap((exp) =>
-        exp.sub_options?.filter((subOption) =>
-          savedData.expertise
-            .find((preSelectedItem) => preSelectedItem.id === exp.id)
-            ?.subOptions.some(
-              (preSubOption) => preSubOption.id === subOption.id
-            )
-        )
-      );
-      setSelectedSubOptions(subOptions);
-
-      const skills = subOptions.flatMap((subOption) =>
-        subOption.skills.filter((skill) =>
-          savedData.expertise
-            .find((preSelectedItem) =>
-              preSelectedItem.subOptions.some(
-                (preSubOption) => preSubOption.id === subOption.id
-              )
-            )
-            ?.subOptions.flatMap((preSubOption) => preSubOption.skills)
-            .some((preSkill) => preSkill.id === skill.id)
-        )
-      );
-      setSelectedSkills(skills);
-    }
-  }, []);
-
-  const handleExpertiseChange = (e) => {
-    const expertiseId = parseInt(e.target.value);
-    const expertise = CoreSkill.find((item) => item.id === expertiseId);
-    if (expertise) {
-      setSelectedExpertise((prev) =>
-        prev.includes(expertise)
-          ? prev.filter((item) => item.id !== expertiseId)
-          : [...prev, expertise]
-      );
-      updateFormData();
-    }
-  };
-
-  const handleSubOptionChange = (subOptionId) => {
-    const subOption = selectedExpertise
-      .flatMap((exp) => exp.sub_options)
-      .find((option) => option.id === subOptionId);
-    if (subOption) {
-      setSelectedSubOptions((prev) =>
-        prev.includes(subOption)
-          ? prev.filter((item) => item.id !== subOptionId)
-          : [...prev, subOption]
-      );
-      updateFormData();
-    }
-  };
-
-  const handleSkillChange = (skillId) => {
-    const skill = selectedSubOptions
-      .flatMap((subOption) => subOption.skills)
-      .find((s) => s.id === skillId);
-    if (skill) {
-      setSelectedSkills((prev) =>
-        prev.includes(skill)
-          ? prev.filter((item) => item.id !== skillId)
-          : [...prev, skill]
-      );
-      updateFormData();
-    }
-  };
-
-  const updateFormData = () => {
-    const selectedData = {
-      expertise: selectedExpertise.map((exp) => ({
-        id: exp.id,
-        name: exp.name,
-        subOptions: exp.sub_options
-          .filter((sub) => selectedSubOptions.includes(sub))
-          .map((sub) => ({
-            id: sub.id,
-            name: sub.name,
-            skills: sub.skills.filter((skill) =>
-              selectedSkills.includes(skill)
-            ),
-          })),
-      })),
-    };
-    setValue("Core_Skills", selectedData);
-  };
-
-  const handleDeleteExpertise = (expertiseToDelete) => {
-    setSelectedExpertise(
-      selectedExpertise.filter(
-        (expertise) => expertise.id !== expertiseToDelete.id
-      )
-    );
-    setSelectedSubOptions(
-      selectedExpertise.filter(
-        (subOption) => subOption.id !== expertiseToDelete.id
-      )
-    );
-    setSelectedSkills(
-      selectedExpertise.filter((skill) => skill.id !== expertiseToDelete.id)
-    );
-    updateFormData();
-  };
-
-  const handleDeleteSubOption = (subOptionToDelete) => {
-    setSelectedSubOptions(
-      selectedSubOptions.filter(
-        (subOption) => subOption.id !== subOptionToDelete.id
-      )
-    );
-    setSelectedSkills(
-      selectedSkills.filter(
-        (skill) => skill.subOptionId !== subOptionToDelete.id
-      )
-    );
-    updateFormData();
-  };
-
-  const handleDeleteSkill = (skillToDelete) => {
-    setSelectedSkills(
-      selectedSkills.filter((skill) => skill.id !== skillToDelete.id)
-    );
-    updateFormData();
-  };
-
-  const handleSave = () => {
-    setError("");
-    if (selectedExpertise.length === 0) {
-      setError("Please select at least one Core Skill.");
-      return;
-    }
-
-    const coreSkillsWithoutSubOptions = selectedExpertise.filter((exp) =>
-      exp.sub_options.every(
-        (subOption) => !selectedSubOptions.includes(subOption)
-      )
-    );
-    if (coreSkillsWithoutSubOptions.length > 0) {
-      setError(
-        "Please select at least one Sub-option for each selected Core Skill."
-      );
-      return;
-    }
-
-    const subOptionsWithoutSkills = selectedSubOptions.filter((subOption) =>
-      subOption.skills.every((skill) => !selectedSkills.includes(skill))
-    );
-    if (subOptionsWithoutSkills.length > 0) {
-      setError(
-        "Please select at least one Skill for each selected Sub-option."
-      );
-      return;
-    }
-
-    const selectedData = {
-      expertise: selectedExpertise.map((exp) => ({
-        id: exp.id,
-        name: exp.name,
-        subOptions: exp.sub_options
-          .filter((sub) => selectedSubOptions.includes(sub))
-          .map((sub) => ({
-            id: sub.id,
-            name: sub.name,
-            skills: sub.skills.filter((skill) =>
-              selectedSkills.includes(skill)
-            ),
-          })),
-      })),
-    };
-    toast.success("😊 Success! Your Field Saved.", {
-      position: "top-right", // Directly specifying the position
-    });
-    localStorage.setItem("mentorData", JSON.stringify(selectedData));
-    setValue("Core_Skills", selectedData);
-    setValue("ForSkillValidation", "ok");
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    handleSave();
-  };
+  const showInstituteInput = getValues("sessionsFreeOfCharge");
+  //
 
   return (
     <>
       <div className="doiherner_wrapper">
         <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
-          <div className="row">
+          <div className="row tageye">
+            <div className="col-lg-12">
+              <label className="taglabel">About your Profession</label>
+            </div>
             <div className="col-lg-6 mb-4">
-              <label htmlFor="mentor_job_title" className="form-label">
+              <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
                   Your Job Title <span className="RedColorStarMark">*</span>
                 </b>
               </label>
               <input
                 onKeyUp={() => {
-                  trigger("mentor_job_title");
+                  trigger("mentorJobTitle");
                 }}
                 type="text"
                 className="form-control"
                 placeholder="Type Your Job Title....."
-                {...register("mentor_job_title", {
+                {...register("mentorJobTitle", {
                   required: "Job title is required",
                   validate: (value) => {
                     // Check if the trimmed value is not empty (i.e., the input is not only spaces)
@@ -326,32 +389,32 @@ const MentorPage2 = () => {
                   },
                 })}
               />
-              {errors.mentor_job_title && (
+              {errors.mentorJobTitle && (
                 <p className="Error-meg-login-register">
-                  {errors.mentor_job_title.message}
+                  {errors.mentorJobTitle.message}
                 </p>
               )}
             </div>
 
             <div className="col-lg-6 mb-4">
-              <label htmlFor="years_of_experience" className="form-label">
+              <label htmlFor="yearsOfExperience" className="form-label">
                 <b>
                   Years of Experience{" "}
                   <span className="RedColorStarMark">*</span>
                 </b>
               </label>
               <select
-                className="form-control form-select"
-                {...register("years_of_experience", {
+                className=" form-select "
+                {...register("yearsOfExperience", {
                   required: "Please select the Years Of experience",
                 })}
                 onChange={(e) => {
                   if (e.target.value) {
-                    clearErrors("years_of_experience"); // Clear error when a valid option is selected
+                    clearErrors("yearsOfExperience"); // Clear error when a valid option is selected
                   }
                 }}
                 onKeyUp={() => {
-                  trigger("years_of_experience"); // Optional: still trigger validation on keyup
+                  trigger("yearsOfExperience"); // Optional: still trigger validation on keyup
                 }}
               >
                 <option value="">Please Select Years Of experience</option>
@@ -362,62 +425,26 @@ const MentorPage2 = () => {
                 ))}
               </select>
 
-              {errors.years_of_experience && (
+              {errors.yearsOfExperience && (
                 <p className="Error-meg-login-register">
-                  {errors.years_of_experience.message}
+                  {errors.yearsOfExperience.message}
                 </p>
               )}
             </div>
             <div className="col-lg-6 mb-4">
-              <label htmlFor="mentor_domain" className="form-label">
-                <b>
-                  Domain <span className="RedColorStarMark">*</span>
-                </b>
-              </label>
-              <Controller
-                name="Mentor_Domain"
-                control={control}
-                defaultValue={[]} // Default value for multiple select
-                rules={{ required: "Please select you Domain" }} // Validation rule
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    // styles={customStyles} // Apply your custom styles here
-                    options={options}
-                    isMulti={true} // Allow multiple selections
-                    value={field.value} // Sync value with react-hook-form state
-                    onChange={(selectedOptions) => {
-                      field.onChange(selectedOptions); // Update form state
-                      trigger("Mentor_Domain"); // Trigger validation when option is selected
-                    }}
-                  />
-                )}
-              />
-              {/* Error message */}
-              {errors.Mentor_Domain && (
-                <p
-                  style={{ color: "red", marginTop: "8px" }}
-                  // className="Error-meg-login-register"
-                >
-                  {errors.Mentor_Domain.message}
-                </p>
-              )}
-            </div>
-
-            <div className="col-lg-6 mb-4">
-              <label htmlFor="mentor_company_name" className="form-label">
+              <label htmlFor="mentorCompanyName" className="form-label">
                 <b>
                   Company <span className="RedColorStarMark">*</span>
                 </b>
               </label>
               <input
                 onKeyUp={() => {
-                  trigger("mentor_company_name");
+                  trigger("mentorCompanyName");
                 }}
                 type="text"
                 className="form-control"
                 placeholder="Type Your Company/Freelancer Name"
-                {...register("mentor_company_name", {
+                {...register("mentorCompanyName", {
                   required: "Company name is required",
                   validate: (value) => {
                     // Check if the trimmed value is not empty (i.e., the input is not only spaces)
@@ -428,242 +455,143 @@ const MentorPage2 = () => {
                   },
                 })}
               />
-              {errors.mentor_company_name && (
+              {errors.mentorCompanyName && (
                 <p className="Error-meg-login-register">
-                  {errors.mentor_company_name.message}
+                  {errors.mentorCompanyName.message}
                 </p>
               )}
             </div>
-
-            {/* Expertise Selection */}
+            {/* Domain section */}
             <div className="col-lg-6 mb-4">
-              <label htmlFor="core_skill" className="form-label">
+              <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
-                  Core Skill <span className="RedColorStarMark">*</span>
+                  Domain<span className="RedColorStarMark">*</span>
                 </b>
               </label>
-              {selectedExpertise.length > 0 && (
-                <div className="Optionshow">
-                  {selectedExpertise.map((expertise) => (
-                    <span key={expertise.id} className="optionbox">
-                      {expertise.name}
-                      <button
-                        onClick={() => handleDeleteExpertise(expertise)}
-                        className="optionDispaly"
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Type  your Domain and press Enter"
+                  value={Domain}
+                  onChange={handleDomainInputChange}
+                  onKeyDown={handleDomainKeyPress}
+                  className="form-control"
+                 
+                />
+
+                {/* Suggestions Dropdown */}
+                {Domainsuggestions.length > 0 && (
+                  <ul className="suggestions-dropdown">
+                    {Domainsuggestions.map((Domainsuggestions, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleAddDomain(Domainsuggestions)}
+                        className="suggestion-item"
                       >
-                        <span className="OptionCross">&#10006;</span>
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-              <select
-                onChange={handleExpertiseChange}
-                defaultValue=""
-                className="form-select"
-              >
-                <option value="" disabled>
-                  Select an Area
-                </option>
-                {CoreSkill.map((expertise) => (
-                  <option key={expertise.id} value={expertise.id}>
-                    {expertise.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sub-option Selection */}
-            <div className="col-lg-6 mb-4">
-              <label htmlFor="sub_options" className="form-label">
-                <b>
-                  Sub-Skills: <span className="RedColorStarMark">*</span>
-                </b>
-              </label>
-              {selectedSubOptions.length > 0 && (
-                <div className="Optionshow">
-                  {selectedSubOptions.map((subOption) => (
-                    <span key={subOption.id} className="optionbox">
-                      {subOption.name}
-                      <button
-                        onClick={() => handleDeleteSubOption(subOption)}
-                        className="optionDispaly"
-                      >
-                        <span className="OptionCross">&#10006;</span>
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-              <select
-                onChange={(e) =>
-                  handleSubOptionChange(parseInt(e.target.value))
-                }
-                defaultValue=""
-                className="form-select"
-              >
-                <option value="" disabled>
-                  {selectedExpertise.length === 0
-                    ? "Select an Area of Expertise first"
-                    : "Select a Sub-option"}
-                </option>
-                {selectedExpertise
-                  .flatMap((exp) => exp.sub_options)
-                  .map((subOption) => (
-                    <option key={subOption.id} value={subOption.id}>
-                      {subOption.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-            {/* Error Message */}
-            {error && <p className="text-danger">{error}</p>}
-
-            {/* Skill Selection */}
-
-            <div className="row">
-              <label htmlFor="skills" className="form-label mb-0">
-                <b>
-                  Areas of Expertise <span className="RedColorStarMark">*</span>
-                </b>
-              </label>
-              <div className="col-lg-12 mb-4 moideuirer_list areaofint">
-                <ul className="ps-0 mb-0">
-                  {selectedSubOptions
-                    .flatMap((subOption) => subOption.skills)
-                    ?.map((skill) => (
-                      <li key={skill.id} className="ps-0">
-                        <div className="form-check d-inline-block my-2">
-                          <input
-                            type="checkbox"
-                            value={skill.id}
-                            id={skill.id}
-                            checked={selectedSkills.includes(skill)}
-                            onChange={() => handleSkillChange(skill.id)}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={skill.id}
-                          >
-                            {skill.name}
-                          </label>
-                        </div>
+                        {Domainsuggestions}
                       </li>
                     ))}
-                </ul>
+                  </ul>
+                )}
+              </div>
+
+              {/* Display message */}
+              {messageDomain && <div className="message">{messageDomain}</div>}
+
+              <div className="skill-list">
+                {DomainList?.map((Domains, index) => (
+                  <span key={index} className="skill-tag">
+                    {Domains}{" "}
+                    <button
+                      onClick={() => removeDomain(index)}
+                      className="remove-skill-btn"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                ))}
               </div>
             </div>
-
-            {/* Save Button */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                alignItems: "end",
-              }}
-            >
-              <button
-                onClick={handleSubmit}
-                className="btn btn-primary djssjbfe"
-              >
-                Save
-              </button>
+          </div>
+          <div className="row tageye">
+            <div className="col-lg-12">
+              <label className="taglabel">Your Skills</label>
             </div>
+            {/* skill section */}
+            <div className="col-lg-12 mb-4">
+              <label htmlFor="mentorJobTitle" className="form-label">
+                <b>
+                  Skills <span className="RedColorStarMark">*</span>
+                </b>
+              </label>
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Type skills and press Enter"
+                  value={skills}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyPress}
+                  className="form-control"
+                />
 
-            <div className="row align-items-center">
-              <div className="col-lg-6 mb-4">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  <b>Passionate About!</b>
-                  {/* (Select min of 4 options) */}
-                </label>
-                <div
-                  type=""
-                  id="container"
-                  className="bg-white"
-                  onDragOver={handleDragOver}
-                  onDrop={handleDropInContainer}
-                  style={{
-                    overflowY: "scroll",
-                    overflowX: "hidden",
-                    height: "200px",
-                  }}
-                >
-                  {items
-                    .filter((item) => item.inside)
-                    .map((item) => (
-                      <div
-                        key={item.id}
-                        id={item.id}
-                        className="draggable inside"
-                        // className="draggable"
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, item.id)}
-                        onDragEnd={handleDragEnd}
+                {/* Suggestions Dropdown */}
+                {suggestions.length > 0 && (
+                  <ul className="suggestions-dropdown">
+                    {suggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleAddSkill(suggestion)}
+                        className="suggestion-item"
                       >
-                        {item.inside && (
-                          <span
-                            className="close-btn"
-                            onClick={() => handleDelete(item.id)}
-                          >
-                            &times;
-                          </span>
-                        )}
-                        {item.text}
-                      </div>
+                        {suggestion}
+                      </li>
                     ))}
-                </div>
-
-                <p className=" mb-0 ghhduenee">
-                  (*Drag and drop the most suitable option in the box*)
-                </p>
+                  </ul>
+                )}
               </div>
 
-              <div
-                className="col-lg-6 mb-4"
-                style={{
-                  overflowY: "scroll",
-                  overflowX: "hidden",
-                  height: "200px",
-                }}
-              >
-                <div
-                  id="outside-container"
-                  onDragOver={handleDragOver}
-                  onDrop={handleDropOutside}
-                >
-                  {items
-                    .filter((item) => !item.inside)
-                    .map((item) => (
-                      <div
-                        key={item.id}
-                        id={item.id}
-                        className="draggable"
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, item.id)}
-                        onDragEnd={handleDragEnd}
-                      >
-                        {item.text}
-                      </div>
-                    ))}
-                </div>
+              {/* Display message */}
+              {message && <div className="message">{message}</div>}
+
+              <div className="skill-list">
+                {skillList?.map((skill, index) => (
+                  <span key={index} className="skill-tag">
+                    {skill}{" "}
+                    <button
+                      onClick={() => removeSkill(index)}
+                      className="remove-skill-btn"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                ))}
               </div>
             </div>
-
+          </div>
+          <div className="row tageye">
+            <div className="col-lg-12">
+              <label className="taglabel">Profession Summary</label>
+            </div>
             <div className="col-lg-12 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>
-                  Your Super Power <span className="RedColorStarMark">*</span>
-                </b>
+                  Brief About Yourself{" "}
+                  <span className="RedColorStarMark">*</span>
+                </b>{" "}
+                <p className=" mb-0 ghhduenee">
+                  {/* (*Give a good headline, This helps us understand the mentor
+                  overview*) */}
+                  (*This helps us understand the mentor overview*)
+                </p>
               </label>
               <textarea
                 onKeyUp={() => {
-                  trigger("mentor_Headline");
+                  trigger("mentorHeadline");
                 }}
                 className="form-control"
                 placeholder="My superpower is problem-solving. I excel at breaking down complex challenges into manageable steps and finding innovative solutions, whether it's troubleshooting technical issues or resolving conflicts in a team."
                 style={{ height: "100px" }}
-                {...register("mentor_Headline", {
+                {...register("mentorHeadline", {
                   required: "This field is required",
                   minLength: {
                     value: 100,
@@ -693,13 +621,9 @@ const MentorPage2 = () => {
                 })}
               ></textarea>
 
-              <p className=" mb-0 ghhduenee">
-                (*Give a good headline, This helps us understand the mentor
-                overview*)
-              </p>
-              {errors.mentor_Headline && (
+              {errors.mentorHeadline && (
                 <p className="Error-meg-login-register">
-                  {errors.mentor_Headline.message}
+                  {errors.mentorHeadline.message}
                 </p>
               )}
             </div>
@@ -710,14 +634,14 @@ const MentorPage2 = () => {
               </label>{" "}
               <input
                 onKeyUp={() => {
-                  trigger("recommended_area_of_mentorship");
+                  trigger("recommendedAreaOfMentorship");
                 }}
                 type="text"
                 className="form-control"
                 // id="exampleInputEmail1"
                 placeholder="Eg:I will give the mentorship about the react development, communication skills, and resume building"
                 aria-describedby="emailHelp"
-                {...register("recommended_area_of_mentorship", {
+                {...register("recommendedAreaOfMentorship", {
                   minLength: {
                     value: 50,
                     message: "Must be greater than 50 characters.",
@@ -728,12 +652,225 @@ const MentorPage2 = () => {
                   },
                 })}
               />
-              {errors.recommended_area_of_mentorship && (
+              {errors.recommendedAreaOfMentorship && (
                 <p className="Error-meg-login-register">
-                  {errors.recommended_area_of_mentorship.message}
+                  {errors.recommendedAreaOfMentorship.message}
                 </p>
               )}
             </div>
+          </div>
+          <div className="row tageye">
+            <div className="col-lg-12">
+              <label className="taglabel">Pricing</label>
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>
+                    Currency <span className="RedColorStarMark">*</span>
+                  </b>
+                </label>
+
+                <select
+                  className="form-select"
+                  value={selectedCurrency}
+                  onChange={handleCurrencyChange}
+                >
+                  {allCurrencies.map((currency) => (
+                    <option key={currency} value={currency}>
+                      {currency}
+                    </option>
+                  ))}
+                </select>
+
+                {errors.mentorCurrency && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentorCurrency.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>
+                    Pricing
+                    <span className="RedColorStarMark">*</span>
+                  </b>{" "}
+                  (
+                  <span className="RecommendationText">
+                    {" "}
+                    Enter Price (Range: {priceRange.min} - {priceRange.max})
+                  </span>
+                  )
+                </label>
+
+                <input
+                  onKeyUp={() => {
+                    trigger("pricing");
+                  }}
+                  id="pricing"
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter price"
+                  {...register("pricing", {
+                    required: "Please mention the price below 1500",
+                    validate: (value) => {
+                      const numericValue = parseFloat(value); // Ensure it's treated as a number
+
+                      if (numericValue < priceRange.min) {
+                        return `Price should be greater than ${priceRange.min}`;
+                      }
+                      if (numericValue > priceRange.max) {
+                        return `Price should be less than ${priceRange.max}`;
+                      }
+                      return true; // Return true if the value is within the valid range
+                    },
+                  })}
+                />
+                {errors.pricing && (
+                  <p className="Error-meg-login-register">
+                    {errors.pricing.message}
+                  </p>
+                )}
+                
+              </div>
+            </div>
+          </div>
+          <div className="row tageye">
+            <div className="col-lg-12">
+              <label className="taglabel">Preferences</label>
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>
+                    Would You Be Interested in Delivering Guest Lectures?{" "}
+                    <span className="RedColorStarMark">*</span>
+                  </b>
+                </label>
+                <select
+                  className="form-select"
+                  {...register("guestLecturesInterest", {
+                    required: "Please select the guest lecture option",
+                  })} //1
+                >
+                  <option value="">Choose An Option</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>{" "}
+                {errors.guestLecturesInterest && (
+                  <p className="Error-meg-login-register">
+                    {errors.guestLecturesInterest.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>
+                    Would You Be Interested in Curating Case Studies?{" "}
+                    <span className="RedColorStarMark">*</span>
+                  </b>
+                </label>
+                <select
+                  className="form-select"
+                  {...register("curatingCaseStudiesInterest", {
+                    required: "Please select the case study interest",
+                  })} //1
+                >
+                  <option value="">Choose An Option</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>{" "}
+                {errors.curatingCaseStudiesInterest && (
+                  <p className="Error-meg-login-register">
+                    {errors.curatingCaseStudiesInterest.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label htmlFor="sessionsFreeOfCharge" className="form-label">
+                  <b>
+                    Would You Be Fine to Do Sessions Free of Charge?{" "}
+                    <span className="RedColorStarMark">*</span>
+                  </b>
+                </label>
+                <select
+                  className="form-select"
+                  {...register("sessionsFreeOfCharge", {
+                    required:
+                      "Please select whether you are willing to do sessions free of charge.",
+                  })}
+                >
+                  <option value="">Choose An Option</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+
+                {errors.sessionsFreeOfCharge && (
+                  <p className="Error-meg-login-register">
+                    {errors.sessionsFreeOfCharge.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            {showInstituteInput === "yes" && (
+              <div className=" col-lg-6 ">
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  <b>
+                    Institute/College name{" "}
+                    <span className="RedColorStarMark">*</span>
+                  </b>
+                </label>
+                <div className="dkjiherer moideuirer_list hello">
+                  <div className="">
+                    <input
+                      onKeyUp={() => {
+                        trigger("mentorInstituteName");
+                      }}
+                      type="text"
+                      className="form-control"
+                      placeholder="Choose/Search for a college..."
+                      // value={searchTerm} // Ensure input value is controlled
+                      {...register("mentorInstituteName", {
+                        required: "College or Institute Name is required",
+                      })}
+                      onChange={handleInputCollagename}
+                      onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                    />
+                    {dropdownVisible && filteredColleges.length > 0 && (
+                      <div className="dropdown-content">
+                        {filteredColleges.slice(0, 50).map(
+                          (
+                            college,
+                            index // Limit to 10 results
+                          ) => (
+                            <div
+                              key={index}
+                              className="dropdown-item"
+                              onClick={() => handleOptionClick(college)}
+                            >
+                              {college["College Name"]}
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {errors.mentorInstituteName && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentorInstituteName.message}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <GoToTop />

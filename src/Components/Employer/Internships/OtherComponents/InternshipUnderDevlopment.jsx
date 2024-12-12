@@ -1,7 +1,7 @@
 import React from "react";
 import Lottie from "react-lottie";
-import personActivity from "./Animations/humanAnimation.json";
-import "./InternshipUnderDevlopment.css";
+import personActivity from "../../Internships/Animations/humanAnimation.json";
+import "../InternshipCss/InternshipUnderDevlopment.css";
 
 const InternshipUnderDevelopment = ({ title }) => {
   const defaultOptions = {
