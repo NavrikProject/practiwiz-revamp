@@ -7,31 +7,23 @@ const CustomDatePicker = ({
   timeslotList,
   bookingDetails,
   onDateSlotSelect,
-  mentorTimeSlotDuration,
+  mentorTimeSlotDuration, // Prop: User-selected duration (30 or 60 minutes)
 }) => {
   const [startDate, setStartDate] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
   const getDayIndex = (day) => {
-    switch (day) {
-      case "Sun":
-        return 0;
-      case "Mon":
-        return 1;
-      case "Tue":
-        return 2;
-      case "Wed":
-        return 3;
-      case "Thu":
-        return 4;
-      case "Fri":
-        return 5;
-      case "Sat":
-        return 6;
-      default:
-        return -1;
-    }
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    return days.indexOf(day);
   };
 
   const isDateSelectable = (date) => {
@@ -40,43 +32,72 @@ const CustomDatePicker = ({
 
     if (date < today) return false;
 
-    const daySlots = timeslotList?.filter((slot) => {
+    return timeslotList.some((slot) => {
       const slotDay = getDayIndex(slot.mentor_timeslot_day);
+      const startDate = new Date(slot.mentor_timeslot_rec_start_timeframe);
       const endDate = new Date(slot.mentor_timeslot_rec_end_timeframe);
-      endDate.setHours(0, 0, 0, 0);
-      return (
-        date.getDay() === slotDay && date <= endDate // Ensure duration matches
-      );
+      return date.getDay() === slotDay && date >= startDate && date <= endDate;
     });
+  };
 
-    return daySlots.length > 0;
+  const splitSlots = (fromTime, toTime, duration) => {
+    const slots = [];
+    const [fromHours, fromMinutes] = fromTime.split(/:|(?=[APM])/);
+    const [toHours, toMinutes] = toTime.split(/:|(?=[APM])/);
+
+    let start = new Date();
+    start.setHours(
+      (fromHours % 12) + (fromTime.includes("PM") ? 12 : 0),
+      parseInt(fromMinutes, 10),
+      0,
+      0
+    );
+
+    const end = new Date();
+    end.setHours(
+      (toHours % 12) + (toTime.includes("PM") ? 12 : 0),
+      parseInt(toMinutes, 10),
+      0,
+      0
+    );
+
+    while (start < end) {
+      const nextSlot = new Date(start.getTime() + duration * 60000);
+      slots.push({
+        from: start.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        to: nextSlot.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      });
+      start = nextSlot;
+    }
+
+    return slots;
   };
 
   const getSlotsForDate = (date) => {
-    const selectedDay = date.toLocaleDateString("en-US", { weekday: "short" });
-    return timeslotList?.filter(
+    const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
+
+    const relevantSlots = timeslotList.filter(
       (slot) =>
-        slot.mentor_timeslot_duration === mentorTimeSlotDuration && // Filter by selected duration
-        slot.mentor_timeslot_day === selectedDay &&
+        slot.mentor_timeslot_day === dayName &&
+        (slot.mentor_timeslot_duration === mentorTimeSlotDuration.toString() ||
+          slot.mentor_timeslot_duration === "Both") &&
+        new Date(slot.mentor_timeslot_rec_start_timeframe) <= date &&
         new Date(slot.mentor_timeslot_rec_end_timeframe) >= date
     );
-  };
 
-  const isSlotBooked = (date, slot) => {
-    return bookingDetails?.some((booking) => {
-      const bookingDate = new Date(booking.mentor_session_booking_date);
-      bookingDate.setHours(0, 0, 0, 0);
-      return (
-        bookingDate.getTime() === date.getTime() &&
-        (booking.mentor_booking_confirmed === "Yes" ||
-          booking.mentor_booking_confirmed === "No") &&
-        (booking.mentor_session_status === "pending" ||
-          booking.mentor_session_status === "upcoming" ||
-          booking.mentor_session_status === "completed") &&
-        booking.mentor_booking_starts_time === slot.mentor_timeslot_from &&
-        booking.mentor_booking_end_time === slot.mentor_timeslot_to
-      );
-    });
+    return relevantSlots.flatMap((slot) =>
+      splitSlots(
+        slot.mentor_timeslot_from,
+        slot.mentor_timeslot_to,
+        mentorTimeSlotDuration
+      )
+    );
   };
 
   const handleDateChange = (date) => {
@@ -87,6 +108,18 @@ const CustomDatePicker = ({
     onDateSlotSelect(date, null);
   };
 
+  const isSlotBooked = (date, slot) => {
+    return bookingDetails?.some((booking) => {
+      const bookingDate = new Date(booking.mentor_session_booking_date);
+      bookingDate.setHours(0, 0, 0, 0);
+      return (
+        bookingDate.getTime() === date.getTime() &&
+        booking.mentor_booking_starts_time === slot.from &&
+        booking.mentor_booking_end_time === slot.to
+      );
+    });
+  };
+
   const handleSlotSelection = (slot) => {
     if (!isSlotBooked(startDate, slot)) {
       setSelectedSlot(slot);
@@ -94,12 +127,11 @@ const CustomDatePicker = ({
     }
   };
 
-  // Use effect to reset date and available slots when the duration changes
   useEffect(() => {
     setStartDate(null);
     setAvailableSlots([]);
     setSelectedSlot(null);
-    onDateSlotSelect(null, null); // Resetting the selection
+    onDateSlotSelect(null, null);
   }, [mentorTimeSlotDuration]);
 
   return (
@@ -109,65 +141,50 @@ const CustomDatePicker = ({
         onChange={handleDateChange}
         filterDate={isDateSelectable}
         inline
-        dayClassName={(date) => {
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-
-          if (date < today) {
-            return "grayed-out";
-          }
-
-          const slots = getSlotsForDate(date);
-          if (slots.length === 0) return "";
-
-          const allBooked = slots.every((slot) => isSlotBooked(date, slot));
-          return allBooked ? "fully-booked" : "";
-        }}
       />
       {availableSlots.length > 0 && (
         <div>
           <p className="selected-timeslotP">Select a Time Slot:</p>
           <ul className="unorderlist">
-            {availableSlots.map((slot, index) => (
-              <li
-                key={index}
-                className={`slot-item ${
-                  isSlotBooked(startDate, slot) ? "booked-slot" : ""
-                } ${selectedSlot === slot ? "selected-slot" : ""}`}
-                onClick={() => handleSlotSelection(slot)}
-                style={{
-                  cursor: isSlotBooked(startDate, slot)
-                    ? "not-allowed"
-                    : "pointer",
-                  borderColor: selectedSlot === slot ? "#007BFF" : "",
-                }}
-              >
-                {slot.mentor_timeslot_from} - {slot.mentor_timeslot_to}
-              </li>
-            ))}
+            {availableSlots.map((slot, index) => {
+              const booked = isSlotBooked(startDate, slot);
+              return (
+                <li
+                  key={index}
+                  className={`slot-item ${
+                    selectedSlot === slot ? "selected-slot" : ""
+                  }`}
+                  onClick={() => !booked && handleSlotSelection(slot)}
+                  style={{
+                    cursor: booked ? "not-allowed" : "pointer",
+                    backgroundColor: booked ? "#ff3d29" : "",
+                    color: booked ? "#fff" : "#111",
+                    borderColor: selectedSlot === slot ? "#007BFF" : "",
+                  }}
+                >
+                  {slot.from} - {slot.to}
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
       {startDate && availableSlots.length === 0 && (
         <p className="selected-timeslotP">
-          No Slots available for the <b>{mentorTimeSlotDuration + " "}</b>
-          minutes duration. <br /> Please select another date.
+          No slots available for this duration. Select another date.
         </p>
       )}
       {!startDate && (
-        <div>
-          <p className="selected-timeslotP">Please select the date</p>
-        </div>
+        <p className="selected-timeslotP">
+          Please select a date to see available slots.
+        </p>
       )}
       {selectedSlot && (
         <div>
-          <p className="selected-timeslotP">You have chosen this slot :</p>
+          <p className="selected-timeslotP">You have chosen this slot:</p>
           <p className="selected-timeslot">
-            {startDate?.toDateString() +
-              " Time :" +
-              selectedSlot.mentor_timeslot_from +
-              "-" +
-              selectedSlot.mentor_timeslot_to}
+            {startDate?.toDateString()} Time: {selectedSlot.from} -{" "}
+            {selectedSlot.to}
           </p>
         </div>
       )}

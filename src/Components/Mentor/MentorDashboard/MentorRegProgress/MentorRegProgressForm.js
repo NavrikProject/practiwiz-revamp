@@ -45,137 +45,137 @@ const MentorRegProgressForm = ({
   const tab1 = () => {
     setPage(0);
   };
-  // const tab2 = () => {
-  //   setPage(1);
-  // };
+  const tab2 = () => {
+    setPage(1);
+  };
 
   const validateAvailabilityStep = () => {
-    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; // Adjust according to your days of the week setup
-    const values = getValues();
-    // Check if any day has time slots
-    for (let day of days) {
-      const slots = values[day];
-      if (slots && slots.length > 0) {
-        return true; // Valid if at least one time slot exists
+    const values = getValues("mentorAvailability"); // Get the form values for availability
+
+    // Check if there are slots and validate that each slot has at least one day selected
+    if (Array.isArray(values) && values.length > 0) {
+      for (let slot of values) {
+        // Ensure slot has a 'days' array and it contains at least one day
+        if (Array.isArray(slot.days) && slot.days.length > 0) {
+          return true; // Valid if at least one slot has non-empty 'days'
+        }
       }
     }
 
-    return false; // Invalid if no time slots exist
+    return false; // Invalid if no slot has at least one day selected
   };
 
   const nextStep = async () => {
     if (page === 0) {
       const result = await trigger(); // Validate form data
       if (result) {
-        const specificValue = getValues("ForSkillValidation"); // Get value of the 'name' field
-
-        if (specificValue !== "ok") {
-          toast.error(
-            "Please fill out all required fields: Core Skill, Sub-option, and Area of Expertise. Don't forget to save your changes using the 'Save' button.",
-            {
-              position: "top-right",
-            }
-          );
-
-          return;
-        }
-        if (specificValue === "ok") {
-          setPageCount();
-          setStep((prev) => prev + 1);
-        }
+        setPageCount();
+        setreadyToNextPage("Yes");
+        setStep((prev) => prev + 1);
+        trigger();
       }
     }
   };
   const showFeedbackModelHandler = () => {
     return setShowFeedbackModel(!showFeedbackModel);
   };
+
+  const [readyToNextPage, setreadyToNextPage] = useState("No");
   const onSubmit = async (data) => {
+    console.log("on submit", data);
+
     if (page === 1) {
-      const isValid = await validateAvailabilityStep();
-      if (!isValid) {
-        toast.error("Please add at least one time slot before proceeding.", {
-          position: "top-right",
-        });
-        return;
-      }
-      if (isValid) {
-        try {
-          const newData = new FormData();
-          newData.append("mentorEmail", singleMentor[0].mentor_email);
-          newData.append(
-            "mentorName",
-            singleMentor[0].mentor_firstname +
-              " " +
-              singleMentor[0].mentor_lastname
-          );
-          newData.append("jobtitle", data.mentor_job_title);
-          newData.append("experience", data.years_of_experience);
-          newData.append("mentorDomain", JSON.stringify(data.Mentor_Domain));
-          newData.append("companyName", data.mentor_company_name);
-          newData.append(
-            "AreaOfexpertise",
-            JSON.stringify(data.Core_Skills.expertise)
-          );
-          newData.append(
-            "passionateAbout",
-            JSON.stringify(data.passionate_about)
-          );
-          newData.append("headline", data.mentor_Headline);
-          newData.append(
-            "areaofmentorship",
-            data.recommended_area_of_mentorship
-          );
-          newData.append("Timezone", data.mentor_timezone);
-          newData.append("Mon", JSON.stringify(data.Mon));
-          newData.append("Tue", JSON.stringify(data.Tue));
-          newData.append("Wed", JSON.stringify(data.Wed));
-          newData.append("Thu", JSON.stringify(data.Thu));
-          newData.append("Fri", JSON.stringify(data.Fri));
-          newData.append("Sat", JSON.stringify(data.Sat));
-          newData.append("Sun", JSON.stringify(data.Sun));
-          newData.append("userDtlsId", user?.user_id);
-          newData.append("mentorDtlsId", singleMentor[0].mentor_dtls_id);
-          dispatch(showLoadingHandler());
-          const res = await Promise.race([
-            axios.post(
-              `${url}api/v1/mentor/update/additional-details`,
-              newData
-            ),
-            new Promise(
-              (_, reject) =>
-                setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
-            ),
-          ]);
-          dispatch(hideLoadingHandler());
-          if (res.data.success) {
-            return (
-              toast.success(
-                "Thank you for applying for the mentor application."
+      if (readyToNextPage === "Yes") {
+        const isValid = await validateAvailabilityStep();
+        if (!isValid) {
+          toast.error("Please add at least one time slot before proceeding.", {
+            position: "top-right",
+          });
+          return;
+        } else if (isValid) {
+          try {
+            const newData = new FormData();
+
+            newData.append("mentorEmail", singleMentor[0].mentor_email);
+            newData.append(
+              "mentorName",
+              singleMentor[0].mentor_firstname +
+                " " +
+                singleMentor[0].mentor_lastname
+            );
+            newData.append("jobtitle", data.mentorJobTitle);
+            newData.append("experience", data.yearsOfExperience);
+            newData.append("companyName", data.mentorCompanyName);
+            newData.append("mentorDomain", JSON.stringify(data.mentorDomain));
+
+            newData.append("Skills", JSON.stringify(data.mentorSkill));
+
+            newData.append("headline", data.mentorHeadline);
+            newData.append(
+              "areaofmentorship",
+              data.recommendedAreaOfMentorship
+            );
+            newData.append("Currency", data.mentorCurrency);
+            newData.append("Pricing", data.pricing);
+            newData.append("guestLectures", data.guestLecturesInterest);
+            newData.append("CaseStudies", data.curatingCaseStudiesInterest);
+            newData.append("sessionsFreeOfCharge", data.sessionsFreeOfCharge);
+            newData.append("InstituteName", data.mentorInstituteName);
+            newData.append("CountryName", data.mentorCountryName);
+            newData.append("CityName", data.mentorCityName);
+            newData.append("Timezone", data.mentorTimezone);
+            newData.append(
+              "Availability",
+              JSON.stringify(data.mentorAvailability)
+            );
+            newData.append("userDtlsId", user?.user_id);
+            newData.append("mentorDtlsId", singleMentor[0].mentor_dtls_id);
+            dispatch(showLoadingHandler());
+            const res = await Promise.race([
+              axios.post(
+                `${url}api/v1/mentor/update/additional-details`,
+                newData
               ),
-              showFeedbackModelHandler()
-            );
-          } else if (res.data.error) {
-            toast.error(
-              "There is some error while applying for the mentor application."
-            );
+              new Promise(
+                (_, reject) =>
+                  setTimeout(
+                    () => reject(new Error("Request timed out")),
+                    45000
+                  ) // 45 seconds timeout
+              ),
+            ]);
+            dispatch(hideLoadingHandler());
+            if (res.data.success) {
+              return (
+                toast.success(
+                  "Thank you for applying for the mentor application."
+                ),
+                showFeedbackModelHandler()
+              );
+            } else if (res.data.error) {
+              toast.error(
+                "There is some error while applying for the mentor application."
+              );
+            }
+          } catch (error) {
+            if (error.message === "Request timed out") {
+              toast.error("Request timed out. Please try again.");
+            } else {
+              toast.error(
+                "There is some error while applying for the mentor application. We will get back to you via email."
+              );
+            }
+          } finally {
+            dispatch(hideLoadingHandler());
+            localStorage.removeItem("formData1");
+            localStorage.removeItem("slots");
           }
-        } catch (error) {
-          if (error.message === "Request timed out") {
-            toast.error("Request timed out. Please try again.");
-          } else {
-            toast.error(
-              "There is some error while applying for the mentor application. We will get back to you via email."
-            );
-          }
-        } finally {
-          dispatch(hideLoadingHandler());
           localStorage.removeItem("formData1");
-          localStorage.removeItem("mentorData");
-          localStorage.removeItem("mentorPageData");
+          localStorage.removeItem("slots");
         }
-        localStorage.removeItem("formData1");
-        localStorage.removeItem("mentorData");
-        localStorage.removeItem("mentorPageData");
+      } else {
+        setPage((currPage) => currPage - 1);
+        trigger();
       }
     }
   };
@@ -223,7 +223,7 @@ const MentorRegProgressForm = ({
               <button
                 className="btn btn-primary tablinks "
                 data-tab="form2"
-                // onClick={tab2}
+                onClick={tab2}
               >
                 <i className="fa-solid fa-calendar-check"></i> AVAILABILITY
               </button>

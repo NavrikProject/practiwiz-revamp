@@ -58,7 +58,22 @@ import RedirectHandler from "./Utils/RedirectHandler";
 import Cart from "./Pages/CartPages/CartPage";
 
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
+// Internship imports
+import PostInternship from "./Components/Employer/Internships/OtherComponents/PostInternship";
+import Orginternship from "./Components/Employer/Internships/OtherComponents/orginternship";
+import EmployerRegistrationPage from "./Pages/FormPages/RegisterPages/EmployerRegistrationPage";
 
+import ApplicantProfile from "./Components/Employer/Internships/OtherComponents/SingleApplicantProfile";
+import InternshipListingPage from "./Pages/InternshipPages/InternshipListingPage";
+// import MenteeInternshipListing from "./Components/Mentee/MenteeDashboard/OtherComponents/MenteeInternshipListing";
+import MenteeInternshipApplyPage from "./Components/Employer/Internships/OtherComponents/MenteeInternshipApplyPage";
+// import SinglePageInternApplication from "./Components/Internships/SinglePageInternApplication";
+import ApplicationsReceivedPage from "./Pages/InternshipPages/ApplicationsReceivedPage";
+// import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
+import SingleInternshipDetailsPage from "./Pages/InternshipPages/SingleInternshipDetailsPage";
+import PersonalDetailsforInternship from "./Components/Employer/Internships/MenteeApplyInternship/PersonalDetailsforInternship";
+import EduWorkDetailsForinternship from "./Components/Employer/Internships/MenteeApplyInternship/EduWorkDetailsForinternship";
+import EmployerDashboardPage from "./Pages/EmployerPages/EmployerDashboardPage";
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
@@ -201,7 +216,7 @@ function App() {
           {/* )} */}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
-          <Route path="/internships" element={<InternshipPages />} />
+          {/* <Route path="/internships" element={<InternshipPages />} /> */}
           <Route path="/trainings" element={<InternshipPages />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
@@ -220,7 +235,47 @@ function App() {
             path="/auth/linkedin/callback"
             element={<LinkedInCallback />}
           />
-          <Route path="/cart" element={<Cart user={user} token={token} />} />s
+          <Route path="/cart" element={<Cart user={user} token={token} />} />
+          {/* internship section start */}
+          <Route
+            path="/employer/dashboard"
+            element={<EmployerDashboardPage user={user} token={token} />}
+          />
+          <Route
+            path="/employer-registration"
+            element={<EmployerRegistrationPage />}
+          />
+          <Route path="/internships" element={<InternshipListingPage />} />
+          <Route
+            path="/internship-listing/:id"
+            element={<SingleInternshipDetailsPage />}
+          />
+          <Route
+            path="/showmenteepersonaldetails"
+            element={<PersonalDetailsforInternship />}
+          />{" "}
+          <Route
+            path="/showmenteeedudetails"
+            element={<EduWorkDetailsForinternship />}
+          />
+          <Route
+            path="/MenteeApplyInternship"
+            element={<MenteeInternshipApplyPage />}
+          />{" "}
+          <Route path="/orgInternship" element={<Orginternship />} />
+          {/* <Route
+            path="/SinglePageInternApplicaion"
+            element={<SinglePageInternApplication />}
+          /> */}
+          <Route
+            path="/internships/applicants/:id"
+            element={<ApplicantProfile />}
+          />
+          <Route
+            path="/internships/:id/applicants"
+            element={<ApplicationsReceivedPage />}
+          />
+          {/* internship end */}
         </Routes>
       </Router>
       <ScrollButton />

@@ -53,7 +53,7 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                         <h4>
                           {session.user_firstname + " " + session.user_lastname}
                         </h4>
-                        <h6>{session.mentor_job_title}</h6>
+                        <h5>{session.mentor_job_title}</h5>
                         <hr />
                         <div className="row mt-3 justify-content-center">
                           <div className="col-lg-6 mb-2">

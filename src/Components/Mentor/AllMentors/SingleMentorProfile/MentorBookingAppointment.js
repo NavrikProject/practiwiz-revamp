@@ -198,8 +198,8 @@ const MentorBookingAppointment = (props) => {
                 date: new Date(props.selectedDate).toLocaleDateString(),
                 userEmail: user?.user_email,
                 mentorEmail: props.singleMentor[0].user_email,
-                from: props.selectedSlot.mentor_timeslot_from,
-                to: props.selectedSlot.mentor_timeslot_to,
+                from: props.selectedSlot.from,
+                to: props.selectedSlot.to,
                 data: data,
                 username: username,
                 mentorUserDtlsId: props.singleMentor[0].user_dtls_id,
@@ -284,10 +284,7 @@ const MentorBookingAppointment = (props) => {
             <span>
               <i className="fa-solid fa-clock"></i>
             </span>
-            {" " +
-              props.selectedSlot.mentor_timeslot_from +
-              " - " +
-              props.selectedSlot.mentor_timeslot_to}
+            {" " + props.selectedSlot.from + " - " + props.selectedSlot.to}
           </MentorBookedDate>
           <hr style={{ margin: "0px" }} />
         </MentorBoxDiv>
