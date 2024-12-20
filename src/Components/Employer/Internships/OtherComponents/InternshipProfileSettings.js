@@ -351,6 +351,67 @@ const InternshipProfileSettings = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="row mb-1">
+                    {" "}
+                    <div className="col-lg-6">
+                      <div className="mb-3">
+                        <label
+                          htmlFor="organizationWebsite"
+                          className="form-label"
+                        >
+                          Organization Website
+                        </label>
+                        <input
+                          type="text"
+                          disabled={!isEditing}
+                          onKeyUp={() => trigger("organization_website")}
+                          className="form-control"
+                          id="organizationWebsite"
+                          placeholder="Enter your organization's website"
+                          {...register("organization_website", {
+                            pattern: {
+                              value: /^(ftp|http|https):\/\/[^ "]+$/,
+                              message: "Invalid URL",
+                            },
+                          })}
+                        />
+                        {errors.organization_website && (
+                          <p className="Error-meg-login-register">
+                            {errors.organization_website.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="mb-3">
+                        <label
+                          htmlFor="organizationLinkedin"
+                          className="form-label"
+                        >
+                          Organization Linkedin
+                        </label>
+                        <input
+                          type="text"
+                          disabled={!isEditing}
+                          onKeyUp={() => trigger("organization_linkedin")}
+                          className="form-control"
+                          id="organizationLinkedin"
+                          placeholder="Enter your organization's linkedin"
+                          {...register("organization_linkedin", {
+                            pattern: {
+                              value: /^(ftp|http|https):\/\/[^ "]+$/,
+                              message: "Invalid URL",
+                            },
+                          })}
+                        />
+                        {errors.organization_linkedin && (
+                          <p className="Error-meg-login-register">
+                            {errors.organization_linkedin.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
 
                   {/* <div className="col-lg-6">
                     <div className="mb-3">

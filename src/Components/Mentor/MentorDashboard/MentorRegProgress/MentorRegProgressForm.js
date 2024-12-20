@@ -107,9 +107,7 @@ const MentorRegProgressForm = ({
             newData.append("experience", data.yearsOfExperience);
             newData.append("companyName", data.mentorCompanyName);
             newData.append("mentorDomain", JSON.stringify(data.mentorDomain));
-
             newData.append("Skills", JSON.stringify(data.mentorSkill));
-
             newData.append("headline", data.mentorHeadline);
             newData.append(
               "areaofmentorship",

@@ -1,61 +1,90 @@
 // Date: 11-11-24 Tushar
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../InternshipCss/SingleInternshipDetails.css";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
+import DOMPurify from "dompurify";
 
 const InternshipDetail = () => {
-  const { id } = useParams();
+  const url = ApiURL();
   const navigate = useNavigate();
+  const internshipPostId = window.location.pathname.split("/").pop();
+  console.log(internshipPostId);
 
-  // Dummy data remains the same as before (for the internship post list)
-  const internship = {
-    id: 1,
-    title: "Frontend Developer Intern",
-    company: "TechCorp",
-    location: "Delhi, India",
-    stipend: "15000",
-    duration: "6 months",
-    perks: [
-      "Certificate",
-      "Letter of Recommendation",
-      "Flexible Hours",
-      "PPO Opportunity",
-    ],
-    skills: ["React", "TypeScript", "Node.js", "GraphQL"],
-    replyRate: "92%",
-    status: "New",
-    aboutRole: `We are looking for a passionate Frontend Developer Intern to join our dynamic team. You'll work on real-world projects, collaborate with experienced developers, and contribute to building innovative web applications.
+  const [loading, setLoading] = useState(false);
+  const [singleInternshipPost, setSingleInternshipPost] = useState([]);
+  const [jobDetails, setJobDetails] = useState(null);
 
-    As an intern, you'll be involved in:
-    • Developing new user-facing features using React.js
-    • Building reusable components for future use
-    • Optimizing applications for maximum speed and scalability
-    • Collaborating with back-end developers and designers`,
+  useEffect(() => {
+    const fetchSingleMentors = async () => {
+      setLoading(true);
+      const response = await axios.post(
+        `${url}api/v1/employer/internship/fetch-internship-post`,
+        {
+          internshipPostId: internshipPostId,
+        }
+      );
+      setLoading(false);
+      if (response.data.success) {
+        setSingleInternshipPost(response.data.success);
+        console.log(response.data.success);
+      }
+      if (response.data.error) {
+        return setLoading(false), setSingleInternshipPost(null);
+      }
+    };
+    fetchSingleMentors();
+  }, [internshipPostId, url]);
 
-    responsibilities: [
-      "Write clean, maintainable code for web applications",
-      "Implement responsive design and ensure cross-browser compatibility",
-      "Participate in code reviews and contribute to team discussions",
-      "Debug and fix issues in existing applications",
-      "Document your code and development processes",
-    ],
+  // const internship = {
+  //   id: 1,
+  //   title: "Frontend Developer Intern",
+  //   company: "TechCorp",
+  //   location: "Delhi, India",
+  //   stipend: "15000",
+  //   duration: "6 months",
+  //   perks: [
+  //     "Certificate",
+  //     "Letter of Recommendation",
+  //     "Flexible Hours",
+  //     "PPO Opportunity",
+  //   ],
+  //   skills: ["React", "TypeScript", "Node.js", "GraphQL"],
+  //   replyRate: "92%",
+  //   status: "New",
+  //   aboutRole: `We are looking for a passionate Frontend Developer Intern to join our dynamic team. You'll work on real-world projects, collaborate with experienced developers, and contribute to building innovative web applications.
 
-    requirements: [
-      "Currently pursuing B.Tech/B.E. in Computer Science or related field",
-      "Strong understanding of JavaScript, HTML, and CSS",
-      "Basic knowledge of React.js and modern JavaScript libraries",
-      "Good problem-solving skills and attention to detail",
-      "Excellent communication and teamwork abilities",
-    ],
+  //   As an intern, you'll be involved in:
+  //   • Developing new user-facing features using React.js
+  //   • Building reusable components for future use
+  //   • Optimizing applications for maximum speed and scalability
+  //   • Collaborating with back-end developers and designers`,
 
-    aboutCompany: `TechCorp is a leading software development company specializing in creating innovative web solutions. With over 500 employees worldwide, we're committed to delivering high-quality products while fostering a culture of learning and growth.
+  //   responsibilities: [
+  //     "Write clean, maintainable code for web applications",
+  //     "Implement responsive design and ensure cross-browser compatibility",
+  //     "Participate in code reviews and contribute to team discussions",
+  //     "Debug and fix issues in existing applications",
+  //     "Document your code and development processes",
+  //   ],
 
-    Our tech stack includes the latest technologies, and we believe in mentoring fresh talent to become industry leaders.`,
+  //   requirements: [
+  //     "Currently pursuing B.Tech/B.E. in Computer Science or related field",
+  //     "Strong understanding of JavaScript, HTML, and CSS",
+  //     "Basic knowledge of React.js and modern JavaScript libraries",
+  //     "Good problem-solving skills and attention to detail",
+  //     "Excellent communication and teamwork abilities",
+  //   ],
 
-    companyWebsite: "www.techcorp.com",
-    companySize: "500+ employees",
-    companyEmail: "careers@techcorp.com",
-  };
+  //   aboutCompany: `TechCorp is a leading software development company specializing in creating innovative web solutions. With over 500 employees worldwide, we're committed to delivering high-quality products while fostering a culture of learning and growth.
+
+  //   Our tech stack includes the latest technologies, and we believe in mentoring fresh talent to become industry leaders.`,
+
+  //   companyWebsite: "www.techcorp.com",
+  //   companySize: "500+ employees",
+  //   companyEmail: "careers@techcorp.com",
+  // };
 
   // Your JSON data
   const menteeData1 = {
@@ -172,120 +201,169 @@ const InternshipDetail = () => {
   return (
     <div className="col-lg-10 ps-0">
       <div className="gtyfdgfgf">
-        <div className="single-intern-container">
-          <button onClick={handleBack} className="single-intern-back-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-            {/* <ArrowLeft className="w-4 h-4" /> Back to Listings */}
-          </button>
+        {singleInternshipPost?.map((internship) => {
+          return (
+            <div className="single-intern-container">
+              <button onClick={handleBack} className="single-intern-back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                {/* <ArrowLeft className="w-4 h-4" /> Back to Listings */}
+              </button>
 
-          <div className="single-intern-header">
-            <div className="single-intern-header-content">
-              <h1 className="single-intern-title">{internship.title}</h1>
-              <div className="single-intern-company">
-                {/* <Building2 className="w-4 h-4" /> */}
-                <span>{internship.company}</span>
+              <div className="single-intern-header">
+                <div className="single-intern-header-content">
+                  <h1 className="single-intern-title">
+                    {internship.employer_internship_post_position}
+                  </h1>
+                  <div className="single-intern-company">
+                    {/* <Building2 className="w-4 h-4" /> */}
+                    <span>{internship.employer_organization_name}</span>
+                  </div>
+                  <div className="single-intern-meta">
+                    <div className="single-intern-meta-item">
+                      {/* <MapPin className="w-4 h-4" /> */}
+                      <span>
+                        {internship.employer_internship_post_location}
+                      </span>
+                    </div>
+                    <div className="single-intern-meta-item">
+                      {/* <Clock className="w-4 h-4" /> */}
+                      <span>
+                        {internship.employer_internship_post_duration} Months
+                      </span>
+                    </div>
+                    <div className="single-intern-meta-item">
+                      {/* <Wallet className="w-4 h-4" /> */}
+                      <span>
+                        {internship.employer_internship_post_stipend_type ===
+                        "Unpaid" ? (
+                          <span>
+                            {internship.employer_internship_post_stipend_type}
+                          </span>
+                        ) : (
+                          <span>
+                            ₹
+                            {internship.employer_internship_post_stipend_amount}
+                            /{internship.employer_internship_post_pay_type}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  className="single-intern-apply-btn"
+                  onClick={handleGoToPersonalDetailsPage}
+                >
+                  Apply Now
+                </button>
               </div>
-              <div className="single-intern-meta">
-                <div className="single-intern-meta-item">
-                  {/* <MapPin className="w-4 h-4" /> */}
-                  <span>{internship.location}</span>
+
+              <div className="single-intern-content">
+                <div className="single-intern-main">
+                  <section className="single-intern-section">
+                    <h2 className="single-intern-section-title">
+                      Skills Required
+                    </h2>
+                    <div className="single-intern-skills">
+                      {JSON.parse(
+                        internship?.employer_internship_post_skills
+                      ).map((skill, index) => (
+                        <span key={index} className="single-intern-skill-tag">
+                          {skill.value}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+                  <section className="single-intern-section">
+                    <h2 className="single-intern-section-title">
+                      About the Role
+                    </h2>
+                    {/* <p className="single-intern-text">{internship.aboutRole}</p> */}
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          internship.employer_internship_post_res
+                        ),
+                      }}
+                    />
+                  </section>
+                  <section className="single-intern-section">
+                    <h2 className="single-intern-section-title">
+                      Requirements
+                    </h2>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          internship.employer_internship_post_req
+                        ),
+                      }}
+                    />
+                  </section>
+
+                  {/* <section className="single-intern-section">
+                    <h2 className="single-intern-section-title">
+                      Perks & Benefits
+                    </h2>
+                    <div className="single-intern-perks">
+                      {JSON.parse(
+                        internship.employer_internship_post_perks
+                      ).map((perk, index) => (
+                        <span key={index} className="single-intern-perk-tag">
+                          {perk}
+                        </span>
+                      ))}
+                    </div>
+                  </section> */}
                 </div>
-                <div className="single-intern-meta-item">
-                  {/* <Clock className="w-4 h-4" /> */}
-                  <span>{internship.duration}</span>
-                </div>
-                <div className="single-intern-meta-item">
-                  {/* <Wallet className="w-4 h-4" /> */}
-                  <span>₹{internship.stipend}/month</span>
-                </div>
+
+                <aside className="single-intern-sidebar">
+                  <h2 className="single-intern-section-title">About</h2>
+                  <h2 className="single-intern-section-title">
+                    {internship.employer_organization_name.toUpperCase()}
+                  </h2>
+                  <p className="single-intern-text">
+                    {internship.employer_organization_desc}
+                  </p>
+                  <div className="single-intern-company-meta">
+                    <div className="single-intern-company-meta-item">
+                      {/* <Globe className="w-4 h-4" /> */}
+                      <span>{internship.employer_organization_website}</span>
+                    </div>
+                    <div className="single-intern-company-meta-item">
+                      {/* <Users className="w-4 h-4" /> */}
+                      <span>{internship.employer_organization_no_of_emp}</span>
+                    </div>
+                    <div className="single-intern-company-meta-item">
+                      {/* <Mail className="w-4 h-4" /> */}
+                      <span>{internship.employer_organization_email}</span>
+                    </div>
+                    <div className="single-intern-company-meta-item">
+                      {/* <Mail className="w-4 h-4" /> */}
+                      <span>
+                        {internship.employer_organization_location +
+                          ", " +
+                          internship.employer_organization_complete_address}
+                      </span>
+                    </div>
+                  </div>
+                  <hr />
+                  <h2 className="single-intern-section-title">
+                    Perks & Benefits
+                  </h2>
+                  <div className="single-intern-perks">
+                    {JSON.parse(internship.employer_internship_post_perks).map(
+                      (perk, index) => (
+                        <span key={index} className="single-intern-perk-tag">
+                          {perk}
+                        </span>
+                      )
+                    )}
+                  </div>
+                </aside>
               </div>
             </div>
-            <button
-              className="single-intern-apply-btn"
-              onClick={handleGoToPersonalDetailsPage}
-            >
-              Apply Now
-            </button>
-          </div>
-
-          <div className="single-intern-content">
-            <div className="single-intern-main">
-              <section className="single-intern-section">
-                <h2 className="single-intern-section-title">Skills Required</h2>
-                <div className="single-intern-skills">
-                  {internship.skills.map((skill, index) => (
-                    <span key={index} className="single-intern-skill-tag">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </section>
-              <section className="single-intern-section">
-                <h2 className="single-intern-section-title">About the Role</h2>
-                <p className="single-intern-text">{internship.aboutRole}</p>
-              </section>
-
-              {/* <section className="single-intern-section">
-            <h2 className="single-intern-section-title">
-              Key Responsibilities
-            </h2>
-            <ul className="single-intern-list">
-              {internship.responsibilities.map((resp, index) => (
-                <li key={index} className="single-intern-list-item">
-                  {resp}
-                </li>
-              ))}
-            </ul>
-          </section> */}
-
-              <section className="single-intern-section">
-                <h2 className="single-intern-section-title">Requirements</h2>
-                <ul className="single-intern-list">
-                  {internship.requirements.map((req, index) => (
-                    <li key={index} className="single-intern-list-item">
-                      {req}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-
-              <section className="single-intern-section">
-                <h2 className="single-intern-section-title">
-                  Perks & Benefits
-                </h2>
-                <div className="single-intern-perks">
-                  {internship.perks.map((perk, index) => (
-                    <span key={index} className="single-intern-perk-tag">
-                      {perk}
-                    </span>
-                  ))}
-                </div>
-              </section>
-            </div>
-
-            <aside className="single-intern-sidebar">
-              <h2 className="single-intern-section-title">
-                About {internship.company}
-              </h2>
-              <p className="single-intern-text">{internship.aboutCompany}</p>
-
-              <div className="single-intern-company-meta">
-                <div className="single-intern-company-meta-item">
-                  {/* <Globe className="w-4 h-4" /> */}
-                  <span>{internship.companyWebsite}</span>
-                </div>
-                <div className="single-intern-company-meta-item">
-                  {/* <Users className="w-4 h-4" /> */}
-                  <span>{internship.companySize}</span>
-                </div>
-                <div className="single-intern-company-meta-item">
-                  {/* <Mail className="w-4 h-4" /> */}
-                  <span>{internship.companyEmail}</span>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

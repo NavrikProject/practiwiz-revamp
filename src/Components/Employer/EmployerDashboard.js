@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Logo from "../../Images/logo.png";
+import EmployerProfile from "../Employer/Internships/OtherComponents/EmployerProfile.js";
 import PostInternship from "../Employer/Internships/OtherComponents/PostInternship.js";
 import ApplicationsReceived from "../Employer/Internships/OtherComponents/ApplicationsReceived.js";
 import ViewEditInternshipPost from "../Employer/Internships/OtherComponents/ViewEditInternshipPost.js";
@@ -14,6 +15,9 @@ import { logOut } from "../../Redux/userRedux.js";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import OrgUpdateDetails from "./OrgUpdateDetails/OrgUpdateDetails.js";
+import InternManagement from "./Internships/OtherComponents/InternManagement.js";
+import { set } from "react-hook-form";
+import EditInternshipPost from "./Internships/OtherComponents/EditInternshipPost.js";
 
 const EmployerDashboard = ({ user, token }) => {
   const [employerDetails, setEmployerDetails] = useState([]);
@@ -24,6 +28,7 @@ const EmployerDashboard = ({ user, token }) => {
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
   const [showInternshipDashboad, setshowInternshipDashboad] = useState(false);
   const [ShowPostInternship, setShowPostInternship] = useState(false);
+  const [ShowPostedInternship, setShowPostedInternship] = useState(false);
   const [InternshipApplicationR, setInternshipApplicationR] = useState(false);
   const [InternshipProfileSetting, setInternshipProfileSetting] =
     useState(false);
@@ -35,7 +40,18 @@ const EmployerDashboard = ({ user, token }) => {
     useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
   const [Sessionmenu, setSessionmenu] = useState(false);
+
+  const [showInternManagement, setShowInternManagement] = useState(false);
+
   const [showInternshipPostId, setShowInternshipPostId] = useState(null);
+
+  const [showEditInternshipPost, setShowEditInternshipPost] = useState(false);
+  const [internPostData, setInternPostData] = useState(null); // try to use another method to get the data in future
+
+  const [currentPage, setCurrentPage] = useState(() => {
+    return localStorage.getItem("currentPage") || "dashboard";
+  }); //to save current page on refresh
+
   const toggleNoProfile = () => {
     setprofilemenu(true);
   };
@@ -49,9 +65,14 @@ const EmployerDashboard = ({ user, token }) => {
     setSessionmenu(false);
   };
 
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage);
+  }, [currentPage]);
+  //
   const HandleInternshipDashBoardProfile = () => {
     if (!showInternshipDashboad) {
       setshowInternshipDashboad(true);
+      setCurrentPage("dashboard");
     }
     return (
       setShowInternshipNotification(false),
@@ -59,13 +80,35 @@ const EmployerDashboard = ({ user, token }) => {
       setShowPostInternship(false),
       setInternshipProfileSetting(false),
       setInternshipChangePassword(false),
-      setShowViewEditInternshipPost(false)
+      setShowViewEditInternshipPost(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
+    );
+  };
+
+  const HandlePostedInternship = () => {
+    if (!ShowPostedInternship) {
+      setShowPostedInternship(true);
+      setCurrentPage("postedInternship");
+    }
+    return (
+      setShowInternshipNotification(false),
+      setInternshipApplicationR(false),
+      setshowInternshipDashboad(false),
+      setShowPostInternship(false),
+      setInternshipProfileSetting(false),
+      setInternshipChangePassword(false),
+      setShowViewEditInternshipPost(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
 
   const HandlePostInternship = () => {
     if (!ShowPostInternship) {
       setShowPostInternship(true);
+      setCurrentPage("postInternship");
     }
     return (
       setShowInternshipNotification(false),
@@ -73,12 +116,16 @@ const EmployerDashboard = ({ user, token }) => {
       setshowInternshipDashboad(false),
       setInternshipProfileSetting(false),
       setInternshipChangePassword(false),
-      setShowViewEditInternshipPost(false)
+      setShowViewEditInternshipPost(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
   const HandleShowInternshipNotification = () => {
     if (!ShowInternshipNotification) {
       setShowInternshipNotification(true);
+      setCurrentPage("notifications");
     }
     return (
       setShowPostInternship(false),
@@ -86,13 +133,17 @@ const EmployerDashboard = ({ user, token }) => {
       setshowInternshipDashboad(false),
       setInternshipProfileSetting(false),
       setInternshipChangePassword(false),
-      setShowViewEditInternshipPost(false)
+      setShowViewEditInternshipPost(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
 
   const HandleApplicationsReceived = () => {
     if (!InternshipApplicationR) {
       setInternshipApplicationR(true);
+      setCurrentPage("applications");
     }
     return (
       setShowPostInternship(false),
@@ -100,12 +151,16 @@ const EmployerDashboard = ({ user, token }) => {
       setshowInternshipDashboad(false),
       setInternshipProfileSetting(false),
       setInternshipChangePassword(false),
-      setShowViewEditInternshipPost(false)
+      setShowViewEditInternshipPost(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
   const HandleChangePwd = () => {
     if (!InternshipChangePassword) {
       setInternshipChangePassword(true);
+      setCurrentPage("changePassword");
     }
     return (
       setShowPostInternship(false),
@@ -113,12 +168,16 @@ const EmployerDashboard = ({ user, token }) => {
       setshowInternshipDashboad(false),
       setInternshipProfileSetting(false),
       setInternshipApplicationR(false),
-      setShowViewEditInternshipPost(false)
+      setShowViewEditInternshipPost(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
   const HandleInternshipProfileSetting = () => {
     if (!InternshipProfileSetting) {
       setInternshipProfileSetting(true);
+      setCurrentPage("profileSettings");
     }
     return (
       setShowPostInternship(false),
@@ -126,7 +185,10 @@ const EmployerDashboard = ({ user, token }) => {
       setshowInternshipDashboad(false),
       setInternshipApplicationR(false),
       setInternshipChangePassword(false),
-      setShowViewEditInternshipPost(false)
+      setShowViewEditInternshipPost(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
 
@@ -141,9 +203,48 @@ const EmployerDashboard = ({ user, token }) => {
       setshowInternshipDashboad(false),
       setInternshipApplicationR(false),
       setInternshipChangePassword(false),
-      setInternshipProfileSetting(false)
+      setInternshipProfileSetting(false),
+      setShowPostedInternship(false),
+      setShowInternManagement(false),
+      setShowEditInternshipPost(false)
     );
   };
+
+  const handleInternManagement = () => {
+    if (!showInternManagement) {
+      setShowInternManagement(true);
+      setCurrentPage("internManagement");
+    }
+    return (
+      setShowPostInternship(false),
+      setShowInternshipNotification(false),
+      setshowInternshipDashboad(false),
+      setInternshipApplicationR(false),
+      setInternshipChangePassword(false),
+      setInternshipProfileSetting(false),
+      setShowPostedInternship(false),
+      setShowViewEditInternshipPost(false),
+      setShowEditInternshipPost(false)
+    );
+  };
+
+  const handleEditInternshipSinglePost = () => {
+    if (!showEditInternshipPost) {
+      setShowEditInternshipPost(true);
+    }
+    return (
+      setShowPostInternship(false),
+      setShowInternshipNotification(false),
+      setshowInternshipDashboad(false),
+      setInternshipApplicationR(false),
+      setInternshipChangePassword(false),
+      setInternshipProfileSetting(false),
+      setShowPostedInternship(false),
+      setShowViewEditInternshipPost(false),
+      setShowInternManagement(false)
+    );
+  };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const url = ApiURL();
@@ -167,7 +268,17 @@ const EmployerDashboard = ({ user, token }) => {
             setEmployerDetails(response.data.success),
             setLoading(false),
             setEmployerTotalProgress(response.data.success[0]?.total_progress),
-            setShowEmployerProfile(false)
+            setShowEmployerProfile(false),
+            setShowPostInternship(false),
+            setShowInternshipNotification(false),
+            setshowInternshipDashboad(false),
+            setInternshipApplicationR(false),
+            setInternshipChangePassword(false),
+            setInternshipProfileSetting(false),
+            setShowPostedInternship(false),
+            setShowViewEditInternshipPost(false),
+            setShowInternManagement(false),
+            setShowEditInternshipPost(false)
           );
         } else if (response.data.success[0]?.total_progress === 90) {
           return (
@@ -181,7 +292,8 @@ const EmployerDashboard = ({ user, token }) => {
             setEmployerDetails(response.data.success),
             setLoading(false),
             setEmployerTotalProgress(response.data.success[0]?.total_progress),
-            setShowEmployerProfile(true)
+            setShowEmployerProfile(true),
+            setCurrentPage("dashboard")
           );
         }
       }
@@ -212,6 +324,38 @@ const EmployerDashboard = ({ user, token }) => {
       setHasUnreadNotifications(unreadExists);
     }, 0);
   }, [employerDetails]);
+
+  useEffect(() => {
+    const savedPage = localStorage.getItem("currentPage");
+    switch (savedPage) {
+      case "dashboard":
+        HandleInternshipDashBoardProfile();
+        break;
+      case "postedInternship":
+        HandlePostedInternship();
+        break;
+      case "postInternship":
+        HandlePostInternship();
+        break;
+      case "notifications":
+        HandleShowInternshipNotification();
+        break;
+      case "applications":
+        HandleApplicationsReceived();
+        break;
+      case "changePassword":
+        HandleChangePwd();
+        break;
+      case "profileSettings":
+        HandleInternshipProfileSetting();
+        break;
+      case "internManagement":
+        handleInternManagement();
+        break;
+      default:
+        HandleInternshipDashBoardProfile();
+    }
+  }, []);
   return (
     <>
       <div className="md-header">
@@ -374,7 +518,7 @@ const EmployerDashboard = ({ user, token }) => {
                   </div>{" "}
                   <button
                     className="btn btn-transparent text-center py-3 seeeett"
-                    onClick={HandlePostInternship}
+                    onClick={HandlePostedInternship}
                   >
                     <span className="d-block bg-white position-relative m-auto">
                       <i class="fa-solid fa-share-from-square"></i>
@@ -403,6 +547,15 @@ const EmployerDashboard = ({ user, token }) => {
 
                   <h5>Applications received</h5>
                 </button> */}
+                  <button
+                    className="btn btn-transparent text-center py-3 seeeett"
+                    onClick={handleInternManagement}
+                  >
+                    <span className="d-block bg-white position-relative m-auto">
+                      <i className="fa-solid fa-folder"></i>
+                    </span>
+                    <h5>Intern Management</h5>
+                  </button>
                   <button
                     className="btn btn-transparent text-center py-3 seeeett"
                     onClick={HandleShowInternshipNotification}
@@ -436,11 +589,19 @@ const EmployerDashboard = ({ user, token }) => {
                 <OrgUpdateDetails employerUserDtlsId={employerUserDtlsId} />
               )}
 
+              {ShowPostedInternship && (
+                <PostedInternshipListing
+                  data={employerDetails}
+                  employerDtlsId={employerUserDtlsId}
+                  onEditInternshipPost={handleEditInternshipPost}
+                />
+              )}
               {ShowPostInternship && (
                 <PostInternship
                   user={user}
                   token={token}
                   employerDetails={employerDetails}
+                  setCurrentPage={setCurrentPage}
                 />
               )}
               {/* {InternshipApplicationR && <ApplicationsReceived />} */}
@@ -451,18 +612,38 @@ const EmployerDashboard = ({ user, token }) => {
                 />
               )}
               {showInternshipDashboad && (
-                <PostedInternshipListing
+                <EmployerProfile
                   data={employerDetails}
                   employerDtlsId={employerUserDtlsId}
-                  onEditInternshipPost={handleEditInternshipPost}
                 />
+                // <PostedInternshipListing
+                //   data={employerDetails}
+                //   employerDtlsId={employerUserDtlsId}
+                //   onEditInternshipPost={handleEditInternshipPost}
+                // />
               )}
               {InternshipProfileSetting && <InternshipProfileSettings />}
               {InternshipChangePassword && <InternshipChangePwd />}
               {showViewEditInternshipPost && (
                 <ViewEditInternshipPost
                   internshipPostId={showInternshipPostId}
+                  onEditInternshipPost={handleEditInternshipSinglePost}
+                  setInternPostData={setInternPostData}
                 />
+              )}
+
+              {showEditInternshipPost && (
+                <EditInternshipPost
+                  internshipPostId={showInternshipPostId}
+                  internPostData={internPostData}
+                  user={user}
+                  token={token}
+                  employerDetails={employerDetails}
+                />
+              )}
+
+              {showInternManagement && (
+                <InternManagement employerDtlsId={employerUserDtlsId} />
               )}
             </div>
           </div>

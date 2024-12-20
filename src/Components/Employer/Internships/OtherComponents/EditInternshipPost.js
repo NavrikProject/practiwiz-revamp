@@ -17,7 +17,13 @@ import {
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { useDispatch } from "react-redux";
 
-const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
+const EditInternshipPost = ({
+  user,
+  token,
+  employerDetails,
+  internPostData,
+  internshipPostId,
+}) => {
   const {
     register,
     handleSubmit,
@@ -26,7 +32,29 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      internshipProfile: internPostData.employer_internship_post_position,
+      internshipType: internPostData.employer_internship_post_type.trim(),
+      internshipOpening: internPostData.employer_internship_post_openings,
+      partFullTime: internPostData.employer_internship_post_part_full_time,
+      InternshipLocation: internPostData.employer_internship_post_location,
+      internshipStart:
+        internPostData.employer_internship_post_internship_start.trim(),
+      internshipDuration: internPostData.employer_internship_post_duration,
+      internshipPostTimezone: internPostData.employer_internship_post_timezone,
+      internshipRequirementsDeatils:
+        internPostData.employer_internship_post_req,
+      internshipResponsibilities: internPostData.employer_internship_post_res,
+      internshipStipendType:
+        internPostData.employer_internship_post_stipend_type,
+      stipendAmount: internPostData.employer_internship_post_stipend_amount,
+      internshipPPOcheckbox: internPostData.employer_internship_post_ppo,
+      internshipPerks: JSON.parse(
+        internPostData.employer_internship_post_perks
+      ),
+    },
+  });
   const dispatch = useDispatch();
   const url = ApiURL();
   const [amountShow, setamountShow] = useState(true);
@@ -46,6 +74,10 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
       ["clean"],
     ],
   };
+
+  const initialSkills = JSON.parse(
+    internPostData.employer_internship_post_skills
+  );
 
   const quillFormats = [
     "header",
@@ -107,50 +139,34 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
     const payload = {
       ...data,
       supervisionType,
     };
     try {
       dispatch(showLoadingHandler());
-      const res = await Promise.race([
-        axios.post(
-          `${url}api/v1/employer/internship/create-post`,
-          {
-            payload: payload,
-            employerUserDtlsId: user.user_id,
-            internshipSkills: JSON.stringify(payload.internshipSkills),
-            internshipPerks: JSON.stringify(payload.internshipPerks),
-            internshipDomain: JSON.stringify(payload.internshipDomain),
-            employerOrgDtlsId:
-              employerDetails[0]?.employer_organization_dtls_id,
-          },
-          {
-            headers: { authorization: "Bearer " + token },
-          }
-        ),
-        new Promise(
-          (_, reject) =>
-            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
-        ),
-      ]);
-      if (res.data.success) {
-        toast.success(res.data.success);
-        setTimeout(() => {
-          window.location.reload();
-          setCurrentPage("postedInternship");
-        }, 1000);
-      } else if (res.data.error) {
-        toast.error(res.data.error);
+      const response = await axios.put(
+        `${url}api/v1/employer/internship/edit-internship-post`,
+        {
+          payload: payload,
+          internshipPostId: internshipPostId,
+          employerUserDtlsId: user.user_id,
+          internshipSkills: JSON.stringify(payload.internshipSkills),
+          internshipPerks: JSON.stringify(payload.internshipPerks),
+          employerOrgDtlsId: employerDetails[0]?.employer_organization_dtls_id,
+        },
+        {
+          headers: { authorization: "Bearer " + token },
+        }
+      );
+      dispatch(hideLoadingHandler());
+      if (response.status === 200) {
+        toast.success("Internship post updated successfully");
       }
     } catch (error) {
-      if (error.message === "Request timed out") {
-        toast.error("Update failed due to a timeout. Please try again.");
-      } else {
-        toast.error("Error in updating the profile details, please try again!");
-      }
-    } finally {
       dispatch(hideLoadingHandler());
+      toast.error("Failed to update internship post");
     }
   };
 
@@ -632,8 +648,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   <Controller
                     name="internshipSkills"
                     control={control}
-                    defaultValue={[]} // Default value for multiple select
-                    // rules={{ required: "Please select  skill" }} // Validation rule
+                    defaultValue={initialSkills}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -1319,7 +1334,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                     type="submit"
                     className="btn juybeubrer_btn btn-primary"
                   >
-                    Submit
+                    Save Changes
                   </button>
                 </div>
               </div>
@@ -1331,4 +1346,4 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
   );
 };
 
-export default PostInternship;
+export default EditInternshipPost;

@@ -25,7 +25,7 @@ const AvailabilityForm = () => {
             endPeriod: "PM",
             fromDate: "",
             toDate: "",
-            duration: "60 min",
+            duration: "60",
           },
         ];
   };
@@ -109,7 +109,7 @@ const AvailabilityForm = () => {
       endPeriod: "PM",
       fromDate: "",
       toDate: "",
-      duration: "60 min",
+      duration: "60",
     };
     const updatedSlots = [...slots, newSlot];
     setSlots(updatedSlots);
