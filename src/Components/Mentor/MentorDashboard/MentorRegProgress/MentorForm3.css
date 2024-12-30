@@ -4,7 +4,7 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  height: 200px;
+  /* height: 200px; */
   background: rgba(217, 217, 217, 0.05);
   border: 0.5px solid #afafaf;
   border-radius: 10px;
@@ -17,6 +17,8 @@
 .slot-container1 {
   display: flex;
   gap: 40px;
+  height: 5rem;
+  width: 7rem;
 }
 .slot-container2 {
   display: flex;
@@ -35,20 +37,28 @@
 }
 .availability-day {
   display: flex;
+  position: relative;
   flex-direction: column;
+  font-family: "lato";
 }
 
 .availability-saveDiv {
   display: flex;
+  /* margin-top: 2rem; */
+  /* margin: 2rem; */
   bottom: 10px;
   right: 10px;
-  position: absolute;
-  justify-content: flex-end;
+  /* position: absolute; */
+  justify-content: space-between;
+  align-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Save Button Styles */
 .save-btn {
   background-color: #28a745; /* Primary green color */
+  font-family: "lato";
   color: #fff; /* White text */
   border: none; /* Remove border */
   border-radius: 5px; /* Rounded corners */
@@ -84,6 +94,7 @@
 
 /* Add Slot Button Styles */
 .add-slot-btn {
+  font-family: "lato";
   background-color: #0255ca; /* Primary blue shade */
   color: #fff; /* White text */
   border: none; /* Remove border */
@@ -141,17 +152,22 @@
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 12%;
+  top: 100%;
+  left: 0px;
+  width: 100%;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 .custom-dropdown {
-  /* height: 23px; */
+  height: 23px;
   background-color: white;
   border: 0.5px solid black;
-  width: 8rem;
+  width: 10rem;
   padding-top: 2px;
   padding-left: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 .dropdownDayOption {
   width: 100%;
@@ -213,12 +229,15 @@
   width: 100px;
 }
 
-.btnDays{
+.btnDays {
   padding: 5px;
   border: none;
 }
-.checkbox-item{
+.checkbox-item {
   padding-left: 20px;
   display: flex;
   gap: 5px;
+}
+.dropdown-header {
+  width: 100%;
 }

@@ -249,7 +249,6 @@ const SingleMentorPageUpdated = () => {
         <>
           {showBookingModel && (
             <MentorBookingAppointment
-              mentorTimeSlotDuration={mentorTimeSlotDuration}
               selectedTimeSlotId={selectedTimeSlotId}
               selectedDate={selectedDate}
               selectedSlot={selectedSlot}
@@ -257,131 +256,135 @@ const SingleMentorPageUpdated = () => {
               showCloseHandler={CreateBookingAppointment}
             />
           )}
-          {singleMentor?.map((sMentor) => {
+          {singleMentor?.map((sMentor, index) => {
             const convertedAmount = convertCurrency(
               sMentor.mentor_session_price,
               sMentor.mentor_currency_type,
               DefaultCurruncyType
             );
             return (
-              <div className="Singlementor-mainComtainer">
-                <div className="SingleMentor-TopImg"></div>
-                <div className="Singlementor-Container Singlementor-Row1">
-                  <div className="Singlementor-Row-persolaInfo">
-                    <div className="Singlementor-col1">
-                      <div className="image-container">
-                        {" "}
-                        <img
-                          src={sMentor.mentor_profile_photo}
-                          alt={
-                            sMentor.mentor_firstname +
-                            " " +
-                            sMentor.mentor_lastname
-                          }
-                          style={{ borderRadius: "15px", width: "100%" }}
-                        />
-                      </div>
+              <div key={index} className="mentor-profile-mainpage">
+                {/* Blue ribbon at top */}
+                <div className="mentor-profile-ribbon"></div>
 
-                      <div className="-dec">
-                        <p className=" Singlementor-dec">
-                          {!showLessText
-                            ? sMentor.mentor_headline.slice(0, 300) + " "
-                            : sMentor.mentor_headline}
-                          <span
-                            className="spnn45"
-                            onClick={() => setShowLessText(!showLessText)}
-                          >
-                            {!showLessText ? "Show More" : "Show Less"}
-                          </span>
-                        </p>
-                      </div>
-                      <div className="Singlementor-Row3">
-                        <div id="targetElement2">
-                          <span className="SingleMentor-SkillsHeadline">
-                            Skills
-                          </span>
-                        </div>
-                        <div className="SkillsList">
-                          {" "}
-                          {JSON.parse(sMentor?.mentor_area_expertise)?.map(
-                            (skills) => {
-                              return (
-                                <span className="Singlementor-Skills">
-                                  {skills}
-                                </span>
-                              );
+                {/* Main content container */}
+                <div className="SingleMentorProfile-Flex">
+                  {" "}
+                  <div className="mentor-profile-container">
+                    <div className="mentor-profile-content">
+                      {/* Left Column */}
+
+                      <div className="mentor-profile-col1">
+                        <div className="mentor-image-container">
+                          <img
+                            src={sMentor.mentor_profile_photo}
+                            className="mentor-image"
+                            alt={
+                              sMentor.mentor_firstname +
+                              " " +
+                              sMentor.mentor_lastname
                             }
-                          )}
+                            style={{ borderRadius: "15px", width: "100%" }}
+                          />
                         </div>
-                      </div>
-                    </div>
-                    <div className="Singlementor-col2">
-                      <div className="Singlementor-name">
-                        {" "}
-                        <span className="SingleMentor-NameSize">
-                          {" "}
-                          {toTitleCase(sMentor?.mentor_firstname) +
-                            " " +
-                            toTitleCase(sMentor?.mentor_lastname)}{" "}
-                        </span>
                         <span className="SingleMentor-span121 span121">
                           <StarRating rating={sMentor.avg_mentor_rating} />(
                           {sMentor.feedback_count} Reviews)
                         </span>
                       </div>
 
-                      <div className="Singlementor-companyname">
-                        {toTitleCase(sMentor.mentor_job_title) + " "}
-                        {"@"}
-                        {" " + toTitleCase(sMentor.mentor_company_name)}{" "}
-                        <a
-                          href={sMentor.mentor_social_media_profile}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="linkedin-icon"
-                        >
-                          <i class="fa-brands fa-linkedin fa-2xl"></i>
-                        </a>
+                      {/* Middle Column */}
+                      <div className="mentor-profile-col2">
+                        <div className="mentor-name-section">
+                          <span className="mentor-name">
+                            {toTitleCase(sMentor?.mentor_firstname)}{" "}
+                            {toTitleCase(sMentor?.mentor_lastname)}
+                          </span>
+                        </div>
+
+                        <div className="mentor-company">
+                          {toTitleCase(sMentor.mentor_job_title)} @{" "}
+                          {toTitleCase(sMentor.mentor_company_name)}{" "}
+                          <a
+                            href={sMentor.mentor_social_media_profile}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="linkedin-link"
+                          >
+                            <i className="fa-brands fa-linkedin fa-2xl"></i>
+                          </a>
+                        </div>
+
+                        <div className="mentor-domains">
+                          {sMentor?.mentor_domain &&
+                            sMentor.mentor_domain !== "[]" &&
+                            JSON.parse(sMentor.mentor_domain)?.map(
+                              (domain, index, arr) => (
+                                <span key={index} className="domain-tag">
+                                  {toTitleCase(domain)}
+                                  {index < arr.length - 1 && " |"}
+                                </span>
+                              )
+                            )}
+                        </div>
                       </div>
-                      {/* <div className="Singlementor-companyname"> Domain </div> */}
-                      {/* {sMentor.mentor_domain === 0 && ( */}
-                      <div className="bottom-Margin">
-                        {sMentor?.mentor_domain &&
-                          sMentor.mentor_domain !== "[]" &&
-                          JSON.parse(sMentor.mentor_domain)?.map(
-                            (domain, index, arr) => (
-                              <span key={index} className="Singlementor-Domain">
-                                {domain}
-                                {index < arr.length - 1 && " |"}
-                              </span>
-                            )
-                          )}
+                      <div className="mentor-description">
+                        <p className="mentor-headline">
+                          {!showLessText
+                            ? sMentor.mentor_headline.slice(0, 300) + " "
+                            : sMentor.mentor_headline}
+                          <span
+                            className="show-more-text"
+                            onClick={() => setShowLessText(!showLessText)}
+                          >
+                            {!showLessText ? "see more" : "see less"}
+                          </span>
+                        </p>
                       </div>
 
-                      {/* )} */}
-                    </div>
-                  </div>
-                </div>
+                      {/* Skills Section */}
+                      {sMentor.mentor_area_expertise !== "undefined" &&
+                        sMentor?.mentor_area_expertise &&
+                        sMentor.mentor_area_expertise !== "[]" && (
+                          <div className="mentor-skills">
+                            <div className="skills-header">
+                              <span className="skills-title">Skills</span>
+                            </div>{" "}
+                            <div
+                              className="SingleMentorProfile-Skills"
+                              key={index}
+                            >
+                              {JSON.parse(sMentor?.mentor_area_expertise)?.map(
+                                (skill, index) => (
+                                  <span
+                                    key={index}
+                                    className="MentorDashboardskill-tag"
+                                  >
+                                    {skill}
+                                  </span>
+                                )
+                              )}
+                            </div>
+                          </div>
+                        )}
 
-                <div className="SingleMentor2Col">
-                  <div>
-                    {" "}
-                    <div className="Singlementor-RatingSection">
-                      <div>
-                        {" "}
-                        <span className="SingleMentor-SkillsHeadline">
-                          Ratings and Reviews
-                        </span>
-                      </div>
-                      <div>
-                        {" "}
-                        <div id="tab-10" className="">
-                          <div className="jfgghghhghkgkhjg">
-                            <div className="jhdfgfjgg">
-                              <MentorRatingCard
-                                feedbackCount={sMentor.feedback_count}
-                                feedback_details={sMentor.feedback_details}
-                              />
+                      <div className="MentorDashboard-RatingSection">
+                        <div>
+                          {" "}
+                          <span className="SingleMentor-SkillsHeadline">
+                            Ratings and Reviews
+                          </span>
+                        </div>
+                        <div>
+                          {" "}
+                          <div id="tab-10" className="">
+                            <div className="jfgghghhghkgkhjg">
+                              <div className="jhdfgfjgg">
+                                <MentorRatingCard
+                                  feedbackCount={sMentor.feedback_count}
+                                  feedback_details={sMentor.feedback_details}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>

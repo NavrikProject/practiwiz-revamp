@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
+import {
+  countryCurrencyData,
+  allCurrencies,
+} from "../../../data/Currency_Convertion.js";
+import { allSkills } from "../../../data/Skills.js";
 import { experienceOptions } from "../../../data/DomainData.js";
 import collegeData from "../../../data/collegesname.json";
+import { allDomain } from "../../../data/DomainData.js";
+
 import "./MentorPage2.css";
 
 const MentorPage2 = () => {
@@ -16,7 +23,7 @@ const MentorPage2 = () => {
     clearErrors,
     formState: { errors },
   } = useFormContext();
-
+  // setValue("mentorCountryName", "");
   // ---------------------------------------------------------------------------------------
   // State for country, selected currency, price range, and user price
   const [country, setCountry] = useState("");
@@ -24,18 +31,6 @@ const MentorPage2 = () => {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
   const [userPrice, setUserPrice] = useState("");
 
-  // Country-to-currency mapping with price ranges
-  const countryCurrencyData = {
-    US: { currency: "USD", range: { min: 0, max: 100 } },
-    IN: { currency: "INR", range: { min: 500, max: 5000 } },
-    DE: { currency: "EUR", range: { min: 10, max: 200 } },
-    JP: { currency: "JPY", range: { min: 1000, max: 10000 } },
-  };
-
-  // List of all currencies
-  const allCurrencies = ["USD", "INR", "EUR", "JPY", "GBP"];
-
-  // Handle currency change
   const handleCurrencyChange = (event) => {
     const newCurrency = event.target.value;
     setSelectedCurrency(newCurrency);
@@ -60,30 +55,35 @@ const MentorPage2 = () => {
   const fetchLocationData = async () => {
     try {
       const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
-      const data = await response.json();
+      const data = await response?.json();
 
-      setCountry(data.country);
+      setCountry(data?.country);
 
       // Automatically set currency and price range based on the user's country
-      const countryShort = data.country;
+      const countryShort = data?.country;
       if (countryCurrencyData[countryShort]) {
         const { currency, range } = countryCurrencyData[countryShort];
         setSelectedCurrency(currency);
 
-        setValue("mentorCurrency", currency);
-        setValue("mentorCountryName", countryShort);
-        setValue("mentorCityName", data.city);
+        setValue("mentorCurrency", currency || "");
+        // setValue("mentorCountryName", countryShort);
+        setValue("mentorCityName", data?.city || "");
         setPriceRange(range);
       }
     } catch (error) {
       console.error("Error fetching location data:", error);
       const countryShort = "IN";
-      if (countryCurrencyData[countryShort]) {
-        const { currency, range } = countryCurrencyData[countryShort];
-        setSelectedCurrency(currency);
-        setValue("mentorCurrency", currency);
-        setPriceRange(range);
-      }
+      const { currency, range } = countryCurrencyData[countryShort];
+      setSelectedCurrency(currency);
+      setValue("mentorCurrency", currency);
+      setPriceRange(range);
+
+      // if (countryCurrencyData[countryShort]) {
+      //   const { currency, range } = countryCurrencyData[countryShort];
+      //   setSelectedCurrency(currency);
+      //   setValue("mentorCurrency", currency);
+      //   setPriceRange(range);
+      // }
     }
   };
 
@@ -91,17 +91,11 @@ const MentorPage2 = () => {
   useEffect(() => {
     fetchLocationData();
   }, []);
-
-  // ______________________________________________________________________________________________
-
-  const [skills, setSkills] = useState(""); // For the input field
-  const [skillList, setSkillList] = useState([]); // For added skills
-  const [suggestions, setSuggestions] = useState([]); // For suggestions
-  const [message, setMessage] = useState(""); // For displaying messages
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
-  // Filter colleges based on the search term
+  // ______________________________________________________________________________________________
+
   const handleInputCollagename = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -120,19 +114,15 @@ const MentorPage2 = () => {
     setDropdownVisible(false); // Hide dropdown after selection
     setValue("mentorInstituteName", college["College Name"]);
   };
-  // Example skill suggestions
-  const allSkills = [
-    "React",
-    "Node.js",
-    "JavaScript",
-    "CSS",
-    "HTML",
-    "Python",
-    "Django",
-    "Machine Learning",
-    "Data Science",
-    "SQL",
-  ];
+
+  // Filter colleges based on the search term
+
+  // -------------------------------------------------------------------------------------------
+
+  const [skills, setSkills] = useState(""); // For the input field
+  const [skillList, setSkillList] = useState([]); // For added skills
+  const [suggestions, setSuggestions] = useState([]); // For suggestions
+  const [message, setMessage] = useState(""); // For displaying messages
 
   const handleInputChange = (e) => {
     const input = e.target.value.trimStart(); // Trim leading spaces
@@ -203,7 +193,9 @@ const MentorPage2 = () => {
   };
 
   const removeSkill = (index) => {
-    setSkillList(skillList.filter((_, i) => i !== index));
+    const updatedSkillList = skillList.filter((_, i) => i !== index);
+    setSkillList(updatedSkillList); // Update the state
+    setValue("mentorSkill", updatedSkillList); // Update the form field immediately
   };
 
   useEffect(() => {
@@ -216,20 +208,6 @@ const MentorPage2 = () => {
   const [DomainList, setDomainList] = useState([]); // For added skills
   const [Domainsuggestions, setDomainSuggestions] = useState([]); // For suggestions
   const [messageDomain, setMessageDomain] = useState(""); // For displaying messages
-
-  // Example skill suggestions
-  const allDomain = [
-    "React",
-    "Node.js",
-    "JavaScript",
-    "CSS",
-    "HTML",
-    "Python",
-    "Django",
-    "Machine Learning",
-    "Data Science",
-    "SQL",
-  ];
 
   const handleDomainInputChange = (e) => {
     const input = e.target.value.trimStart(); // Trim leading spaces
@@ -250,7 +228,7 @@ const MentorPage2 = () => {
       ]);
     } else if (input) {
       // Filter suggestions if input is not empty
-      const filteredSuggestions = allSkills.filter(
+      const filteredSuggestions = allDomain.filter(
         (skill) =>
           skill.toLowerCase().includes(input.toLowerCase()) &&
           !DomainList?.some(
@@ -295,13 +273,17 @@ const MentorPage2 = () => {
 
   const handleDomainKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleAddSkill(Domain);
+      handleAddDomain(Domain);
     }
   };
 
   const removeDomain = (index) => {
-    setDomainList(DomainList.filter((_, i) => i !== index));
+    const updatedDomainList = DomainList.filter((_, i) => i !== index);
+    setDomainList(updatedDomainList); // Update the state
+    setValue("mentorDomain", updatedDomainList); // Update the form field immediately
   };
+
+  // No need for `useEffect` now, as `mentorDomain` is directly updated in `removeDomain`
 
   useEffect(() => {
     if (DomainList?.length > 0) {
@@ -465,52 +447,91 @@ const MentorPage2 = () => {
             <div className="col-lg-6 mb-4">
               <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
-                  Domain<span className="RedColorStarMark">*</span>
+                  Domain<span className="RedColorStarMark">*</span>(Multiple)
                 </b>
               </label>
               <div className="input-wrapper">
-                <input
-                  type="text"
-                  placeholder="Type  your Domain and press Enter"
-                  value={Domain}
-                  onChange={handleDomainInputChange}
-                  onKeyDown={handleDomainKeyPress}
-                  className="form-control"
-                 
+                <Controller
+                  
+                  name="mentorDomain" // The name you want to use in form data
+                  control={control}
+                  rules={{ required: "Domain is required" }}
+                  render={({ field }) => (
+                    <input
+                    onKeyUp={() => {
+                      trigger("mentorDomain");
+                    }}
+                      type="text"
+                      placeholder="Type your Domain and press Enter"
+                      value={Domain}
+                      onChange={(e) => {
+                        field.onChange(e); // Update value in react-hook-form
+                        handleDomainInputChange(e); // Handle input change for suggestions
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleAddDomain(Domain);
+                        }
+                      }}
+                      className="form-control"
+                    />
+                  )}
                 />
 
                 {/* Suggestions Dropdown */}
                 {Domainsuggestions.length > 0 && (
                   <ul className="suggestions-dropdown">
-                    {Domainsuggestions.map((Domainsuggestions, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleAddDomain(Domainsuggestions)}
-                        className="suggestion-item"
-                      >
-                        {Domainsuggestions}
-                      </li>
-                    ))}
+                    {Domainsuggestions.map((suggestion, index) => {
+                      return (
+                        <li
+                          key={index}
+                          onClick={() => handleAddDomain(suggestion)}
+                          className="suggestion-item"
+                        >
+                          {suggestion}
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>
 
               {/* Display message */}
-              {messageDomain && <div className="message">{messageDomain}</div>}
+              {messageDomain && <div className="RedColorStarMark">{messageDomain}</div>}
 
               <div className="skill-list">
-                {DomainList?.map((Domains, index) => (
-                  <span key={index} className="skill-tag">
-                    {Domains}{" "}
-                    <button
-                      onClick={() => removeDomain(index)}
-                      className="remove-skill-btn"
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
+                {DomainList?.map((Domains, index) => {
+                  return (
+                    <span key={index} className="skill-tag">
+                      {Domains}{" "}
+                      <button
+                        onClick={() => removeDomain(index)}
+                        className="remove-skill-btn"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  );
+                })}
               </div>
+              {/* {DomainList && (
+                <>
+                  {DomainList === 0 && (
+                    <>
+                      {errors.mentorDomain && (
+                        <p className="Error-meg-login-register">
+                          {errors.mentorDomain.message}
+                        </p>
+                      )}
+                    </>
+                  )}
+                </>
+              )} */}
+              {errors.mentorDomain && (
+                        <p className="Error-meg-login-register">
+                          {errors.mentorDomain.message}
+                        </p>
+                      )}
             </div>
           </div>
           <div className="row tageye">
@@ -521,8 +542,9 @@ const MentorPage2 = () => {
             <div className="col-lg-12 mb-4">
               <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
-                  Skills <span className="RedColorStarMark">*</span>
-                </b>
+                  Skills
+                  {/* <span className="RedColorStarMark">*</span> */}
+                </b>(Multiple)
               </label>
               <div className="input-wrapper">
                 <input
@@ -551,7 +573,7 @@ const MentorPage2 = () => {
               </div>
 
               {/* Display message */}
-              {message && <div className="message">{message}</div>}
+              {message && <div className="RedColorStarMark">{message}</div>}
 
               <div className="skill-list">
                 {skillList?.map((skill, index) => (
@@ -712,9 +734,10 @@ const MentorPage2 = () => {
                   id="pricing"
                   type="number"
                   className="form-control"
+                  onWheel={(e) => e.currentTarget.blur()} // Removes focus on scroll
                   placeholder="Enter price"
                   {...register("pricing", {
-                    required: "Please mention the price below 1500",
+                    required: "Please enter the price amount",
                     validate: (value) => {
                       const numericValue = parseFloat(value); // Ensure it's treated as a number
 
@@ -733,7 +756,6 @@ const MentorPage2 = () => {
                     {errors.pricing.message}
                   </p>
                 )}
-                
               </div>
             </div>
           </div>
@@ -752,13 +774,18 @@ const MentorPage2 = () => {
                 <select
                   className="form-select"
                   {...register("guestLecturesInterest", {
-                    required: "Please select the guest lecture option",
-                  })} //1
+                    required: "Please select the guest lecture option", // Validation rule
+                  })}
+                  onChange={(e) => {
+                    clearErrors("guestLecturesInterest");
+                    setValue("guestLecturesInterest", e.target.value);
+                  }}
                 >
                   <option value="">Choose An Option</option>
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>{" "}
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+
                 {errors.guestLecturesInterest && (
                   <p className="Error-meg-login-register">
                     {errors.guestLecturesInterest.message}
@@ -779,7 +806,11 @@ const MentorPage2 = () => {
                   className="form-select"
                   {...register("curatingCaseStudiesInterest", {
                     required: "Please select the case study interest",
-                  })} //1
+                  })}
+                  onChange={(e) => {
+                    clearErrors("curatingCaseStudiesInterest");
+                    setValue("curatingCaseStudiesInterest", e.target.value);
+                  }}
                 >
                   <option value="">Choose An Option</option>
                   <option>Yes</option>
@@ -806,6 +837,10 @@ const MentorPage2 = () => {
                     required:
                       "Please select whether you are willing to do sessions free of charge.",
                   })}
+                  onChange={(e) => {
+                    clearErrors("sessionsFreeOfCharge");
+                    setValue("sessionsFreeOfCharge", e.target.value);
+                  }}
                 >
                   <option value="">Choose An Option</option>
                   <option value="yes">Yes</option>
@@ -828,7 +863,7 @@ const MentorPage2 = () => {
                   </b>
                 </label>
                 <div className="dkjiherer moideuirer_list hello">
-                  <div className="">
+                  <div className="MR-positionInstitute">
                     <input
                       onKeyUp={() => {
                         trigger("mentorInstituteName");
@@ -844,7 +879,7 @@ const MentorPage2 = () => {
                       onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
                     />
                     {dropdownVisible && filteredColleges.length > 0 && (
-                      <div className="dropdown-content">
+                      <div className="MentorRegInstitutePage ">
                         {filteredColleges.slice(0, 50).map(
                           (
                             college,

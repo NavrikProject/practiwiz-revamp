@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import collegeData from "../../../data/collegesname.json";
+import "./MentorProfileSet.css";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -15,11 +16,10 @@ import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 
 const Mentorprofile1 = ({ profiledata, user, token }) => {
-  console.log();
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
-  // const mentor_profile_photo = profiledata.mentor_profile_photo; // Add photo to formData
+
   const [formData, setFormData] = useState({
     mentor_firstname: profiledata?.mentor_firstname,
     mentor_lastname: profiledata?.mentor_lastname,
@@ -44,7 +44,12 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
 
   // Function to handle input change
   const handleInputChange1 = (e) => {
-    const value = e.target.value;
+    // const value = e.target.value;
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
     setSearchTerm(value);
     setValue("mentor_InstituteName", value);
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
@@ -63,7 +68,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     setValue("mentor_InstituteName", college["College Name"]);
     formData.mentor_institute = college["College Name"];
   };
-
   const [options, setOptions] = useState([]);
   useEffect(() => {
     setOptions(CountryData);
@@ -84,26 +88,36 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     });
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-    if (file) {
-      const fileURL = URL.createObjectURL(file);
-      setFormData({
-        ...formData,
-        mentor_profile_photo: fileURL, // Update photo in formData
-      });
-    }
-  };
-
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
 
   const validateForm = () => {
-    const { social_media_profile, mentor_country } = formData;
+    const {
+      social_media_profile,
+      mentor_country,
+      mentor_institute,
+      mentor_city,
+    } = formData;
 
-    if (!social_media_profile || !mentor_country) {
+    // Regular expression to validate LinkedIn profile URL
+    const linkedInPattern = /^https?:\/\/(www\.)?linkedin\.com\/.*$/i;
+
+    // Check if any required field is missing or contains only whitespace
+    if (
+      !social_media_profile?.trim() ||
+      !mentor_country?.trim() ||
+      !mentor_institute?.trim() ||
+      !mentor_country?.trim() ||
+      !mentor_city?.trim()
+    ) {
       toast.error("All fields are required!");
+      return false;
+    }
+
+    // Validate LinkedIn URL pattern
+    if (!linkedInPattern.test(social_media_profile)) {
+      toast.error("Please provide a valid LinkedIn profile URL!");
       return false;
     }
 
@@ -155,7 +169,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
       }
     }
   };
-  const [file, setFile] = useState(null);
+
   return (
     <main>
       {!isEditing && (
@@ -177,6 +191,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               <div className="mb-4">
                 <label className="form-label">
                   <b>First Name</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <input
                   type="text"
@@ -194,6 +209,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               <div className="mb-4">
                 <label className="form-label">
                   <b>Last Name</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <input
                   type="text"
@@ -207,10 +223,11 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               </div>
             </div>
 
-            <div className="col-lg-6">
+            <div className="col-lg-6 UpdateProfile-PhoneD">
               <div className="mb-4">
                 <label className="form-label">
                   <b>Mobile Number</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <PhoneInput
                   country={"in"}
@@ -225,6 +242,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label className="form-label">
                   <b>Email</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <input
                   disabled
@@ -242,6 +260,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label mb-0">
                 <b>Academic Qualification</b>
+                <span className="RedColorStarMark">*</span>
               </label>
 
               <div className="dkjiherer moideuirer_list hello">
@@ -294,11 +313,13 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             <div className=" col-lg-6 ">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 <b>Institute/College name</b>
+                <span className="RedColorStarMark">*</span>
               </label>
               <div className="dkjiherer moideuirer_list hello">
                 <div className="dropdown">
                   <input
                     type="text"
+                    name="mentor_institute"
                     className="form-control"
                     placeholder="Search for a college..."
                     disabled={!isEditing}
@@ -332,9 +353,9 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label className="form-label">
                   <b>Linkedin Social Media Profile</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <input
-                  id="phone"
                   type="text"
                   name="social_media_profile"
                   className="form-control"
@@ -351,9 +372,10 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               <div className="mb-4">
                 <label className="form-label">
                   <b>Which Country do You Live in?</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <select
-                  className="form-select"
+                  className=" form-select"
                   name="mentor_country"
                   value={formData.mentor_country}
                   onChange={handleInputChange}
@@ -375,6 +397,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                   className="form-label"
                 >
                   <b>City</b>
+                  <span className="RedColorStarMark">*</span>
                 </label>
                 <input
                   type="text"

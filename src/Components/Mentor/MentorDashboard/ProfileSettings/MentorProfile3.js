@@ -1,583 +1,111 @@
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import "../MentorRegProgress/MentorForm3.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Controller, useForm } from "react-hook-form";
-import "../../../Forms/Register/Mentor/MentorForm3.css";
+import { option_fro_timezone } from "../../../data/Timezones";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import "./MentorProfileSet.css"
 import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
-import { toast } from "react-toastify";
 
-// CustomTimePicker component
-
-const styles = {
-  form: {
-    padding: "20px",
-    maxWidth: "800px",
-    margin: "0 auto",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-    backgroundColor: "#f9f9f9",
-  },
-  customTimePicker: {
-    display: "flex",
-    alignItems: "center",
-  },
-  timeSelect: {
-    width: "60px",
-    margin: "0 5px",
-  },
-  container: {
-    display: "flex",
-  },
-  daysColumn: {
-    flex: "1",
-    marginRight: "20px",
-  },
-  slotsColumn: {
-    flex: "3",
-  },
-  dayRow: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "10px",
-  },
-  dayLabel: {
-    width: "50px",
-  },
-  daySlots: {
-    marginBottom: "20px",
-  },
-  timeSlotRow: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "10px",
-  },
-  toLabel: {
-    margin: "0 10px",
-  },
-  removeButton: {
-    marginLeft: "10px",
-    backgroundColor: "#dc3545",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    padding: "5px 10px",
-    cursor: "pointer",
-  },
-  okButton: {
-    display: "block",
-    marginTop: "10px",
-    marginBottom: "10px",
-    backgroundColor: "#28a745",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    padding: "5px 10px",
-    cursor: "pointer",
-  },
-  submitButton: {
-    display: "block",
-    width: "100%",
-    padding: "10px",
-    border: "none",
-    borderRadius: "4px",
-    backgroundColor: "#007BFF",
-    color: "#fff",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
-  customTimePicker: {
-    display: "flex",
-    alignItems: "center",
-  },
-  timeSelect: {
-    margin: "0 5px",
-  },
-  tag: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "10px",
-    backgroundColor: "#e9ecef",
-    padding: "5px 10px",
-    borderRadius: "4px",
-  },
-  select: {
-    margin: "0 10px",
-  },
-  datePicker: {
-    margin: "0 10px",
-    width: "80px",
-  },
-};
-
-const CustomTimePicker = ({ value, onChange }) => {
-  const handleHoursChange = (e) => {
-    onChange({ ...value, hours: e.target.value });
-  };
-
-  const handleMinutesChange = (e) => {
-    onChange({ ...value, minutes: e.target.value });
-  };
-
-  const handleAmPmChange = (e) => {
-    onChange({ ...value, ampm: e.target.value });
-  };
-
-  return (
-    <div style={styles.customTimePicker}>
-      <select
-        value={value.hours}
-        onChange={handleHoursChange}
-        style={styles.timeSelect}
-      >
-        {Array.from({ length: 13 }, (_, i) => i).map((hour) => (
-          <option key={hour} value={hour < 10 ? "0" + hour : hour}>
-            {hour < 10 ? "0" + hour : hour}
-          </option>
-        ))}
-      </select>
-      <span>:</span>
-      <select
-        value={value.minutes}
-        onChange={handleMinutesChange}
-        style={styles.timeSelect}
-      >
-        {[0, 30].map((minute) => (
-          <option key={minute} value={minute < 10 ? "0" + minute : minute}>
-            {minute < 10 ? "0" + minute : minute}
-          </option>
-        ))}
-      </select>
-      <select
-        value={value.ampm}
-        onChange={handleAmPmChange}
-        style={styles.timeSelect}
-      >
-        <option value="AM">AM</option>
-        <option value="PM">PM</option>
-      </select>
-    </div>
-  );
-};
-
-const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-// const initialTime = { hours: "09", minutes: "00", ampm: "AM" };
-// const initialDate = { Mentor_timeslot_rec_end_date: "2024-12-31" };
-const initialTime = {
-  hours: "",
-  minutes: "00",
-  ampm: "PM",
-};
-const TimeSlotDuration = { slotDuration: "" };
-const initialDate = {};
-
-const MentorProfile3 = ({ profiledata, user, token }) => {
+const MentorProfile4 = ({ profiledata, user, token }) => {
   const dispatch = useDispatch();
   const url = ApiURL();
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const { setValue, register } = useForm();
+  const today = new Date(); // Get today's date
+  // Load saved data or initialize with default
+  const loadSavedData = () => {
+    const savedData = profiledata?.mentor_timeslots_json;
 
-  const [selectedDays, setSelectedDays] = useState({
-    // Mon: false,
-    // Fri: false,
-    // Sat: false,
-  });
+    return savedData
+      ? JSON.parse(savedData)
+      : [
+          {
+            days: [],
+            startHour: "12",
+            startMinute: "00",
+            startPeriod: "AM",
+            endHour: "12",
+            endMinute: "00",
+            endPeriod: "PM",
+            fromDate: "",
+            toDate: "",
+            duration: "60 min",
+          },
+        ];
+  };
 
-  const [timeInputs, setTimeInputs] = useState(
-    daysOfWeek.reduce(
-      (acc, day) => ({
-        ...acc,
-        [day]: {
-          from: initialTime,
-          to: initialTime,
-          date: initialDate,
-          recurring: initialDate,
-          TimeslotDuration: 30,
-        },
-      }),
-      {}
-    )
+  const [slots, setSlots] = useState(loadSavedData);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(
+    Array(slots.length).fill(false)
   );
-  const [SlotDuration, setSlotDuration] = useState(30);
-  const [timeSlotTags, setTimeSlotTags] = useState({});
-  const [HideFromTime, setHideFromTime] = useState(false);
 
-  useEffect(() => {
-    if (profiledata?.timeslot_list) {
-      const timeslotData = JSON.parse(profiledata?.timeslot_list);
-      const tags = {};
-      const selected = {};
-
-      timeslotData.forEach((slot) => {
-        const day = slot.mentor_timeslot_day;
-        if (!tags[day]) {
-          tags[day] = [];
-          selected[day] = true;
-        }
-
-        const [fromHours, fromMinutes] =
-          slot.mentor_timeslot_from.match(/\d+/g);
-        const [toHours, toMinutes] = slot.mentor_timeslot_to.match(/\d+/g);
-        const fromAmPm = slot.mentor_timeslot_from.includes("PM") ? "PM" : "AM";
-        const toAmPm = slot.mentor_timeslot_to.includes("PM") ? "PM" : "AM";
-
-        tags[day].push({
-          from: {
-            hours: fromHours.padStart(2, "0"),
-            minutes: fromMinutes.padStart(2, "0"),
-            ampm: fromAmPm,
-          },
-          to: {
-            hours: toHours.padStart(2, "0"),
-            minutes: toMinutes.padStart(2, "0"),
-            ampm: toAmPm,
-          },
-          recurring: {
-            mentor_timeslot_rec_indicator: slot.mentor_timeslot_rec_indicator,
-          },
-          date: {
-            Mentor_timeslot_rec_end_date:
-              slot.mentor_timeslot_rec_end_timeframe,
-          },
-          slotDuration: { slotDuration: slot.mentor_timeslot_duration },
-        });
-      });
-
-      setTimeSlotTags(tags);
-      setSelectedDays((prev) => ({ ...prev, ...selected }));
-    }
-  }, [profiledata]);
-
-  const handleDaySwitch = (day, checked) => {
-    setSelectedDays((prev) => ({ ...prev, [day]: checked }));
-    if (!checked) {
-      setValue(day, []);
-      setTimeSlotTags((prev) => ({ ...prev, [day]: [] }));
-    }
+  const toggleDropdown = (index) => {
+    const updatedDropdownState = [...isDropdownOpen];
+    updatedDropdownState[index] = !updatedDropdownState[index];
+    setIsDropdownOpen(updatedDropdownState);
   };
 
-  // useEffect(() => {
-  //   handleTimeChange();
-  // }, [SlotDuration]);
-  const handleTimeChange = (day, type, value) => {
-    if (type === "from") {
-      const fromTime = value;
-      const fromHours = parseInt(fromTime.hours, 10);
-      const fromMinutes = parseInt(fromTime.minutes, 10);
-
-      const slotDuration = SlotDuration;
-
-      if (slotDuration == 30) {
-        if (fromHours === 11 && fromMinutes === 30 && fromTime.ampm === "AM") {
-          let toMinutes = 0;
-          let toHours = 12;
-          let toAmPm = "PM";
-
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        } else if (
-          fromHours === 11 &&
-          fromMinutes === 30 &&
-          fromTime.ampm === "PM"
-        ) {
-          let toMinutes = 0;
-          let toHours = 12;
-          let toAmPm = "AM";
-          // Handle minutes exceeding 60
-
-          // Format hours and minutes to ensure two-digit representation
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          // Update the timeInputs state with the new 'from' and 'to' times
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        }
-        if (fromMinutes === 30) {
-          // Calculate 'to' time based on the slot duration
-          let toMinutes = 0;
-          let toHours = fromHours + 1;
-          let toAmPm = fromTime.ampm;
-          // Handle minutes exceeding 60
-
-          // Handle 12-hour format and AM/PM switch
-          if (toHours > 12) {
-            toHours = toHours - 12; // Wrap hours to 12-hour format
-            toAmPm = toAmPm === "AM" ? "PM" : "AM"; // Switch AM/PM if crossing 12
-          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
-            // Special case for transitioning at 12 PM
-            toAmPm = toAmPm === "AM" ? "PM" : "AM";
-          }
-          // Format hours and minutes to ensure two-digit representation
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          // Update the timeInputs state with the new 'from' and 'to' times
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        }
-        if (fromMinutes === 0) {
-          let toMinutes = slotDuration;
-          let toHours = fromHours;
-          let toAmPm = fromTime.ampm;
-          if (toHours > 12) {
-            toHours = toHours - 12;
-            toAmPm = toAmPm === "AM" ? "PM" : "AM";
-          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
-            toAmPm = toAmPm === "AM" ? "PM" : "AM";
-          }
-
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        }
-      }
-
-      if (slotDuration == 60) {
-        if (fromHours === 11 && fromMinutes == "00" && fromTime.ampm === "AM") {
-          let toHours = 12;
-          let toMinutes = 0;
-          let toAmPm = "PM";
-          console.log(toAmPm);
-
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        } else if (
-          fromHours === 11 &&
-          fromMinutes == "00" &&
-          fromTime.ampm === "PM"
-        ) {
-          let toHours = 12;
-          let toMinutes = 0;
-          let toAmPm = "AM";
-          console.log(toAmPm);
-
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        } else {
-          let toMinutes = fromMinutes;
-          let toHours = fromHours + 1;
-          let toAmPm = fromTime.ampm;
-
-          if (toHours > 12) {
-            toHours = toHours - 12;
-            toAmPm = toAmPm === "AM" ? "PM" : "AM";
-          } else if (toHours === 12 && fromMinutes + slotDuration > 60) {
-            toAmPm = toAmPm === "AM" ? "PM" : "AM";
-          }
-
-          const toTime = {
-            hours: toHours.toString().padStart(2, "0"),
-            minutes: toMinutes.toString().padStart(2, "0"),
-            ampm: toAmPm,
-          };
-
-          setTimeInputs((prev) => ({
-            ...prev,
-            [day]: { ...prev[day], from: fromTime, to: toTime },
-          }));
-        }
-      }
-    } else {
-      setTimeInputs((prev) => ({
-        ...prev,
-        [day]: { ...prev[day], [type]: value },
-      }));
-    }
-  };
-  const calculateMinutesDifference = (from, to, endDate) => {
-    const fromHours = parseInt(from.hours, 10);
-    const toHours = parseInt(to.hours, 10);
-
-    let fromMinutes = parseInt(from.minutes, 10);
-    let toMinutes = parseInt(to.minutes, 10);
-    if (fromHours === 11 && toHours === 12) {
-      console.log("To min", toMinutes);
-      console.log("from min", fromMinutes);
-      let minutesDifference = 30;
-      return minutesDifference;
-    } else {
-      fromMinutes +=
-        from.ampm === "PM" && fromHours !== 12
-          ? (fromHours + 12) * 60
-          : fromHours === 12
-          ? 0
-          : fromHours * 60;
-      toMinutes +=
-        to.ampm === "PM" && toHours !== 12
-          ? (toHours + 12) * 60
-          : toHours === 12
-          ? 0
-          : toHours * 60;
-      console.log("To min", toMinutes);
-      console.log("from min", fromMinutes);
-
-      // Calculate the difference
-      let minutesDifference = toMinutes - fromMinutes;
-      return minutesDifference;
-    }
+  const toggleDropdownforClose = (index) => {
+    const updatedDropdownState = [...isDropdownOpen];
+    updatedDropdownState[index] = false;
+    setIsDropdownOpen(updatedDropdownState);
   };
 
-  const checkDuplicateTimeSlot = (day, newSlot) => {
-    const existingSlots = timeSlotTags[day] || [];
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+  const durations = ["30", "60", "Both"];
+  const hours = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
+  const minutes = ["00", "30"];
+  const periods = ["AM", "PM"];
 
-    // Check if the new slot matches any existing slot's from and to times
-    return existingSlots.some(
-      (slot) =>
-        slot.from.hours === newSlot.from.hours &&
-        slot.from.minutes === newSlot.from.minutes &&
-        slot.from.ampm === newSlot.from.ampm
-    );
+  // Convert time to minutes since midnight for easier comparison
+  const convertTo24Hour = (hour, minute, period) => {
+    let hours24 = parseInt(hour);
+    if (period === "PM" && hours24 !== 12) hours24 += 12;
+    if (period === "AM" && hours24 === 12) hours24 = 0;
+    return hours24 * 60 + parseInt(minute);
   };
 
-  const handleOkClick = (day) => {
-    console.log(timeInputs);
-    const { from, to, date, recurring, slotDuration } = timeInputs[day];
-    if (from.hours == 0 && from.ampm == "PM") {
-      console.log("hello");
-      return toast.error("Please Enter valide slot.");
-    }
-
-    if (
-      !from.hours ||
-      !from.minutes ||
-      !from.ampm ||
-      !to.hours ||
-      !to.minutes ||
-      !to.ampm ||
-      !date.Mentor_timeslot_rec_end_date ||
-      !recurring.mentor_timeslot_rec_indicator
-    ) {
-      return toast.error(
-        "Please fill in all the fields before adding the slot."
-      );
-    }
-    const minutesDiff = calculateMinutesDifference(from, to);
-
-    if (minutesDiff !== 30 && minutesDiff !== 60) {
-      return toast.error(
-        "Please select a time slot of either 30 or 60 minutes."
-      );
-    }
-
-    const timeSlot = { from, to, date, recurring, slotDuration };
-
-    if (checkDuplicateTimeSlot(day, timeSlot)) {
-      return toast.error("This time slot already exists for the selected day.");
-    }
-
-    const updatedTags = [...(timeSlotTags[day] || []), timeSlot];
-
-    setTimeSlotTags((prev) => ({ ...prev, [day]: updatedTags }));
-
-    setValue(day, updatedTags);
-
-    setTimeInputs((prev) => ({
-      ...prev,
-      [day]: {
-        from: initialTime,
-        to: initialTime,
-        date: { Mentor_timeslot_rec_end_date: "" },
-        recurring: { mentor_timeslot_rec_indicator: "" },
-        slotDuration: { slotDuration: "" },
-      },
-    }));
-    setHideFromTime(false);
+  // Check if two time ranges overlap
+  const doTimesOverlap = (start1, end1, start2, end2) => {
+    return start1 < end2 && start2 < end1;
   };
 
-  const handleRemoveTag = (day, index) => {
-    const updatedTags = timeSlotTags[day].filter((_, i) => i !== index);
-    setTimeSlotTags((prev) => ({ ...prev, [day]: updatedTags }));
-    setValue(day, updatedTags);
+  // Check if dates overlap
+  const doDateRangesOverlap = (start1, end1, start2, end2) => {
+    const s1 = new Date(start1);
+    const e1 = new Date(end1);
+    const s2 = new Date(start2);
+    const e2 = new Date(end2);
+    return s1 <= e2 && s2 <= e1;
   };
-
   const handleSave = async () => {
-    // Check if at least one day is selected
-    if (!Object.keys(selectedDays).some((day) => selectedDays[day])) {
-      return toast.error("Please select at least one day.");
-    }
-    // Check if there are non-empty time slot arrays
-    const nonEmptyTimeSlots = Object.entries(timeSlotTags).reduce(
-      (acc, [day, slots]) => {
-        if (slots.length > 0) {
-          acc[day] = slots;
-        }
-        return acc;
-      },
-      {}
-    );
-    // Alert if no time slots are added
-    if (Object.keys(nonEmptyTimeSlots).length === 0) {
-      return toast.error("Please add at least one time slot.");
-    }
-
+    const dataGroup = JSON.stringify(slots);
+    console.log(dataGroup);
+console.log(user)
     try {
-      console.log(nonEmptyTimeSlots);
       dispatch(showLoadingHandler());
       const res = await Promise.race([
         axios.post(
           `${url}api/v1/mentor/dashboard/update/profile-3`,
-          {
-            Mon: JSON.stringify(nonEmptyTimeSlots.Mon),
-            Tue: JSON.stringify(nonEmptyTimeSlots.Tue),
-            Wed: JSON.stringify(nonEmptyTimeSlots.Wed),
-            Thu: JSON.stringify(nonEmptyTimeSlots.Thu),
-            Fri: JSON.stringify(nonEmptyTimeSlots.Fri),
-            Sat: JSON.stringify(nonEmptyTimeSlots.Sat),
-            Sun: JSON.stringify(nonEmptyTimeSlots.Sun),
+          {dataGroup,
             userDtlsId: user.user_id,
-          },
+          formData},
+
           {
             headers: { authorization: "Bearer " + token },
           }
@@ -604,228 +132,655 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
       dispatch(hideLoadingHandler());
     }
   };
-
-  const formatDate = (date) => {
-    if (!date) return "";
-    const d = new Date(date);
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
+  const [formData, setFormData] = useState({
+    mentor_timezone: profiledata?.mentor_timezone || "",
+  });
+  const handleInputChangeTimeslot = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
+  // Find overlapping slots
+  // const findOverlappingSlots = (currentSlot, currentIndex) => {
+  //   const currentStartTime = convertTo24Hour(
+  //     currentSlot.startHour,
+  //     currentSlot.startMinute,
+  //     currentSlot.startPeriod
+  //   );
+  //   const currentEndTime = convertTo24Hour(
+  //     currentSlot.endHour,
+  //     currentSlot.endMinute,
+  //     currentSlot.endPeriod
+  //   );
+
+  //   return slots.reduce((overlaps, slot, index) => {
+  //     if (index === currentIndex) return overlaps;
+
+  //     const startTime = convertTo24Hour(
+  //       slot.startHour,
+  //       slot.startMinute,
+  //       slot.startPeriod
+  //     );
+  //     const endTime = convertTo24Hour(
+  //       slot.endHour,
+  //       slot.endMinute,
+  //       slot.endPeriod
+  //     );
+
+  //     // Check if dates overlap
+  //     const datesOverlap = doDateRangesOverlap(
+  //       currentSlot.fromDate,
+  //       currentSlot.toDate,
+  //       slot.fromDate,
+  //       slot.toDate
+  //     );
+
+  //     // Check if times overlap
+  //     const timesOverlap = doTimesOverlap(
+  //       currentStartTime,
+  //       currentEndTime,
+  //       startTime,
+  //       endTime
+  //     );
+
+  //     // Check if there are common days between the slots
+  //     const hasCommonDays = currentSlot.days.some((day) =>
+  //       slot.days.includes(day)
+  //     );
+
+  //     if (datesOverlap && timesOverlap && hasCommonDays) {
+  //       overlaps.push({
+  //         slotIndex: index + 1,
+  //         days: slot.days.filter((day) => currentSlot.days.includes(day)),
+  //       });
+  //     }
+
+  //     return overlaps;
+  //   }, []);
+  // };
+
+  // Save slots to localStorage
+  const saveToLocalStorage = (updatedSlots) => {
+    localStorage.setItem("slots", JSON.stringify(updatedSlots));
+  };
+
+  // Handle day selection logic
+  const handleDayChange = (index, day) => {
+    const updatedSlots = [...slots];
+    const isSelected = updatedSlots[index].days.includes(day);
+
+    if (isSelected) {
+      updatedSlots[index].days = updatedSlots[index].days.filter(
+        (selectedDay) => selectedDay !== day
+      );
+    } else {
+      updatedSlots[index].days = [...updatedSlots[index].days, day];
+    }
+
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+  };
+
+  // Handle input change for specific fields
+  const handleInputChange = (index, field, value) => {
+    const updatedSlots = [...slots];
+    updatedSlots[index][field] = value;
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
+  };
+
+  // Add a new slot
+  const addSlot = () => {
+    const newSlot = {
+      days: [],
+      startHour: "12",
+      startMinute: "00",
+      startPeriod: "AM",
+      endHour: "12",
+      endMinute: "00",
+      endPeriod: "PM",
+      fromDate: "",
+      toDate: "",
+      duration: "60",
+    };
+    const updatedSlots = [...slots, newSlot];
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+  };
+
+  // Select all days
+  const handleSelectAllDays = (index) => {
+    const updatedSlots = [...slots];
+    updatedSlots[index].days =
+      updatedSlots[index].days.length === days.length ? [] : [...days];
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+  };
+
+  // Select weekdays
+  const handleSelectWeekdays = (index) => {
+    const updatedSlots = [...slots];
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    updatedSlots[index].days = weekdays.every((day) =>
+      updatedSlots[index].days.includes(day)
+    )
+      ? []
+      : weekdays;
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+  };
+
+  // Select weekends
+  const handleSelectWeekends = (index) => {
+    const updatedSlots = [...slots];
+    const weekends = ["Saturday", "Sunday"];
+    updatedSlots[index].days = weekends.every((day) =>
+      updatedSlots[index].days.includes(day)
+    )
+      ? []
+      : weekends;
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+  };
+
+  // Remove a slot
+  const removeSlot = (index) => {
+    const updatedSlots = slots.filter((_, slotIndex) => slotIndex !== index);
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+    setValue("mentorAvailability", updatedSlots);
+  };
+
+  // Validate slot
+  const validateSlot = (slot, index) => {
+    let errors = {};
+    const startTime = convertTo24Hour(
+      slot.startHour,
+      slot.startMinute,
+      slot.startPeriod
+    );
+    const endTime = convertTo24Hour(
+      slot.endHour,
+      slot.endMinute,
+      slot.endPeriod
+    );
+
+    // Basic validations
+    if (!slot.days.length) errors.days = "Days must be selected.";
+    if (!slot.fromDate) errors.fromDate = "Start date is required.";
+    if (!slot.toDate) errors.toDate = "End date is required.";
+
+    // Time validations
+    if (startTime === endTime) {
+      errors.timeMismatch = "Start and end times cannot be the same.";
+    }
+    if (endTime <= startTime) {
+      errors.invalidTimeOrder = "End time must be later than start time.";
+    }
+
+    // Date validations
+    const fromDate = new Date(slot.fromDate);
+    const toDate = new Date(slot.toDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (fromDate < today) {
+      errors.pastDate = "Start date cannot be in the past.";
+    }
+    if (toDate < fromDate) {
+      errors.invalidDateOrder = "End date must be later than start date.";
+    }
+
+    // Check for overlapping slots with more detailed validation
+    const overlappingSlots = slots.reduce((overlaps, otherSlot, otherIndex) => {
+      if (otherIndex === index) return overlaps;
+
+      const otherStartTime = convertTo24Hour(
+        otherSlot.startHour,
+        otherSlot.startMinute,
+        otherSlot.startPeriod
+      );
+      const otherEndTime = convertTo24Hour(
+        otherSlot.endHour,
+        otherSlot.endMinute,
+        otherSlot.endPeriod
+      );
+
+      const datesOverlap = doDateRangesOverlap(
+        slot.fromDate,
+        slot.toDate,
+        otherSlot.fromDate,
+        otherSlot.toDate
+      );
+
+      const timesOverlap = doTimesOverlap(
+        startTime,
+        endTime,
+        otherStartTime,
+        otherEndTime
+      );
+
+      const commonDays = slot.days.filter((day) =>
+        otherSlot.days.includes(day)
+      );
+
+      if (datesOverlap && timesOverlap && commonDays.length > 0) {
+        overlaps.push({
+          slotIndex: otherIndex + 1,
+          days: commonDays,
+          times: `${otherSlot.startHour}:${otherSlot.startMinute} ${otherSlot.startPeriod} - ${otherSlot.endHour}:${otherSlot.endMinute} ${otherSlot.endPeriod}`,
+        });
+      }
+
+      return overlaps;
+    }, []);
+
+    if (overlappingSlots.length > 0) {
+      const overlappingDetails = overlappingSlots
+        .map(
+          (overlap) =>
+            `Slot ${overlap.slotIndex} (${overlap.days.join(", ")}) at ${
+              overlap.times
+            }`
+        )
+        .join("\n");
+
+      errors.overlap = `Time slot overlaps with:\n${overlappingDetails}`;
+    }
+
+    // Duration validation
+    if (slot.duration === "Both") {
+      // Calculate time difference in minutes
+      const timeDiff = endTime - startTime;
+      if (timeDiff < 60) {
+        errors.duration =
+          "Time slot must be at least 1 hour when 'Both' durations are selected.";
+      }
+    } else {
+      const requestedDuration = parseInt(slot.duration);
+      const timeDiff = endTime - startTime;
+      if (timeDiff < requestedDuration) {
+        errors.duration = `Time slot must be at least ${requestedDuration} minutes for the selected duration.`;
+      }
+    }
+
+    return errors;
+  };
+  const [isSaved, setIsSaved] = useState(Array(slots.length).fill(false));
+
+  // Save slot
+  const saveSlotForIndex = (index) => {
+    const slot = slots[index];
+    const errors = validateSlot(slot, index);
+
+    if (Object.keys(errors).length > 0) {
+      const errorMessages = Object.entries(errors)
+        .map(([key, value]) => value)
+        .join("\n");
+      alert(`Error in Slot ${index + 1}:\n${errorMessages}`);
+      return false;
+    }
+
+    const updatedSlots = [...slots];
+    updatedSlots[index] = slot;
+    setSlots(updatedSlots);
+    saveToLocalStorage(updatedSlots);
+    setValue("mentorAvailability", updatedSlots);
+    alert(`Slot ${index + 1} saved successfully!`);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = true; // Mark the slot as saved
+    setIsSaved(updatedSaveStatus);
+    return true;
+  };
+
+  // useEffect(() => {
+  //   const savedSlots = localStorage.getItem("slots");
+  //   if (savedSlots) {
+  //     try {
+  //       const parsedData = JSON.parse(savedSlots);
+  //       setValue("mentorAvailability", parsedData);
+  //     } catch (error) {
+  //       console.error("Error parsing saved slots:", error);
+  //     }
+  //   }
+  // }, []);
+
   return (
-    <>
-      <div className="line-1">Edit your availability</div>
-      <div className="whole">
-        <div className="doiherner_wrapper">
-          <div className="linesepration">
-            <div className="line-2">Select Days</div>
-            <span className="line-3">
-              Choose your preferred time slots for the selected day
-            </span>
-          </div>
-          <div className="main">
-            <div className="dayColumn">
-              {daysOfWeek.map((day) => (
-                <div key={day} style={styles.dayRow} className="daycolumns">
-                  <h6 style={styles.dayLabel}>{day}</h6>
-                  <label className="switch">
-                    <input
-                      type="checkbox"
-                      checked={selectedDays[day] || false}
-                      onChange={(e) => handleDaySwitch(day, e.target.checked)}
-                    />
-                    <span className="slider round"></span>
-                  </label>
-                </div>
-              ))}
-            </div>
+    <div className="MentorProfileDispalySize">
+      <div className="col-lg-12">
+        <div className="mb-4">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            <b>
+              Your Timezone <span className="RedColorStarMark">*</span>
+            </b>
+          </label>
 
-            <div
-              className="Timecolumn"
-              style={{ height: "30rem", overflowY: "auto" }}
-            >
-              {daysOfWeek.map(
-                (day) =>
-                  selectedDays[day] && (
-                    <div
-                      key={day}
-                      className="innertimeslot"
-                      style={{ width: "fit-content" }}
-                    >
-                      {" "}
-                      <div className="slotrow">
-                        <h6>{day}</h6>
-
-                        <div className="timeslots">
-                          <Controller
-                            control={control}
-                            name={`${day}.slotDuration`}
-                            render={({ field }) => (
-                              <select
-                                {...field}
-                                value={
-                                  timeInputs[day]?.slotDuration?.slotDuration ||
-                                  ""
-                                }
-                                onChange={(e) => {
-                                  const newDuration = e.target.value;
-
-                                  setSlotDuration(newDuration);
-
-                                  handleTimeChange(day, "slotDuration", {
-                                    ...timeInputs[day]?.slotDuration,
-                                    slotDuration: newDuration,
-                                  });
-
-                                  setTimeInputs((prev) => ({
-                                    ...prev,
-                                    [day]: {
-                                      ...prev[day],
-                                      from: initialTime,
-                                      to: initialTime,
-                                      date: {
-                                        Mentor_timeslot_rec_end_date: "",
-                                      },
-                                      recurring: {
-                                        mentor_timeslot_rec_indicator: "",
-                                      },
-                                    },
-                                  }));
-
-                                  setHideFromTime(true);
-                                }}
-                              >
-                                <option value="">Select slot Duration</option>
-                                <option value={30}>30 Min</option>
-                                <option value={60}>60 Min</option>
-                              </select>
-                            )}
-                          />
-
-                          {HideFromTime && (
-                            <CustomTimePicker
-                              value={timeInputs[day].from}
-                              onChange={(value) =>
-                                handleTimeChange(day, "from", value)
-                              }
-                            />
-                          )}
-
-                          {/* <span style={styles.toLabel}>to</span>
-                          <CustomTimePicker
-                            value={timeInputs[day].to}
-                            onChange={(value) =>
-                              handleTimeChange(day, "to", value)
-                            }
-                          /> */}
-                        </div>
-                        <div className="label-input">
-                          <label>Recurring</label>
-                          <Controller
-                            control={control}
-                            name={`${day}.recurring`}
-                            render={({ field }) => (
-                              <select
-                                {...field}
-                                value={
-                                  timeInputs[day].recurring
-                                    .mentor_timeslot_rec_indicator
-                                }
-                                onChange={(e) =>
-                                  handleTimeChange(day, "recurring", {
-                                    ...timeInputs[day].recurring,
-                                    mentor_timeslot_rec_indicator:
-                                      e.target.value,
-                                  })
-                                }
-                              >
-                                <option value="">None</option>
-                                <option value="Daily">Daily</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Monthly">Monthly</option>
-                              </select>
-                            )}
-                          />
-                        </div>
-                        <div className="label-input">
-                          <label>End date</label>
-                          <Controller
-                            control={control}
-                            name={`${day}.date`}
-                            render={({ field }) => (
-                              <DatePicker
-                                {...field}
-                                selected={
-                                  timeInputs[day].date
-                                    .Mentor_timeslot_rec_end_date
-                                }
-                                onChange={(date) =>
-                                  handleTimeChange(day, "date", {
-                                    ...timeInputs[day].date,
-                                    Mentor_timeslot_rec_end_date:
-                                      formatDate(date),
-                                  })
-                                }
-                                dateFormat="MM/dd/yyyy"
-                                placeholderText="End Date"
-                                minDate={new Date()} // Prevent past dates
-                                style={styles.datePicker}
-                              />
-                            )}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleOkClick(day)}
-                          style={styles.okButton}
-                        >
-                          ADD
-                        </button>
-                      </div>
-                      {timeSlotTags[day] &&
-                        timeSlotTags[day].map((slot, index) => (
-                          <div key={index} className="tag">
-                            <span>{`${slot.from.hours}:${slot.from.minutes} ${
-                              slot.from.ampm
-                            } - ${slot.to.hours}:${slot.to.minutes} ${
-                              slot.to.ampm
-                            }, Recurring: ${
-                              slot.recurring.mentor_timeslot_rec_indicator
-                            }, End Date: ${
-                              slot.date.Mentor_timeslot_rec_end_date || "N/A"
-                            }`}</span>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveTag(day, index)}
-                              className="removeButton"
-                              style={styles.removeButton}
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ))}
-                    </div>
-                  )
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Save Button at the Bottom */}
-        <div className="save-button-container">
-          <button
-            type="button"
-            onClick={handleSave}
-            className="btn juybeubrer_btn btn-primary"
+          <select
+            className="form-select"
+            name="mentorTimezone"
+            onChange={handleInputChangeTimeslot}
           >
-            Save
+            <option
+              defaultValue={
+                "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)"
+              }
+            >
+              {" "}
+              UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)
+            </option>
+            {option_fro_timezone?.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div>
+        {slots.map((slot, index) => {
+          const errors = validateSlot(slot, index);
+          return (
+            <div key={index} className="AvailabilityMainContainer">
+              <div
+                className="Availability-container"
+                onClick={() => toggleDropdownforClose(index)}
+              >
+                <h3>Slot {index + 1}</h3>
+                <div
+                  onClick={() => removeSlot(index)}
+                  style={{ marginLeft: "10px" }}
+                >
+                  <i className="fa-solid fa-xmark cross-btn"></i>
+                </div>
+              </div>
+
+              <div className="slot-container1">
+                <div className="">
+                  <div className="availability-day">
+                    <label>Days:</label>
+                    <div className="custom-dropdown">
+                      <div
+                        onClick={() => toggleDropdown(index)}
+                        className="dropdown-header"
+                      >
+                        {slot.days.length === 0 ? (
+                          <div className="dropdownDayBox">
+                            <div>Select Days</div>
+                            <div>
+                              <i className="fa-solid fa-chevron-down"></i>
+                            </div>
+                          </div>
+                        ) : slot.days.length === days.length ? (
+                          "All Days"
+                        ) : (
+                          slot.days.join(", ")
+                        )}
+                      </div>
+                      {isDropdownOpen[index] && (
+                        <div className="dropdownDay">
+                          <div className="dropdown-actions">
+                            <div>
+                              <button
+                                type="button"
+                                className="dropdownDayOption btnDays"
+                                onClick={() => handleSelectAllDays(index)}
+                              >
+                                {slot.days.length === days.length
+                                  ? "Clear All"
+                                  : "Select All"}
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                type="button"
+                                className="dropdownDayOption btnDays"
+                                onClick={() => handleSelectWeekdays(index)}
+                              >
+                                Weekdays
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                type="button"
+                                className="dropdownDayOption btnDays"
+                                onClick={() => handleSelectWeekends(index)}
+                              >
+                                Weekends
+                              </button>
+                            </div>
+                          </div>
+                          {days.map((day) => (
+                            <div key={day} className="checkbox-item">
+                              <input
+                                type="checkbox"
+                                id={`${index}-${day}`}
+                                checked={slot.days.includes(day)}
+                                onChange={() => handleDayChange(index, day)}
+                              />
+                              <label htmlFor={`${index}-${day}`}>{day}</label>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    {errors.days && (
+                      <p style={{ color: "red" }}>{errors.days}</p>
+                    )}
+                  </div>
+                </div>
+                <div onClick={() => toggleDropdownforClose(index)}>
+                  <label>Start Time:</label>
+                  <div className="timeslot">
+                    <select
+                      value={slot.startHour}
+                      onChange={(e) =>
+                        handleInputChange(index, "startHour", e.target.value)
+                      }
+                    >
+                      {hours.map((hour) => (
+                        <option key={hour} value={hour}>
+                          {hour}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={slot.startMinute}
+                      onChange={(e) =>
+                        handleInputChange(index, "startMinute", e.target.value)
+                      }
+                    >
+                      {minutes.map((minute) => (
+                        <option key={minute} value={minute}>
+                          {minute}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={slot.startPeriod}
+                      onChange={(e) =>
+                        handleInputChange(index, "startPeriod", e.target.value)
+                      }
+                    >
+                      {periods.map((period) => (
+                        <option key={period} value={period}>
+                          {period}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errors.timeMismatch && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.timeMismatch}
+                    </p>
+                  )}
+                </div>
+                <div onClick={() => toggleDropdownforClose(index)}>
+                  <label>End Time:</label>
+                  <div className="timeslot">
+                    <select
+                      value={slot.endHour}
+                      onChange={(e) =>
+                        handleInputChange(index, "endHour", e.target.value)
+                      }
+                    >
+                      {hours.map((hour) => (
+                        <option key={hour} value={hour}>
+                          {hour}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={slot.endMinute}
+                      onChange={(e) =>
+                        handleInputChange(index, "endMinute", e.target.value)
+                      }
+                    >
+                      {minutes.map((minute) => (
+                        <option key={minute} value={minute}>
+                          {minute}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={slot.endPeriod}
+                      onChange={(e) =>
+                        handleInputChange(index, "endPeriod", e.target.value)
+                      }
+                    >
+                      {periods.map((period) => (
+                        <option key={period} value={period}>
+                          {period}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errors.invalidTimeOrder && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.invalidTimeOrder}
+                    </p>
+                  )}
+                </div>
+                <div className="dateAvialbility">
+                  <label>Start Date:</label>
+                  <DatePicker
+                    selected={slot.fromDate ? new Date(slot.fromDate) : null}
+                    onChange={(date) =>
+                      handleInputChange(index, "fromDate", date)
+                    }
+                    dateFormat="yyyy-MM-dd"
+                    minDate={today}
+                    className="date-picker"
+                  />
+                  {errors.fromDate && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.fromDate}
+                    </p>
+                  )}
+                </div>
+                <div className="dateAvialbility">
+                  <label>End Date:</label>
+                  <DatePicker
+                    selected={slot.toDate ? new Date(slot.toDate) : null}
+                    onChange={(date) =>
+                      handleInputChange(index, "toDate", date)
+                    }
+                    dateFormat="yyyy-MM-dd"
+                    minDate={today}
+                    className="date-picker"
+                  />
+                  {errors.toDate && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.toDate}
+                    </p>
+                  )}
+                  {errors.invalidDateOrder && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.invalidDateOrder}
+                    </p>
+                  )}
+                </div>
+                <div
+                  className="availability-duration"
+                  onClick={() => toggleDropdownforClose(index)}
+                >
+                  <label>Duration:</label>
+                  <select
+                    value={slot.duration}
+                    onChange={(e) =>
+                      handleInputChange(index, "duration", e.target.value)
+                    }
+                  >
+                    {durations.map((duration) => (
+                      <option key={duration} value={duration}>
+                        {duration}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div
+                className="availability-saveDiv"
+                onClick={() => toggleDropdownforClose(index)}
+              >
+                {/* <button
+                  type="button"
+                  onClick={() => saveSlotForIndex(index)}
+                  className="save-btn"
+                >
+                  Save Slot
+                </button> */}
+                <div>
+                  {errors.overlap && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.overlap}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => saveSlotForIndex(index)}
+                  style={{
+                    backgroundColor: isSaved[index] ? "green" : "#0255ca",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: "none",
+                    cursor: "pointer",
+                    borderRadius: "5px",
+                  }}
+                >
+                  {isSaved[index] ? "Saved" : "Save Slot"}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+        <div className="addBtnAvailability">
+          <button type="button" onClick={addSlot} className="add-slot-btn">
+            Add Slot
           </button>
         </div>
       </div>
-    </>
+        {/* Save Button at the Bottom */}
+        <div className="save-button-container">
+        <button
+          type="button"
+          onClick={handleSave}
+          className="btn juybeubrer_btn btn-primary"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
   );
 };
 
-export default MentorProfile3;
+export default MentorProfile4;

@@ -34,39 +34,8 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
   return (
     <>
       {allBookingSessions?.map((session) => {
-        const bookingDate = new Date(session.mentor_session_booking_date);
-        let bookingStartTime = null;
-
-        if (session.mentor_booking_starts_time) {
-          const [time, meridian] =
-            session.mentor_booking_starts_time.split(" ");
-          if (time && meridian) {
-            let [hours, minutes] = time.split(":");
-            hours = parseInt(hours, 10);
-            minutes = parseInt(minutes, 10);
-
-            if (meridian === "PM" && hours < 12) hours += 12;
-            if (meridian === "AM" && hours === 12) hours = 0;
-
-            bookingStartTime = new Date(
-              bookingDate.getFullYear(),
-              bookingDate.getMonth(),
-              bookingDate.getDate(),
-              hours,
-              minutes
-            );
-          }
-        }
-
-        const currentDate = new Date();
-
-        const isToday =
-          bookingDate.toDateString() === currentDate.toDateString(); // Check if booking date is today
-        const isFutureTime = bookingStartTime && bookingStartTime > currentDate; // Check if time is in the future
-        const isPastTime = bookingStartTime && bookingStartTime <= currentDate; // Check if time is in the past
-
         return (
-          <div className="col-lg-3 mb-3" key={session.mentor_booking_appt_id}>
+          <div className="col-lg-3 mb-3">
             <div className="ghfghgfhg iuhuh__enruiere mb-0">
               <div className="jghdfrg">
                 <div className="row">
@@ -91,7 +60,7 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                             <div className="ierjuhrt_left">
                               <h5 className="mb-0">
                                 <i className="fa-regular me-1 fa-clock"></i>{" "}
-                                Time:
+                                Time :
                               </h5>
                               <p className="my-0">
                                 {session.mentor_booking_time}
@@ -103,20 +72,33 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                             <div className="ierjuhrt_left">
                               <h5 className="mb-0">
                                 <i className="fa-solid me-1 fa-calendar-days"></i>{" "}
-                                Date:
+                                Date :
                               </h5>
+
                               <p className="my-0">
-                                {bookingDate.toLocaleDateString()}
+                                {new Date(
+                                  session.mentor_session_booking_date
+                                ).toLocaleDateString()}
                               </p>
                             </div>
                           </div>
+
+                          {/* <div className="col-lg-6 mb-2">
+                          <div className="ierjuhrt_left">
+                            <h5 className="mb-0">
+                              <i className="fa-regular me-1 fa-face-smile"></i>{" "}
+                              Rating :
+                            </h5>
+
+                            <p className="my-0">4.9/5</p>
+                          </div>
+                        </div> */}
                         </div>
                         <hr />
                         <div className="kbfhgfgfg d-flex justify-content-center mt-3">
-                          {/* Approve Now Message */}
                           {session.mentor_booking_confirmed === "No" &&
-                            isToday &&
-                            isFutureTime && (
+                            new Date(session.mentor_session_booking_date) >
+                              new Date() && (
                               <>
                                 <div className="error-box">
                                   Please approve this Mentor session to connect
@@ -136,21 +118,18 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                                 </button>
                               </>
                             )}
-
-                          {/* Already Passed Message */}
                           {session.mentor_booking_confirmed === "No" &&
-                            (bookingDate < currentDate ||
-                              (isToday && isPastTime)) && (
+                            new Date(session.mentor_session_booking_date) <
+                              new Date() && (
                               <div className="error-box">
                                 You cannot accept this appointment. The date has
                                 already passed.
                               </div>
                             )}
 
-                          {/* Already Approved Message */}
                           {session.mentor_booking_confirmed === "Yes" &&
-                            isToday &&
-                            isFutureTime && (
+                            new Date(session.mentor_session_booking_date) >
+                              new Date() && (
                               <>
                                 <div className="error-box-green">
                                   You have already approved this mentor session.

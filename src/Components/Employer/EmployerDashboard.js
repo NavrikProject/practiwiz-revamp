@@ -521,7 +521,7 @@ const EmployerDashboard = ({ user, token }) => {
                     onClick={HandlePostedInternship}
                   >
                     <span className="d-block bg-white position-relative m-auto">
-                      <i class="fa-solid fa-share-from-square"></i>
+                      <i className="fa-solid fa-share-from-square"></i>
                     </span>
 
                     <h5>Posted Internships</h5>
@@ -531,7 +531,7 @@ const EmployerDashboard = ({ user, token }) => {
                     onClick={HandlePostInternship}
                   >
                     <span className="d-block bg-white position-relative m-auto">
-                      <i class="fa-solid fa-share-from-square"></i>
+                      <i className="fa-solid fa-share-from-square"></i>
                     </span>
 
                     <h5>Post Internship</h5>

@@ -2,14 +2,12 @@ import React from "react";
 import "../InternshipCss/EmployerProfile.css";
 
 const EmployerProfile = ({ data, employerDtlsId }) => {
-  const empData = data[0];
-
   return (
     <>
       {data?.map((employer) => {
         return (
           <>
-            <div className="emp-profile">
+            <div className="emp-profile" key={employer.employer_user_dtls_id}>
               {/* Information Cards */}
               <div className="emp-profile_main">
                 {/* Stats Section */}
@@ -46,9 +44,18 @@ const EmployerProfile = ({ data, employerDtlsId }) => {
                 <div className="emp-profile_info-grid">
                   {/* Company Information */}
                   <div className="emp-profile_card">
-                    <h2 className="emp-profile_card-title">
-                      {employer.employer_organization_name}
-                    </h2>
+                    <div className="orgFlex">
+                      {" "}
+                      <h2 className="emp-profile_card-title">
+                        {employer.employer_organization_name}
+                      </h2>
+                      <img
+                        className="orgImageLogo"
+                        src="https://media.licdn.com/dms/image/v2/C560BAQHB48akFJiJuQ/company-logo_200_200/company-logo_200_200/0/1630640901564/navrik_software_solutions_logo?e=1743033600&v=beta&t=AtdbNmZlE0FfjOkJWQP1V84ctYXHU_eOCUQjC1rNLGk"
+                        alt=""
+                      />
+                    </div>
+
                     <div className="emp-profile_card-content">
                       <div className="emp-profile_about">
                         <h3 className="emp-profile_subtitle">About Company</h3>

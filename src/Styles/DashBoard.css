@@ -39,11 +39,11 @@ header .navbar-brand img {
 .gtyfdgfgf {
   top: 10rem;
 }
-.maincontent {
+/* .maincontent {
   display: flex;
   justify-content: center;
-  /* margin-top: 30px; */
-}
+ margin-top: 30px; 
+} */
 
 .submenu {
   position: absolute;

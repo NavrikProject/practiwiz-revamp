@@ -1,393 +1,332 @@
+// MenteeProfileDashboard.jsx
 import React from "react";
-import "../DashboardCSS/menteeprofile.css";
-import "../DashboardCSS/mobileMenteeProfile.css";
-import Annesa from "../../../../Images/Mentee/annesa.webp";
-import Ll1 from "../../../../Images/Mentee/ll1.png";
-import Ll2 from "../../../../Images/Mentee/ll2.png";
-import Ll3 from "../../../../Images/Mentee/ll3.png";
-import Ll4 from "../../../../Images/Mentee/ll4.png";
-import Ll5 from "../../../../Images/Mentee/ll5.png";
-import Ii1 from "../../../../Images/Mentee/ii1.png";
-import Ii2 from "../../../../Images/Mentee/ii2.png";
-import Ii4 from "../../../../Images/Mentee/ii4.png";
-import Edu from "../../../../Images/Mentee/edu.png";
-import Certification from "../../../../Images/Mentee/certification.png";
-import Experience from "../../../../Images/Mentee/experiece.png";
+import "./MenteeDashboardProfile.css";
+
 const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
   return (
-    <>
-      {singleMentee?.map((sMentee) => {
-        return (
-          <div className="col-lg-10 ps-0 hththtggh mob-main">
-            <div
-              className="duiegrer_bck position-relative mb-3"
-              id="menteeBackgroundCover"
-            >
-              <div className="container">
-                <div className="mob-center csdpeijf kjbdbeuirrr d-flex justify-content-between">
-                  <div className="mob-center mlr ihuerorktrt ujgereter position-relative">
-                    <div className="iijieirr_left2 overflow-hidden">
-                      <img
-                        src={sMentee?.mentee_profile_pic_url}
-                        width="100%"
-                        alt=""
-                      />
+    <div className="mentee-dashboard">
+      {singleMentee?.map((mentee, index) => (
+        <div key={index} className="dashboard-container">
+          {/* Cover Section */}
+
+          {/* Main Content */}
+          <div className="main-content">
+            <div className="content-grid">
+              {/* Left Column */}
+              <div className="left-column">
+                <div className="profile-cover">
+                  <div className="cover-content">
+                    <div className="profile-header">
+                      <div className="menteeProfile-photoName">
+                        <div className="profile-image-container">
+                          <img
+                            src={mentee?.mentee_profile_pic_url}
+                            alt={mentee.mentee_firstname}
+                            className="profile-imageDashBoard"
+                          />
+                        </div>
+
+                        <div className="mentee-dashboardHeadline">
+                          {" "}
+                          <div className="info-section">
+                            <h2 className="mentee-name">
+                              {mentee.mentee_firstname.toUpperCase()}{" "}
+                              {mentee.mentee_lastname.toUpperCase()}
+                            </h2>
+                            {/* <div className="social-links">
+                      <i className="fa-brands fa-linkedin-in"></i>
+                      <i className="fa-brands fa-x-twitter"></i>
+                    </div> */}
+                          </div>
+                          {/* About */}
+                          <div className="info-item">
+                            {/* <img src="/api/placeholder/24/24" alt="About" /> */}
+                            <p className="about-text">{mentee?.mentee_about}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  <div className="ihurtf_btn mob-hide">
-                    {/* <button className="btn btn-main">
-                        <i className="fa-solid pe-2 fa-envelope-open-text"></i>{" "}
-                        Message
-                      </button> */}
+                {/* Mentee Type
+                <div className="info-item">
+                  <img src="/api/placeholder/24/24" alt="Type" />
+                  <p>{mentee?.mentee_type.toUpperCase()}</p>
+                </div> */}
 
-                    <button className="btn btn-main">
-                      <i className="fa-solid pe-2 fa-share"></i> Share Profile
-                    </button>
+                {/* Skills */}
+                <div className="skills-section">
+                  <h4>Skills</h4>
+                  <div className="skills-container">
+                    {JSON.parse(mentee?.mentee_skills)?.map((skill, idx) => (
+                      <span key={idx} className="skill-tag">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Work Experience */}
+                <div className="experience-section">
+                  <div className="section-header">
+                    {/* <img src="/api/placeholder/24/24" alt="Experience" /> */}
+                    <h3>Work Experience</h3>
+                  </div>
+                  <div className="experience-content">
+                    <div className="work-experience-container">
+                      {JSON.parse(mentee?.mentee_experience_details)?.map(
+                        (Info, index) => (
+                          <div key={index} className="experience-card">
+                            <div className="experience-header">
+                              <h3 className="company-name">
+                                {Info.mentee_workexp_CompanyName}
+                              </h3>
+                              <div className="duration">
+                                <span>{Info.mentee_workexp_Start_Year}</span>
+                                <span className="duration-separator">-</span>
+                                <span>{Info.mentee_workexp_End_Year}</span>
+                              </div>
+                            </div>
+
+                            <h4 className="role-title">
+                              {Info.mentee_workexp_Role}
+                            </h4>
+
+                            <p className="experience-description">
+                              {Info.mentee_workexp_Desc}
+                            </p>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="education-section">
+                  <div className="section-header">
+                    <h3>Education</h3>
+                  </div>
+
+                  <div className="education-content">
+                    {JSON.parse(mentee?.mentee_institute_details)?.map(
+                      (detail, index) => {
+                        if (detail.educationType === "college") {
+                          return (
+                            <div key={index} className="education-card">
+                              <div className="education-type">
+                                {detail.educationType}
+                              </div>
+                              <h4 className="school-name">
+                                {detail.collage_name}
+                              </h4>
+                              <h4 className="course-name">
+                                {detail.mentee_courseName}
+                              </h4>
+
+                              <div className="education-details">
+                                <div className="detail-group">
+                                  <span className="detail-label">
+                                    Duration:
+                                  </span>
+                                  <span className="detail-value">
+                                    {detail.mentee_institute_Start_Year} -{" "}
+                                    {detail.mentee_institute_End_Year}
+                                  </span>
+                                </div>
+
+                                <div className="detail-group">
+                                  <span className="detail-label">
+                                    Percentage:
+                                  </span>
+                                  <span className="detail-value">
+                                    {detail.mentee_institute_Percentage}%
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        } else if (detail.educationType === "school") {
+                          return (
+                            <div key={index} className="education-card">
+                              <div className="education-type">
+                                {detail.educationType}
+                              </div>
+                              <h4 className="school-name">
+                                {detail.school_name}
+                              </h4>
+
+                              <div className="education-details">
+                                <div className="detail-group">
+                                  <span className="detail-label">Board:</span>
+                                  <span className="detail-value">
+                                    {detail.schoolBoard}
+                                  </span>
+                                </div>
+
+                                <div className="detail-group">
+                                  <span className="detail-label">Class:</span>
+                                  <span className="detail-value">
+                                    {detail.schoolClass}
+                                  </span>
+                                </div>
+
+                                <div className="detail-group">
+                                  <span className="detail-label">
+                                    Location:
+                                  </span>
+                                  <span className="detail-value">
+                                    {detail.school_location}%
+                                  </span>
+                                </div>
+
+                                <div className="detail-group">
+                                  <span className="detail-label">
+                                    Duration:
+                                  </span>
+                                  <span className="detail-value">
+                                    {detail.schoolStartYear} -{" "}
+                                    {detail.schoolEndYear}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                      }
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="lndfhjfvgdvbfgfghgf pt-5">
-              <div className="container">
-                <div className="skhfdfdfg">
-                  <div className="row justify-content-between">
-                    <div className="col-lg-7">
-                      <div className="dfnjghjggh">
-                        <div className="ghvfvdfgg">
-                          <div className="gjnjfghg">
-                            <h2 className="mb-2">
-                              {" "}
-                              {sMentee.mentee_firstname.toUpperCase() +
-                                " " +
-                                sMentee.mentee_lastname.toUpperCase()}
-                            </h2>
+              {/* Right Column */}
+              <div className="right-column">
+                {/* Personal Details */}
+                <div className="details-card">
+                  {/* <h5 className="card-title">Personal Details</h5> */}
+                  <div className="detail-item">
+                    <div className="detail-header">
+                      {/* <img src="/api/placeholder/20/20" alt="Education" /> */}
+                      <h6>Profession:</h6>
+                    </div>
+                    <p>{mentee?.mentee_type}</p>
+                  </div>
+
+                  <div className="detail-item">
+                    <div className="detail-header">
+                      {/* <i className="fa-solid fa-envelope"></i> */}
+                      <h6>Email:</h6>
+                    </div>
+                    <p>{mentee?.mentee_email}</p>
+                  </div>
+
+                  <div className="detail-item">
+                    <div className="detail-header">
+                      {/* <img src="/api/placeholder/20/20" alt="Gender" /> */}
+                      <h6>Gender:</h6>
+                    </div>
+                    <p>{mentee?.mentee_gender}</p>
+                  </div>
+
+                  <div className="detail-item">
+                    <div className="detail-header">
+                      {/* <img src="/api/placeholder/20/20" alt="Language" /> */}
+                      <h6>Language:</h6>
+                    </div>
+                    <div className="language-list">
+                      {mentee?.mentee_language ? (
+                        // Parse the mentee_language only once and check if it's an array with data
+                        (() => {
+                          try {
+                            const languages = JSON.parse(
+                              mentee.mentee_language
+                            );
+                            return languages?.length > 0 ? (
+                              languages.map((lang, idx) => (
+                                <p key={idx}>{lang.value}</p>
+                              ))
+                            ) : (
+                              <p>No languages available</p>
+                            );
+                          } catch (error) {
+                            console.error(
+                              "Error parsing mentee_language:",
+                              error
+                            );
+                            return <p>No languages available</p>;
+                          }
+                        })()
+                      ) : (
+                        <p>No languages available</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                {/* Certification Section */}
+                <div className="certification-section">
+                  <div className="section-header">
+                    <h3>Certifications</h3>
+                  </div>
+
+                  <div className="certification-content">
+                    {JSON.parse(mentee?.mentee_certificate_details)?.map(
+                      (Info, index) => (
+                        <div key={index} className="certification-card">
+                          <div className="certification-header">
+                            <h4 className="certificate-name">
+                              {Info.mentee_Certificate_Name}
+                            </h4>
+                            <span className="certificate-level">
+                              {Info.mentee_Certificate_level}
+                            </span>
                           </div>
 
-                          <div className="njfgfghf">
-                            <i className="fa-brands me-2 fa-linkedin-in"></i>
-
-                            <i className="fa-brands fa-x-twitter"></i>
-                          </div>
-                        </div>
-
-                        <div className="hfuydfgftgh d-flex align-items-center mb-2">
-                          <div className="gjfhg me-2">
-                            <img src={Ii1} alt="" />
-                          </div>
-
-                          <p className="mb-0" style={{ marginTop: "8px" }}>
-                            {sMentee.mentee_type.toUpperCase()}
-                          </p>
-                        </div>
-
-                        {/* <div className="hfuydfgftgh d-flex align-items-center mb-2">
-                            <div className="gjfhg me-2">
-                              <img src={Ii2} alt="" />
+                          <div className="certificate-details">
+                            <div className="certificate-duration">
+                              <span>{Info.mentee_Certificate_Start_Year}</span>
+                              <span className="duration-separator">-</span>
+                              <span>{Info.mentee_Certificate_End_Year}</span>
                             </div>
 
-                            <p className="mb-0">
-                              Working Professional{" "}
-                              <span className="spnrr">
-                                ({sMentee.mentee_lastname.toUpperCase()})
-                              </span>
+                            <p className="certificate-description">
+                              {Info.mentee_Certificate_Desc}
                             </p>
-                          </div> */}
-
-                        <div className="hfuydfgftgh d-flex mb-2 gfgh">
-                          <div className="gjfhg me-2 ">
-                            <img src={Ii4} alt="" />
                           </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
 
-                          <p className="mb-0 ">
-                            {sMentee.mentee_about}
-                            {/* <span className="spnn45">Show More</span> */}
+                <div className="additional-section">
+                  <div className="section-header">
+                    <h3>Additional Information</h3>
+                  </div>
+
+                  <div className="additional-content">
+                    {JSON.parse(mentee?.mentee_additional_details)?.map(
+                      (detail, index) => (
+                        <div key={index} className="additional-card">
+                          <h4 className="additional-headline">
+                            {detail.additionalHeadline}
+                          </h4>
+                          <p className="additional-description">
+                            {detail.additionalDec}
                           </p>
                         </div>
-
-                        <div className="jgufgfhghjg my-5">
-                          <h4 className="mb-3">Skills</h4>
-
-                          <div className="hjuyfgdfggh gfgh">
-                            <p>{sMentee.mentee_skills}</p>
-                          </div>
-                        </div>
-
-                        <div className="jnfhujydfgfghfh">
-                          <div className="lgjgf align-items-center mb-3">
-                            <div className="mgjhg me-3">
-                              <img src={Experience} alt="" />
-                            </div>
-
-                            <h3 className="mb-0">Work Experience</h3>
-                          </div>
-
-                          <div className="gkjnhfgfg">
-                            <div className="row">
-                              <div className="">
-                                <div className="gfgh">
-                                  {JSON?.parse(
-                                    sMentee?.mentee_experience_details
-                                  ) !== null ? (
-                                    <>
-                                      {" "}
-                                      {JSON.parse(
-                                        sMentee?.mentee_experience_details
-                                      ).map((dlt) => {
-                                        return (
-                                          <div className="gfgh">
-                                            <h6>
-                                              {dlt?.mentee_workexp_CompanyName}
-                                            </h6>
-                                            <p>{dlt?.mentee_workexp_Role}</p>
-                                            <p>{dlt?.mentee_workexp_Desc}</p>
-                                            <p>
-                                              {dlt?.mentee_workexp_Location}
-                                            </p>
-                                            <p>
-                                              {new Date(
-                                                dlt?.mentee_workexp_Start_Year
-                                              ).toDateString()}
-                                              {}--{" "}
-                                              {new Date(
-                                                dlt?.mentee_workexp_End_Year
-                                              ).toDateString()}
-                                            </p>
-                                          </div>
-                                        );
-                                      })}
-                                    </>
-                                  ) : (
-                                    <h7>Please UpDate Education Details </h7>
-                                  )}
-                                </div>
-                              </div>
-                              {/* <div className="col-lg-6">
-                            <div className="gfgh">
-                              <h6>Product Designer</h6>
-                              <p>
-                                There are many variations of passages of Lorem
-                                Ipsum available, but the majority have suffered
-                                alteration in some form
-                              </p>
-                            </div>
-                          </div> */}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <div className="gdfgghjhhjkjh">
-                        <div className="dfkjbgdfgg">
-                          <div className="nggh mb-3">
-                            <h5>Personal Details</h5>
-                          </div>
-
-                          {/* <div className="mfbghffghg py-2">
-                              <div className="doiherer d-flex align-items-center">
-                                <div className="jnhfgjhf me-2">
-                                  <img src={Ll1} alt="" />
-                                </div>
-
-                                <h6 className="mb-0">Experience:</h6>
-                              </div>
-
-                              <p className="mb-0">0-2 Years</p>
-                            </div> */}
-
-                          <div className="mfbghffghg py-2">
-                            <div className="doiherer d-flex align-items-center">
-                              <div className=" me-2">
-                                {/* <img src={Ll2} alt="" /> */}
-
-                                <i
-                                  class="fa-solid fa-envelope"
-                                  style={{
-                                    color: " #ff9214",
-                                    marginLeft: "7px",
-                                  }}
-                                ></i>
-                              </div>
-
-                              <h6
-                                className="mb-0"
-                                style={{ marginLeft: "16px" }}
-                              >
-                                Email:
-                              </h6>
-                            </div>
-
-                            <p className="mb-0">{sMentee?.mentee_email}</p>
-                          </div>
-
-                          <div className="mfbghffghg py-2">
-                            <div className="doiherer d-flex align-items-center">
-                              <div className="jnhfgjhf me-2">
-                                <img src={Ll3} alt="" />
-                              </div>
-
-                              <h6 className="mb-0">Gender:</h6>
-                            </div>
-
-                            <p className="mb-0">{sMentee?.mentee_gender}</p>
-                          </div>
-
-                          <div className="mfbghffghg py-2">
-                            <div className="doiherer d-flex align-items-center">
-                              <div className="jnhfgjhf me-2">
-                                <img src={Ll4} alt="" />
-                              </div>
-
-                              <h6 className="mb-0">Language:</h6>
-                            </div>
-
-                            <p className="mb-0">{sMentee?.mentee_language}</p>
-                          </div>
-
-                          <div className="mfbghffghg py-2">
-                            <div className="doiherer d-flex align-items-center">
-                              <div className="jnhfgjhf me-2">
-                                <img src={Ll5} alt="" />
-                              </div>
-
-                              <h6 className="mb-0">Educational Level:</h6>
-                            </div>
-
-                            <p className="mb-0">{sMentee?.mentee_type}</p>
-                          </div>
-                          {/* <div className="mfbghffghg py-2">
-                              <div className="doiherer d-flex align-items-center">
-                                <div className="jnhfgjhf me-2">
-                                  <img src={Ll5} alt="" />
-                                </div>
-
-                                <h6 className="mb-0">Educational Level:</h6>
-                              </div>
-
-                              <p className="mb-0">{sMentee?.mentee_EduLevel}</p>
-                            </div> */}
-                        </div>
-
-                        <div className="jnfhujydfgfghfh my-4">
-                          <div className="lgjgf2 align-items-center mb-3">
-                            <div className="mgjhg me-3">
-                              <img src={Edu} alt="" />
-                            </div>
-
-                            <h3 className="mb-0">Education</h3>
-                          </div>
-
-                          <div className="gkjnhfgfg">
-                            <div className="row">
-                              <div className="">
-                                {sMentee?.mentee_institute_details ? (
-                                  <>
-                                    {" "}
-                                    {JSON.parse(
-                                      sMentee?.mentee_institute_details
-                                    ).map((dlt) => {
-                                      return (
-                                        <div className="gfgh">
-                                          <h6>{dlt?.mentee_instituteName}</h6>
-                                          <p>{dlt?.mentee_courseName}</p>
-                                          <p>
-                                            {dlt?.mentee_institute_location}
-                                          </p>
-                                          <p>
-                                            {" "}
-                                            {new Date(
-                                              dlt?.mentee_institute_Start_Year
-                                            ).toDateString()}
-                                            --{" "}
-                                            {new Date(
-                                              dlt?.mentee_institute_End_Year
-                                            ).toDateString()}
-                                          </p>
-                                        </div>
-                                      );
-                                    })}
-                                  </>
-                                ) : (
-                                  <h7>Please UpDate Education Details </h7>
-                                )}
-                              </div>
-                              {/* <div className="col-lg-6">
-                                  <div className="gfgh">
-                                    <h6>Bachelors in Fins Arts</h6>
-                                    <p>College/ School 2010-2012</p>
-                                  </div>
-                                </div> */}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="jnfhujydfgfghfh py-3">
-                          <div className="lgjgf3 align-items-center mb-3">
-                            <div className="mgjhg me-3">
-                              <img src={Certification} alt="" />
-                            </div>
-
-                            <h3 className="mb-0">Certification</h3>
-                          </div>
-
-                          <div className="gkjnhfgfg">
-                            <div className="row">
-                              <div className="col-lg-12">
-                                <div className="gfgh">
-                                  {JSON?.parse(
-                                    sMentee?.mentee_certificate_details
-                                  ) !== null ? (
-                                    <>
-                                      {" "}
-                                      {JSON.parse(
-                                        sMentee?.mentee_certificate_details
-                                      ).map((dlt) => {
-                                        return (
-                                          <div className="gfgh">
-                                            <h6>
-                                              {dlt?.mentee_Certificate_Name}
-                                            </h6>
-                                            <p>
-                                              {dlt?.mentee_Certificate_level}
-                                            </p>
-                                            <p>
-                                              {dlt?.mentee_Certificate_Desc}
-                                            </p>
-                                            <p>
-                                              {" "}
-                                              {new Date(
-                                                dlt?.mentee_Certificate_Start_Year
-                                              ).toDateString()}
-                                              --{" "}
-                                              {new Date(
-                                                dlt?.mentee_Certificate_End_Year
-                                              ).toDateString()}
-                                            </p>
-                                          </div>
-                                        );
-                                      })}
-                                    </>
-                                  ) : (
-                                    <h7>Please UpDate Education Details </h7>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        );
-      })}
-    </>
+        </div>
+      ))}
+    </div>
   );
 };
 
 export default MenteeProfileDashboard;
+
+// MenteeProfileDashboard.css

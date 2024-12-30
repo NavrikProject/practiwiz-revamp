@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import "./MentorForm3.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { option_fro_timezone } from "../../../data/Timezones";
+import "./MentorForm3.css";
 
 const AvailabilityForm = () => {
   const { setValue, register } = useFormContext();
-  const today = new Date(); // Get today's date
+  const today = new Date();
+
   // Load saved data or initialize with default
   const loadSavedData = () => {
     const savedData = localStorage.getItem("slots");
@@ -34,16 +35,19 @@ const AvailabilityForm = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(
     Array(slots.length).fill(false)
   );
+
   const toggleDropdown = (index) => {
     const updatedDropdownState = [...isDropdownOpen];
     updatedDropdownState[index] = !updatedDropdownState[index];
     setIsDropdownOpen(updatedDropdownState);
   };
+
   const toggleDropdownforClose = (index) => {
     const updatedDropdownState = [...isDropdownOpen];
     updatedDropdownState[index] = false;
     setIsDropdownOpen(updatedDropdownState);
   };
+
   const days = [
     "Monday",
     "Tuesday",
@@ -58,12 +62,7 @@ const AvailabilityForm = () => {
   const minutes = ["00", "30"];
   const periods = ["AM", "PM"];
 
-  // Save slots to localStorage
-  const saveToLocalStorage = (updatedSlots) => {
-    localStorage.setItem("slots", JSON.stringify(updatedSlots));
-  };
-
-  // Convert time to 24-hour format for validation
+  // Convert time to minutes since midnight for easier comparison
   const convertTo24Hour = (hour, minute, period) => {
     let hours24 = parseInt(hour);
     if (period === "PM" && hours24 !== 12) hours24 += 12;
@@ -71,12 +70,89 @@ const AvailabilityForm = () => {
     return hours24 * 60 + parseInt(minute);
   };
 
+  // Check if two time ranges overlap
+  const doTimesOverlap = (start1, end1, start2, end2) => {
+    return start1 < end2 && start2 < end1;
+  };
+
+  // Check if dates overlap
+  const doDateRangesOverlap = (start1, end1, start2, end2) => {
+    const s1 = new Date(start1);
+    const e1 = new Date(end1);
+    const s2 = new Date(start2);
+    const e2 = new Date(end2);
+    return s1 <= e2 && s2 <= e1;
+  };
+
+  // Find overlapping slots
+  // const findOverlappingSlots = (currentSlot, currentIndex) => {
+  //   const currentStartTime = convertTo24Hour(
+  //     currentSlot.startHour,
+  //     currentSlot.startMinute,
+  //     currentSlot.startPeriod
+  //   );
+  //   const currentEndTime = convertTo24Hour(
+  //     currentSlot.endHour,
+  //     currentSlot.endMinute,
+  //     currentSlot.endPeriod
+  //   );
+
+  //   return slots.reduce((overlaps, slot, index) => {
+  //     if (index === currentIndex) return overlaps;
+
+  //     const startTime = convertTo24Hour(
+  //       slot.startHour,
+  //       slot.startMinute,
+  //       slot.startPeriod
+  //     );
+  //     const endTime = convertTo24Hour(
+  //       slot.endHour,
+  //       slot.endMinute,
+  //       slot.endPeriod
+  //     );
+
+  //     // Check if dates overlap
+  //     const datesOverlap = doDateRangesOverlap(
+  //       currentSlot.fromDate,
+  //       currentSlot.toDate,
+  //       slot.fromDate,
+  //       slot.toDate
+  //     );
+
+  //     // Check if times overlap
+  //     const timesOverlap = doTimesOverlap(
+  //       currentStartTime,
+  //       currentEndTime,
+  //       startTime,
+  //       endTime
+  //     );
+
+  //     // Check if there are common days between the slots
+  //     const hasCommonDays = currentSlot.days.some((day) =>
+  //       slot.days.includes(day)
+  //     );
+
+  //     if (datesOverlap && timesOverlap && hasCommonDays) {
+  //       overlaps.push({
+  //         slotIndex: index + 1,
+  //         days: slot.days.filter((day) => currentSlot.days.includes(day)),
+  //       });
+  //     }
+
+  //     return overlaps;
+  //   }, []);
+  // };
+
+  // Save slots to localStorage
+  const saveToLocalStorage = (updatedSlots) => {
+    localStorage.setItem("slots", JSON.stringify(updatedSlots));
+  };
+
   // Handle day selection logic
   const handleDayChange = (index, day) => {
     const updatedSlots = [...slots];
     const isSelected = updatedSlots[index].days.includes(day);
 
-    // Toggle the selected day
     if (isSelected) {
       updatedSlots[index].days = updatedSlots[index].days.filter(
         (selectedDay) => selectedDay !== day
@@ -95,6 +171,9 @@ const AvailabilityForm = () => {
     updatedSlots[index][field] = value;
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Add a new slot
@@ -116,7 +195,7 @@ const AvailabilityForm = () => {
     saveToLocalStorage(updatedSlots);
   };
 
-  // Select all days, weekdays, or weekends
+  // Select all days
   const handleSelectAllDays = (index) => {
     const updatedSlots = [...slots];
     updatedSlots[index].days =
@@ -125,6 +204,7 @@ const AvailabilityForm = () => {
     saveToLocalStorage(updatedSlots);
   };
 
+  // Select weekdays
   const handleSelectWeekdays = (index) => {
     const updatedSlots = [...slots];
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -137,6 +217,7 @@ const AvailabilityForm = () => {
     saveToLocalStorage(updatedSlots);
   };
 
+  // Select weekends
   const handleSelectWeekends = (index) => {
     const updatedSlots = [...slots];
     const weekends = ["Saturday", "Sunday"];
@@ -149,7 +230,7 @@ const AvailabilityForm = () => {
     saveToLocalStorage(updatedSlots);
   };
 
-  // Remove a specific slot
+  // Remove a slot
   const removeSlot = (index) => {
     const updatedSlots = slots.filter((_, slotIndex) => slotIndex !== index);
     setSlots(updatedSlots);
@@ -157,8 +238,8 @@ const AvailabilityForm = () => {
     setValue("mentorAvailability", updatedSlots);
   };
 
-  // Validation for slot fields
-  const validateSlot = (slot) => {
+  // Validate slot
+  const validateSlot = (slot, index) => {
     let errors = {};
     const startTime = convertTo24Hour(
       slot.startHour,
@@ -171,36 +252,132 @@ const AvailabilityForm = () => {
       slot.endPeriod
     );
 
+    // Basic validations
     if (!slot.days.length) errors.days = "Days must be selected.";
     if (!slot.fromDate) errors.fromDate = "Start date is required.";
     if (!slot.toDate) errors.toDate = "End date is required.";
-    if (startTime === endTime)
+
+    // Time validations
+    if (startTime === endTime) {
       errors.timeMismatch = "Start and end times cannot be the same.";
-    if (endTime <= startTime)
+    }
+    if (endTime <= startTime) {
       errors.invalidTimeOrder = "End time must be later than start time.";
-    if (new Date(slot.toDate) <= new Date(slot.fromDate))
+    }
+
+    // Date validations
+    const fromDate = new Date(slot.fromDate);
+    const toDate = new Date(slot.toDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (fromDate < today) {
+      errors.pastDate = "Start date cannot be in the past.";
+    }
+    if (toDate < fromDate) {
       errors.invalidDateOrder = "End date must be later than start date.";
+    }
+
+    // Check for overlapping slots with more detailed validation
+    const overlappingSlots = slots.reduce((overlaps, otherSlot, otherIndex) => {
+      if (otherIndex === index) return overlaps;
+
+      const otherStartTime = convertTo24Hour(
+        otherSlot.startHour,
+        otherSlot.startMinute,
+        otherSlot.startPeriod
+      );
+      const otherEndTime = convertTo24Hour(
+        otherSlot.endHour,
+        otherSlot.endMinute,
+        otherSlot.endPeriod
+      );
+
+      const datesOverlap = doDateRangesOverlap(
+        slot.fromDate,
+        slot.toDate,
+        otherSlot.fromDate,
+        otherSlot.toDate
+      );
+
+      const timesOverlap = doTimesOverlap(
+        startTime,
+        endTime,
+        otherStartTime,
+        otherEndTime
+      );
+
+      const commonDays = slot.days.filter((day) =>
+        otherSlot.days.includes(day)
+      );
+
+      if (datesOverlap && timesOverlap && commonDays.length > 0) {
+        overlaps.push({
+          slotIndex: otherIndex + 1,
+          days: commonDays,
+          times: `${otherSlot.startHour}:${otherSlot.startMinute} ${otherSlot.startPeriod} - ${otherSlot.endHour}:${otherSlot.endMinute} ${otherSlot.endPeriod}`,
+        });
+      }
+
+      return overlaps;
+    }, []);
+
+    if (overlappingSlots.length > 0) {
+      const overlappingDetails = overlappingSlots
+        .map(
+          (overlap) =>
+            `Slot ${overlap.slotIndex} (${overlap.days.join(", ")}) at ${
+              overlap.times
+            }`
+        )
+        .join("\n");
+
+      errors.overlap = `Time slot overlaps with:\n${overlappingDetails}`;
+    }
+
+    // Duration validation
+    if (slot.duration === "Both") {
+      // Calculate time difference in minutes
+      const timeDiff = endTime - startTime;
+      if (timeDiff < 60) {
+        errors.duration =
+          "Time slot must be at least 1 hour when 'Both' durations are selected.";
+      }
+    } else {
+      const requestedDuration = parseInt(slot.duration);
+      const timeDiff = endTime - startTime;
+      if (timeDiff < requestedDuration) {
+        errors.duration = `Time slot must be at least ${requestedDuration} minutes for the selected duration.`;
+      }
+    }
 
     return errors;
   };
+  const [isSaved, setIsSaved] = useState(Array(slots.length).fill(false));
 
-  // Save all slots after validation
+  // Save slot
   const saveSlotForIndex = (index) => {
     const slot = slots[index];
-    const errors = validateSlot(slot);
+    const errors = validateSlot(slot, index);
 
     if (Object.keys(errors).length > 0) {
-      alert(`Error in Slot ${index + 1}: ${Object.values(errors).join(", ")}`);
-      return;
+      const errorMessages = Object.entries(errors)
+        .map(([key, value]) => value)
+        .join("\n");
+      alert(`Error in Slot ${index + 1}:\n${errorMessages}`);
+      return false;
     }
 
-    // Update and save the validated slot
     const updatedSlots = [...slots];
     updatedSlots[index] = slot;
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
     setValue("mentorAvailability", updatedSlots);
     alert(`Slot ${index + 1} saved successfully!`);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = true; // Mark the slot as saved
+    setIsSaved(updatedSaveStatus);
+    return true;
   };
 
   useEffect(() => {
@@ -232,12 +409,7 @@ const AvailabilityForm = () => {
               required: "Please select the Time zone",
             })}
           >
-            <option
-              defaultValue={
-                "UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)"
-              }
-            >
-              {" "}
+            <option value="UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)">
               UTC+05:30: Indian Standard Time (IST), Sri Lanka Time (SLT)
             </option>
             {option_fro_timezone?.map((option) => (
@@ -248,31 +420,26 @@ const AvailabilityForm = () => {
           </select>
         </div>
       </div>
-      <div
-      //  onSubmit={handleSubmit}
-      >
+      <div>
         {slots.map((slot, index) => {
-          const errors = validateSlot(slot);
+          const errors = validateSlot(slot, index);
           return (
             <div key={index} className="AvailabilityMainContainer">
               <div
                 className="Availability-container"
                 onClick={() => toggleDropdownforClose(index)}
               >
-                {" "}
                 <h3>Slot {index + 1}</h3>
                 <div
                   onClick={() => removeSlot(index)}
                   style={{ marginLeft: "10px" }}
                 >
-                  {" "}
                   <i className="fa-solid fa-xmark cross-btn"></i>
                 </div>
               </div>
 
               <div className="slot-container1">
-                {" "}
-                <div className="slot-container1">
+                <div className="">
                   <div className="availability-day">
                     <label>Days:</label>
                     <div className="custom-dropdown">
@@ -282,10 +449,8 @@ const AvailabilityForm = () => {
                       >
                         {slot.days.length === 0 ? (
                           <div className="dropdownDayBox">
-                            {" "}
                             <div>Select Days</div>
                             <div>
-                              {" "}
                               <i className="fa-solid fa-chevron-down"></i>
                             </div>
                           </div>
@@ -299,7 +464,6 @@ const AvailabilityForm = () => {
                         <div className="dropdownDay">
                           <div className="dropdown-actions">
                             <div>
-                              {" "}
                               <button
                                 type="button"
                                 className="dropdownDayOption btnDays"
@@ -311,7 +475,6 @@ const AvailabilityForm = () => {
                               </button>
                             </div>
                             <div>
-                              {" "}
                               <button
                                 type="button"
                                 className="dropdownDayOption btnDays"
@@ -344,14 +507,12 @@ const AvailabilityForm = () => {
                         </div>
                       )}
                     </div>
-                    {/* Display Days Validation Error */}
                     {errors.days && (
                       <p style={{ color: "red" }}>{errors.days}</p>
                     )}
                   </div>
                 </div>
                 <div onClick={() => toggleDropdownforClose(index)}>
-                  {/* Start Time Fields */}
                   <label>Start Time:</label>
                   <div className="timeslot">
                     <select
@@ -391,15 +552,13 @@ const AvailabilityForm = () => {
                       ))}
                     </select>
                   </div>
-                  {errors.startTime && (
+                  {errors.timeMismatch && (
                     <p style={{ color: "red" }} className="errorfont">
-                      {errors.startTime}
+                      {errors.timeMismatch}
                     </p>
                   )}
                 </div>
                 <div onClick={() => toggleDropdownforClose(index)}>
-                  {" "}
-                  {/* End Time Fields */}
                   <label>End Time:</label>
                   <div className="timeslot">
                     <select
@@ -439,14 +598,13 @@ const AvailabilityForm = () => {
                       ))}
                     </select>
                   </div>
-                  {errors.endTime && (
+                  {errors.invalidTimeOrder && (
                     <p style={{ color: "red" }} className="errorfont">
-                      {errors.endTime}
+                      {errors.invalidTimeOrder}
                     </p>
                   )}
                 </div>
-                {/* Start Date */}
-                <div className="dateAvialbility ">
+                <div className="dateAvialbility">
                   <label>Start Date:</label>
                   <DatePicker
                     selected={slot.fromDate ? new Date(slot.fromDate) : null}
@@ -454,7 +612,7 @@ const AvailabilityForm = () => {
                       handleInputChange(index, "fromDate", date)
                     }
                     dateFormat="yyyy-MM-dd"
-                    minDate={today} // Disable past dates
+                    minDate={today}
                     className="date-picker"
                   />
                   {errors.fromDate && (
@@ -463,7 +621,6 @@ const AvailabilityForm = () => {
                     </p>
                   )}
                 </div>
-                {/* End Date */}
                 <div className="dateAvialbility">
                   <label>End Date:</label>
                   <DatePicker
@@ -472,17 +629,12 @@ const AvailabilityForm = () => {
                       handleInputChange(index, "toDate", date)
                     }
                     dateFormat="yyyy-MM-dd"
-                    minDate={today} // Disable past dates
+                    minDate={today}
                     className="date-picker"
                   />
                   {errors.toDate && (
                     <p style={{ color: "red" }} className="errorfont">
                       {errors.toDate}
-                    </p>
-                  )}
-                  {errors.dateMismatch && (
-                    <p style={{ color: "red" }} className="errorfont">
-                      {errors.dateMismatch}
                     </p>
                   )}
                   {errors.invalidDateOrder && (
@@ -495,7 +647,6 @@ const AvailabilityForm = () => {
                   className="availability-duration"
                   onClick={() => toggleDropdownforClose(index)}
                 >
-                  {" "}
                   <label>Duration:</label>
                   <select
                     value={slot.duration}
@@ -511,30 +662,49 @@ const AvailabilityForm = () => {
                   </select>
                 </div>
               </div>
+
               <div
                 className="availability-saveDiv"
                 onClick={() => toggleDropdownforClose(index)}
               >
-                {" "}
-                <button
+                {/* <button
                   type="button"
                   onClick={() => saveSlotForIndex(index)}
                   className="save-btn"
                 >
                   Save Slot
+                </button> */}
+                <div>
+                  {errors.overlap && (
+                    <p style={{ color: "red" }} className="errorfont">
+                      {errors.overlap}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => saveSlotForIndex(index)}
+                  style={{
+                    backgroundColor: isSaved[index] ? "green" : "#0255ca",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: "none",
+                    cursor: "pointer",
+                    borderRadius: "5px",
+                  }}
+                >
+                  {isSaved[index] ? "Saved" : "Save Slot"}
                 </button>
               </div>
             </div>
           );
         })}
         <div className="addBtnAvailability">
-          {" "}
           <button type="button" onClick={addSlot} className="add-slot-btn">
             Add Slot
           </button>
         </div>
-
-        {/* <button type="submit">Save Availability</button> */}
       </div>
     </div>
   );

@@ -4,7 +4,15 @@
 .emp-profile_main {
   padding: 1rem 8rem;
 }
-
+.orgFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.orgImageLogo {
+  width: 100px;
+  height: 100px;
+}
 .emp-profile_header {
   /* background-color: #2d76e4;
   height: 12rem; */
@@ -66,7 +74,7 @@
   font-size: 2rem;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0 !important;
 }
 
 .emp-profile_detail {

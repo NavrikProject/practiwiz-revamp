@@ -77,3 +77,28 @@ export const experienceOptions = [
   { value: "26-29", label: "26-29 years" },
   { value: "30+", label: "30+ years" },
 ];
+
+export const allDomain = [
+  "Technology & IT",
+  "Healthcare & Medical",
+  "Education & Training",
+  "Manufacturing & Industrial",
+  "Finance & Banking",
+  "Retail & E-Commerce",
+  "Media & Entertainment",
+  "Construction & Real Estate",
+  "Transportation & Logistics",
+  "Energy & Environment",
+  "Government & Public Sector",
+  "Agriculture & Food",
+  "Hospitality & Tourism",
+  "Legal & Compliance",
+  "Telecommunication",
+  "Science & Research",
+  "Arts & Creative",
+  "Non-Profit & Social Impact",
+  "Sports & Recreation",
+  "Aerospace & Defense",
+  "Human Resources",
+  "Fashion & Lifestyle",
+];

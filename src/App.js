@@ -74,6 +74,11 @@ import SingleInternshipDetailsPage from "./Pages/InternshipPages/SingleInternshi
 import PersonalDetailsforInternship from "./Components/Employer/Internships/MenteeApplyInternship/PersonalDetailsforInternship";
 import EduWorkDetailsForinternship from "./Components/Employer/Internships/MenteeApplyInternship/EduWorkDetailsForinternship";
 import EmployerDashboardPage from "./Pages/EmployerPages/EmployerDashboardPage";
+import PurchasedCaseStudiesPage from "./Pages/CaseStudyPages/PurchasedCaseStudiesPage";
+import CaseStudyDetailPage from "./Pages/CaseStudyPages/CaseStudyDetailPage";
+import SimulationPage from "./Pages/CaseStudyPages/SimulationPage";
+import ResultPage from "./Pages/CaseStudyPages/ResultPage";
+import FAQPage from "./Pages/FAQPage/FAQPage";
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
@@ -134,6 +139,7 @@ function App() {
               <AdminMentorPrivateProfilePage user={user} token={token} />
             }
           />
+          <Route path="/faq" element={<FAQPage />} />
           <Route path="/test" element={<Test />} />
           <Route path="/date" element={<MainComponent />} />
           {/* passing of the user and token to dashboard is completed */}
@@ -235,6 +241,19 @@ function App() {
             path="/auth/linkedin/callback"
             element={<LinkedInCallback />}
           />
+          <Route
+            path="/purchased-case-studies"
+            element={<PurchasedCaseStudiesPage user={user} token={token} />}
+          />
+          <Route
+            path="/purchased-case-studies/:id"
+            element={<CaseStudyDetailPage user={user} token={token} />}
+          />
+          <Route
+            path="/results"
+            element={<ResultPage user={user} token={token} />}
+          />
+          <Route path="/simulation" element={<SimulationPage />} />
           <Route path="/cart" element={<Cart user={user} token={token} />} />
           {/* internship section start */}
           <Route
