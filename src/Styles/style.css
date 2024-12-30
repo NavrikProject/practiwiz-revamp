@@ -6013,3 +6013,13 @@ footer .bghjdfgfdg button:hover i {
   transition: 0.3s ease-in-out;
   transform: translate(-50%, -45%) scale(1.2);
 }
+/* Add this CSS */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}

@@ -4,10 +4,18 @@
 .emp-profile_main {
   padding: 1rem 8rem;
 }
-
+.orgFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.orgImageLogo {
+  width: 100px;
+  height: 100px;
+}
 .emp-profile_header {
-  background-color: #2d76e4;
-  height: 12rem;
+  /* background-color: #2d76e4;
+  height: 12rem; */
   /* border-radius: 0.5rem 0.5rem 0 0; */
   margin-bottom: 5rem;
   position: relative;
@@ -66,7 +74,7 @@
   font-size: 2rem;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0 !important;
 }
 
 .emp-profile_detail {
@@ -84,6 +92,7 @@
 
 .emp-profile_about {
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .emp-profile_subtitle {
@@ -100,7 +109,7 @@
 
 .emp-profile_stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-top: 2rem;
 }
@@ -129,7 +138,7 @@
 }
 
 .emp-profile_stats_section {
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   background: #ffffff;
   padding: 2rem;
   border-radius: 0.7rem;

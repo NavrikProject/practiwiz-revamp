@@ -1,6 +1,7 @@
 #menteeBackgroundCover {
-  background: url("../../../../Images/Mentee/ddd.png") no-repeat;
-  background-size: cover;
+  /* background: url("../../../../Images/Mentee/ddd.png") no-repeat;
+  background-size: cover; */
+  background-color: #244e92;
 }
 .mt70 {
   margin-top: 70px;

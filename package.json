@@ -35,6 +35,8 @@
     "react-time-picker": "^7.0.0",
     "react-toastify": "^10.0.5",
     "react-typed": "^2.0.12",
+    "react-webcam": "^7.2.0",
+    "recharts": "^2.15.0",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "styled-components": "^6.1.11",

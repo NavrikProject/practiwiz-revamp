@@ -5,7 +5,7 @@ import "./MenteeReg.css";
 import InstituteForm from "./InstituteForm";
 import MenteeRegStep1 from "./MenteeRegStep1";
 import MenteeRegStep2 from "./MenteeRegStep2";
-import MenteeRegStep3 from "./MenteeRegStep3";
+
 import { useForm, FormProvider } from "react-hook-form";
 import {
   hideLoadingHandler,
@@ -69,7 +69,7 @@ const MenteeStepForm = () => {
       }
       if (res.data.error) {
         dispatch(hideLoadingHandler());
-        toast.error("There is some error while register.");
+         toast.error(res.data.error);
       }
     } catch (error) {
       dispatch(hideLoadingHandler());

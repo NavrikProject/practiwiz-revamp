@@ -108,20 +108,34 @@ const CustomDatePicker = ({
     onDateSlotSelect(date, null);
   };
 
-  const isSlotBooked = (date, slot) => {
-    return bookingDetails?.some((booking) => {
-      const bookingDate = new Date(booking.mentor_session_booking_date);
-      bookingDate.setHours(0, 0, 0, 0);
-      return (
-        bookingDate.getTime() === date.getTime() &&
-        booking.mentor_booking_starts_time === slot.from &&
-        booking.mentor_booking_end_time === slot.to
-      );
-    });
+  const isSlotUnavailable = (date, slot) => {
+    const now = new Date(); // Current date and time
+    const slotDate = new Date(date);
+    const [slotHours, slotMinutes] = slot.from.split(/:|(?=[APM])/);
+    slotDate.setHours(
+      (slotHours % 12) + (slot.from.includes("PM") ? 12 : 0),
+      parseInt(slotMinutes, 10),
+      0,
+      0
+    );
+
+    // Slot is unavailable if it's booked or if it's in the past
+    return (
+      now > slotDate ||
+      bookingDetails?.some((booking) => {
+        const bookingDate = new Date(booking.mentor_session_booking_date);
+        bookingDate.setHours(0, 0, 0, 0);
+        return (
+          bookingDate.getTime() === date.getTime() &&
+          booking.mentor_booking_starts_time === slot.from &&
+          booking.mentor_booking_end_time === slot.to
+        );
+      })
+    );
   };
 
   const handleSlotSelection = (slot) => {
-    if (!isSlotBooked(startDate, slot)) {
+    if (!isSlotUnavailable(startDate, slot)) {
       setSelectedSlot(slot);
       onDateSlotSelect(startDate, slot, slot.mentor_timeslot_id);
     }
@@ -147,18 +161,17 @@ const CustomDatePicker = ({
           <p className="selected-timeslotP">Select a Time Slot:</p>
           <ul className="unorderlist">
             {availableSlots.map((slot, index) => {
-              const booked = isSlotBooked(startDate, slot);
+              const unavailable = isSlotUnavailable(startDate, slot);
               return (
                 <li
                   key={index}
                   className={`slot-item ${
                     selectedSlot === slot ? "selected-slot" : ""
                   }`}
-                  onClick={() => !booked && handleSlotSelection(slot)}
+                  onClick={() => !unavailable && handleSlotSelection(slot)}
                   style={{
-                    cursor: booked ? "not-allowed" : "pointer",
-                    backgroundColor: booked ? "#ff3d29" : "",
-                    color: booked ? "#fff" : "#111",
+                    cursor: unavailable ? "not-allowed" : "pointer",
+                    backgroundColor: unavailable ? "#FFCDD2" : "",
                     borderColor: selectedSlot === slot ? "#007BFF" : "",
                   }}
                 >

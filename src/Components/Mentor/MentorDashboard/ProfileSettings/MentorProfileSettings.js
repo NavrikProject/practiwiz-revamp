@@ -42,7 +42,7 @@ const MentorProfileSettings = ({ data, user, token }) => {
           <div id="mentorRegisterBg">
             <div
               className="jdoieoir_wrapper"
-              style={{ width: "85%", paddingTop: "2rem" }}
+              style={{ width: "90%", paddingTop: "2rem" }}
             >
               <div
                 id="tabs"

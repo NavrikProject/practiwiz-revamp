@@ -4,8 +4,13 @@ import "../InternshipCss/ViewEditInternshipPost.css";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import DOMPurify from "dompurify";
+import EditInternshipPost from "./EditInternshipPost";
 
-const InternshipDetail = ({ internshipPostId }) => {
+const InternshipDetail = ({
+  internshipPostId,
+  onEditInternshipPost,
+  setInternPostData,
+}) => {
   console.log(internshipPostId);
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
@@ -73,6 +78,7 @@ const InternshipDetail = ({ internshipPostId }) => {
       setLoading(false);
       if (response.data.success) {
         setSingleInternshipPost(response.data.success);
+        setInternPostData(response.data.success[0]);
       }
       if (response.data.error) {
         return setLoading(false), setSingleInternshipPost(null);
@@ -80,6 +86,13 @@ const InternshipDetail = ({ internshipPostId }) => {
     };
     fetchSingleMentors();
   }, [internshipPostId, url]);
+  // console.log(singleInternshipPost[0]);
+
+  // const handleEditInternshipPost = (singleInternshipPost) => () => {
+  //   console.log(singleInternshipPost);
+  //   return <EditInternshipPost singleInternshipPost={singleInternshipPost} />;
+  // };
+
   return (
     <div className="col-lg-10 ps-0">
       <div className="">
@@ -87,14 +100,6 @@ const InternshipDetail = ({ internshipPostId }) => {
           <h2>Internship Preview</h2>
         </div>
         <div className="preview-single-intern-container">
-          {/* <button
-            onClick={handleBack}
-            className="preview-single-intern-back-btn"
-          >
-            Internship Post preview
-            {/* <i class="fa-solid fa-arrow-left"></i> */}
-          {/* <ArrowLeft className="w-4 h-4" /> Back to Listings 
-          </button> */}
           {singleInternshipPost?.map((internship) => {
             return (
               <>
@@ -138,7 +143,11 @@ const InternshipDetail = ({ internshipPostId }) => {
                       </div>
                     </div>
                   </div>
-                  <button className="preview-single-intern-apply-btn">
+                  <button
+                    className="preview-single-intern-apply-btn"
+                    onClick={onEditInternshipPost}
+                    // onClick={handleEditInternshipPost(singleInternshipPost[0])}
+                  >
                     Edit Internship Post
                   </button>
                 </div>

@@ -29,3 +29,8 @@
 .googleIcon {
   width: 32px !important;
 }
+.CameraModel{
+  display: flex;
+  align-items: flex-end;
+  gap: 50px;
+}

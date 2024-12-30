@@ -1,11 +1,11 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { Language } from "../../../data/Languages";
-import { useForm } from "react-hook-form";
+import Select from "react-select";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LanguageMulti } from "../../../data/Languages.js";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -17,39 +17,85 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
   const url = ApiURL();
   const dispatch = useDispatch();
   const [ifEdit, setifEdit] = useState(false);
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+
+  const [selectedSkills, setSelectedSkills] = useState(() => {
+    try {
+      // Parse the mentee_language once if it's a stringified JSON array
+      const parsedData = JSON.parse(singleMentee[0]?.mentee_language);
+      return parsedData || [];
+    } catch (error) {
+      console.error("Error parsing mentee_language:", error);
+      return [];
+    }
+  });
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      display: "flex",
+      width: "100%",
+      // padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+      fontSize: "1rem",
+      fontWeight: 400,
+      lineHeight: 1.5,
+      color: "#212529",
+      // backgroundColor: "#fff",
+      border: "1px solid #acaeaf",
+      borderRadius: "0.25rem",
+      transition:
+        "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
+      appearance: "none",
+      // Adjust border color on focus
+      boxShadow: state.isFocused ? "0 0 0 0.2rem rgba(0,123,255,.25)" : "none",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      padding: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  };
+
   const [formData, setFormData] = useState({
-    mentee_profile_photo: singleMentee[0]?.mentee_profile_pic_url,
     mentee_firstname: singleMentee[0]?.mentee_firstname,
     mentee_lastname: singleMentee[0]?.mentee_lastname,
     mentee_phone_number: singleMentee[0]?.mentee_phone_number,
     mentee_email: singleMentee[0]?.mentee_email,
-    mentee_instagram_link: singleMentee[0]?.mentee_instagram_url,
-    mentee_Twitter_link: singleMentee[0]?.mentee_twitter_url,
     mentee_linkedin_link: singleMentee[0]?.mentee_linkedin_url,
     mentee_language: singleMentee[0]?.mentee_language,
     mentee_gender: singleMentee[0]?.mentee_gender,
     mentee_aboutyouself: singleMentee[0]?.mentee_about,
   });
+
   const handleEditClick = () => {
     setifEdit(false);
   };
   const validateForm = () => {
-    const { mentee_language, mentee_aboutyouself } = formData;
-    if (!mentee_language || !mentee_aboutyouself) {
+    const { mentee_aboutyouself, mentee_linkedin_link } = formData;
+    const linkedInPattern = /^https?:\/\/(www\.)?linkedin\.com\/.*$/i;
+    if (!mentee_aboutyouself || !mentee_linkedin_link) {
       toast.error("All fields are required!");
       return false;
     }
+    // Validate LinkedIn URL pattern
+    if (!linkedInPattern.test(mentee_linkedin_link)) {
+      toast.error("Please provide a valid LinkedIn profile URL!");
+      return false;
+    }
+
     return true;
   };
-  const handleSavechanges = async (event) => {
-    event.preventDefault();
+  const handleSavechanges = async (data) => {
     if (validateForm()) {
       try {
+        const newData = new FormData();
+
+        newData.append("user_type", "mentee");
+
+        newData.append("mentee_linkedin_link", data.mentee_linkedin_link);
+        newData.append("mentee_gender", data.mentee_gender);
+        newData.append("mentee_language", data.mentee_language);
+        newData.append("mentee_aboutyouself", data.mentee_aboutyouself);
         dispatch(showLoadingHandler());
         const response = await Promise.race([
           axios.post(
@@ -106,14 +152,15 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
       mentee_phone_number: phone,
     });
   };
-  const [menteeProfilePhoto, setMenteeProfilePhoto] = useState();
 
-  const onSubmit = async (data) => {
-    const profileFormData = new FormData();
-    profileFormData.append("Image", data);
-    // Log form data including the selected file
+  // Language change handler
+  const handleLanguageChange = (selectedOption) => {
+    setSelectedSkills(selectedOption);
+    setFormData((prev) => ({
+      ...prev,
+      mentee_language: selectedOption,
+    }));
   };
- 
 
   return (
     <div className="col-lg-10 ps-0">
@@ -127,7 +174,6 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                 >
                   <div>
                     <h3>Profile Settings</h3>
-                    <h5>Update your profile</h5>
                   </div>
                   <div>
                     <button
@@ -141,17 +187,18 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                 </div>
               )}
-              <div onSubmit={handleSubmit(onSubmit)}>
+              <div>
                 <div className="row">
                   <div className="col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
-                      First Name
+                      <b> First Name</b>{" "}
+                      <span className="RedColorStarMark">*</span>
                     </label>
 
                     <input
                       type="text"
                       name="mentee_firstname"
-                      className="form-control"
+                      className="form-control MentorProfile-BorderColor"
                       placeholder="First Name"
                       value={formData?.mentee_firstname}
                       onChange={handleInputChange}
@@ -160,21 +207,56 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                   <div className="col-lg-6 pb-3" id="skill-tag">
                     <label htmlFor="" className="form-label">
-                      Last Name
+                      <b>Last Name</b>
+                      <span className="RedColorStarMark">*</span>
                     </label>
                     <input
                       type="text"
                       name="mentee_lastname"
-                      className="form-control"
+                      className="form-control MentorProfile-BorderColor"
                       placeholder="Last Name"
                       value={formData?.mentee_lastname}
                       onChange={handleInputChange}
                       disabled
                     />
                   </div>
+
                   <div className="col-lg-6 pb-3" id="skill-tag">
                     <label htmlFor="" className="form-label">
-                      Gender
+                      <b> Phone Number </b>{" "}
+                      <span className="RedColorStarMark">*</span>
+                    </label>
+                    <PhoneInput
+                      country={"in"}
+                      inputStyle={{
+                        border: "1px solid #acaeaf",
+                        borderRadius: "0.25rem",
+                        padding: "0.375rem 0.75rem",
+                        width: "100%",
+                      }}
+                      value={formData?.mentee_phone_number}
+                      onChange={handlePhoneChange}
+                      disabled
+                    />
+                  </div>
+                  <div className="col-lg-6 pb-3" id="skill-tag">
+                    <label htmlFor="" className="form-label">
+                      <b>E-Mail Id</b>{" "}
+                      <span className="RedColorStarMark">*</span>
+                    </label>
+                    <input
+                      disabled
+                      type="email"
+                      name="mentee_email"
+                      className="form-control MentorProfile-BorderColor"
+                      placeholder="Email"
+                      value={formData?.mentee_email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col-lg-6 pb-3" id="skill-tag">
+                    <label htmlFor="" className="form-label">
+                      <b>Gender</b>
                     </label>
 
                     <select
@@ -190,103 +272,52 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       <option value="">Other</option>
                     </select>
                   </div>
-                  <div className="col-lg-6 pb-3" id="skill-tag">
-                    <label htmlFor="" className="form-label">
-                      Phone Number
-                    </label>
-                    <PhoneInput
-                      country={"in"}
-                      value={formData?.mentee_phone_number}
-                      onChange={handlePhoneChange}
-                      disabled
-                    />
-                  </div>
-                  <div className="col-lg-6 pb-3" id="skill-tag">
-                    <label htmlFor="" className="form-label">
-                      E-Mail Id
-                    </label>
-                    <input
-                      disabled
-                      type="email"
-                      name="mentee_email"
-                      className="form-control"
-                      placeholder="Email"
-                      value={formData?.mentee_email}
-                      onChange={handleInputChange}
-                    />
-                  </div>
                   <div className="ufguirniirtr position-relative col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
-                      Languages
+                      <b>Languages</b>(Multiple)
                     </label>
-
-                    <select
-                      className="form-select "
-                      onChange={handleInputChange}
-                      disabled={!ifEdit}
-                      name="mentee_language"
-                    >
-                      <option defaultValue={formData?.mentee_language}>
-                        {formData.mentee_language}
-                      </option>
-                      {Language.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                    <Select
+                      isDisabled={!ifEdit}
+                      value={selectedSkills} // Bind the state to the value
+                      options={LanguageMulti}
+                      isMulti={true}
+                      closeMenuOnSelect={false}
+                      onChange={handleLanguageChange} // Handle the onChange event
+                      styles={customStyles}
+                      // styles={{
+                      //   control: (base) => ({
+                      //     ...base,
+                      //     fontFamily: "Lato", // Apply Lato font to the control
+                      //   }),
+                      //   menu: (base) => ({
+                      //     ...base,
+                      //     fontFamily: "Lato", // Apply Lato font to the menu options
+                      //   }),
+                      //   option: (base, state) => ({
+                      //     ...base,
+                      //     fontFamily: "Lato", // Apply Lato font to the options
+                      //     backgroundColor: state.isFocused
+                      //       ? "#f0f0f0"
+                      //       : "white", // Optional: Add hover effect
+                      //     color: state.isSelected ? "#333" : "#000", // Optional: Add selected option color
+                      //   }),
+                      // }}
+                    />
                     <div id="ypautosuggestions"></div>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-lg-6">
-                    <label htmlFor="" className="form-label">
-                      Your Social Account Link *
-                    </label>
-                    <input
-                      id="phone"
-                      type="text"
-                      name="mentee_linkedin_link"
-                      className="form-control mt-1"
-                      placeholder="Linkedin Social Media Profile link"
-                      value={formData?.mentee_linkedin_link}
-                      onChange={handleInputChange}
-                      disabled={!ifEdit}
-                    />
-
-                    <input
-                      id="phone"
-                      type="text"
-                      name="mentee_instagram_link"
-                      className="form-control mt-1"
-                      placeholder="Instagram Social Media Profile link"
-                      value={formData?.mentee_instagram_link}
-                      onChange={handleInputChange}
-                      disabled={!ifEdit}
-                    />
-
-                    <input
-                      id="phone"
-                      type="text"
-                      name="mentee_Twitter_link"
-                      className="form-control mt-1"
-                      placeholder="Twitter Social Media Profile link"
-                      value={formData?.mentee_Twitter_link}
-                      onChange={handleInputChange}
-                      disabled={!ifEdit}
-                    />
-                  </div>
-
                   <div className="ufguirniirtr position-relative col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
-                      About Me *
+                      <b>About Me</b>{" "}
+                      <span className="RedColorStarMark">*</span>
                     </label>
 
                     <textarea
                       name="mentee_aboutyouself"
-                      className="form-control"
-                      style={{ height: "150px" }}
+                      className="form-control MentorProfile-BorderColor"
+                      style={{ height: "40px" }}
                       placeholder="Write something about yourself"
                       value={formData?.mentee_aboutyouself}
                       onChange={handleInputChange}
@@ -294,6 +325,22 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                     ></textarea>
 
                     <div id="amautosuggestions"></div>
+                  </div>
+                  <div className="col-lg-6">
+                    <label htmlFor="" className="form-label">
+                      <b>Your Social Account Link</b>{" "}
+                      <span className="RedColorStarMark">*</span>
+                    </label>
+                    <input
+                      id="phone"
+                      type="text"
+                      name="mentee_linkedin_link"
+                      className="form-control mt-1 MentorProfile-BorderColor"
+                      placeholder="Linkedin Social Media Profile link"
+                      value={formData?.mentee_linkedin_link}
+                      onChange={handleInputChange}
+                      disabled={!ifEdit}
+                    />
                   </div>
                 </div>
                 {ifEdit && (

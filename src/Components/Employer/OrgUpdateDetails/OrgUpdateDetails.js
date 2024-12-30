@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ApiURL } from "../../../Utils/ApiURL";
 const OrgUpdateDetails = ({ employerUserDtlsId }) => {
-  console.log(employerUserDtlsId);
   const {
     register,
     handleSubmit,
@@ -60,9 +59,9 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
   return (
     <div className="" id="menteeRegBackground">
       <div
-        className="iuhieiuihaw_right bg-white p-3 col-lg-6"
+        className="iuhieiuihaw_right bg-white p-3 col-lg-6 mb-1 mt-1"
         id="test"
-        style={{ margin: "auto" }}
+        style={{ margin: "auto", boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
       >
         <div className="container">
           <div className="step" id="TODO">
@@ -78,6 +77,37 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form_wrapper mt-3">
               <div className="row">
+                <div className="col-lg-12">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="organizationEmployeeDesignation"
+                      className="form-label"
+                    >
+                      Employer Designation
+                    </label>
+                    <input
+                      type="text"
+                      onKeyUp={() =>
+                        trigger("organization_employee_designation")
+                      }
+                      className="form-control"
+                      id="organizationEmployeeDesignation"
+                      placeholder="Enter your designation"
+                      {...register("organization_employee_designation", {
+                        required: "Employer Designation  is required",
+                        minLength: {
+                          value: 2,
+                          message: "Must be at least 2 characters",
+                        },
+                      })}
+                    />
+                    {errors.organization_employee_designation && (
+                      <p className="Error-meg-login-register">
+                        {errors.organization_employee_designation.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
                 <div className="col-lg-12">
                   <div className="mb-3">
                     <label htmlFor="organizationName" className="form-label">
@@ -183,9 +213,9 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
                         },
                       })}
                     />
-                    {errors.organization_city && (
+                    {errors.organization_location && (
                       <p className="Error-meg-login-register">
-                        {errors.organization_city.message}
+                        {errors.organization_location.message}
                       </p>
                     )}
                   </div>
@@ -210,9 +240,88 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
                       <option value="201-500">201-500</option>
                       <option value="500">500+</option>
                     </select>
-                    {errors.num_employees && (
+                    {errors.company_size && (
                       <p className="Error-meg-login-register">
-                        {errors.num_employees.message}
+                        {errors.company_size.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="col-lg-12">
+                  <div className="mb-3">
+                    <label htmlFor="organizationAddress" className="form-label">
+                      Organization Address
+                    </label>
+                    <input
+                      type="text"
+                      onKeyUp={() => trigger("organization_address")}
+                      className="form-control"
+                      id="organizationAddress"
+                      placeholder="Enter your organization address"
+                      {...register("organization_address", {
+                        required: "Organization address is required",
+                        minLength: {
+                          value: 2,
+                          message: "Must be at least 2 characters",
+                        },
+                      })}
+                    />
+                    {errors.organization_address && (
+                      <p className="Error-meg-login-register">
+                        {errors.organization_address.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="mb-3">
+                    <label htmlFor="organizationWebsite" className="form-label">
+                      Organization Website
+                    </label>
+                    <input
+                      type="text"
+                      onKeyUp={() => trigger("organization_website")}
+                      className="form-control"
+                      id="organizationWebsite"
+                      placeholder="Enter your organization's website"
+                      {...register("organization_website", {
+                        pattern: {
+                          value: /^(ftp|http|https):\/\/[^ "]+$/,
+                          message: "Invalid URL",
+                        },
+                      })}
+                    />
+                    {errors.organization_website && (
+                      <p className="Error-meg-login-register">
+                        {errors.organization_website.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="organizationLinkedin"
+                      className="form-label"
+                    >
+                      Organization Linkedin
+                    </label>
+                    <input
+                      type="text"
+                      onKeyUp={() => trigger("organization_linkedin")}
+                      className="form-control"
+                      id="organizationLinkedin"
+                      placeholder="Enter your organization's linkedin"
+                      {...register("organization_linkedin", {
+                        pattern: {
+                          value: /^(ftp|http|https):\/\/[^ "]+$/,
+                          message: "Invalid URL",
+                        },
+                      })}
+                    />
+                    {errors.organization_linkedin && (
+                      <p className="Error-meg-login-register">
+                        {errors.organization_linkedin.message}
                       </p>
                     )}
                   </div>

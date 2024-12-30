@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Webcam from "react-webcam";
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -159,6 +160,33 @@ const MentorUpdatedForm = () => {
     );
   };
 
+  const webcamRef = useRef(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [capturedPhoto, setCapturedPhoto] = useState("");
+
+  const capturePhoto = () => {
+    if (webcamRef.current) {
+      const photo = webcamRef.current.getScreenshot();
+      console.log(photo)
+      setCapturedPhoto(photo);
+
+    }
+  };
+
+  const handleOk = () => {
+    setValue("profile_picture", capturedPhoto);
+    setIsCameraOpen(false);
+  };
+
+  const handleRetake = () => {
+    setCapturedPhoto(null);
+  };
+
+  const handleClose = () => {
+    setIsCameraOpen(false);
+    setCapturedPhoto(null);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(UserRegisterSubmitHandler)}>
@@ -171,7 +199,7 @@ const MentorUpdatedForm = () => {
             <div className="row">
               <div className="row">
                 <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
-                  <div className="col-lg-12 mt-2">
+                  {/* <div className="col-lg-12 mt-2">
                     <p className="mb-0 d-flex align-items-center">
                       <b>Register Using :</b>
                       <button
@@ -196,7 +224,7 @@ const MentorUpdatedForm = () => {
                         Google
                       </div>
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="col-lg-12">
@@ -470,33 +498,125 @@ const MentorUpdatedForm = () => {
                 </div>
               )}
               {!isLinkedInChecked && (
-                <div className="csfvgdtrfs position-relative">
-                  <label className="form-label">
-                    <b>
-                      Profile Picture{" "}
-                      <span className="RedColorStarMark">*</span>
-                    </b>
-                  </label>
-                  <>
-                    <input
-                      onKeyUp={() => {
-                        trigger("profile_picture");
-                      }}
-                      placeholder="Choose profile picture"
-                      type="file"
-                      accept=".jpg ,.jpeg,.png"
-                      className="form-control"
-                      {...register("profile_picture", {
-                        required: "Choose profile picture",
-                      })}
-                    />
+                <>
+                  <div className="row" style={{ alignItems: "flex-end" }}>
+                    <div
+                      className="csfvgdtrfs position-relative"
+                    >
+                      <label className="form-label">
+                        <b>
+                          Profile Picture{" "}
+                          <span className="RedColorStarMark">*</span>
+                        </b>
+                      </label>
+                      <>
+                        <input
+                          onKeyUp={() => {
+                            trigger("profile_picture");
+                          }}
+                          placeholder="Choose profile picture"
+                          type="file"
+                          accept=".jpg ,.jpeg,.png"
+                          className="form-control"
+                          {...register("profile_picture", {
+                            required: "Choose profile picture",
+                          })}
+                        />
+                      </>
+                    </div>
+                    {/* <div style={{ textAlign: "center", width: "35%" }}>
+                      {!isCameraOpen && (
+                        <button
+                          className="form-control"
+                          onClick={() => setIsCameraOpen(true)}
+                          style={styles.openCameraButton}
+                        >
+                          Live Capture
+                        </button>
+                      )}
+
+                      {isCameraOpen && (
+                        <div style={styles.cameraBox}>
+                          <div className="CameraModel">
+                            {" "}
+                            <div style={styles.cameraFeed}>
+                              <Webcam
+                                audio={false}
+                                ref={webcamRef}
+                                screenshotFormat="image/png"
+                                width={500}
+                                height={400}
+                              />
+                            </div>
+                            {capturedPhoto && (
+                              <div style={styles.preview}>
+                                <h4>Preview</h4>
+                                <img
+                                  src={capturedPhoto}
+                                  alt="Captured"
+                                  style={{ width: "500px", height: "400px" }}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          <div style={styles.buttonContainer}>
+                            {!capturedPhoto ? (
+                              <button
+                                type="button"
+                                onClick={capturePhoto}
+                                style={styles.button}
+                              >
+                                Capture
+                              </button>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={handleRetake}
+                                  style={styles.button}
+                                >
+                                  Retake
+                                </button>
+                                <button
+                                  onClick={handleOk}
+                                  style={styles.okButton}
+                                >
+                                  OK
+                                </button>
+                              </>
+                            )}
+                            <button
+                              onClick={handleClose}
+                              style={styles.closeButton}
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      <Controller
+                        name="profile_picture"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <input
+                            type="hidden"
+                            {...field}
+                            value={capturedPhoto || ""}
+                          />
+                        )}
+                      />
+                    </div> */}
+                  </div>
+                  <div>
                     {errors.profile_picture && (
                       <p className="Error-meg-login-register">
                         {errors.profile_picture.message}
                       </p>
                     )}
-                  </>
-                </div>
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -510,6 +630,80 @@ const MentorUpdatedForm = () => {
       </form>
     </>
   );
+};
+
+const styles = {
+  openCameraButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+    backgroundColor: "rgb(2 85 202)",
+    color: "white",
+    fontFamily: "lato",
+    border: "none",
+    borderRadius: "4px",
+    marginBottom: "8px",
+  },
+  cameraBox: {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+    textAlign: "center",
+    zIndex: 10000,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: "20px",
+  },
+  cameraFeed: {
+    marginBottom: "10px",
+  },
+  preview: {
+    marginTop: "10px",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    marginTop: "10px",
+    display: "flex",
+    gap: "10px",
+  },
+  button: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+  okButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+  },
+  closeButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+    backgroundColor: "#FF6347",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+  },
+  submitButton: {
+    marginTop: "20px",
+    padding: "10px 20px",
+    backgroundColor: "#007BFF",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
 };
 
 export default MentorUpdatedForm;

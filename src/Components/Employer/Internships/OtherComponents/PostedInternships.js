@@ -142,92 +142,98 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
 
   return (
     <>
-      <div className="internship_profile_container">
-        {/* Header */}
-        <div className="internship_profile_header">
-          {/* <h1 className="internship_profile_title">Internships</h1> */}
-          <div style={{ textAlign: "center" }} className="mb-4">
-            <h2>Posted Internship</h2>
-          </div>
-          <div className="internship_profile_search_wrapper">
-            <input
-              type="text"
-              className="internship_profile_search_input"
-              placeholder="Search internships..."
-              value={searchQuery}
-              onChange={handleSearch}
-            />
-            <button className="internship_profile_search_btn">Search</button>
-          </div>
-        </div>
-
-        {/* Listings */}
-        <div className="internship_profile_listings_container">
-          {data[0].internship_post_list === "[]" && (
-            <p>Currently, You have not posted any internships posts</p>
-          )}
-          {JSON.parse(data[0]?.internship_post_list).map((internship) => (
-            <div key={internship.id} className="internship_profile_card">
-              <div className="internship_profile_card_content">
-                {/* Left section */}
-                <div className="internship_profile_info_section">
-                  <h3 className="internship_profile_info_title">
-                    {internship.employer_internship_post_position}
-                  </h3>
-                </div>
-
-                {/* Middle section */}
-                <div className="internship_profile_status_section">
-                  <p
-                    className={`internship_profile_status_select ${
-                      internship.employer_internship_post_status === "open"
-                        ? "active"
-                        : "closed"
-                    }`}
-                  >
-                    {internship.employer_internship_post_status}
-                  </p>
-                </div>
-                <div className={`internship_profile_supervision_label `}>
-                  <span
-                    className={`internship_profile_supervision_label_text ${
-                      internship.employer_internship_post_supervision_type ===
-                      "Self Manage"
-                        ? " guided"
-                        : " unsupervised"
-                    }`}
-                  >
-                    {internship.employer_internship_post_supervision_type ===
-                    "Self Manage"
-                      ? "Guided"
-                      : "Unsupervised"}
-                  </span>
-                </div>
-
-                {/* Right section */}
-                <div className="internship_profile_action_section">
-                  <button
-                    className="internship_profile_applicants_btn"
-                    onClick={() => handleApplicants(1)}
-                  >
-                    Applicants:
-                  </button>
-                  <button
-                    onClick={() =>
-                      onEditInternshipPost(
-                        internship.employer_internship_post_dtls_id
-                      )
-                    }
-                    className="internship_profile_edit_btn"
-                  >
-                    View
-                  </button>
-                </div>
-              </div>
+      {data[0] && (
+        <div className="internship_profile_container">
+          {/* Header */}
+          <div className="internship_profile_header">
+            {/* <h1 className="internship_profile_title">Internships</h1> */}
+            <div style={{ textAlign: "center" }} className="mb-4">
+              <h2>Posted Internship</h2>
             </div>
-          ))}
+            <div className="internship_profile_search_wrapper">
+              <input
+                type="text"
+                className="internship_profile_search_input"
+                placeholder="Search internships..."
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+              <button className="internship_profile_search_btn">Search</button>
+            </div>
+          </div>
+
+          {/* Listings */}
+
+          <div className="internship_profile_listings_container">
+            {data[0].internship_post_list === "[]" && (
+              <p>Currently, You have not posted any internships posts</p>
+            )}
+            {JSON.parse(data[0]?.internship_post_list)
+              .slice()
+              .reverse()
+              .map((internship) => (
+                <div key={internship.id} className="internship_profile_card">
+                  <div className="internship_profile_card_content">
+                    {/* Left section */}
+                    <div className="internship_profile_info_section">
+                      <h3 className="internship_profile_info_title">
+                        {internship.employer_internship_post_position}
+                      </h3>
+                    </div>
+
+                    {/* Middle section */}
+                    <div className="internship_profile_status_section">
+                      <p
+                        className={`internship_profile_status_select ${
+                          internship.employer_internship_post_status === "open"
+                            ? "active"
+                            : "closed"
+                        }`}
+                      >
+                        {internship.employer_internship_post_status}
+                      </p>
+                    </div>
+                    <div className={`internship_profile_supervision_label `}>
+                      <span
+                        className={`internship_profile_supervision_label_text ${
+                          internship.employer_internship_post_supervision_type ===
+                          "Self Manage"
+                            ? " guided"
+                            : " unsupervised"
+                        }`}
+                      >
+                        {internship.employer_internship_post_supervision_type ===
+                        "Self Manage"
+                          ? "Guided"
+                          : "Unsupervised"}
+                      </span>
+                    </div>
+
+                    {/* Right section */}
+                    <div className="internship_profile_action_section">
+                      <button
+                        className="internship_profile_applicants_btn"
+                        onClick={() => handleApplicants(1)}
+                      >
+                        Applicants:
+                      </button>
+                      <button
+                        onClick={() =>
+                          onEditInternshipPost(
+                            internship.employer_internship_post_dtls_id
+                          )
+                        }
+                        className="internship_profile_edit_btn"
+                      >
+                        View
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
