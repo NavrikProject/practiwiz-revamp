@@ -1,4 +1,4 @@
-/* Container */
+
 .result-page-container {
   padding: 40px 20px;
   max-width: 1100px;
@@ -7,7 +7,7 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Title */
+
 .result-page-title {
   font-size: 2.5em;
   margin-bottom: 30px;
@@ -15,7 +15,7 @@
   color: #333;
 }
 
-/* Chart Section */
+
 .result-page-chart-section {
   display: flex;
   flex-direction: column;
@@ -35,7 +35,6 @@
   max-width: 500px;
 }
 
-/* Feedback Section */
 .result-page-feedback-section {
   margin-bottom: 40px;
 }
@@ -70,7 +69,7 @@
   color: #333;
 }
 
-/* Back Button */
+
 .result-page-back-button {
   display: block;
   margin: 0 auto;
@@ -86,7 +85,7 @@
   background-color: #0056b3;
 }
 
-/* Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -96,7 +95,7 @@
   }
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .result-page-container {
     padding: 20px;

@@ -1,5 +1,5 @@
 .options-container {
-  /* padding: 20px; */
+
   margin: 10px;
 }
 .dashboardFlex {
@@ -11,7 +11,7 @@
   width: 400px;
 }
 .main-option {
-  border: 1.55px solid #7272ec; /* Green border */
+  border: 1.55px solid #7272ec; 
   border-radius: 10px;
   padding: 10px;
   margin-top: 10px;
@@ -44,7 +44,7 @@ ul {
 
 li {
   font-size: 16px;
-  /* margin-bottom: 5px; */
+
 }
 
 p {

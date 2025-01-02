@@ -1,9 +1,4 @@
-/* .react-loading-skeleton::after {
-  width: 100%;
-  height: 100%;
-  background-color: #bcbcbc;
-  animation-timing-function: cubic-bezier(0.6, 0, 0.7, 0.98);
-} */
+
 
 .mainContainer {
   margin: 10px 0;
@@ -52,14 +47,12 @@
   padding-right: 1rem;
 }
 
-/* 2nd Container */
+
 .container2 {
   margin: 0 auto;
   width: 90%;
   display: flex;
   justify-content: space-between;
-
-  /* border: solid rebeccapurple 1px; */
 }
 
 .detailContainer {

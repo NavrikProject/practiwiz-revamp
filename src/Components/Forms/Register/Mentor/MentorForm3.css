@@ -1,9 +1,7 @@
-/* Base styles for larger screens */
 .whole {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding: 20px; */
 }
 
 .doiherner_wrapper {
@@ -199,7 +197,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
   .main {
     flex-direction: column;

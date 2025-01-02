@@ -44,7 +44,6 @@
 }
 
 .case-study-text > p > strong {
-  /* font-size: 1.5rem; */
 }
 
 .case-study-text > p {
@@ -115,17 +114,16 @@
   }
 }
 
-/* Star Icon Styles */
 .full-star {
-  color: #f5c518; /* Gold color for full stars */
+  color: #f5c518;
 }
 
 .half-star {
-  color: #f5c518; /* Gold color for half stars */
+  color: #f5c518;
 }
 
 .empty-star {
-  color: #ddd; /* Light color for empty stars */
+  color: #ddd;
 }
 
 .star-icon {

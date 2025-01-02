@@ -22,9 +22,7 @@ h5{
   background-color: blue;
   color: white;
 }
-/* .navbar{
-    border-radius: 85px;
-} */
+
 header .navbar-brand img {
     width: 7rem;
 }
@@ -71,10 +69,7 @@ header .navbar-brand img {
     border-radius: 5px;
   }
   
-  /* .submenu-item:hover {
-    background-color: #f1f1f1;
-  } */
-  
+
   .submenu1 {
     position: absolute;
     top: 3rem;
@@ -115,23 +110,12 @@ header .navbar-brand img {
 }
 .fa-solid, .fas {
   font-weight: 900;
-  font-size: 18px;
-  /* margin-left: 5px; */
-  
+  font-size: 18px;  
 }
 
 .display-raw h5{
   margin-top: 5px;
 }
-
-/* .seeeett > h5:hover{
-  color: blue;
-  text-decoration: underline;
-} */
-
-/* .seeeett:hover{
-  background-color: blue;
-} */
 .downarrowsize{
   font-size: 12px;
 }

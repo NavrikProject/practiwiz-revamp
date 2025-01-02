@@ -51,30 +51,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0; /* Add spacing above and below the pagination controls */
+  margin: 20px 0;
 }
 
 .pagination-controls button {
-  background-color: #007bff; /* Bootstrap primary color */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
-  margin: 0 5px; /* Space between buttons */
+  margin: 0 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .pagination-controls button:disabled {
-  background-color: #c0c0c0; /* Light gray for disabled state */
-  cursor: not-allowed; /* Change cursor on disabled button */
+  background-color: #c0c0c0;
+  cursor: not-allowed;
 }
 
 .pagination-controls button:hover:not(:disabled) {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #0056b3;
 }
 
 .pagination-controls span {
-  margin: 0 10px; /* Space around the page indicator */
-  font-weight: bold; /* Make the page indicator text bold */
+  margin: 0 10px;
+  font-weight: bold;
 }

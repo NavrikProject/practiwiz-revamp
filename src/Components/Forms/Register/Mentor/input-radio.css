@@ -1,6 +1,3 @@
-/* input[type="radio"] {
-  display: none;
-} */
 
 .moideuirer_list input[type="radio"] + label {
   display: inline-block;
@@ -19,7 +16,6 @@
   border-color: #007bff;
 }
 label:hover {
-  /* background-color: #e9ecef; */
 }
 
 .country-flag {

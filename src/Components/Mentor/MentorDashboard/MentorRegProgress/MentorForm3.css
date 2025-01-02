@@ -4,7 +4,7 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  /* height: 200px; */
+
   background: rgba(217, 217, 217, 0.05);
   border: 0.5px solid #afafaf;
   border-radius: 10px;
@@ -44,90 +44,84 @@
 
 .availability-saveDiv {
   display: flex;
-  /* margin-top: 2rem; */
-  /* margin: 2rem; */
+
   bottom: 10px;
   right: 10px;
-  /* position: absolute; */
+
   justify-content: space-between;
   align-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
 
-/* Save Button Styles */
 .save-btn {
-  background-color: #28a745; /* Primary green color */
+  background-color: #28a745;
   font-family: "lato";
-  color: #fff; /* White text */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px 20px; /* Button padding */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: all 0.3s ease; /* Smooth transition for hover effects */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover state */
 .save-btn:hover {
-  background-color: #218838; /* Darker green */
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow */
-  transform: translateY(-2px); /* Slight lift effect */
+  background-color: #218838;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Active state */
 .save-btn:active {
-  background-color: #1e7e34; /* Even darker green */
-  transform: translateY(1px); /* Pressed down effect */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow */
+  background-color: #1e7e34;
+  transform: translateY(1px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Disabled state */
 .save-btn:disabled {
-  background-color: #c3e6cb; /* Light green */
-  color: #6c757d; /* Grayish text */
-  cursor: not-allowed; /* Not-allowed cursor */
-  box-shadow: none; /* Remove shadow */
+  background-color: #c3e6cb;
+  color: #6c757d;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-/* Add Slot Button Styles */
 .add-slot-btn {
   font-family: "lato";
-  background-color: #0255ca; /* Primary blue shade */
-  color: #fff; /* White text */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px 20px; /* Button padding */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: all 0.3s ease; /* Smooth transition for hover effects */
-  margin-top: 10px; /* Add space at the top */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #0255ca; 
+  color: #fff; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 10px 20px;
+  font-size: 16px; 
+  font-weight: bold;
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  margin-top: 10px; 
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
-/* Hover state */
+
 .add-slot-btn:hover {
-  background-color: #0147a8; /* Slightly darker blue for hover */
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow */
-  transform: translateY(-2px); /* Slight lift effect */
+  background-color: #0147a8;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Active state */
+
 .add-slot-btn:active {
-  background-color: #013a87; /* Even darker blue for active state */
-  transform: translateY(1px); /* Pressed down effect */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow */
+  background-color: #013a87;
+  transform: translateY(1px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Disabled state */
+
 .add-slot-btn:disabled {
-  background-color: #b8d4f7; /* Muted light blue */
-  color: #6c757d; /* Grayish text */
-  cursor: not-allowed; /* Not-allowed cursor */
-  box-shadow: none; /* Remove shadow */
+  background-color: #b8d4f7; 
+  color: #6c757d; 
+  cursor: not-allowed;
+  box-shadow: none;
 }
 .addBtnAvailability {
   display: flex;
@@ -135,12 +129,12 @@
   margin-bottom: 20px;
 }
 
-/* Hover state */
+
 .cross-btn:hover {
-  color: #c9302c; /* Darker red for hover */
+  color: #c9302c;
   background-color: none;
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow */
-  transform: scale(2.1); /* Slightly enlarge the button */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(2.1);
 }
 .errorfont {
   font-size: 14px;
@@ -177,51 +171,13 @@
   gap: 20px;
   align-items: center;
 }
-/* -------------------------------------------------------------------------------- */
 
-/* Custom styles for the date picker container */
-/* .react-datepicker {
-  font-family: Arial, sans-serif;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-} */
-
-/* Custom styles for the date input field */
 .react-datepicker__input-container input {
-  /* padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px; */
+
   width: 70%;
 }
 
-/* Custom styles for the calendar dropdown */
-/* .react-datepicker__triangle {
-  border-top-color: #2e7d32;
-} */
 
-/* Custom styles for the days in the calendar */
-/* .react-datepicker__day {
-  font-size: 16px;
-  padding: 10px;
-  text-align: center;
-} */
-
-/* Style for the selected date */
-/* .react-datepicker__day--selected {
-  background-color: #2e7d32;
-  color: white;
-  border-radius: 50%;
-} */
-
-/* Style for today’s date */
-/* .react-datepicker__day--today {
-  background-color: #ff9800;
-  color: white;
-  border-radius: 50%;
-} */
 .react-datepicker-wrapper {
   width: 130px;
 }

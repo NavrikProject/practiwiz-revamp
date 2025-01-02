@@ -85,7 +85,7 @@
   font-weight: 500;
   color: #111827;
 }
-/*  */
+
 .internship_profile_status_section {
   display: flex;
   align-items: center;
@@ -136,7 +136,6 @@
   background-color: #fff3e0;
   color: #f57c00;
 }
-/*  */
 .internship_profile_status_section {
   flex: 1;
   justify-content: center;

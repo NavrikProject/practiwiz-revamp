@@ -6,8 +6,6 @@
 
 .containerOfFilter {
   padding: 20px;
-  /* width: 95%; */
-  /* margin: 20px auto; */
   display: flex;
   gap: 30px;
   flex-wrap: wrap;
@@ -19,7 +17,6 @@
 
 .containerOfCard1 {
   padding: 20px;
-  /* width: 95%; */
   margin: 20px 20px;
   background-color: #ffffff;
   border-radius: 0 0 10px 10px;

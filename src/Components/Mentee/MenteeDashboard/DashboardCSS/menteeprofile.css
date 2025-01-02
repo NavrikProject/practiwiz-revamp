@@ -1,18 +1,10 @@
 #menteeBackgroundCover {
-  /* background: url("../../../../Images/Mentee/ddd.png") no-repeat;
-  background-size: cover; */
   background-color: #244e92;
 }
 .mt70 {
   margin-top: 70px;
 }
-/* 
-.ljrfhf {
-  text-align: right;
-  position: absolute;
-  right: 0;
-  top: 0;
-} */
+
 .ljrfhf i {
   color: var(--main-orange-color);
   padding: 10px;
@@ -80,23 +72,6 @@
   transform: scale(1.3);
   margin-top: 20px;
 }
-
-/* .ihuerorktrt::after {
-  content: "\f044";
-  font-family: "Font Awesome 6 Free";
-  position: absolute;
-  font-weight: 900;
-  right: 0;
-  bottom: 0;
-  width: 2rem;
-  height: 2rem;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px 2px rgba(238, 108, 41, 0.25);
-  line-height: 2rem;
-  text-align: center;
-  color: var(--main-orange-color);
-} */
 
 .csdpeijf {
   align-items: end;

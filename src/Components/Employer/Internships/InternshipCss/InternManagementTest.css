@@ -263,7 +263,6 @@
   background-color: #1d4ed8;
 }
 
-/* Responsive styles */
 @media (max-width: 640px) {
   .intern-container {
     grid-template-columns: 1fr;

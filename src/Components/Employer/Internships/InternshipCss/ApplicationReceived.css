@@ -1,4 +1,4 @@
-/*  */
+
 .applications-type {
   display: flex;
   justify-self: center;
@@ -27,7 +27,7 @@
   background-color: white;
   color: black;
 }
-/*  */
+
 
 .applications-clear-filters {
   background-color: #0255ca;
@@ -291,7 +291,6 @@
 }
 
 @media (max-width: 768px) {
-  /* Mobile Filter Toggle Button */
   .applications-close-filters {
     display: flex;
     font-size: 20px;
@@ -321,7 +320,6 @@
     background-color: #2632dc;
   }
 
-  /* Hide filters by default on mobile */
   .applications-filters {
     display: none;
   }
@@ -334,7 +332,6 @@
     display: flex;
   }
 
-  /* Show filters when mobile-filters-visible class is added */
   .applications-filters.mobile-filters-visible {
     display: block;
     position: fixed;
@@ -347,7 +344,6 @@
     padding: 20px;
   }
 
-  /* Adjust main content layout for mobile */
   .applications-main-content {
     display: flex;
     flex-direction: column;

@@ -203,7 +203,7 @@ header .navbar-brand img {
 }
 header .navbar-nav .nav-link {
   text-transform: uppercase;
-  /* color: #fff !important; */
+
   letter-spacing: 1px;
   font-weight: 600;
   font-size: 15px !important;
@@ -250,10 +250,8 @@ header .iugeuirrr .udgehrr:last-child {
   border-right: 0;
 }
 header .fvjhdf_btn {
-  /* background: transparent !important; */
   box-shadow: none;
-  /* color: #505050; */
-  /* padding: 6px 0.8rem !important; */
+
   border: 2px solid #fff;
   margin: 0 5px;
 }
@@ -320,8 +318,7 @@ header .suggestion:hover {
 .banner .banner_content .iduherr_left h1 span {
   color: var(--main-orange-color);
 }
-.mentorTagline {
-}
+
 .banner .banner_content .iduherr_left #typing {
   height: 2rem;
   font-family: var(--font-family-lato);
@@ -331,7 +328,7 @@ header .suggestion:hover {
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
-  /* border-right: 2px solid #3fb9d1; */
+
   display: inline-block;
   padding-right: 10px;
 }
@@ -1640,8 +1637,7 @@ header .suggestion:hover {
   margin-bottom: 0 !important;
 }
 
-.dfhgjdfgg h2 {
-}
+
 
 .gfhgf {
   font-size: 16px;
@@ -2237,10 +2233,10 @@ header .suggestion:hover {
   border-bottom: 1px solid var(--light-grey-border);
   padding: 5px 0;
   font-weight: 600;
-  transition: background-color 0.3s ease; /* Smooth transition */
+  transition: background-color 0.3s ease;
 }
 .djioerr_dpdwn li:hover {
-  background-color: #f0f0f0; /* Light gray hover color */
+  background-color: #f0f0f0;
 }
 .djioerr_dpdwn li:last-child {
   border-bottom: 0;
@@ -2982,7 +2978,7 @@ header .suggestion:hover {
 #frame .content .messages ul li {
   display: inline-block;
   clear: both;
-  float: left;
+
   margin: 15px 15px 5px 15px;
   width: calc(100% - 25px);
   font-size: 0.9em;
@@ -6013,13 +6009,11 @@ footer .bghjdfgfdg button:hover i {
   transition: 0.3s ease-in-out;
   transform: translate(-50%, -45%) scale(1.2);
 }
-/* Add this CSS */
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-input[type="number"] {
-  -moz-appearance: textfield; /* For Firefox */
-}
+

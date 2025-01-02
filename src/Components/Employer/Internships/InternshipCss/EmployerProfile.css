@@ -14,9 +14,6 @@
   height: 100px;
 }
 .emp-profile_header {
-  /* background-color: #2d76e4;
-  height: 12rem; */
-  /* border-radius: 0.5rem 0.5rem 0 0; */
   margin-bottom: 5rem;
   position: relative;
 }
@@ -25,7 +22,6 @@
   position: absolute;
   margin-left: 8rem;
   left: 0;
-  /* transform: translateX(-50%); */
   bottom: -10rem;
   display: flex;
   flex-direction: column;
@@ -121,7 +117,6 @@
   padding: 1.5rem;
   border-radius: 0.8rem;
   text-align: center;
-  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
 }
 
 .emp-profile_stat-number {
@@ -138,7 +133,6 @@
 }
 
 .emp-profile_stats_section {
-  /* margin-top: 2rem; */
   background: #ffffff;
   padding: 2rem;
   border-radius: 0.7rem;

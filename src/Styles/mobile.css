@@ -1,5 +1,4 @@
 @media screen and (max-width: 999px) {
-  /* home page mobile version starts */
   .iduherr_left {
     text-align: center;
   }
@@ -13,10 +12,8 @@
   .banner .banner_content {
     padding: 10rem 5rem 5rem 5rem;
   }
-  /* home page mobile version ends */
 }
 @media screen and (max-width: 780px) {
-  /* home page mobile version starts */
   .khjfdgdf {
     padding: 40px !important;
   }
@@ -52,7 +49,6 @@
   .mentorDescription {
     font-size: 14px;
   }
-  /* home page mobile version ends */
 
   .asdfasdfaqwetoui {
     text-align: center;
@@ -63,8 +59,6 @@
   }
 }
 @media screen and (max-width: 580px) {
-  /* home page mobile version starts */
-
   .banner_content {
     padding: 7rem 0 1.5rem 0 !important;
   }
@@ -88,15 +82,13 @@
     text-align: center;
     padding: 20px 10px 0px 10px;
   }
-  /* home page mobile version ends */
+
   .diherrr_content h3 {
     font-size: 1.3rem !important;
   }
 }
 @media screen and (max-width: 380px) {
-  /* home page mobile version starts */
   .banner .banner_content {
     padding: 5rem 0px !important;
   }
-  /* home page mobile version ends */
 }

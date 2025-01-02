@@ -16,7 +16,6 @@
   scrollbar-color: #c1c1c1 transparent;
 }
 
-/* Custom Scrollbar for WebKit Browsers */
 .chat-interface-messages::-webkit-scrollbar {
   width: 8px;
 }
@@ -34,7 +33,6 @@
   background-color: #a0a0a0;
 }
 
-/* Messages */
 .chat-interface-message {
   display: flex;
   align-items: flex-end;
@@ -66,7 +64,7 @@
   font-size: 16px;
   position: relative;
   line-height: 1.4;
-  white-space: pre-wrap; /* Preserve whitespace and line breaks */
+  white-space: pre-wrap; 
 }
 
 .chat-interface-ai-message .chat-interface-message-text {
@@ -105,7 +103,6 @@
   border-bottom: 10px solid transparent;
 }
 
-/* Input Area */
 .chat-interface-input {
   padding: 10px 20px;
   background-color: #fff;
@@ -165,7 +162,6 @@
   background-color: #218838;
 }
 
-/* Typing Indicator */
 .typing-indicator {
   display: flex;
   align-items: center;
@@ -201,7 +197,6 @@
   }
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -213,7 +208,6 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 600px) {
   .chat-interface-message-text {
     max-width: 80%;

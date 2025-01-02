@@ -1,4 +1,4 @@
-/* File: src/styles/CaseStudyPage.css */
+
 
 .case-study-page-container {
   padding: 40px;
@@ -48,7 +48,7 @@
   }
 }
 
-/* Responsive Styles */
+
 @media (max-width: 600px) {
   .case-study-page-container {
     padding: 20px;

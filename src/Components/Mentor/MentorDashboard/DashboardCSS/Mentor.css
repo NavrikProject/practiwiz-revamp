@@ -1453,8 +1453,7 @@ caption {
   font-weight: 600;
   border-radius: 10px;
 }
-*/
-/* // MentorProfile.css */
+
 .mentor-profile {
   min-height: 100vh;
 }
@@ -1580,7 +1579,6 @@ caption {
 
 .mentor-skills {
   width: 100%;
-  /* margin-top: 2rem; */
 }
 
 .skills-header {
@@ -1597,7 +1595,6 @@ caption {
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  /* gap: 1rem; */
 }
 
 .MentorDashboardskill-tag {
@@ -1627,7 +1624,6 @@ caption {
   color: #244e82;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 1024px) {
   .mentor-profile-content {
     padding: 1rem;

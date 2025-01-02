@@ -43,14 +43,12 @@
   outline: none;
 }
 
-/* Icons */
 .icon {
   font-size: 18px;
   color: #0066cc;
   margin-right: 8px;
 }
 
-/* For demonstration purposes */
 .icon-availability:before {
   content: "🖥️";
 }

@@ -562,7 +562,6 @@
   background-color: #1d4ed8;
 }
 
-/* Responsive styles */
 @media (max-width: 640px) {
   .im-form-group {
     gap: 4px;
