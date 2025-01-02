@@ -1,11 +1,11 @@
-import React from "react";
-import CurrencyData from "../../../data/Currency.json";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { CURRENCY_CONFIG } from "../../../data/Currency_Convertion.js";
+
+import Select from "react-select";
+import { LanguageMulti } from "../../../data/Languages.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Language } from "../../../data/Languages";
-import { option_fro_timezone } from "../../../data/Timezones";
+
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -13,175 +13,225 @@ import {
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
-const conversionRates = {
-  INR: 1,
-  USD: 83.0,
-  CAD: 61.0,
-  GBP: 100.0,
-  AUD: 53.0,
-};
+
 const MentorProfile4 = ({ profiledata, user, token }) => {
-  const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
-  const {
-    register,
-    setValue,
-    formState: { errors },
-  } = useForm({});
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      display: "flex",
+      width: "100%",
+      // padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+      fontSize: "1rem",
+      fontWeight: 400,
+      lineHeight: 1.5,
+      color: "#212529",
+      // backgroundColor: "#fff",
+      border: "1px solid #acaeaf",
+      borderRadius: "0.25rem",
+      transition:
+        "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
+      appearance: "none",
+      // Adjust border color on focus
+      boxShadow: state.isFocused ? "0 0 0 0.2rem rgba(0,123,255,.25)" : "none",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      padding: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  };
+
+  // Initial state setup with more robust default handling
   const [formData, setFormData] = useState({
-    mentor_sessions_free_of_charge: profiledata.mentor_sessions_free_of_charge,
-    mentor_guest_lectures_interest: profiledata.mentor_guest_lectures_interest,
+    mentor_sessions_free_of_charge:
+      profiledata?.mentor_sessions_free_of_charge || "",
+    mentor_guest_lectures_interest:
+      profiledata?.mentor_guest_lectures_interest || "",
     mentor_curating_case_studies_interest:
-      profiledata.mentor_curating_case_studies_interest,
-    mentor_timezone: profiledata.mentor_timezone,
-    mentor_language: profiledata.mentor_language,
-    mentor_currency_type: profiledata.mentor_currency_type,
-    mentor_session_price: profiledata.mentor_session_price,
+      profiledata?.mentor_curating_case_studies_interest || "",
+    mentor_timezone: profiledata?.mentor_timezone || "",
+    mentor_language: profiledata?.mentor_language,
+    mentor_currency_type: profiledata?.mentor_currency_type || "USD",
+    mentor_session_price: profiledata?.mentor_session_price || "",
   });
 
-  const priceOptions = [
-    { value: 800, label: "800" },
-    { value: 1000, label: "1000" },
-    { value: 1200, label: "1200" },
-    { value: 1500, label: "1500" },
-    { value: 1800, label: "1800" },
-    { value: 2000, label: "2000" },
-    { value: 2300, label: "2300" },
-    { value: 2500, label: "2500" },
-    { value: 3000, label: "3000" },
-  ];
-  const SessionsPrice = formData?.mentor_session_price
-  const filteredOptions = priceOptions.filter(
-    (option) => option.value !== SessionsPrice
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    formData.mentor_currency_type
   );
-  const [currency, setCurrency] = useState(formData.mentor_currency_type);
-  const [price, setPrice] = useState(formData.mentor_session_price);
-  const [convertedPriceINR, setConvertedPriceINR] = useState(null);
-  const [error, setError] = useState("");
 
-  // Min and max limit in INR
-  const minINR = 800;
-  const maxINR = 1600;
+  const [selectedSkills, setSelectedSkills] = useState(() => {
+    try {
+      return JSON.parse(profiledata?.mentor_language) || [];
+    } catch (error) {
+      console.error("Error parsing mentee_language:", error);
+      return [];
+    }
+  });
 
-  // Convert INR limits to the selected currency
-  const minCurrencyLimit = (minINR / conversionRates[currency]).toFixed(2);
-  const maxCurrencyLimit = (maxINR / conversionRates[currency]).toFixed(2);
+  const [priceError, setPriceError] = useState("");
 
+  // Get current currency configuration
+  const getCurrentCurrencyConfig = () =>
+    CURRENCY_CONFIG[selectedCurrency] || CURRENCY_CONFIG.USD;
+
+  // Handle currency change with more robust logic
+  const handleCurrencyChange = (event) => {
+    const newCurrency = event.target.value;
+    const currencyConfig = CURRENCY_CONFIG[newCurrency];
+
+    // Update form data and selected currency
+    setFormData((prev) => ({
+      ...prev,
+      mentor_currency_type: newCurrency,
+      mentor_session_price: "", // Reset price when currency changes
+    }));
+    setSelectedCurrency(newCurrency);
+    setPriceError(""); // Clear any previous price errors
+  };
+
+  // Price change handler with comprehensive validation
   const handlePriceChange = (e) => {
-    const enteredValue = parseFloat(e.target.value);
+    const value = e.target.value;
+    const currencyConfig = getCurrentCurrencyConfig();
 
-    if (isNaN(enteredValue)) {
-      setError("Please enter a valid number");
-      setPrice("");
-      setConvertedPriceINR(null);
+    // Remove any non-numeric characters except decimal point
+    const numericValue = value.replace(/[^0-9.]/g, "");
+
+    // Check if empty
+    if (numericValue === "") {
+      setFormData((prev) => ({
+        ...prev,
+        mentor_session_price: "",
+      }));
+      setPriceError("");
       return;
     }
 
-    // Convert entered value to INR
-    const valueInINR = enteredValue * conversionRates[currency];
+    const numericPrice = parseFloat(numericValue);
 
-    // Validate against INR limits
-    if (valueInINR < minINR) {
-      setError(`Minimum allowed value is ${minCurrencyLimit} ${currency}`);
-      setConvertedPriceINR(null);
-    } else if (valueInINR > maxINR) {
-      setError(`Maximum allowed value is ${maxCurrencyLimit} ${currency}`);
-      setConvertedPriceINR(null);
-    } else {
-      setError("");
-      setConvertedPriceINR(valueInINR);
+    // Validate price
+    if (isNaN(numericPrice)) {
+      setPriceError("Please enter a valid number");
+      return;
     }
 
-    setPrice(e.target.value);
-    setFormData({ ...formData, mentor_session_price: e.target.value });
+    // Check price range
+    if (
+      numericPrice < currencyConfig.range.min ||
+      numericPrice > currencyConfig.range.max
+    ) {
+      setPriceError(
+        `Price must be between ${currencyConfig.symbol}${currencyConfig.range.min} and ${currencyConfig.symbol}${currencyConfig.range.max}`
+      );
+      setFormData((prev) => ({
+        ...prev,
+        mentor_session_price: numericValue,
+      }));
+      return;
+    }
+
+    // Clear any previous errors
+    setPriceError("");
+
+    // Update form data
+    setFormData((prev) => ({
+      ...prev,
+      mentor_session_price: numericValue,
+    }));
   };
 
+  // Language change handler
+  const handleLanguageChange = (selectedOption) => {
+    setSelectedSkills(selectedOption);
+    setFormData((prev) => ({
+      ...prev,
+      mentor_language: selectedOption,
+    }));
+  };
+
+  // Generic input change handler
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
-  };
-  const validateForm = () => {
-    const {
-      mentor_sessions_free_of_charge,
-      mentor_guest_lectures_interest,
-      mentor_curating_case_studies_interest,
-      mentor_timezone,
-      mentor_language,
-      mentor_session_price,
-    } = formData;
 
+  // Comprehensive form validation
+  const validateForm = () => {
+    const requiredFields = [
+      "mentor_sessions_free_of_charge",
+      "mentor_guest_lectures_interest",
+      "mentor_curating_case_studies_interest",
+      "mentor_language",
+      "mentor_session_price",
+    ];
+
+    // Check for empty required fields
+    for (let field of requiredFields) {
+      if (
+        !formData[field] ||
+        (Array.isArray(formData[field]) && formData[field].length === 0)
+      ) {
+        toast.error(`Please fill in all required fields`);
+        return false;
+      }
+    }
+
+    // Additional price validation
+    const currencyConfig = getCurrentCurrencyConfig();
+    const price = parseFloat(formData.mentor_session_price);
     if (
-      !mentor_sessions_free_of_charge ||
-      !mentor_guest_lectures_interest ||
-      !mentor_curating_case_studies_interest ||
-      !mentor_timezone ||
-      !mentor_language ||
-      !mentor_session_price
+      isNaN(price) ||
+      price < currencyConfig.range.min ||
+      price > currencyConfig.range.max
     ) {
-      return toast.error("All fields are required!"), false;
+      toast.error(
+        `Price must be between ${currencyConfig.symbol}${currencyConfig.range.min} and ${currencyConfig.symbol}${currencyConfig.range.max}`
+      );
+      return false;
     }
 
     return true;
   };
-  const errorvalidation = () => {
-    if (error === "") {
-      return true;
-    } else {
-      return toast.error("Please enter a valid number"), false;
-    }
-  };
 
-  // Handle form submit
+  // Form submission handler
   const handleSubmit = async (event) => {
-    console.log("Final data ", formData);
     event.preventDefault();
-    if (validateForm() && errorvalidation()) {
+
+    if (validateForm()) {
       try {
         dispatch(showLoadingHandler());
-        const res = await Promise.race([
-          axios.post(
-            `${url}api/v1/mentor/dashboard/update/profile-4`,
-            {
-              formData,
-              mentorUserDtlsId: user.user_id,
-              mentor_email: profiledata?.mentor_email,
-              mentorPhoneNumber: profiledata?.mentor_phone_number,
-            },
-            {
-              headers: { authorization: "Bearer " + token },
-            }
-          ),
-          new Promise(
-            (_, reject) =>
-              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
-          ),
-        ]);
+
+        const res = await axios.post(
+          `${url}api/v1/mentor/dashboard/update/profile-4`,
+          {
+            formData,
+            mentorUserDtlsId: user.user_id,
+            mentor_email: profiledata?.mentor_email,
+            mentorPhoneNumber: profiledata?.mentor_phone_number,
+          },
+          {
+            headers: { authorization: "Bearer " + token },
+          }
+        );
 
         if (res.data.success) {
           toast.success("Profile Details updated successfully");
           setIsEditing(false);
-        } else if (res.data.error) {
-          toast.error(res.data.error);
-          setIsEditing(false);
+        } else {
+          toast.error(res.data.error || "Update failed");
         }
       } catch (error) {
-        if (error.message === "Request timed out") {
-          toast.error("Update failed due to a timeout. Please try again.");
-        } else {
-          toast.error(
-            "Error in updating the profile details, please try again!"
-          );
-        }
+        toast.error("Error updating profile details");
       } finally {
         dispatch(hideLoadingHandler());
-        setIsEditing(false);
       }
     }
   };
@@ -194,280 +244,151 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
             <button
               type="button"
               className="btn juybeubrer_btn btn-primary"
-              style={{ textAlign: "right" }}
-              onClick={handleEditClick}
+              onClick={() => setIsEditing(true)}
             >
               Edit
             </button>
           </div>
         )}
         <div className="row">
+          {/* Currency Dropdown */}
           <div className="col-lg-6">
             <div className="mb-4">
-              <label htmlFor="currencySelect" className="form-label">
-                <b>
-                  Currency <span className="RedColorStarMark">*</span>
-                </b>
+              <label className="form-label">
+                <b>Currency</b>
+                <span className="RedColorStarMark">*</span>
               </label>
               <select
-                value={currency}
-                disabled
-                name="mentor_currency_type"
                 className="form-select"
-                {...register("mentor_currency_type", {
-                  required: "Please select your Currency",
-                })}
-                onChange={(e) => {
-                  setCurrency(e.target.value);
-                  const updatedPrice = (
-                    price / conversionRates[currency]
-                  ).toFixed(2);
-                  setPrice(updatedPrice);
-                  setFormData({
-                    ...formData,
-                    mentor_currency_type: e.target.value,
-                    mentor_session_price: null,
-                  });
-                  setPrice(" ");
-                  // setValue("mentor_session_price", null);
-                  // setFormData({
-                  //   ...formData,
-                  //   mentor_session_price: null,
-                  // });
-                }}
+                value={selectedCurrency}
+                onChange={handleCurrencyChange}
+                disabled={!isEditing}
               >
-                <option value="INR">INR - Indian Rupee</option>
-                <option value="USD">USD - US Dollar</option>
-                <option value="CAD">CAD - Canadian Dollar</option>
-                <option value="GBP">GBP - British Pound</option>
-                <option value="AUD">AUD - Australian Dollar</option>
+                {Object.keys(CURRENCY_CONFIG).map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
               </select>
+            </div>
+          </div>
 
-              {errors.mentor_currency_type && (
-                <p className="Error-meg-login-register">
-                  {errors.mentor_currency_type.message}
-                </p>
+          {/* Pricing Input */}
+          <div className="col-lg-6">
+            <div className="mb-4">
+              <label className="form-label">
+                <b>Pricing</b> <span className="RedColorStarMark">*</span>
+                <span className="text-muted">
+                  (Range: {getCurrentCurrencyConfig().symbol}
+                  {getCurrentCurrencyConfig().range.min} -
+                  {getCurrentCurrencyConfig().symbol}
+                  {getCurrentCurrencyConfig().range.max})
+                </span>
+              </label>
+              <input
+                type="text"
+                className={`form-control ${priceError ? "is-invalid" : ""}`}
+                value={formData.mentor_session_price}
+                onChange={handlePriceChange}
+                disabled={!isEditing}
+                placeholder={`Enter price in ${selectedCurrency}`}
+              />
+              {priceError && (
+                <div className="invalid-feedback">{priceError}</div>
               )}
             </div>
           </div>
+
+          {/* Rest of the form remains the same as in previous implementation */}
+          {/* Language Selection */}
           <div className="col-lg-6">
             <div className="mb-4">
-              <label htmlFor="priceInput" className="form-label">
-                <b>
-                  Pricing ({currency}){" "}
-                  <span className="RedColorStarMark">*</span>
-                </b>
+              <label className="form-label">
+                <b>Language</b>
+                <span className="RedColorStarMark"></span>(Multiple)
               </label>
-              <select
-                className="form-select"
-                onChange={handleInputChange}
-                disabled={!isEditing}
-                name="mentor_session_price"
-              >
-               
-                {filteredOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+              <Select
+                options={LanguageMulti}
+                isMulti
+                closeMenuOnSelect={false}
+                styles={customStyles}
+                onChange={handleLanguageChange}
+                value={selectedSkills}
+                isDisabled={!isEditing}
+              />
             </div>
           </div>
 
-          {/* Other form fields (sessions free of charge, guest lectures, etc.) remain unchanged */}
-
-          {/* ... rest of the fields and the submit button */}
-
+          {/* Free Sessions Dropdown */}
           <div className="col-lg-6">
             <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  For Your Alums Would You Be Fine to Do Sessions Free of Charge
-                  <span className="RedColorStarMark">*</span>
-                </b>
+              <label className="form-label">
+                <b>Free Sessions for Alums</b>
+                <span className="RedColorStarMark">*</span>
               </label>
               <select
                 className="form-select"
-                onChange={handleInputChange}
-                disabled={!isEditing}
                 name="mentor_sessions_free_of_charge"
+                value={formData.mentor_sessions_free_of_charge}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               >
-                {formData.mentor_sessions_free_of_charge === "" && (
-                  <>
-                    <option Value="">Choose an option</option>
-                    <option Value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </>
-                )}
-                {formData.mentor_sessions_free_of_charge === "Yes" && (
-                  <>
-                    <option value={formData.mentor_sessions_free_of_charge}>
-                      {formData.mentor_sessions_free_of_charge}
-                    </option>
-                    <option value="No">No</option>
-                  </>
-                )}
-                {formData.mentor_sessions_free_of_charge === "No" && (
-                  <>
-                    <option value={formData.mentor_sessions_free_of_charge}>
-                      {formData.mentor_sessions_free_of_charge}
-                    </option>
-                    <option value="Yes">Yes</option>
-                  </>
-                )}
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
               </select>
             </div>
           </div>
 
+          {/* Guest Lectures Interest */}
           <div className="col-lg-6">
             <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  Would You Be Interested in Delivering Guest Lectures?{" "}
-                  <span className="RedColorStarMark">*</span>
-                </b>
+              <label className="form-label">
+                <b>Guest Lectures Interest</b>
+                <span className="RedColorStarMark">*</span>
               </label>
-
               <select
                 className="form-select"
-                onChange={handleInputChange}
-                disabled={!isEditing}
                 name="mentor_guest_lectures_interest"
+                value={formData.mentor_guest_lectures_interest}
+                onChange={handleInputChange}
+                disabled={!isEditing}
               >
-                {formData.mentor_guest_lectures_interest === "" && (
-                  <>
-                    <option Value="">Choose an option</option>
-                    <option Value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </>
-                )}
-                {formData.mentor_guest_lectures_interest === "Yes" && (
-                  <>
-                    <option value={formData.mentor_guest_lectures_interest}>
-                      {formData.mentor_guest_lectures_interest}
-                    </option>
-                    <option value="No">No</option>
-                  </>
-                )}
-                {formData.mentor_guest_lectures_interest === "No" && (
-                  <>
-                    <option value={formData.mentor_guest_lectures_interest}>
-                      {formData.mentor_guest_lectures_interest}
-                    </option>{" "}
-                    <option value="Yes">Yes</option>
-                  </>
-                )}
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
               </select>
             </div>
           </div>
 
+          {/* Case Studies Interest */}
           <div className="col-lg-6">
             <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  Would You Be Interested in Curating Case Studies?{" "}
-                  <span className="RedColorStarMark">*</span>
-                </b>
+              <label className="form-label">
+                <b>Case Studies Interest</b>
+                <span className="RedColorStarMark">*</span>
               </label>
-
               <select
                 className="form-select"
-                onChange={handleInputChange}
-                disabled={!isEditing}
                 name="mentor_curating_case_studies_interest"
-              >
-                {formData.mentor_curating_case_studies_interest === "" && (
-                  <>
-                    <>
-                      <option Value="">Choose an option</option>
-                      <option Value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </>
-                  </>
-                )}
-                {formData.mentor_curating_case_studies_interest === "Yes" && (
-                  <>
-                    <option
-                      value={formData.mentor_curating_case_studies_interest}
-                    >
-                      {formData.mentor_curating_case_studies_interest}
-                    </option>{" "}
-                    <option value="No">No</option>
-                  </>
-                )}
-                {formData.mentor_curating_case_studies_interest === "No" && (
-                  <>
-                    <option
-                      value={formData.mentor_curating_case_studies_interest}
-                    >
-                      {formData.mentor_curating_case_studies_interest}
-                    </option>{" "}
-                    <option value="Yes">Yes</option>
-                  </>
-                )}
-              </select>
-            </div>
-          </div>
-
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  Your Timezone <span className="RedColorStarMark">*</span>
-                </b>
-              </label>
-
-              <select
-                className="form-select"
+                value={formData.mentor_curating_case_studies_interest}
                 onChange={handleInputChange}
                 disabled={!isEditing}
-                name="mentor_timezone"
               >
-                <option defaultValue={formData.mentor_timezone}>
-                  {formData.mentor_timezone}
-                </option>
-                {option_fro_timezone?.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>
-                  Language <span className="RedColorStarMark">*</span>
-                </b>
-              </label>
-
-              <select
-                className="form-select "
-                onChange={handleInputChange}
-                disabled={!isEditing}
-                name="mentor_language"
-              >
-                <option defaultValue={formData.mentor_language}>
-                  {formData.mentor_language}
-                </option>
-                {Language.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
               </select>
             </div>
           </div>
         </div>
+
+        {/* Edit/Save Buttons */}
         {isEditing && (
           <div className="d-flex justify-content-between m-4">
             <button
               type="button"
-              onClick={handleEditClick}
+              onClick={() => setIsEditing(false)}
               className="btn juybeubrer_btn btn-primary"
             >
-              Close
+              Cancel
             </button>
             <button
               onClick={handleSubmit}

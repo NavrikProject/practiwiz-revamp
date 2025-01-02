@@ -92,7 +92,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                   htmlFor="exampleInputEmail1"
                   className="form-label  pe-3"
                 >
-                  First Name
+                  First Name <span className="RedColorStarMark">*</span>
                 </label>
                 <input
                   onKeyUp={() => trigger("mentee_firstname")}
@@ -124,7 +124,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             <div className="col-lg-6">
               <div className="mb-3">
                 <label htmlFor="exampleInputPassword1" className="form-label">
-                  Last Name
+                  Last Name <span className="RedColorStarMark">*</span>
                 </label>
                 <input
                   onKeyUp={() => trigger("mentee_lastname")}
@@ -154,7 +154,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
-              Phone Number
+              Phone Number <span className="RedColorStarMark">*</span>
             </label>
             <div className="h-25">
               <Controller
@@ -185,7 +185,11 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                         ref,
                       }}
                     />
-                    {errors.mentee_phone && (
+                  
+                  </div>
+                )}
+              />
+                {errors.mentee_phone && (
                       <div
                         className="Error-meg-login-register"
                         style={{ display: "block" }}
@@ -193,15 +197,12 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                         {errors.mentee_phone.message}
                       </div>
                     )}
-                  </div>
-                )}
-              />
             </div>
           </div>
 
           <div className="csfvgdtrfs mb-3 position-relative">
             <label htmlFor="exampleInputEmail1" className="form-label">
-              Email
+              Email <span className="RedColorStarMark">*</span>
             </label>
             <input
               onKeyUp={() => trigger("mentee_Email")}
@@ -229,7 +230,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
 
           <div className="csfvgdtrfs mb-3 position-relative">
             <label htmlFor="exampleInputEmail1" className="form-label">
-              Password
+              Password <span className="RedColorStarMark">*</span>
             </label>
             <input
               onKeyUp={() => trigger("mentee_password")}
@@ -278,7 +279,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
 
           <div className="csfvgdtrfs mb-3 position-relative">
             <label htmlFor="exampleInputEmail1" className="form-label">
-              Confirm Password
+              Confirm Password <span className="RedColorStarMark">*</span>
             </label>
             <input
               onKeyUp={() => trigger("mentee_confirm_password")}

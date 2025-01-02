@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
 import MentorForm1 from "./MentorPage2.js";
 import MentorForm2 from "./MentorPage3.js";
 import { ApiURL } from "../../../../Utils/ApiURL";
@@ -18,7 +17,6 @@ const MentorRegProgressForm = ({
   token,
   mentorTotalProgress,
 }) => {
-  const navigate = useNavigate();
   const url = ApiURL();
   const methods = useForm({});
   const [page, setPage] = useState(0);

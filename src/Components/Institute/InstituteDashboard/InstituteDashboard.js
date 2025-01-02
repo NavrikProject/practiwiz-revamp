@@ -12,7 +12,7 @@ import RegisterGuestlacture from "./OtherComponents/RegisterGuestLacture";
 import HistoryGuestlacture from "./OtherComponents/HistoryGuestlacture";
 import CommunicationTemplate from "./OtherComponents/CommunicationTemplate";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logOut } from "../../../Redux/userRedux";
 import AlumniMentor from "./OtherComponents/AlumniMentor";
 import NonAlumniMentor from "./OtherComponents/NonAlumniMentor";
@@ -638,16 +638,16 @@ const InstituteDashboard = ({ user, token }) => {
                 </div>
               )}
               {sub_sub1 && (
-                <div className="submenu_sub" onMouseLeave={toggleMenu8}>
+                <div className="submenu_sub " onMouseLeave={toggleMenu8}>
                   {" "}
                   <span
-                    className="submenu_sub1"
+                    className="submenu_sub1 submenu-item"
                     onClick={InstituteAddmentorShowingHandler}
                   >
                     <h5>Alumni Upload</h5>
                   </span>
                   <span
-                    className="submenu_sub1"
+                    className="submenu_sub1 submenu-item"
                     onClick={InstituteAlumniListMentor}
                   >
                     <h5>Alumni List</h5>
@@ -658,13 +658,13 @@ const InstituteDashboard = ({ user, token }) => {
                 <div className="submenu_sub2" onMouseLeave={toggleMenu8}>
                   {" "}
                   <span
-                    className="submenu_sub1"
+                    className="submenu_sub1 submenu-item"
                     onClick={InstituteAlumniMentor}
                   >
                     <h5>Alumni Mentor</h5>
                   </span>
                   <span
-                    className="submenu_sub1"
+                    className="submenu_sub1 submenu-item"
                     onClick={InstituteNonAlumniMentor}
                   >
                     <h5>Non Alumni Mentor</h5>
@@ -714,11 +714,17 @@ const InstituteDashboard = ({ user, token }) => {
                   >
                     <h5> History</h5>
                   </button>
+                  <button
+                    className="submenu-item"
+                    onClick={InstituteCommunicationTemplate}
+                  >
+                    <h5>Communication Template</h5>
+                  </button>
                 </div>
               )}
             </div>
 
-            <button
+            {/* <button
               className="btn btn-transparent text-center py-3 seeeett"
               onClick={InstituteCommunicationTemplate}
             >
@@ -727,7 +733,52 @@ const InstituteDashboard = ({ user, token }) => {
               </span>
 
               <h5>Communication Template</h5>
+              </button> */}
+
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              // onClick={InstituteCommunicationTemplate}
+            >
+              <span className="d-block bg-white position-relative m-auto ">
+                <i className="fa-solid fa-file-lines"></i>
+              </span>
+
+              <h5>Case Study</h5>
             </button>
+
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              // onClick={InstituteCommunicationTemplate}
+            >
+              <span className="d-block bg-white position-relative m-auto ">
+                <i className="fa-solid fa-briefcase"></i>
+              </span>
+
+              <h5>Internship</h5>
+            </button>
+
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              // onClick={InstituteCommunicationTemplate}
+            >
+              <span className="d-block bg-white position-relative m-auto ">
+                <i className="fa-solid fa-graduation-cap"></i>
+              </span>
+
+              <h5>Tranings</h5>
+            </button>
+
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              // onClick={InstituteCommunicationTemplate}
+            >
+              <span className="d-block bg-white position-relative m-auto ">
+                <i className="fa-solid fa-briefcase"></i>
+              </span>
+
+              <h5>Jobs</h5>
+            </button>
+
             <button
               className="btn btn-transparent text-center py-3 seeeett"
               onClick={InstituteNotificationHandler}

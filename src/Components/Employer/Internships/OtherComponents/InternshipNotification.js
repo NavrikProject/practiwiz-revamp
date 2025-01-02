@@ -60,103 +60,123 @@ const InternshipNotifications = ({ data, employerDtlsId, token }) => {
               <h4>NOTIFICATION</h4>
               <p onClick={MarkAllAsReadNotHandler}>Mark all as Read</p>
             </div>
-            <div className="nxhjfdffgf5548">
-              {JSON?.parse(data[0]?.notification_list)?.map((notification) => {
-                return (
-                  <div
-                    className="dbhfhdfgfgf"
-                    style={
-                      notification.notification_is_read !== true
-                        ? { backgroundColor: "#f2f2f2" }
-                        : { backgroundColor: "" }
-                    }
-                  >
-                    <div className="row">
-                      <div className="col-lg-9">
-                        <div className="hfgdfgfdf53564">
-                          <div className="fhjgf">
-                            {notification.notification_type === "Success" && (
-                              <i
-                                className="fa-solid fa-circle-check fa-2xl"
-                                style={{ color: "#03a96c", fontSize: "40px" }}
-                              ></i>
-                            )}
-                            {notification.notification_type === "Info" && (
-                              <i
-                                className="fa-solid fa-circle-exclamation"
-                                style={{ color: "#00cfc8", fontSize: "40px" }}
-                              ></i>
-                            )}
-                            {notification.notification_type === "Warning" && (
-                              <i
-                                className="fa-solid fa-circle-exclamation"
-                                style={{ color: "#f00f0f", fontSize: "40px" }}
-                              ></i>
-                            )}
-                            {notification.notification_type === "Error" && (
-                              <i
-                                className="fa-solid fa-circle-exclamation"
-                                color={{ color: "#f92f2f", fontSize: "40px" }}
-                              ></i>
-                            )}
+            {data[0] && (
+              <div className="nxhjfdffgf5548">
+                {JSON?.parse(data[0]?.notification_list)?.map(
+                  (notification) => {
+                    return (
+                      <div
+                        className="dbhfhdfgfgf"
+                        style={
+                          notification.notification_is_read !== true
+                            ? { backgroundColor: "#f2f2f2" }
+                            : { backgroundColor: "" }
+                        }
+                      >
+                        <div className="row">
+                          <div className="col-lg-9">
+                            <div className="hfgdfgfdf53564">
+                              <div className="fhjgf">
+                                {notification.notification_type ===
+                                  "Success" && (
+                                  <i
+                                    className="fa-solid fa-circle-check fa-2xl"
+                                    style={{
+                                      color: "#03a96c",
+                                      fontSize: "40px",
+                                    }}
+                                  ></i>
+                                )}
+                                {notification.notification_type === "Info" && (
+                                  <i
+                                    className="fa-solid fa-circle-exclamation"
+                                    style={{
+                                      color: "#00cfc8",
+                                      fontSize: "40px",
+                                    }}
+                                  ></i>
+                                )}
+                                {notification.notification_type ===
+                                  "Warning" && (
+                                  <i
+                                    className="fa-solid fa-circle-exclamation"
+                                    style={{
+                                      color: "#f00f0f",
+                                      fontSize: "40px",
+                                    }}
+                                  ></i>
+                                )}
+                                {notification.notification_type === "Error" && (
+                                  <i
+                                    className="fa-solid fa-circle-exclamation"
+                                    color={{
+                                      color: "#f92f2f",
+                                      fontSize: "40px",
+                                    }}
+                                  ></i>
+                                )}
+                              </div>
+                              <div className="gkfhjg5559">
+                                {/* success notification */}
+                                {notification.notification_type ===
+                                  "Success" && (
+                                  <>
+                                    <button className="btnhd22">
+                                      {notification.notification_type}
+                                    </button>
+                                  </>
+                                )}
+                                {/* warning notification */}
+                                {notification.notification_type ===
+                                  "Warning" && (
+                                  <button className="btnhd22a">
+                                    {notification.notification_type}
+                                  </button>
+                                )}
+                                {/* warning notification */}
+                                {notification.notification_type === "Info" && (
+                                  <button className="btnhd22b">
+                                    {notification.notification_type}
+                                  </button>
+                                )}
+                                {notification.notification_type === "Error" && (
+                                  <button className="btnhd22c">
+                                    {notification.notification_type}
+                                  </button>
+                                )}
+                                <h5>{notification.notification_heading}</h5>
+                                <p>{notification.notification_message}</p>
+                              </div>
+                            </div>
                           </div>
-                          <div className="gkfhjg5559">
-                            {/* success notification */}
-                            {notification.notification_type === "Success" && (
-                              <>
-                                <button className="btnhd22">
-                                  {notification.notification_type}
-                                </button>
-                              </>
-                            )}
-                            {/* warning notification */}
-                            {notification.notification_type === "Warning" && (
-                              <button className="btnhd22a">
-                                {notification.notification_type}
-                              </button>
-                            )}
-                            {/* warning notification */}
-                            {notification.notification_type === "Info" && (
-                              <button className="btnhd22b">
-                                {notification.notification_type}
-                              </button>
-                            )}
-                            {notification.notification_type === "Error" && (
-                              <button className="btnhd22c">
-                                {notification.notification_type}
-                              </button>
-                            )}
-                            <h5>{notification.notification_heading}</h5>
-                            <p>{notification.notification_message}</p>
+                          <div className="col-lg-3">
+                            <div className="dfghjdfdf">
+                              {notification.notification_is_read !== true && (
+                                <p
+                                  onClick={() => {
+                                    MarkAsSingleReadHandler(
+                                      notification.notification_dtls_id
+                                    );
+                                  }}
+                                >
+                                  Mark as read.
+                                </p>
+                              )}
+                              <p className="dateText">
+                                <i className="fa-regular fa-clock"></i>
+                                {formatDateToIST(
+                                  notification.notification_created_at
+                                )}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="col-lg-3">
-                        <div className="dfghjdfdf">
-                          {notification.notification_is_read !== true && (
-                            <p
-                              onClick={() => {
-                                MarkAsSingleReadHandler(
-                                  notification.notification_dtls_id
-                                );
-                              }}
-                            >
-                              Mark as read.
-                            </p>
-                          )}
-                          <p className="dateText">
-                            <i className="fa-regular fa-clock"></i>
-                            {formatDateToIST(
-                              notification.notification_created_at
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    );
+                  }
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

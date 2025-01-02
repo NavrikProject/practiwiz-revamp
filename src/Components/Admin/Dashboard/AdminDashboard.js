@@ -31,7 +31,6 @@ const AdminDashboard = () => {
     useState(false);
   const [adminAllInCompletedMentorSessions, setAdminInCompletedMentorSessions] =
     useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
   const [mentorSessionsMenu, setMentorSessionsMenu] = useState(false);

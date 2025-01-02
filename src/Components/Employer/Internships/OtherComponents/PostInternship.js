@@ -17,7 +17,7 @@ import {
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { useDispatch } from "react-redux";
 
-const PostInternship = ({ user, token, employerDetails }) => {
+const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
   const {
     register,
     handleSubmit,
@@ -121,6 +121,7 @@ const PostInternship = ({ user, token, employerDetails }) => {
             employerUserDtlsId: user.user_id,
             internshipSkills: JSON.stringify(payload.internshipSkills),
             internshipPerks: JSON.stringify(payload.internshipPerks),
+            internshipDomain: JSON.stringify(payload.internshipDomain),
             employerOrgDtlsId:
               employerDetails[0]?.employer_organization_dtls_id,
           },
@@ -135,6 +136,10 @@ const PostInternship = ({ user, token, employerDetails }) => {
       ]);
       if (res.data.success) {
         toast.success(res.data.success);
+        setTimeout(() => {
+          window.location.reload();
+          setCurrentPage("postedInternship");
+        }, 1000);
       } else if (res.data.error) {
         toast.error(res.data.error);
       }
@@ -210,7 +215,7 @@ const PostInternship = ({ user, token, employerDetails }) => {
                       }}
                       type="text"
                       className="form-control"
-                      placeholder="Type Internship profile....."
+                      placeholder="Specify the role (e.g., Software Development Intern)."
                       {...register("internshipProfile", {
                         required: "Please enter thr post ",
                       })}
@@ -243,13 +248,13 @@ const PostInternship = ({ user, token, employerDetails }) => {
                               type="radio"
                               id="check_11"
                               name="internshipType"
-                              value="In office"
+                              value=" On Premises"
                               className="d-none"
                               {...register("internshipType", {
                                 required: "Please select internship type",
                               })}
                             />
-                            <label htmlFor="check_11">In office</label>
+                            <label htmlFor="check_11">On Premises</label>
                           </li>
                           <li>
                             <input
@@ -327,7 +332,7 @@ const PostInternship = ({ user, token, employerDetails }) => {
                   <div className="col-lg-6 mb-4">
                     <label htmlFor="mentor_domain" className="form-label mb-0">
                       <b>
-                        Part time /full time
+                        Employment Type
                         <span className="RedColorStarMark">*</span>
                       </b>
                     </label>
@@ -388,7 +393,7 @@ const PostInternship = ({ user, token, employerDetails }) => {
                   <div className="col-lg-6 mb-4">
                     <label htmlFor="mentor_company_name" className="form-label">
                       <b>
-                        Collaboration Hours
+                        Working Hours
                         <span className="RedColorStarMark"></span>
                       </b>
                     </label>
@@ -480,7 +485,7 @@ const PostInternship = ({ user, token, employerDetails }) => {
                   <div className="col-lg-6 mb-4">
                     <label htmlFor="exampleInputEmail1" className="form-label">
                       <b>
-                        Internship Start
+                        Internship Start Date
                         <span className="RedColorStarMark">*</span>
                       </b>
                     </label>{" "}
@@ -576,10 +581,51 @@ const PostInternship = ({ user, token, employerDetails }) => {
                     )}
                   </div>
                 </div>
+
+                <div className="col-lg-6 mb-4">
+                  <label htmlFor="internshipDomain" className="form-label">
+                    <b>
+                      Internship Domain/Type{" "}
+                      <span className="RedColorStarMark">*</span>
+                    </b>
+                  </label>
+                  <Controller
+                    name="internshipDomain"
+                    control={control}
+                    rules={{ required: "Please select an internship domain" }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={[
+                          { value: "Engineering", label: "Engineering" },
+                          { value: "Management", label: "Management" },
+                          { value: "Marketing", label: "Marketing" },
+                          { value: "Design", label: "Design" },
+                          { value: "Sales", label: "Sales" },
+                          {
+                            value: "Human Resources",
+                            label: "Human Resources",
+                          },
+                          { value: "Finance", label: "Finance" },
+                          { value: "Operations", label: "Operations" },
+                          { value: "Research", label: "Research" },
+                          { value: "Other", label: "Other" },
+                        ]}
+                        placeholder="Select Internship Domain"
+                      />
+                    )}
+                  />
+                  {errors.internshipDomain && (
+                    <p className="Error-meg-login-register">
+                      {errors.internshipDomain.message}
+                    </p>
+                  )}
+                </div>
+
                 <div className="col-lg-12 mb-4">
                   <label htmlFor="exampleInputEmail1" className="form-label">
                     <b>
-                      Skills
+                      Skills Required
                       <span className="RedColorStarMark"></span>
                     </b>
                   </label>{" "}
@@ -997,7 +1043,7 @@ const PostInternship = ({ user, token, employerDetails }) => {
                         className="form-label mb-0"
                       >
                         <b>
-                          Perks
+                          Perks and Benefits
                           <span className="RedColorStarMark"></span>
                         </b>
                       </label>
@@ -1145,8 +1191,8 @@ const PostInternship = ({ user, token, employerDetails }) => {
                     </div>
                     <div className="thdyefbfe mb-4">
                       <h5>
-                        Is there an opportunity for a pre-placement offer (PPO)
-                        with this internship?
+                        this internship offers a pre-placement offer (PPO) based
+                        on performance.
                       </h5>{" "}
                       <input
                         type="checkbox"
@@ -1156,66 +1202,108 @@ const PostInternship = ({ user, token, employerDetails }) => {
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  {" "}
-                  <div className="col-lg-12 mb-4 mt-4">
-                    <label
-                      htmlFor="exampleInputEmail1"
-                      className="form-label mb-0"
-                    >
-                      <b>
-                        What specific skills or support are you looking to add
-                        to your team through an internship?
-                        {/* <span className="RedColorStarMark">*</span> */}
-                      </b>
+                <p className="internal-description">
+                  This section is for internal company planning and will not be
+                  visible on the public job posting
+                </p>
+                <div className="form-container">
+                  <div className="form-group">
+                    <label className="form-label">
+                      Select the task category applicable to this internship
+                      role:
                     </label>
-                    <textarea
-                      onKeyUp={() => {
-                        trigger("mentor_Headline");
-                      }}
-                      className="form-control"
-                      style={{ height: "50px" }}
-                    ></textarea>
+                    <select
+                      className={`form-select ${
+                        errors.taskCategory ? "error-input" : ""
+                      }`}
+                      {...register("taskCategory", {
+                        // required: "Please select a task category",
+                      })}
+                      onKeyUp={() => trigger("taskCategory")}
+                    >
+                      <option value="">Select task category</option>
+                      <option value="project">Project</option>
+                      <option value="daily-operations">Daily Operations</option>
+                      <option value="ceos-office">CEO's Office</option>
+                      <option value="field-work">Field-work</option>
+                      <option value="to-be-planned">To be planned</option>
+                    </select>
+                    {errors.taskCategory && (
+                      <span className="error-message">
+                        {errors.taskCategory.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="col-lg-12 mb-4 ">
-                    <label
-                      htmlFor="exampleInputEmail1"
-                      className="form-label mb-0"
-                    >
-                      <b>
-                        Will the intern be working on a particular project,
-                        assisting with day-to-day operations, or shadowing
-                        employees?
-                        {/* <span className="RedColorStarMark">*</span> */}
-                      </b>
+
+                  <div className="form-group">
+                    <label className="form-label">
+                      What is the expected business objective?
                     </label>
-                    <textarea
-                      onKeyUp={() => {
-                        trigger("mentor_Headline");
-                      }}
-                      className="form-control"
-                      style={{ height: "50px" }}
-                    ></textarea>
+                    <select
+                      className={`form-select ${
+                        errors.businessObjective ? "error-input" : ""
+                      }`}
+                      {...register("businessObjective", {
+                        // required: "Please select a business objective",
+                      })}
+                      onKeyUp={() => trigger("businessObjective")}
+                    >
+                      <option value="">Select business objective</option>
+                      <option value="expedite-project">
+                        Expedite The Project
+                      </option>
+                      <option value="process-improvement">
+                        Process Improvement
+                      </option>
+                      <option value="revenue-generation">
+                        Revenue Generation
+                      </option>
+                      <option value="sales">Sales</option>
+                    </select>
+                    {errors.businessObjective && (
+                      <span className="error-message">
+                        {errors.businessObjective.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="col-lg-12 mb-4 ">
-                    <label
-                      htmlFor="exampleInputEmail1"
-                      className="form-label mb-0"
-                    >
-                      <b>
-                        How will the intern’s work contribute to the
-                        organization and benefit them in terms of skills,
-                        experience, and industry knowledge?
-                        {/* <span className="RedColorStarMark">*</span> */}
-                      </b>
+
+                  {/* <div className="form-group">
+                    <label className="form-label">
+                      Do you have a project plan in place?
                     </label>
                     <textarea
-                      onKeyUp={() => {
-                        trigger("mentor_Headline");
-                      }}
-                      className="form-control"
-                      style={{ height: "50px" }}
-                    ></textarea>
+                      className={`form-textarea ${
+                        errors.projectPlan ? "error-input" : ""
+                      }`}
+                      {...register("projectPlan", {
+                        minLength: {
+                          value: 50,
+                          message:
+                            "Project plan should be at least 50 characters long",
+                        },
+                      })}
+                      onKeyUp={() => trigger("projectPlan")}
+                      placeholder="Please enter the project plan"
+                    />
+                    {errors.projectPlan && (
+                      <span className="error-message">
+                        {errors.projectPlan.message}
+                      </span>
+                    )}
+                  </div> */}
+                  <div className="form-group">
+                    <label htmlFor="projectPlan" className="form-label">
+                      Do you have a project plan in place?
+                    </label>
+                    <select
+                      id="projectPlan"
+                      className="form-select"
+                      {...register("projectPlan")}
+                    >
+                      <option value="">Select an option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
                   </div>
                 </div>
               </div>
